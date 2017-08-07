@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Electo
 //
-//  Created by byung-soo kwon on 2017. 8. 8..
-//  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
+//  Created by 임성훈 on 2017. 8. 4..
+//  Copyright © 2017년 임성훈. All rights reserved.
 //
 
 import UIKit
