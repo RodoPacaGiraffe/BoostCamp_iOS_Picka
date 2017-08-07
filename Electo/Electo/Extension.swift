@@ -18,19 +18,6 @@ extension PHAsset {
                 resultHandler(image)
         }
     }
-    
-    func getLocation(from: PHAsset) {
-        let geoCoder = CLGeocoder()
-        guard let locations = from.location else { return }
-        
-        geoCoder.reverseGeocodeLocation(locations, completionHandler: { placemarks, error in
-            guard let addressDictionary = placemarks?[0].addressDictionary else { return }
-            guard let city = addressDictionary["City"] as? String else { return }
-            guard let country = addressDictionary["Country"] as? String else { return }
-            print(city)
-            print(country)
-        })
-    }
 }
 
 extension Date {
@@ -46,5 +33,17 @@ extension Date {
 }
 
 extension CLLocation {
- 
+    func reverseGeocode() {
+        let geoCoder = CLGeocoder()
+        let locations = self
+        
+        geoCoder.reverseGeocodeLocation(locations, completionHandler: { placemarks, error in
+            guard let addressDictionary = placemarks?[0].addressDictionary else { return }
+            guard let city = addressDictionary["City"] as? String else { return }
+            guard let country = addressDictionary["Country"] as? String else { return }
+            print(city)
+            print(country)
+        })
+    }
+
 }

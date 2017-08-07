@@ -27,7 +27,7 @@ class PhotoStore {
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
-            photoAssets[index].getLocation(from: photoAssets[index])
+            photoAssets[index].location?.reverseGeocode()
         }
     }
     
