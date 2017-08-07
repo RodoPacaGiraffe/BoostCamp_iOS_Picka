@@ -7,25 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40011A581F38BC5B00974AA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40011A571F38BC5B00974AA1 /* AppDelegate.swift */; };
-		40011A5A1F38BC5B00974AA1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40011A591F38BC5B00974AA1 /* ViewController.swift */; };
-		40011A5D1F38BC5B00974AA1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40011A5B1F38BC5B00974AA1 /* Main.storyboard */; };
-		40011A5F1F38BC5B00974AA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40011A5E1F38BC5B00974AA1 /* Assets.xcassets */; };
-		40011A621F38BC5B00974AA1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40011A601F38BC5B00974AA1 /* LaunchScreen.storyboard */; };
+		7D77D70E1F35D035008E61FF /* ClassifiedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */; };
+		C93874671F383DCC00CB0AC4 /* PhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */; };
+		C93874691F383DD600CB0AC4 /* PhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874681F383DD600CB0AC4 /* PhotoStore.swift */; };
+		C93874761F38624300CB0AC4 /* Delete.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C93874721F38624300CB0AC4 /* Delete.storyboard */; };
+		C93874771F38624300CB0AC4 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C93874741F38624300CB0AC4 /* Detail.storyboard */; };
+		C938747A1F38625000CB0AC4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874781F38625000CB0AC4 /* Constants.swift */; };
+		C938747B1F38625000CB0AC4 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874791F38625000CB0AC4 /* Extension.swift */; };
+		C9E21E9C1F3439BB00B17CC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E21E9B1F3439BB00B17CC4 /* AppDelegate.swift */; };
+		C9E21E9E1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E21E9D1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift */; };
+		C9E21EA11F3439BB00B17CC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E21E9F1F3439BB00B17CC4 /* Main.storyboard */; };
+		C9E21EA31F3439BB00B17CC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9E21EA21F3439BB00B17CC4 /* Assets.xcassets */; };
+		C9E21EA61F3439BB00B17CC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E21EA41F3439BB00B17CC4 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		40011A541F38BC5B00974AA1 /* Electo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Electo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		40011A571F38BC5B00974AA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		40011A591F38BC5B00974AA1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		40011A5C1F38BC5B00974AA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		40011A5E1F38BC5B00974AA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		40011A611F38BC5B00974AA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		40011A631F38BC5B00974AA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoCell.swift; sourceTree = "<group>"; };
+		C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDataSource.swift; sourceTree = "<group>"; };
+		C93874681F383DD600CB0AC4 /* PhotoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoStore.swift; sourceTree = "<group>"; };
+		C93874731F38624300CB0AC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Delete.storyboard; sourceTree = "<group>"; };
+		C93874751F38624300CB0AC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Detail.storyboard; sourceTree = "<group>"; };
+		C93874781F38625000CB0AC4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Electo/Constants.swift; sourceTree = "<group>"; };
+		C93874791F38625000CB0AC4 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extension.swift; path = Electo/Extension.swift; sourceTree = "<group>"; };
+		C9E21E981F3439BB00B17CC4 /* Electo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Electo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9E21E9B1F3439BB00B17CC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C9E21E9D1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoViewController.swift; sourceTree = "<group>"; };
+		C9E21EA01F3439BB00B17CC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C9E21EA21F3439BB00B17CC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Electo/Assets.xcassets; sourceTree = "<group>"; };
+		C9E21EA51F3439BB00B17CC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C9E21EA71F3439BB00B17CC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		40011A511F38BC5B00974AA1 /* Frameworks */ = {
+		C9E21E951F3439BB00B17CC4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -35,31 +49,80 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		40011A4B1F38BC5A00974AA1 = {
+		7D77D70F1F35D03B008E61FF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				40011A561F38BC5B00974AA1 /* Electo */,
-				40011A551F38BC5B00974AA1 /* Products */,
+				C9E21E9B1F3439BB00B17CC4 /* AppDelegate.swift */,
+				C9E21E9D1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		7D77D7101F35D046008E61FF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		7D77D7131F35D514008E61FF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */,
+				C93874681F383DD600CB0AC4 /* PhotoStore.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		C93874641F383D4800CB0AC4 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				C93874781F38625000CB0AC4 /* Constants.swift */,
+				C93874791F38625000CB0AC4 /* Extension.swift */,
+			);
+			name = Utility;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		C93874651F383D5400CB0AC4 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				C93874721F38624300CB0AC4 /* Delete.storyboard */,
+				C93874741F38624300CB0AC4 /* Detail.storyboard */,
+				C9E21E9F1F3439BB00B17CC4 /* Main.storyboard */,
+				C9E21EA21F3439BB00B17CC4 /* Assets.xcassets */,
+				C9E21EA41F3439BB00B17CC4 /* LaunchScreen.storyboard */,
+			);
+			name = Interface;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		C9E21E8F1F3439BB00B17CC4 = {
+			isa = PBXGroup;
+			children = (
+				C9E21E9A1F3439BB00B17CC4 /* Electo */,
+				C9E21E991F3439BB00B17CC4 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		40011A551F38BC5B00974AA1 /* Products */ = {
+		C9E21E991F3439BB00B17CC4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				40011A541F38BC5B00974AA1 /* Electo.app */,
+				C9E21E981F3439BB00B17CC4 /* Electo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		40011A561F38BC5B00974AA1 /* Electo */ = {
+		C9E21E9A1F3439BB00B17CC4 /* Electo */ = {
 			isa = PBXGroup;
 			children = (
-				40011A571F38BC5B00974AA1 /* AppDelegate.swift */,
-				40011A591F38BC5B00974AA1 /* ViewController.swift */,
-				40011A5B1F38BC5B00974AA1 /* Main.storyboard */,
-				40011A5E1F38BC5B00974AA1 /* Assets.xcassets */,
-				40011A601F38BC5B00974AA1 /* LaunchScreen.storyboard */,
-				40011A631F38BC5B00974AA1 /* Info.plist */,
+				C93874641F383D4800CB0AC4 /* Utility */,
+				7D77D7101F35D046008E61FF /* View */,
+				7D77D70F1F35D03B008E61FF /* Controller */,
+				7D77D7131F35D514008E61FF /* Model */,
+				C93874651F383D5400CB0AC4 /* Interface */,
+				C9E21EA71F3439BB00B17CC4 /* Info.plist */,
 			);
 			path = Electo;
 			sourceTree = "<group>";
@@ -67,13 +130,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		40011A531F38BC5B00974AA1 /* Electo */ = {
+		C9E21E971F3439BB00B17CC4 /* Electo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 40011A661F38BC5B00974AA1 /* Build configuration list for PBXNativeTarget "Electo" */;
+			buildConfigurationList = C9E21EAA1F3439BB00B17CC4 /* Build configuration list for PBXNativeTarget "Electo" */;
 			buildPhases = (
-				40011A501F38BC5B00974AA1 /* Sources */,
-				40011A511F38BC5B00974AA1 /* Frameworks */,
-				40011A521F38BC5B00974AA1 /* Resources */,
+				C9E21E941F3439BB00B17CC4 /* Sources */,
+				C9E21E951F3439BB00B17CC4 /* Frameworks */,
+				C9E21E961F3439BB00B17CC4 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -81,26 +144,27 @@
 			);
 			name = Electo;
 			productName = Electo;
-			productReference = 40011A541F38BC5B00974AA1 /* Electo.app */;
+			productReference = C9E21E981F3439BB00B17CC4 /* Electo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		40011A4C1F38BC5A00974AA1 /* Project object */ = {
+		C9E21E901F3439BB00B17CC4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = RodoPacaGiraffe;
 				TargetAttributes = {
-					40011A531F38BC5B00974AA1 = {
-						CreatedOnToolsVersion = 8.3.2;
+					C9E21E971F3439BB00B17CC4 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 9PZPL5979H;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 40011A4F1F38BC5A00974AA1 /* Build configuration list for PBXProject "Electo" */;
+			buildConfigurationList = C9E21E931F3439BB00B17CC4 /* Build configuration list for PBXProject "Electo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -108,62 +172,87 @@
 				en,
 				Base,
 			);
-			mainGroup = 40011A4B1F38BC5A00974AA1;
-			productRefGroup = 40011A551F38BC5B00974AA1 /* Products */;
+			mainGroup = C9E21E8F1F3439BB00B17CC4;
+			productRefGroup = C9E21E991F3439BB00B17CC4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				40011A531F38BC5B00974AA1 /* Electo */,
+				C9E21E971F3439BB00B17CC4 /* Electo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		40011A521F38BC5B00974AA1 /* Resources */ = {
+		C9E21E961F3439BB00B17CC4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40011A621F38BC5B00974AA1 /* LaunchScreen.storyboard in Resources */,
-				40011A5F1F38BC5B00974AA1 /* Assets.xcassets in Resources */,
-				40011A5D1F38BC5B00974AA1 /* Main.storyboard in Resources */,
+				C9E21EA61F3439BB00B17CC4 /* LaunchScreen.storyboard in Resources */,
+				C9E21EA31F3439BB00B17CC4 /* Assets.xcassets in Resources */,
+				C9E21EA11F3439BB00B17CC4 /* Main.storyboard in Resources */,
+				C93874761F38624300CB0AC4 /* Delete.storyboard in Resources */,
+				C93874771F38624300CB0AC4 /* Detail.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		40011A501F38BC5B00974AA1 /* Sources */ = {
+		C9E21E941F3439BB00B17CC4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40011A5A1F38BC5B00974AA1 /* ViewController.swift in Sources */,
-				40011A581F38BC5B00974AA1 /* AppDelegate.swift in Sources */,
+				C938747B1F38625000CB0AC4 /* Extension.swift in Sources */,
+				C93874691F383DD600CB0AC4 /* PhotoStore.swift in Sources */,
+				C9E21E9E1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift in Sources */,
+				C93874671F383DCC00CB0AC4 /* PhotoDataSource.swift in Sources */,
+				C9E21E9C1F3439BB00B17CC4 /* AppDelegate.swift in Sources */,
+				7D77D70E1F35D035008E61FF /* ClassifiedPhotoCell.swift in Sources */,
+				C938747A1F38625000CB0AC4 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		40011A5B1F38BC5B00974AA1 /* Main.storyboard */ = {
+		C93874721F38624300CB0AC4 /* Delete.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				40011A5C1F38BC5B00974AA1 /* Base */,
+				C93874731F38624300CB0AC4 /* Base */,
 			);
-			name = Main.storyboard;
+			name = Delete.storyboard;
 			sourceTree = "<group>";
 		};
-		40011A601F38BC5B00974AA1 /* LaunchScreen.storyboard */ = {
+		C93874741F38624300CB0AC4 /* Detail.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				40011A611F38BC5B00974AA1 /* Base */,
+				C93874751F38624300CB0AC4 /* Base */,
+			);
+			name = Detail.storyboard;
+			sourceTree = "<group>";
+		};
+		C9E21E9F1F3439BB00B17CC4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9E21EA01F3439BB00B17CC4 /* Base */,
+			);
+			name = Main.storyboard;
+			path = Electo;
+			sourceTree = "<group>";
+		};
+		C9E21EA41F3439BB00B17CC4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9E21EA51F3439BB00B17CC4 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = Electo;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		40011A641F38BC5B00974AA1 /* Debug */ = {
+		C9E21EA81F3439BB00B17CC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -210,10 +299,11 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		40011A651F38BC5B00974AA1 /* Release */ = {
+		C9E21EA91F3439BB00B17CC4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -252,30 +342,39 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		40011A671F38BC5B00974AA1 /* Debug */ = {
+		C9E21EAB1F3439BB00B17CC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9PZPL5979H;
 				INFOPLIST_FILE = Electo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = RodoPacaGiraffe.Electo;
+				PRODUCT_BUNDLE_IDENTIFIER = RodoPacaGiraffe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
-		40011A681F38BC5B00974AA1 /* Release */ = {
+		C9E21EAC1F3439BB00B17CC4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9PZPL5979H;
 				INFOPLIST_FILE = Electo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = RodoPacaGiraffe.Electo;
+				PRODUCT_BUNDLE_IDENTIFIER = RodoPacaGiraffe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -283,24 +382,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		40011A4F1F38BC5A00974AA1 /* Build configuration list for PBXProject "Electo" */ = {
+		C9E21E931F3439BB00B17CC4 /* Build configuration list for PBXProject "Electo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				40011A641F38BC5B00974AA1 /* Debug */,
-				40011A651F38BC5B00974AA1 /* Release */,
+				C9E21EA81F3439BB00B17CC4 /* Debug */,
+				C9E21EA91F3439BB00B17CC4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		40011A661F38BC5B00974AA1 /* Build configuration list for PBXNativeTarget "Electo" */ = {
+		C9E21EAA1F3439BB00B17CC4 /* Build configuration list for PBXNativeTarget "Electo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				40011A671F38BC5B00974AA1 /* Debug */,
-				40011A681F38BC5B00974AA1 /* Release */,
+				C9E21EAB1F3439BB00B17CC4 /* Debug */,
+				C9E21EAC1F3439BB00B17CC4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 40011A4C1F38BC5A00974AA1 /* Project object */;
+	rootObject = C9E21E901F3439BB00B17CC4 /* Project object */;
 }
