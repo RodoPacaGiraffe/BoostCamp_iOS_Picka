@@ -12,7 +12,8 @@ import Photos
 class PhotoStore {
     private(set) var photoAssets: [PHAsset] = []
     private(set) var classifiedPhotoAssets: [[PHAsset]] = []
-    
+    var photoMetaData: [PhotoMetaData] = []
+    let locationConverter = LocationConverter()
     init() {
         fetchPhotoAsset()
         classifyPhotoAssetsByTime()
@@ -28,6 +29,10 @@ class PhotoStore {
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
+            photoMetaData.append(PhotoMetaData(creationDate: fetchResult[index].creationDate,
+                                               location: fetchResult[index].location))
+            guard let location = fetchResult[index].location else { continue }
+            locationConverter.locationConverter(location: location)
         }
     }
     

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40B4EA961F38C62300F4393A /* LocationConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA951F38C62300F4393A /* LocationConverter.swift */; };
+		40B4EA981F38C7F800F4393A /* PhotoMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA971F38C7F800F4393A /* PhotoMetaData.swift */; };
 		7D77D70E1F35D035008E61FF /* ClassifiedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */; };
 		C93874671F383DCC00CB0AC4 /* PhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */; };
 		C93874691F383DD600CB0AC4 /* PhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874681F383DD600CB0AC4 /* PhotoStore.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40B4EA951F38C62300F4393A /* LocationConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationConverter.swift; sourceTree = "<group>"; };
+		40B4EA971F38C7F800F4393A /* PhotoMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoMetaData.swift; sourceTree = "<group>"; };
 		7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoCell.swift; sourceTree = "<group>"; };
 		C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDataSource.swift; sourceTree = "<group>"; };
 		C93874681F383DD600CB0AC4 /* PhotoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoStore.swift; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 			isa = PBXGroup;
 			children = (
 				C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */,
+				40B4EA951F38C62300F4393A /* LocationConverter.swift */,
+				40B4EA971F38C7F800F4393A /* PhotoMetaData.swift */,
 				C93874681F383DD600CB0AC4 /* PhotoStore.swift */,
 			);
 			name = Model;
@@ -205,10 +211,12 @@
 				C938747B1F38625000CB0AC4 /* Extension.swift in Sources */,
 				C93874691F383DD600CB0AC4 /* PhotoStore.swift in Sources */,
 				C9E21E9E1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift in Sources */,
+				40B4EA961F38C62300F4393A /* LocationConverter.swift in Sources */,
 				C93874671F383DCC00CB0AC4 /* PhotoDataSource.swift in Sources */,
 				C9E21E9C1F3439BB00B17CC4 /* AppDelegate.swift in Sources */,
 				7D77D70E1F35D035008E61FF /* ClassifiedPhotoCell.swift in Sources */,
 				C938747A1F38625000CB0AC4 /* Constants.swift in Sources */,
+				40B4EA981F38C7F800F4393A /* PhotoMetaData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
