@@ -8,7 +8,7 @@
 
 import UIKit
 import Photos
-
+import MapKit
 extension PHAsset {
     func fetchImage(size: CGSize, contentMode: PHImageContentMode,
                     options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) {
@@ -17,6 +17,19 @@ extension PHAsset {
                 contentMode: contentMode, options: options) { image, _ in
                 resultHandler(image)
         }
+    }
+    
+    func getLocation(from: PHAsset) {
+        let geoCoder = CLGeocoder()
+        guard let locations = from.location else { return }
+        
+        geoCoder.reverseGeocodeLocation(locations, completionHandler: { placemarks, error in
+            guard let addressDictionary = placemarks?[0].addressDictionary else { return }
+            guard let city = addressDictionary["City"] as? String else { return }
+            guard let country = addressDictionary["Country"] as? String else { return }
+            print(city)
+            print(country)
+        })
     }
 }
 
@@ -30,4 +43,8 @@ extension Date {
         
         return true
     }
+}
+
+extension CLLocation {
+ 
 }
