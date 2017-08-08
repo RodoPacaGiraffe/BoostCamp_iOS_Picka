@@ -49,5 +49,4 @@ extension CLLocation {
             print(country)
         })
     }
-
 }

@@ -13,14 +13,29 @@ class ClassifiedPhotoViewController: UIViewController {
     //MARK: Properties
     @IBOutlet var tableView: UITableView!
     
-    let photoDataSource = PhotoDataSource()
+    var photoDataSource: PhotoDataSource?
     
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.dataSource = photoDataSource
         tableView.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
+        
+        PHPhotoLibrary.requestAuthorization {
+            [weak self] (authorizationStatus) -> Void in
+            guard authorizationStatus == .authorized else { return }
+            
+            DispatchQueue.main.async {
+                self?.photoDataSource = PhotoDataSource()
+                self?.tableView.dataSource = self?.photoDataSource
+            }
+        }
+    }
+    
+    func reload() {
+        tableView.reloadData()
     }
 }
 

@@ -19,6 +19,8 @@ class PhotoStore: PhotoClassifiable {
         if let classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets) {
             self.classifiedPhotoAssets = classifiedPhotoAssets
         }
+        
+        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
     }
     
     private func fetchPhotoAsset() {
