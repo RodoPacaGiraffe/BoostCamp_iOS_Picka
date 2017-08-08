@@ -67,6 +67,9 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="tRg-GT-Yi9"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -77,7 +80,13 @@
                             <constraint firstItem="POu-e3-FrG" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="q9p-sP-e7d"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="haJ-Md-wRu"/>
+                    <navigationItem key="navigationItem" id="haJ-Md-wRu">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="Ere-Ae-iRR">
+                            <connections>
+                                <segue destination="Mf5-04-bAB" kind="presentation" identifier="ModalRemovedPhotoVC" id="g45-ux-fA6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="POu-e3-FrG" id="kGH-RN-jcJ"/>
                     </connections>
@@ -85,6 +94,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1341.5999999999999" y="-228.03598200899552"/>
+        </scene>
+        <!--Remove-->
+        <scene sceneID="CXS-yx-V6g">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Remove" id="Mf5-04-bAB" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I7L-a4-kkX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2183" y="-515"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RJw-Z1-njC">

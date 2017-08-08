@@ -40,6 +40,7 @@ extension PhotoDataSource: UITableViewDataSource {
             $0.fetchImage(size: CGSize(width: 50, height: 50),
                 contentMode: .aspectFit, options: nil) { photoImage in
                 guard let photoImage = photoImage else { return }
+                    
                 cell.addPhotoImagesToStackView(photoImages: photoImage)
             }
         }
@@ -54,6 +55,27 @@ extension PhotoDataSource: UITableViewDataSource {
         
         removeStore.addPhotoAssets(toDelete: assets)
         tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+    }
+}
+
+extension PhotoDataSource: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return removeStore.removedPhotoAssets.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier,
+            for: indexPath) as? RemovedPhotoCell ?? RemovedPhotoCell()
+        let removedPhotoAsset = removeStore.removedPhotoAssets[indexPath.item]
+        
+        removedPhotoAsset.fetchImage(size: CGSize(width: 50, height: 50),
+            contentMode: .aspectFit, options: nil) { removedPhotoImage in
+            guard let removedPhotoImage = removedPhotoImage else { return }
+                        
+            cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
+        }
+    
+        return cell
     }
 }
 
