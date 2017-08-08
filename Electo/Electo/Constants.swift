@@ -22,4 +22,5 @@ enum LocationKey: String {
 struct Constants {
     static let cellIdentifier: String = "ClassifiedPhotoCell"
     static let timeIntervalBoundary: TimeInterval = 60.0
+    static let maximumImageView: Int = 4
 }

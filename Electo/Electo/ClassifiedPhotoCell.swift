@@ -25,22 +25,18 @@ class ClassifiedPhotoCell: UITableViewCell {
     }
     
     func addPhotoImagesToStackView(photoImages: [UIImage]) {
-        for _ in 0..<4 {
+        for _ in 0..<Constants.maximumImageView {
             let imageView: UIImageView = .init()
             imageStackView.addArrangedSubview(imageView)
         }
         
-        if photoImages.count <= 4 {
-            for index in photoImages.indices {
-                guard let subImageView = imageStackView.arrangedSubviews[index] as? UIImageView else { break }
-                subImageView.image = photoImages[index]
+        for index in photoImages.indices {
+            guard index < Constants.maximumImageView else {
+                setLabel()
+                break
             }
-        } else {
-            for index in 0..<4 {
-                guard let subImageView = imageStackView.arrangedSubviews[index] as? UIImageView else { break }
-                subImageView.image = photoImages[index]
-            }
-            setLabel()
+            guard let subImageView = imageStackView.arrangedSubviews[index] as? UIImageView else { break }
+            subImageView.image = photoImages[index]
         }
     }
     
@@ -52,23 +48,29 @@ class ClassifiedPhotoCell: UITableViewCell {
         
         let numberOfMoreImages = cellImages.count - 4
         moreImagesLabel.numberOfLines = 2
-        let moreAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 25)]
-        let moreImagesText = NSMutableAttributedString(string: "+\(numberOfMoreImages)\n장의 사진", attributes: moreAttributes)
         
-        if numberOfMoreImages >= 10 {
-            moreImagesText.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15)],
-                                         range: NSRange(location: 3, length: 6))
-        } else {
-            moreImagesText.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15)],
-                                         range: NSRange(location: 3, length: 5))
-        }
-        moreImagesLabel.attributedText = moreImagesText
+        moreImagesLabel.attributedText = setAttributeText(moreNum: numberOfMoreImages)
         moreImagesLabel.textAlignment = .center
         moreImagesLabel.textColor = UIColor.black
 
         moreImagesLabel.translatesAutoresizingMaskIntoConstraints = false
         moreImagesLabel.centerXAnchor.constraint(equalTo: lastSubImageView.centerXAnchor).isActive = true
         moreImagesLabel.centerYAnchor.constraint(equalTo: lastSubImageView.centerYAnchor).isActive = true
+    }
+    
+    func setAttributeText(moreNum: Int) -> NSMutableAttributedString {
+        let moreAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 25)]
+        let moreImagesText = NSMutableAttributedString(string: "+\(moreNum)\n장의 사진", attributes: moreAttributes)
+        
+        if moreNum >= 10 {
+            moreImagesText.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15)],
+                                         range: NSRange(location: 3, length: 6))
+        } else {
+            moreImagesText.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15)],
+                                         range: NSRange(location: 3, length: 5))
+        }
+        
+        return moreImagesText
     }
     
     func clearStackView() {
