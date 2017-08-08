@@ -33,7 +33,7 @@ class PhotoStore: PhotoClassifiable {
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
-            photoAssets[index].location?.reverseGeocode()
+//            photoAssets[index].location?.reverseGeocode()
         }
     }
 }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Photos
 class DetailPhotoViewController: UIViewController {
     
     @IBOutlet var detailImageView: UIImageView!
@@ -17,11 +17,13 @@ class DetailPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let asset = photoStore?.classifiedPhotoAssets[selectedSectionAsset].first
-        asset?.fetchImage(size: CGSize(width: 50, height: 50),
-                          contentMode: .aspectFill,
-                          options: nil) { photoImage in
-                            self.detailImageView.image = photoImage
-        }
+        let options = PHImageRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .opportunistic
+        asset?.fetchFullSizeImage(options: options, resultHandler: { (data) in
+            guard let data = data else { return }
+            self.detailImageView.image = UIImage(data: data)
+        })
     }
     
     //Todo: Selecting removabxwle photos
@@ -45,13 +47,10 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset]
-        
-        photoAssets?.forEach {
-            $0.fetchImage(size: CGSize(width: 50, height: 50),
-                          contentMode: .aspectFill, options: nil) { photoImage in
-                            guard let photoImage = photoImage else { return }
-                            cell.thumbnailImageView.image = photoImage
-            }
+        photoAssets?.forEach{
+            $0.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (image) in
+                cell.thumbnailImageView.image = image
+            })
         }
         return cell
     }
@@ -60,10 +59,12 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
-        photoAssets?.fetchImage(size: CGSize(width: 50, height: 50),
-                                contentMode: .aspectFill, options: nil) { photoImage in
-                                    guard let photoImage = photoImage else { return }
-                                    self.detailImageView.image = photoImage
-        }
+        let options = PHImageRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .opportunistic
+        photoAssets?.fetchFullSizeImage(options: options, resultHandler: { (data) in
+            guard let data = data else { return }
+            self.detailImageView.image = UIImage(data: data)
+        })
     }
 }
