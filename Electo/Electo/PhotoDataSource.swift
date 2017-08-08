@@ -9,7 +9,17 @@
 import UIKit
 
 class PhotoDataSource: NSObject {
-    let photoStore = PhotoStore()
+    let photoStore: PhotoStore
+    let removeStore: RemovedPhotoStore
+    
+    override init() {
+        photoStore = PhotoStore()
+        removeStore = RemovedPhotoStore()
+        
+        removeStore.delegate = photoStore
+        
+        super.init()
+    }
 }
 
 extension PhotoDataSource: UITableViewDataSource {
@@ -35,6 +45,15 @@ extension PhotoDataSource: UITableViewDataSource {
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        
+        let assets = photoStore.classifiedPhotoAssets[indexPath.section]
+        
+        removeStore.addPhotoAssets(toDelete: assets)
+        tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
     }
 }
 
