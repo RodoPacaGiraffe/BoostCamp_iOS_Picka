@@ -48,6 +48,13 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         
         photoCell.clearStackView()
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailViewController = storyboard?.instantiateViewController(withIdentifier: "detailViewController") as! DetailPhotoViewController
+        detailViewController.selectedSectionAsset = indexPath.section
+        detailViewController.photoStore = photoDataSource?.photoStore
+        show(detailViewController, sender: self)
+    }
 }
 
 
