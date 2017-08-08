@@ -16,7 +16,7 @@ class DetailPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let asset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][0]
+        let asset = photoStore?.classifiedPhotoAssets[selectedSectionAsset].first
         asset?.fetchImage(size: CGSize(width: 50, height: 50),
                           contentMode: .aspectFill,
                           options: nil) { photoImage in
@@ -24,7 +24,7 @@ class DetailPhotoViewController: UIViewController {
         }
     }
     
-    //Todo: Selecting removable photos
+    //Todo: Selecting removabxwle photos
     @IBAction func selectForRemovePhoto(_ sender: UIButton) {
         print("selected!")
     }
@@ -35,13 +35,15 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let storeAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset] else {
             print("There are no asset array")
+            
+            // MARK: return 0?
             return 0
         }
         return storeAssets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as! DetailPhotoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset]
         
         photoAssets?.forEach {

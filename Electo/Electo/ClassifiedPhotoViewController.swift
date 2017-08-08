@@ -50,9 +50,12 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = storyboard?.instantiateViewController(withIdentifier: "detailViewController") as! DetailPhotoViewController
+        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else {
+            return
+        }
         detailViewController.selectedSectionAsset = indexPath.section
         detailViewController.photoStore = photoDataSource?.photoStore
+       
         show(detailViewController, sender: self)
     }
 }
