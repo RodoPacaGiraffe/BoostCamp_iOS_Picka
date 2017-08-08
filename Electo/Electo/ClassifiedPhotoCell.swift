@@ -13,13 +13,34 @@ class ClassifiedPhotoCell: UITableViewCell {
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet weak var imageStackView: UIStackView!
     
+    var cellImages: [UIImage] = .init() {
+        didSet {
+            addPhotoImagesToStackView(photoImages: cellImages)
+        }
+    }
+    
     func update(date: String, location: String?) {
         dateLabel.text = date
         locationLabel.text = location
     }
     
-    func addPhotoImagesToStackView(photoImages: UIImage) {
-        imageStackView.addArrangedSubview(UIImageView(image: photoImages))
+    func addPhotoImagesToStackView(photoImages: [UIImage]) {
+        for _ in 0..<4 {
+            let imageView: UIImageView = .init()
+            imageStackView.addArrangedSubview(imageView)
+        }
+        
+        if photoImages.count < 4 {
+            for index in photoImages.indices {
+                guard let subImageView = imageStackView.arrangedSubviews[index] as? UIImageView else { break }
+                subImageView.image = photoImages[index]
+            }
+        } else {
+            for index in 0..<4 {
+                guard let subImageView = imageStackView.arrangedSubviews[index] as? UIImageView else { break }
+                subImageView.image = photoImages[index]
+            }
+        }
     }
     
     func clearStackView() {

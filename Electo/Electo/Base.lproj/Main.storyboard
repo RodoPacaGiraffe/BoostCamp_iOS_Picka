@@ -33,8 +33,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="147.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="dbg-FS-0Nh">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="dbg-FS-0Nh">
+                                                    <rect key="frame" x="8" y="8" width="359" height="86"/>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Un-Xs-MsE">
                                                     <rect key="frame" x="8" y="119" width="42" height="20.5"/>
@@ -52,10 +52,10 @@
                                             <constraints>
                                                 <constraint firstItem="OKC-hj-xga" firstAttribute="bottom" secondItem="0kh-d5-kAa" secondAttribute="bottomMargin" id="7NO-eX-5yo"/>
                                                 <constraint firstItem="5Un-Xs-MsE" firstAttribute="leading" secondItem="0kh-d5-kAa" secondAttribute="leadingMargin" id="9b7-Ug-8Ox"/>
-                                                <constraint firstItem="dbg-FS-0Nh" firstAttribute="top" secondItem="0kh-d5-kAa" secondAttribute="top" id="CJD-4L-BL5"/>
-                                                <constraint firstAttribute="trailing" secondItem="dbg-FS-0Nh" secondAttribute="trailing" id="CTe-6R-UAu"/>
-                                                <constraint firstItem="OKC-hj-xga" firstAttribute="top" secondItem="dbg-FS-0Nh" secondAttribute="bottom" id="HoG-Nt-XLg"/>
-                                                <constraint firstItem="dbg-FS-0Nh" firstAttribute="leading" secondItem="0kh-d5-kAa" secondAttribute="leading" id="Mno-lw-v0J"/>
+                                                <constraint firstItem="dbg-FS-0Nh" firstAttribute="top" secondItem="0kh-d5-kAa" secondAttribute="top" constant="8" id="CJD-4L-BL5"/>
+                                                <constraint firstAttribute="trailing" secondItem="dbg-FS-0Nh" secondAttribute="trailing" constant="8" id="CTe-6R-UAu"/>
+                                                <constraint firstItem="OKC-hj-xga" firstAttribute="top" secondItem="dbg-FS-0Nh" secondAttribute="bottom" constant="25" id="HoG-Nt-XLg"/>
+                                                <constraint firstItem="dbg-FS-0Nh" firstAttribute="leading" secondItem="0kh-d5-kAa" secondAttribute="leading" constant="8" id="Mno-lw-v0J"/>
                                                 <constraint firstItem="5Un-Xs-MsE" firstAttribute="bottom" secondItem="0kh-d5-kAa" secondAttribute="bottomMargin" id="lvW-lf-Ohn"/>
                                                 <constraint firstItem="OKC-hj-xga" firstAttribute="trailing" secondItem="0kh-d5-kAa" secondAttribute="trailingMargin" id="qBG-5c-OAf"/>
                                             </constraints>

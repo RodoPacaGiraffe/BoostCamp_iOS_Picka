@@ -15,10 +15,8 @@ class PhotoStore: PhotoClassifiable {
     
     init() {
         fetchPhotoAsset()
-        
-        if let classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets) {
-            self.classifiedPhotoAssets = classifiedPhotoAssets
-        }
+
+        self.classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
         
         NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
     }
@@ -33,7 +31,7 @@ class PhotoStore: PhotoClassifiable {
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
-            photoAssets[index].location?.reverseGeocode()
+//            photoAssets[index].location?.reverseGeocode()
         }
     }
 }
