@@ -9,13 +9,16 @@
 import UIKit
 import Photos
 
-class PhotoStore {
+class PhotoStore: PhotoClassifiable {
     private(set) var photoAssets: [PHAsset] = []
     private(set) var classifiedPhotoAssets: [[PHAsset]] = []
     
     init() {
         fetchPhotoAsset()
-        classifyPhotoAssetsByTime()
+        
+        if let classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets) {
+            self.classifiedPhotoAssets = classifiedPhotoAssets
+        }
     }
     
     private func fetchPhotoAsset() {
@@ -31,37 +34,7 @@ class PhotoStore {
             photoAssets[index].location?.reverseGeocode()
         }
     }
-    
-    private func classifyPhotoAssetsByTime() {
-        guard var firstPhotoAssetDate = photoAssets.first?.creationDate else { return }
-//        var classifiedPhotoAssets: [[PHAsset]] = []
-        var tempPhotoAssets: [PHAsset] = []
-        
-        // TODO: Refactoring 필요, 한번에 추가하는 것 고려
-        for photoAsset in photoAssets {
-            guard let creationDate = photoAsset.creationDate else { return }
-            
-            if !firstPhotoAssetDate.containedWithinBoundary(for: creationDate) { // guard
-                guard tempPhotoAssets.count != 1 else {
-                    firstPhotoAssetDate = creationDate
-                    tempPhotoAssets = []
-                    tempPhotoAssets.append(photoAsset)
-                    continue
-                }
-                
-                classifiedPhotoAssets.append(tempPhotoAssets)
-                firstPhotoAssetDate = creationDate
-                tempPhotoAssets = []
-            }
-            
-            tempPhotoAssets.append(photoAsset)
-        }
-        
-        print(classifiedPhotoAssets)
-    }
 }
-
-
 
 
 
