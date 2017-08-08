@@ -12,6 +12,7 @@ import Photos
 class PhotoStore {
     private(set) var photoAssets: [PHAsset] = []
     private(set) var classifiedPhotoAssets: [[PHAsset]] = []
+    
     init() {
         fetchPhotoAsset()
         classifyPhotoAssetsByTime()
@@ -32,22 +33,24 @@ class PhotoStore {
     }
     
     private func classifyPhotoAssetsByTime() {
-        var firstPhotoAssetDate = (photoAssets.first?.creationDate)!
+        guard var firstPhotoAssetDate = photoAssets.first?.creationDate else { return }
 //        var classifiedPhotoAssets: [[PHAsset]] = []
         var tempPhotoAssets: [PHAsset] = []
         
         // TODO: Refactoring 필요, 한번에 추가하는 것 고려
         for photoAsset in photoAssets {
-            if !firstPhotoAssetDate.containedWithinBoundary(for: photoAsset.creationDate!) { // guard
+            guard let creationDate = photoAsset.creationDate else { return }
+            
+            if !firstPhotoAssetDate.containedWithinBoundary(for: creationDate) { // guard
                 guard tempPhotoAssets.count != 1 else {
-                    firstPhotoAssetDate = photoAsset.creationDate!
+                    firstPhotoAssetDate = creationDate
                     tempPhotoAssets = []
                     tempPhotoAssets.append(photoAsset)
                     continue
                 }
                 
                 classifiedPhotoAssets.append(tempPhotoAssets)
-                firstPhotoAssetDate = photoAsset.creationDate!
+                firstPhotoAssetDate = creationDate
                 tempPhotoAssets = []
             }
             

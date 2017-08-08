@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import MapKit
+
 extension PHAsset {
     func fetchImage(size: CGSize, contentMode: PHImageContentMode,
                     options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) {
@@ -42,8 +43,8 @@ extension CLLocation {
         
         geoCoder.reverseGeocodeLocation(self, completionHandler: { placemarks, error in
             guard let addressDictionary = placemarks?[0].addressDictionary else { return }
-            guard let city = addressDictionary["City"] as? String else { return }
-            guard let country = addressDictionary["Country"] as? String else { return }
+            guard let city = addressDictionary[LocationKey.city] as? String else { return }
+            guard let country = addressDictionary[LocationKey.country] as? String else { return }
             print(city)
             print(country)
         })
