@@ -23,11 +23,15 @@ extension PHAsset {
 extension Date {
     func containedWithinBoundary(for date: Date) -> Bool {
         let endTimeInterval = self.timeIntervalSince(date)
-    
-        guard abs(endTimeInterval) <= Constants.timeIntervalBoundary else {
-            return false
-        }
         
-        return true
+        return abs(endTimeInterval) <= Constants.timeIntervalBoundary
+    }
+    
+    func toDateString() -> String {
+        let dateForamtter: DateFormatter = DateFormatter()
+        
+        dateForamtter.dateFormat = "yyyy/MM/DD"
+        
+        return dateForamtter.string(from: self)
     }
 }
