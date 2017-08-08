@@ -2,8 +2,8 @@
 //  ImageCell.swift
 //  Electo
 //
-//  Created by Alpaca on 2017. 8. 5..
-//  Copyright © 2017년 임성훈. All rights reserved.
+//  Created by RodoPacaGiraffe on 2017. 8. 5..
+//  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 //
 
 import UIKit

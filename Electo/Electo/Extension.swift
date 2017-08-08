@@ -2,13 +2,13 @@
 //  Extension.swift
 //  Electo
 //
-//  Created by 임성훈 on 2017. 8. 7..
-//  Copyright © 2017년 임성훈. All rights reserved.
+//  Created by RodoPacaGiraffe on 2017. 8. 7..
+//  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 //
 
 import UIKit
 import Photos
-
+import MapKit
 extension PHAsset {
     func fetchImage(size: CGSize, contentMode: PHImageContentMode,
                     options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) {
@@ -34,4 +34,19 @@ extension Date {
         
         return dateForamtter.string(from: self)
     }
+}
+
+extension CLLocation {
+    func reverseGeocode() {
+        let geoCoder = CLGeocoder()
+        
+        geoCoder.reverseGeocodeLocation(self, completionHandler: { placemarks, error in
+            guard let addressDictionary = placemarks?[0].addressDictionary else { return }
+            guard let city = addressDictionary["City"] as? String else { return }
+            guard let country = addressDictionary["Country"] as? String else { return }
+            print(city)
+            print(country)
+        })
+    }
+
 }

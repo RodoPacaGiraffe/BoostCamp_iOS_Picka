@@ -2,8 +2,8 @@
 //  PhotoStore.swift
 //  Electo
 //
-//  Created by 임성훈 on 2017. 8. 7..
-//  Copyright © 2017년 임성훈. All rights reserved.
+//  Created by RodoPacaGiraffe on 2017. 8. 7..
+//  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,6 @@ import Photos
 class PhotoStore {
     private(set) var photoAssets: [PHAsset] = []
     private(set) var classifiedPhotoAssets: [[PHAsset]] = []
-    
     init() {
         fetchPhotoAsset()
         classifyPhotoAssetsByTime()
@@ -28,6 +27,7 @@ class PhotoStore {
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
+            photoAssets[index].location?.reverseGeocode()
         }
     }
     
