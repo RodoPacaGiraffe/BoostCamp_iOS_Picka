@@ -25,14 +25,16 @@ extension PhotoDataSource: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
         
         let photoAssets = photoStore.classifiedPhotoAssets[indexPath.section]
+        var images: [UIImage] = .init()
         
         photoAssets.forEach {
             $0.fetchImage(size: CGSize(width: 50, height: 50),
                 contentMode: .aspectFit, options: nil) { photoImage in
                 guard let photoImage = photoImage else { return }
-                cell.addPhotoImagesToStackView(photoImages: photoImage)
+                images.append(photoImage)
             }
         }
+        cell.addPhotoImagesToStackView(photoImages: images)
         
         return cell
     }

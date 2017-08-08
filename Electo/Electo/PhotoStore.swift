@@ -14,8 +14,13 @@ class PhotoStore {
     private(set) var classifiedPhotoAssets: [[PHAsset]] = []
     
     init() {
-        fetchPhotoAsset()
-        classifyPhotoAssetsByTime()
+        PHPhotoLibrary.requestAuthorization {
+            [weak self] (authorizationStatus) -> Void in
+            guard authorizationStatus == .authorized else { return }
+            self?.fetchPhotoAsset()
+            self?.classifyPhotoAssetsByTime()
+        }
+
     }
     
     private func fetchPhotoAsset() {
@@ -23,9 +28,8 @@ class PhotoStore {
         
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
                                                          ascending: false)]
-        
         let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
-        
+        print(fetchResult)
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
         }

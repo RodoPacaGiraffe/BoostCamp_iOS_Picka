@@ -18,8 +18,22 @@ class ClassifiedPhotoCell: UITableViewCell {
         locationLabel.text = location
     }
     
-    func addPhotoImagesToStackView(photoImages: UIImage) {
-        imageStackView.addArrangedSubview(UIImageView(image: photoImages))
+    func addPhotoImagesToStackView(photoImages: [UIImage?]) {
+        let imageView: UIImageView = .init()
+        guard let windowWidth = window?.frame.width else { return }
+        if windowWidth > 70 {
+            for index in 0..<5 {
+                imageStackView.addArrangedSubview(imageView)
+                guard let imageView = imageStackView.subviews[index] as? UIImageView else { return }
+                imageView.image = photoImages[index]
+            }
+        } else {
+            for index in 0..<4 {
+                imageStackView.addArrangedSubview(imageView)
+                guard let imageView = imageStackView.subviews[index] as? UIImageView else { return }
+                imageView.image = photoImages[index]
+            }
+        }
     }
     
     func clearStackView() {
