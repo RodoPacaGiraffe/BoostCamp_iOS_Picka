@@ -16,6 +16,8 @@ class DetailPhotoViewController: UIViewController {
     var selectedSectionAsset: Int = .init()
     var photoStore: PhotoStore?
     
+    var pressedIndexPath: IndexPath?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,6 +58,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+        pressedIndexPath = indexPath
         
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
@@ -65,17 +68,18 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
                 return
             }
             DispatchQueue.main.sync {
+                guard self?.pressedIndexPath == indexPath else { return }
                 self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
             }
             
         }
         options.deliveryMode = .opportunistic
         
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] _ -> Void in
             photoAssets?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
-                DispatchQueue.main.async {
-    
+                DispatchQueue.main.sync {
+                    guard self?.pressedIndexPath == indexPath else { return }
                     self?.detailImageView.image = UIImage(data: data)
                 }
             })
