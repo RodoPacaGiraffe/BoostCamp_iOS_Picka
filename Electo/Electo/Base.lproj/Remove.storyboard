@@ -78,13 +78,19 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="To be deleted" id="sbp-bB-XVA">
-                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="oJp-TK-wXK">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="oJp-TK-wXK">
                             <connections>
                                 <action selector="cancel:" destination="41h-lp-7Sx" id="EUY-4p-lkZ"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Choose" id="dl6-xh-00s">
+                            <connections>
+                                <action selector="toggleSelectMode:" destination="41h-lp-7Sx" id="jMf-TC-e0O"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="chooseButton" destination="dl6-xh-00s" id="LhD-gr-SvM"/>
                         <outlet property="collectionView" destination="81L-GL-LUT" id="ghT-39-Lhg"/>
                     </connections>
                 </viewController>
