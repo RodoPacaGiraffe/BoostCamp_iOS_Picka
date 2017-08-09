@@ -17,9 +17,17 @@ class RemovedPhotoViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chooseButton: UIBarButtonItem!
+    @IBOutlet weak var buttonStackView: UIStackView!
+    @IBOutlet weak var deleteAllButton: UIButton!
     
     var photoDataSource: PhotoDataSource?
-    fileprivate var selectMode: SelectMode = .off
+    fileprivate var selectMode: SelectMode = .off {
+        didSet {
+            toggleHiddenState(forViews: [deleteAllButton, buttonStackView])
+            collectionView.allowsMultipleSelection = !collectionView.allowsMultipleSelection
+            chooseButton.title = selectMode.rawValue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +35,24 @@ class RemovedPhotoViewController: UIViewController {
         collectionView.dataSource = photoDataSource
     }
     
+    func toggleHiddenState(forViews views: [UIView]) {
+        views.forEach {
+            $0.isHidden = !$0.isHidden
+        }
+    }
+    
+    func resetSelectedItem(indexPaths: [IndexPath]) {
+        indexPaths.forEach {
+            guard let photoCell = collectionView.cellForItem(at: $0)
+                as? RemovedPhotoCell else { return }
+            
+            collectionView.deselectItem(at: $0, animated: true)
+            photoCell.deSelect()
+        }
+    }
+    
     @IBAction func deleteSelected(_ sender: UIButton) {
+        
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
@@ -49,11 +74,12 @@ class RemovedPhotoViewController: UIViewController {
         if selectMode == .off {
             selectMode = .on
         } else {
+            if let selectedItems = collectionView.indexPathsForSelectedItems {
+                resetSelectedItem(indexPaths: selectedItems)
+            }
+            
             selectMode = .off
         }
-
-        collectionView.allowsMultipleSelection = !collectionView.allowsMultipleSelection
-        chooseButton.title = selectMode.rawValue
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {

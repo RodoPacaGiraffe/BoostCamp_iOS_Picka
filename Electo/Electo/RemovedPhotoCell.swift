@@ -14,4 +14,12 @@ class RemovedPhotoCell: UICollectionViewCell {
     func addRemovedImage(removedPhotoImage: UIImage) {
         removedImageView.image = removedPhotoImage
     }
+    
+    func select() {
+        
+    }
+    
+    func deSelect() {
+        
+    }
 }

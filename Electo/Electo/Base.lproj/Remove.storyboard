@@ -66,7 +66,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
                                 <rect key="frame" x="16" y="617" width="343" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dk9-Mw-hsd">
@@ -118,8 +118,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="buttonStackView" destination="Vlj-ai-Q2p" id="5tl-ab-WV8"/>
                         <outlet property="chooseButton" destination="dl6-xh-00s" id="LhD-gr-SvM"/>
                         <outlet property="collectionView" destination="81L-GL-LUT" id="ghT-39-Lhg"/>
+                        <outlet property="deleteAllButton" destination="r7p-iO-JXX" id="Cwf-dD-aV7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
