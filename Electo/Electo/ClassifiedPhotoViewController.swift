@@ -49,7 +49,6 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         photoCell.clearStackView()
     }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
         detailViewController.selectedSectionAsset = indexPath.section
@@ -57,14 +56,15 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         
         show(detailViewController, sender: self)
     }
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            guard let windowWidth = self.view.window?.frame.width else { return CGFloat() }
-            
-            let cellHeight = (windowWidth - CGFloat(Constants.stackViewSpacing)) / CGFloat(Constants.maximumImageView)
-            
-            return cellHeight + 46.5
-            
-        }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let windowWidth = self.view.window?.frame.width else { return CGFloat() }
+        
+        let cellHeight = (windowWidth - CGFloat(Constants.stackViewSpacing)) / CGFloat(Constants.maximumImageView)
+        
+        return cellHeight + 46.5
+        
+    }
 }
 
 

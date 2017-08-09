@@ -11,24 +11,31 @@ import Photos
 class DetailPhotoViewController: UIViewController {
     
     @IBOutlet var detailImageView: UIImageView!
-    var selectedSectionAsset: Int = 0
+    @IBOutlet var thumbnailCollectionView: UICollectionView!
+    
+    var selectedSectionAsset: Int = .init()
     var photoStore: PhotoStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getFullsizeImage()
+    }
+    
+    //Todo: Selecting removable photos
+    @IBAction func selectForRemovePhoto(_ sender: UIButton) {
+        print("selected!")
+    }
+    
+    func getFullsizeImage() {
         let asset = photoStore?.classifiedPhotoAssets[selectedSectionAsset].first
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .opportunistic
-        asset?.fetchFullSizeImage(options: options, resultHandler: { (data) in
-            guard let data = data else { return }
-            self.detailImageView.image = UIImage(data: data)
+        asset?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
+            guard let data = fetchedData else { return }
+            self?.detailImageView.image = UIImage(data: data)
         })
-    }
-    
-    //Todo: Selecting removabxwle photos
-    @IBAction func selectForRemovePhoto(_ sender: UIButton) {
-        print("selected!")
     }
 }
 
@@ -36,7 +43,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let storeAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset] else {
-            print("There are no asset array")
+            assertionFailure("There are no asset array")
             
             // MARK: return 0?
             return 0
@@ -46,12 +53,13 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
-        let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset]
-        photoAssets?.forEach{
-            $0.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (image) in
-                cell.thumbnailImageView.image = image
-            })
-        }
+        let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+        
+        photoAsset?.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil,
+                      resultHandler: { (requestedImage) in
+                        cell.thumbnailImageView.image = requestedImage
+                    })
+        
         return cell
     }
 }
@@ -59,12 +67,31 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+        
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
+        options.isSynchronous = true
+        options.progressHandler = { [weak self] _ -> Void in
+            guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else {
+                return
+            }
+            DispatchQueue.main.sync {
+                self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
+            }
+            
+        }
         options.deliveryMode = .opportunistic
-        photoAssets?.fetchFullSizeImage(options: options, resultHandler: { (data) in
-            guard let data = data else { return }
-            self.detailImageView.image = UIImage(data: data)
-        })
+        
+        DispatchQueue.global().async {
+            photoAssets?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
+                guard let data = fetchedData else { return }
+                
+                
+                DispatchQueue.main.async {
+                    
+                    self?.detailImageView.image = UIImage(data: data)
+                }
+            })
+        }
     }
 }
