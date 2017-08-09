@@ -10,9 +10,11 @@ import UIKit
 import Photos
 class DetailPhotoViewController: UIViewController {
     
+    @IBOutlet var zoomingScrollView: UIScrollView!
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
+    
     
     var selectedSectionAsset: Int = .init()
     var photoStore: PhotoStore?
@@ -21,6 +23,9 @@ class DetailPhotoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.zoomingScrollView.minimumZoomScale = 1.0
+        self.zoomingScrollView.maximumZoomScale = 6.0
         
         self.tabBarController?.tabBar.isHidden = true
         collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
@@ -85,6 +90,10 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
 
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard pressedIndexPath != indexPath else { return }
+        self.detailImageView.image = nil
+        self.detailImageView.contentMode = .scaleAspectFill
+        
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
@@ -115,5 +124,15 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
                 }
             })
         }
+    }
+}
+
+extension DetailPhotoViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return self.detailImageView
+    }
+    
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        detailImageView.contentMode = .scaleAspectFit
     }
 }
