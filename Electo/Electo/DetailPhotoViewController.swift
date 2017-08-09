@@ -19,23 +19,12 @@ class DetailPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getFullsizeImage()
+        collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
     }
     
     //Todo: Selecting removable photos
     @IBAction func selectForRemovePhoto(_ sender: UIButton) {
         print("selected!")
-    }
-    
-    func getFullsizeImage() {
-        let asset = photoStore?.classifiedPhotoAssets[selectedSectionAsset].first
-        let options = PHImageRequestOptions()
-        options.isNetworkAccessAllowed = true
-        options.deliveryMode = .opportunistic
-        asset?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
-            guard let data = fetchedData else { return }
-            self?.detailImageView.image = UIImage(data: data)
-        })
     }
 }
 
@@ -85,10 +74,8 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         DispatchQueue.global().async {
             photoAssets?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
-                
-                
                 DispatchQueue.main.async {
-                    
+    
                     self?.detailImageView.image = UIImage(data: data)
                 }
             })
