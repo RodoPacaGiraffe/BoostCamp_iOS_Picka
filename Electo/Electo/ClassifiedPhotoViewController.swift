@@ -62,15 +62,6 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         
         show(detailViewController, sender: self)
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let windowWidth = self.view.window?.frame.width else { return CGFloat() }
-        
-        let cellHeight = (windowWidth - CGFloat(Constants.stackViewSpacing)) / CGFloat(Constants.maximumImageView)
-        
-        return cellHeight + 46.5
-        
-    }
 }
 
 

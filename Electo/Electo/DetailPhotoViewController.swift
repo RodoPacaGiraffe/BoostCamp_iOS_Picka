@@ -18,7 +18,7 @@ class DetailPhotoViewController: UIViewController {
     var photoStore: PhotoStore?
     var selectedPhotos: Int = 0
     var pressedIndexPath: IndexPath?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -74,7 +74,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
         
-        photoAsset?.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil,
+        photoAsset?.fetchImage(size: CGSize(width: 50.0, height: 50.0),
+                               contentMode: .aspectFill,
+                               options: nil,
                                resultHandler: { (requestedImage) in
                                 cell.thumbnailImageView.image = requestedImage
         })
@@ -93,15 +95,12 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         options.isNetworkAccessAllowed = true
         options.isSynchronous = true
         options.progressHandler = { [weak self] _ -> Void in
-            guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else {
-                return
-            }
+            guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
             DispatchQueue.main.sync {
                 guard self?.pressedIndexPath == indexPath else { return }
                 self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
                 self?.loadingIndicatorView.startAnimating()
             }
-            
         }
         options.deliveryMode = .opportunistic
         
