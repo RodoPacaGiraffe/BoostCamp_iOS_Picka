@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Rai-15-VpX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Rai-15-VpX">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,6 +13,7 @@
         <!--To be deleted-->
         <scene sceneID="4OH-wq-D0d">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="41h-lp-7Sx" customClass="RemovedPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3i6-NU-iL3"/>
@@ -25,30 +26,31 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="81L-GL-LUT">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="E6F-z3-ydE">
-                                    <size key="itemSize" width="50" height="50"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="E6F-z3-ydE">
+                                    <size key="itemSize" width="93" height="93"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClassifiedPhotoCell" id="nJ5-hn-lfj" customClass="RemovedPhotoCell" customModule="Electo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="93" height="93"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="93" height="93"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gni-q4-5G7">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="93" height="93"/>
+                                                    <gestureRecognizers/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="Gni-q4-5G7" secondAttribute="bottom" id="43u-IE-pwi"/>
-                                            <constraint firstItem="Gni-q4-5G7" firstAttribute="leading" secondItem="nJ5-hn-lfj" secondAttribute="leading" id="Rme-bP-RHU"/>
-                                            <constraint firstItem="Gni-q4-5G7" firstAttribute="top" secondItem="nJ5-hn-lfj" secondAttribute="top" id="bAh-9V-23d"/>
-                                            <constraint firstAttribute="trailing" secondItem="Gni-q4-5G7" secondAttribute="trailing" id="eq2-3d-AuW"/>
+                                            <constraint firstItem="Gni-q4-5G7" firstAttribute="leading" secondItem="nJ5-hn-lfj" secondAttribute="leading" id="Ll8-iG-wK7"/>
+                                            <constraint firstItem="Gni-q4-5G7" firstAttribute="top" secondItem="nJ5-hn-lfj" secondAttribute="top" id="e3R-t8-DRf"/>
+                                            <constraint firstAttribute="bottom" secondItem="Gni-q4-5G7" secondAttribute="bottom" id="epO-5F-pGe"/>
+                                            <constraint firstAttribute="trailing" secondItem="Gni-q4-5G7" secondAttribute="trailing" id="gJm-z4-3s7"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="removedImageView" destination="Gni-q4-5G7" id="H7f-pr-q7M"/>
@@ -60,7 +62,7 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r7p-iO-JXX">
-                                <rect key="frame" x="154" y="617" width="66" height="30"/>
+                                <rect key="frame" x="154.5" y="617" width="66" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Delete All">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -122,13 +124,21 @@
                         <outlet property="collectionView" destination="81L-GL-LUT" id="ghT-39-Lhg"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1368.8" y="-187.55622188905548"/>
+        </scene>
+        <!--RemoveDetail-->
+        <scene sceneID="mFV-sd-knK">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="removeDetailViewController" storyboardName="RemoveDetail" id="atG-tl-dqr" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IXB-hm-4hD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2031" y="-246"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lIA-zQ-r0R">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LpM-KQ-vWc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rai-15-VpX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sTf-Sp-eD7">
@@ -140,7 +150,6 @@
                         <segue destination="41h-lp-7Sx" kind="relationship" relationship="rootViewController" id="EFt-dc-JGS"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LpM-KQ-vWc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="429.60000000000002" y="-187.55622188905548"/>
         </scene>

@@ -70,7 +70,10 @@ extension RemovedPhotoViewController: UICollectionViewDelegate {
         case .on:
             photoCell.removedImageView.alpha = 0.3
         case .off:
-            break
+            guard let removePhotoStore = photoDataSource?.removeStore else { return }
+            guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "removeDetailViewController") as? RemoveDetailPhotoViewController else { return }
+            detailViewController.selectedPhotos = removePhotoStore.removedPhotoAssets
+            show(detailViewController, sender: self)
         }
     }
     
