@@ -48,7 +48,7 @@ class ClassifiedPhotoCell: UITableViewCell {
     }
     
     func setRasiusImageView(imageView: UIImageView) {
-        imageView.layer.cornerRadius = imageView.frame.width / 16.0
+        imageView.layer.cornerRadius = imageView.frame.width / 20.0
         imageView.clipsToBounds = true
     }
     
