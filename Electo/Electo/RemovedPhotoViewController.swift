@@ -28,17 +28,9 @@ class RemovedPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
-        guard let selectedItems = collectionView.indexPathsForSelectedItems else { return }
         guard let removePhotoStore = photoDataSource?.removeStore else { return }
         
-        var selectedPhotoAssets: [PHAsset] = []
-        
-        selectedItems.forEach {
-            let selectedPhotoAsset = removePhotoStore.removedPhotoAssets[$0.row]
-            selectedPhotoAssets.append(selectedPhotoAsset)
-        }
-        
-        removePhotoStore.removePhotoAssets(toRestore: selectedPhotoAssets)
+        removePhotoStore.removePhotoAssets(toRestore: self.selectedPhotoAssets())
         collectionView.reloadData()
     }
     
@@ -60,7 +52,6 @@ class RemovedPhotoViewController: UIViewController {
         switch selectMode {
         case .off:
             PHPhotoLibrary.shared().performChanges({
-                
                 guard let asset = self.photoDataSource?.removeStore.removedPhotoAssets else { return }
                 
                 PHAssetChangeRequest.deleteAssets(asset as NSFastEnumeration)
@@ -68,21 +59,24 @@ class RemovedPhotoViewController: UIViewController {
                 print("success")
             }
         case .on:
-            guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
-            guard let removePhotoStore = self.photoDataSource?.removeStore else { return }
-            var selectedPhotoAssets: [PHAsset] = []
-            
-            selectedItems.forEach {
-                let selectedPhotoAsset = removePhotoStore.removedPhotoAssets[$0.row]
-                selectedPhotoAssets.append(selectedPhotoAsset)
-            }
-            
             PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.deleteAssets(selectedPhotoAssets as NSFastEnumeration)
+                PHAssetChangeRequest.deleteAssets(self.selectedPhotoAssets() as NSFastEnumeration)
             }) { (success, error) in
                 print("success")
             }
         }
+    }
+    
+    func selectedPhotoAssets() -> [PHAsset] {
+        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return [] }
+        guard let removePhotoStore = self.photoDataSource?.removeStore else { return [] }
+        var selectedPhotoAssets: [PHAsset] = []
+        
+        selectedItems.forEach {
+            let selectedPhotoAsset = removePhotoStore.removedPhotoAssets[$0.row]
+            selectedPhotoAssets.append(selectedPhotoAsset)
+        }
+        return selectedPhotoAssets
     }
 }
 
