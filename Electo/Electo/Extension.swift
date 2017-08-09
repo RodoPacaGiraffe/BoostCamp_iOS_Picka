@@ -19,6 +19,14 @@ extension PHAsset {
                 resultHandler(image)
         }
     }
+    
+    func fetchFullSizeImage(options: PHImageRequestOptions?, resultHandler: @escaping (Data?) -> Void) {
+        let cachingImageManager = PHCachingImageManager()
+        cachingImageManager.requestImageData(for: self, options: options) { (data, string
+            , orientation, _) in
+            resultHandler(data)
+        }
+    }
 }
 
 extension Date {

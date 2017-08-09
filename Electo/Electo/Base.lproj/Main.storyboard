@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="afm-nn-JY9">
+
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -116,7 +118,19 @@
             </objects>
             <point key="canvasLocation" x="2280.8000000000002" y="-228.03598200899552"/>
         </scene>
+
+        <!--Detail-->
+        <scene sceneID="Shn-UT-5Zp">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="detailViewController" storyboardName="Detail" id="UUo-Ky-hfR" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uGc-5Z-9bo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2047" y="-233"/>
+        </scene>
+        <!--Navigation Controller-->
+
         <!--Item-->
+
         <scene sceneID="RJw-Z1-njC">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jIs-QX-MrQ" sceneMemberID="viewController">
