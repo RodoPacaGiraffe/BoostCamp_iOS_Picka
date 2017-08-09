@@ -9,7 +9,17 @@
 import UIKit
 
 class PhotoDataSource: NSObject {
-    let photoStore = PhotoStore()
+    let photoStore: PhotoStore
+    let removeStore: RemovedPhotoStore
+    
+    override init() {
+        photoStore = PhotoStore()
+        removeStore = RemovedPhotoStore()
+        
+        removeStore.delegate = photoStore
+        
+        super.init()
+    }
 }
 
 extension PhotoDataSource: UITableViewDataSource {
@@ -35,9 +45,40 @@ extension PhotoDataSource: UITableViewDataSource {
                             if photoAssets.count == fetchedImages.count {
                                 cell.cellImages = fetchedImages
                             }
+
             }
         }
         
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        
+        let assets = photoStore.classifiedPhotoAssets[indexPath.section]
+        
+        removeStore.addPhotoAssets(toDelete: assets)
+        tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+    }
+}
+
+extension PhotoDataSource: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return removeStore.removedPhotoAssets.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier,
+            for: indexPath) as? RemovedPhotoCell ?? RemovedPhotoCell()
+        let removedPhotoAsset = removeStore.removedPhotoAssets[indexPath.item]
+        
+        removedPhotoAsset.fetchImage(size: CGSize(width: 50, height: 50),
+            contentMode: .aspectFit, options: nil) { removedPhotoImage in
+            guard let removedPhotoImage = removedPhotoImage else { return }
+                        
+            cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
+        }
+    
         return cell
     }
 }

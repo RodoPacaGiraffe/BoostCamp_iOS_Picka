@@ -6,17 +6,17 @@
 //  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import Photos
 
 class PhotoStore: PhotoClassifiable {
-    private(set) var photoAssets: [PHAsset] = []
-    private(set) var classifiedPhotoAssets: [[PHAsset]] = []
+    fileprivate(set) var photoAssets: [PHAsset] = []
+    fileprivate(set) var classifiedPhotoAssets: [[PHAsset]] = []
     
     init() {
         fetchPhotoAsset()
-
-        self.classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
         
         NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
     }
@@ -30,13 +30,37 @@ class PhotoStore: PhotoClassifiable {
         let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
         
         for index in 0 ..< fetchResult.count {
+            
             photoAssets.append(fetchResult[index])
 //            photoAssets[index].location?.reverseGeocode()
         }
     }
 }
 
-
+extension PhotoStore: PhotoAssetRemovable {
+    func remove(photoAsset: PHAsset) {
+        guard let photoAsset = photoAssets.index(of: photoAsset) else {
+            print("This photoAsset is not founded")
+            return
+        }
+        
+        photoAssets.remove(at: photoAsset)
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+    }
+    
+    func restore(photoAsset: PHAsset) {
+        photoAssets.append(photoAsset)
+        photoAssets.sort { (before, after) in
+            guard let beforeCreationDate = before.creationDate,
+                let afterCreationDate = after.creationDate else { return false }
+            
+            return beforeCreationDate > afterCreationDate
+        }
+        
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
+    }
+}
 
 
 
