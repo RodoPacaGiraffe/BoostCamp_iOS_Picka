@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="148"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iJY-bk-UoN" id="0kh-d5-kAa">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="147.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="148"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="dbg-FS-0Nh">
@@ -85,6 +85,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1341.5999999999999" y="-228.03598200899552"/>
+        </scene>
+        <!--Detail-->
+        <scene sceneID="Shn-UT-5Zp">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="detailViewController" storyboardName="Detail" id="UUo-Ky-hfR" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uGc-5Z-9bo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2047" y="-233"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RJw-Z1-njC">
