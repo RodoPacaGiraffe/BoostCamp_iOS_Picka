@@ -9,7 +9,7 @@
 import UIKit
 
 class RemovedPhotoCell: UICollectionViewCell {
-    @IBOutlet weak var removedImageView: UIImageView!
+    @IBOutlet var removedImageView: UIImageView!
     
     func addRemovedImage(removedPhotoImage: UIImage) {
         removedImageView.image = removedPhotoImage

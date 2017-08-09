@@ -15,8 +15,8 @@ class RemovedPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var chooseButton: UIBarButtonItem!
+    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var chooseButton: UIBarButtonItem!
     
     var photoDataSource: PhotoDataSource?
     fileprivate var selectMode: SelectMode = .off

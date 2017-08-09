@@ -8,8 +8,9 @@
 
 import UIKit
 import Photos
+
 class DetailPhotoViewController: UIViewController {
-    
+
     @IBOutlet var detailImageView: UIImageView!
     var selectedSectionAsset: Int = 0
     var photoStore: PhotoStore?
@@ -47,6 +48,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset]
+        
         photoAssets?.forEach{
             $0.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (image) in
                 cell.thumbnailImageView.image = image

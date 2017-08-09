@@ -8,14 +8,23 @@
 
 import UIKit
 
-class PhotoDataSource: NSObject {
+class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     let photoStore: PhotoStore
     let removeStore: RemovedPhotoStore
     
     override init() {
-        photoStore = PhotoStore()
-        removeStore = RemovedPhotoStore()
+        guard let path = Constants.archiveURL?.path,
+            let archivedRemoveStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
+                as? RemovedPhotoStore else {
+            removeStore = RemovedPhotoStore()
+            photoStore = PhotoStore(loadedPhotoAssets: nil)
+                    
+            super.init()
+            return
+        }
         
+        removeStore = archivedRemoveStore
+        photoStore = PhotoStore(loadedPhotoAssets: removeStore.removedPhotoAssets)
         removeStore.delegate = photoStore
         
         super.init()
@@ -28,7 +37,7 @@ extension PhotoDataSource: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return Constants.maximumSection
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -38,14 +47,13 @@ extension PhotoDataSource: UITableViewDataSource {
         var fetchedImages: [UIImage] = .init()
         photoAssets.forEach {
             $0.fetchImage(size: CGSize(width: 50, height: 50),
-                          contentMode: .aspectFit, options: nil) { photoImage in
-                            guard let photoImage = photoImage else { return }
-                            fetchedImages.append(photoImage)
-                            
-                            if photoAssets.count == fetchedImages.count {
-                                cell.cellImages = fetchedImages
-                            }
-
+                contentMode: .aspectFit, options: nil) { photoImage in
+                guard let photoImage = photoImage else { return }
+                fetchedImages.append(photoImage)
+                    
+                if photoAssets.count == fetchedImages.count {
+                    cell.cellImages = fetchedImages
+                }
             }
         }
         

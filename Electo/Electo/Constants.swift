@@ -24,4 +24,14 @@ struct Constants {
     static let timeIntervalBoundary: TimeInterval = 60.0
     static let maximumImageView: Int = 4
     static let stackViewSpacing: Int = 3
+    static let removedPhotoAssetsIdentifier: String = "removedPhotoAssetsIdentifier"
+    static let archiveFileName: String = "removedPhotoStore.archive"
+    static let maximumSection: Int = 1
+    static let archiveURL: URL? = {
+        let documentDirectories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        
+        guard let documentDirectory = documentDirectories.first else { return nil }
+        
+        return documentDirectory.appendingPathComponent(Constants.archiveFileName)
+    }()
 }
