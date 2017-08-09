@@ -12,20 +12,51 @@ class ClassifiedPhotoCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet weak var imageStackView: UIStackView!
+    @IBOutlet var imageViews: [UIImageView]!
+    @IBOutlet var moreImagesLabel: UILabel!
+    
+    var cellImages: [UIImage] = .init() {
+        didSet {
+            addPhotoImagesToStackView(photoImages: cellImages)
+        }
+    }
     
     func update(date: String, location: String?) {
         dateLabel.text = date
         locationLabel.text = location
     }
     
-    func addPhotoImagesToStackView(photoImages: UIImage) {
-        imageStackView.addArrangedSubview(UIImageView(image: photoImages))
+    func addPhotoImagesToStackView(photoImages: [UIImage]) {
+        moreImagesLabel.isHidden = true
+        for index in photoImages.indices {
+            guard index < Constants.maximumImageView else {
+                setLabel()
+                break
+            }
+            imageViews[index].image = photoImages[index]
+            setRasiusImageView(imageView: imageViews[index])
+        }
+    }
+    
+    func setLabel() {
+        guard let lastIamgeView = imageViews.last else { return }
+        lastIamgeView.image = lastIamgeView.image?.alpha(0.5)
+        
+        let numOfMoreImages = cellImages.count - Constants.maximumImageView
+        moreImagesLabel.text = "+\(numOfMoreImages)"
+        moreImagesLabel.isHidden = false
+    }
+    
+    func setRasiusImageView(imageView: UIImageView) {
+//        imageView.layer.cornerRadius = imageView.frame.width / 
+        imageView.clipsToBounds = true
     }
     
     func clearStackView() {
-        imageStackView.arrangedSubviews.forEach {
-            $0.removeFromSuperview()
+        imageViews.forEach {
+            $0.image = nil
         }
+        moreImagesLabel.isHidden = true
     }
 }
 
