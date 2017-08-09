@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class RemovedPhotoViewController: UIViewController {
     fileprivate enum SelectMode: String {
@@ -26,13 +27,31 @@ class RemovedPhotoViewController: UIViewController {
         collectionView.dataSource = photoDataSource
     }
     
+    @IBAction func deleteSelected(_ sender: UIButton) {
+    }
+    
+    @IBAction func recoverSelected(_ sender: UIButton) {
+        guard let selectedItems = collectionView.indexPathsForSelectedItems else { return }
+        guard let removePhotoStore = photoDataSource?.removeStore else { return }
+        
+        var selectedPhotoAssets: [PHAsset] = []
+        
+        selectedItems.forEach {
+            let selectedPhotoAsset = removePhotoStore.removedPhotoAssets[$0.row]
+            selectedPhotoAssets.append(selectedPhotoAsset)
+        }
+        
+        removePhotoStore.removePhotoAssets(toRestore: selectedPhotoAssets)
+        collectionView.reloadData()
+    }
+    
     @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
         if selectMode == .off {
             selectMode = .on
         } else {
             selectMode = .off
         }
-        
+
         collectionView.allowsMultipleSelection = !collectionView.allowsMultipleSelection
         chooseButton.title = selectMode.rawValue
     }

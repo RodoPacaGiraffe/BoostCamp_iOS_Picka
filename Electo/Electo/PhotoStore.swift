@@ -46,8 +46,19 @@ extension PhotoStore: PhotoAssetRemovable {
         
         photoAssets.remove(at: photoAsset)
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+    }
+    
+    func restore(photoAsset: PHAsset) {
+        photoAssets.append(photoAsset)
+        photoAssets.sort { (before, after) in
+            guard let beforeCreationDate = before.creationDate,
+                let afterCreationDate = after.creationDate else { return false }
+            
+            return beforeCreationDate > afterCreationDate
+        }
         
-        print(photoAsset)
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
     }
 }
 

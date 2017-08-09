@@ -11,4 +11,5 @@ import Photos
 
 protocol PhotoAssetRemovable: class {
     func remove(photoAsset: PHAsset)
+    func restore(photoAsset: PHAsset)
 }

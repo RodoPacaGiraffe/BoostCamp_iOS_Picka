@@ -66,15 +66,43 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
+                                <rect key="frame" x="16" y="617" width="343" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dk9-Mw-hsd">
+                                        <rect key="frame" x="0.0" y="0.0" width="171.5" height="30"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Recover Selected">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="recoverSelected:" destination="41h-lp-7Sx" eventType="touchUpInside" id="3lh-nP-y1h"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sns-Ue-VMg">
+                                        <rect key="frame" x="171.5" y="0.0" width="171.5" height="30"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Delete Selected">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="deleteSelected:" destination="41h-lp-7Sx" eventType="touchUpInside" id="JbR-Kc-Y6J"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leading" id="3Bf-75-FUQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Vlj-ai-Q2p" secondAttribute="trailing" id="9Bu-hO-096"/>
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="r7p-iO-JXX" secondAttribute="bottom" constant="20" id="JHj-CR-zas"/>
                             <constraint firstAttribute="trailing" secondItem="81L-GL-LUT" secondAttribute="trailing" id="Y1C-OI-jcM"/>
                             <constraint firstItem="r7p-iO-JXX" firstAttribute="centerX" secondItem="Pgi-Kc-4sb" secondAttribute="centerX" id="deD-yv-TjL"/>
+                            <constraint firstItem="Vlj-ai-Q2p" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leadingMargin" id="e64-90-QkN"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="top" secondItem="Pgi-Kc-4sb" secondAttribute="topMargin" id="fOs-Yg-zAk"/>
                             <constraint firstItem="r7p-iO-JXX" firstAttribute="top" secondItem="81L-GL-LUT" secondAttribute="bottom" constant="20" id="soD-Ce-gVz"/>
+                            <constraint firstItem="sns-Ue-VMg" firstAttribute="baseline" secondItem="r7p-iO-JXX" secondAttribute="baseline" id="zd7-JJ-vWh"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="To be deleted" id="sbp-bB-XVA">
