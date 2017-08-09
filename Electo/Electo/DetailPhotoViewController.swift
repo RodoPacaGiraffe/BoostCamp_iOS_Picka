@@ -21,6 +21,7 @@ class DetailPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.tabBar.isHidden = true
         collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
     }
     
