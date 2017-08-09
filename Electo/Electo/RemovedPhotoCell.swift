@@ -10,16 +10,19 @@ import UIKit
 
 class RemovedPhotoCell: UICollectionViewCell {
     @IBOutlet weak var removedImageView: UIImageView!
+    @IBOutlet weak var checkedImageView: UIImageView!
     
     func addRemovedImage(removedPhotoImage: UIImage) {
         removedImageView.image = removedPhotoImage
     }
     
     func select() {
-        
+        removedImageView.alpha = 0.5
+        checkedImageView.isHidden = false
     }
     
     func deSelect() {
-        
+        removedImageView.alpha = 1.0
+        checkedImageView.isHidden = true
     }
 }

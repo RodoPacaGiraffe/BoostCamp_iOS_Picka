@@ -15,12 +15,14 @@ class RemovedPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chooseButton: UIBarButtonItem!
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var deleteAllButton: UIButton!
     
     var photoDataSource: PhotoDataSource?
+    
     fileprivate var selectMode: SelectMode = .off {
         didSet {
             toggleHiddenState(forViews: [deleteAllButton, buttonStackView])
@@ -31,8 +33,17 @@ class RemovedPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         collectionView.dataSource = photoDataSource
+        
+        setCellSize()
+    }
+    
+    func setCellSize() {
+        let width = (collectionView.bounds.width / 4) - flowLayout.minimumLineSpacing * 2
+        
+        flowLayout.itemSize.width = width
+        flowLayout.itemSize.height = width
     }
     
     func toggleHiddenState(forViews views: [UIView]) {
@@ -94,7 +105,7 @@ extension RemovedPhotoViewController: UICollectionViewDelegate {
         
         switch selectMode {
         case .on:
-            photoCell.removedImageView.alpha = 0.3
+            photoCell.select()
         case .off:
             break
         }
@@ -106,7 +117,7 @@ extension RemovedPhotoViewController: UICollectionViewDelegate {
         
         switch selectMode {
         case .on:
-            photoCell.removedImageView.alpha = 1.0
+            photoCell.deSelect()
         case .off:
             break
         }

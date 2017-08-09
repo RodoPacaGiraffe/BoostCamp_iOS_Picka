@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -23,34 +24,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="81L-GL-LUT">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="E6F-z3-ydE">
-                                    <size key="itemSize" width="50" height="50"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="E6F-z3-ydE">
+                                    <size key="itemSize" width="90" height="90"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="1" minY="1" maxX="1" maxY="1"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClassifiedPhotoCell" id="nJ5-hn-lfj" customClass="RemovedPhotoCell" customModule="Electo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="1" y="1" width="90" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gni-q4-5G7">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                                </imageView>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checked" translatesAutoresizingMaskIntoConstraints="NO" id="e4J-uM-gxv">
+                                                    <rect key="frame" x="30.5" y="30" width="30" height="30"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="Gni-q4-5G7" secondAttribute="bottom" id="43u-IE-pwi"/>
+                                            <constraint firstItem="e4J-uM-gxv" firstAttribute="centerX" secondItem="nJ5-hn-lfj" secondAttribute="centerX" id="MwG-oq-BNO"/>
                                             <constraint firstItem="Gni-q4-5G7" firstAttribute="leading" secondItem="nJ5-hn-lfj" secondAttribute="leading" id="Rme-bP-RHU"/>
                                             <constraint firstItem="Gni-q4-5G7" firstAttribute="top" secondItem="nJ5-hn-lfj" secondAttribute="top" id="bAh-9V-23d"/>
                                             <constraint firstAttribute="trailing" secondItem="Gni-q4-5G7" secondAttribute="trailing" id="eq2-3d-AuW"/>
+                                            <constraint firstItem="e4J-uM-gxv" firstAttribute="centerY" secondItem="nJ5-hn-lfj" secondAttribute="centerY" id="wMv-V0-Ubr"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="checkedImageView" destination="e4J-uM-gxv" id="llR-yF-QYL"/>
                                             <outlet property="removedImageView" destination="Gni-q4-5G7" id="H7f-pr-q7M"/>
                                         </connections>
                                     </collectionViewCell>
@@ -60,17 +67,17 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r7p-iO-JXX">
-                                <rect key="frame" x="154" y="617" width="66" height="30"/>
+                                <rect key="frame" x="93.5" y="617" width="187.5" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Delete All">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
-                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
                                 <rect key="frame" x="16" y="617" width="343" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dk9-Mw-hsd">
-                                        <rect key="frame" x="0.0" y="0.0" width="171.5" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="30"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Recover Selected">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -80,7 +87,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sns-Ue-VMg">
-                                        <rect key="frame" x="171.5" y="0.0" width="171.5" height="30"/>
+                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="30"/>
                                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Delete Selected">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -94,14 +101,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="81L-GL-LUT" secondAttribute="bottom" id="1CY-ym-J0a"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leading" id="3Bf-75-FUQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Vlj-ai-Q2p" secondAttribute="trailing" id="9Bu-hO-096"/>
+                            <constraint firstItem="r7p-iO-JXX" firstAttribute="width" secondItem="81L-GL-LUT" secondAttribute="width" multiplier="0.5" id="Am0-wr-ZQQ"/>
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="r7p-iO-JXX" secondAttribute="bottom" constant="20" id="JHj-CR-zas"/>
                             <constraint firstAttribute="trailing" secondItem="81L-GL-LUT" secondAttribute="trailing" id="Y1C-OI-jcM"/>
                             <constraint firstItem="r7p-iO-JXX" firstAttribute="centerX" secondItem="Pgi-Kc-4sb" secondAttribute="centerX" id="deD-yv-TjL"/>
                             <constraint firstItem="Vlj-ai-Q2p" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leadingMargin" id="e64-90-QkN"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="top" secondItem="Pgi-Kc-4sb" secondAttribute="topMargin" id="fOs-Yg-zAk"/>
-                            <constraint firstItem="r7p-iO-JXX" firstAttribute="top" secondItem="81L-GL-LUT" secondAttribute="bottom" constant="20" id="soD-Ce-gVz"/>
                             <constraint firstItem="sns-Ue-VMg" firstAttribute="baseline" secondItem="r7p-iO-JXX" secondAttribute="baseline" id="zd7-JJ-vWh"/>
                         </constraints>
                     </view>
@@ -122,6 +130,7 @@
                         <outlet property="chooseButton" destination="dl6-xh-00s" id="LhD-gr-SvM"/>
                         <outlet property="collectionView" destination="81L-GL-LUT" id="ghT-39-Lhg"/>
                         <outlet property="deleteAllButton" destination="r7p-iO-JXX" id="Cwf-dD-aV7"/>
+                        <outlet property="flowLayout" destination="E6F-z3-ydE" id="vUZ-Ca-ncT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -147,4 +156,7 @@
             <point key="canvasLocation" x="429.60000000000002" y="-187.55622188905548"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Checked" width="30" height="30"/>
+    </resources>
 </document>
