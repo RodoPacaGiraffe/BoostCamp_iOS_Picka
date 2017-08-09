@@ -12,6 +12,7 @@ class DetailPhotoViewController: UIViewController {
     
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
+    @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     
     var selectedSectionAsset: Int = .init()
     var photoStore: PhotoStore?
@@ -97,6 +98,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
             DispatchQueue.main.sync {
                 guard self?.pressedIndexPath == indexPath else { return }
                 self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
+                self?.loadingIndicatorView.startAnimating()
             }
             
         }
@@ -108,6 +110,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
                 DispatchQueue.main.sync {
                     guard self?.pressedIndexPath == indexPath else { return }
                     self?.detailImageView.image = UIImage(data: data)
+                    self?.loadingIndicatorView.stopAnimating()
                 }
             })
         }
