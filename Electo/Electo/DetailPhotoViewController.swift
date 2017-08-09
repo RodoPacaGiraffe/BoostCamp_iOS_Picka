@@ -15,9 +15,9 @@ class DetailPhotoViewController: UIViewController {
     
     var selectedSectionAsset: Int = .init()
     var photoStore: PhotoStore?
-    
+    var selectedPhotos: Int = 0
     var pressedIndexPath: IndexPath?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +27,31 @@ class DetailPhotoViewController: UIViewController {
     //Todo: Selecting removable photos
     @IBAction func selectForRemovePhoto(_ sender: UIButton) {
         print("selected!")
+    }
+    
+    @IBAction func leftSwipeAction(_ sender: UISwipeGestureRecognizer) {
+        guard let count = photoStore?.classifiedPhotoAssets[selectedSectionAsset].count else { return }
+        //TODO: 개선
+        selectedPhotos += 1
+        if selectedPhotos == count {
+            selectedPhotos -= 1
+            return
+        }
+        let index = IndexPath(row: selectedPhotos, section: 0)
+        collectionView(thumbnailCollectionView, didSelectItemAt: index)
+        thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
+    }
+    
+    @IBAction func rightSwipeAction(_ sender: UISwipeGestureRecognizer) {
+        selectedPhotos -= 1
+        if selectedPhotos < 0 {
+            selectedPhotos += 1
+            return
+        }
+        let index = IndexPath(row: selectedPhotos, section: 0)
+        collectionView(thumbnailCollectionView, didSelectItemAt: index)
+        thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
+        
     }
 }
 
@@ -47,9 +72,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
         
         photoAsset?.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil,
-                      resultHandler: { (requestedImage) in
-                        cell.thumbnailImageView.image = requestedImage
-                    })
+                               resultHandler: { (requestedImage) in
+                                cell.thumbnailImageView.image = requestedImage
+        })
         
         return cell
     }
@@ -58,6 +83,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+        selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
         
         let options = PHImageRequestOptions()
