@@ -24,6 +24,7 @@ class DetailPhotoViewController: UIViewController {
         
         self.tabBarController?.tabBar.isHidden = true
         collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
+        
     }
     
     //Todo: Selecting removable photos
