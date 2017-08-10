@@ -15,6 +15,7 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     
     var selectedImageInClassfiedView: UIImage = .init()
     var selectedSectionAsset: Int = .init()
@@ -36,6 +37,7 @@ class DetailPhotoViewController: UIViewController {
         super.viewDidAppear(animated)
         
         collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
+        doubleTapRecognizer.numberOfTapsRequired = 2
     }
     
     //Todo: Selecting removable photos
@@ -67,6 +69,11 @@ class DetailPhotoViewController: UIViewController {
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
         
     }
+    
+    @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
+        detailImageView.contentMode = .scaleAspectFill
+    }
+    
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
