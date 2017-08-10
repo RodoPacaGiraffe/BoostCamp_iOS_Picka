@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kT9-Cq-I1L">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kT9-Cq-I1L">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -97,6 +97,9 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="qUm-dz-dgS"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -108,8 +111,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
-                        <barButtonItem key="leftBarButtonItem" systemItem="organize" id="0Ig-4t-egi"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="z2F-N3-Cl9"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="Y0A-Bd-PEE">
+                            <connections>
+                                <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalRemovedPhotoVC" id="OfB-lh-lfo"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="POu-e3-FrG" id="kGH-RN-jcJ"/>
@@ -119,13 +125,21 @@
             </objects>
             <point key="canvasLocation" x="3220" y="-228.03598200899552"/>
         </scene>
+        <!--Remove-->
+        <scene sceneID="ARx-aM-fby">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Remove" id="RpQ-Ak-e2Y" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u8C-48-l48" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3838" y="-468"/>
+        </scene>
         <!--Detail-->
         <scene sceneID="Shn-UT-5Zp">
             <objects>
                 <viewControllerPlaceholder storyboardIdentifier="detailViewController" storyboardName="Detail" id="UUo-Ky-hfR" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uGc-5Z-9bo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3736" y="-351.72413793103453"/>
+            <point key="canvasLocation" x="3846" y="-228"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RJw-Z1-njC">

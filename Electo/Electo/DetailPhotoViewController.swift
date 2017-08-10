@@ -8,8 +8,9 @@
 
 import UIKit
 import Photos
+
 class DetailPhotoViewController: UIViewController {
-    
+
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
@@ -80,7 +81,6 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
                                resultHandler: { (requestedImage) in
                                 cell.thumbnailImageView.image = requestedImage
         })
-        
         return cell
     }
 }

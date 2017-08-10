@@ -19,10 +19,12 @@ class ClassifiedPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
-        
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
         
+        requestAuthorization()
+    }
+    
+    func requestAuthorization() {
         PHPhotoLibrary.requestAuthorization {
             [weak self] (authorizationStatus) -> Void in
             guard authorizationStatus == .authorized else { return }
@@ -42,6 +44,15 @@ class ClassifiedPhotoViewController: UIViewController {
     
     func reload() {
         tableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "ModalRemovedPhotoVC" else { return }
+        guard let navigationController = segue.destination as? UINavigationController,
+            let removedPhotoViewController = navigationController.topViewController
+                as? RemovedPhotoViewController else { return }
+        
+        removedPhotoViewController.photoDataSource = photoDataSource
     }
 }
 
