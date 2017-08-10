@@ -86,6 +86,7 @@ class RemovedPhotoViewController: UIViewController {
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func deleteAction(_ sender: UIButton) {
         switch selectMode {
         case .off:

@@ -16,7 +16,7 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     
-    
+    var selectedImageInClassfiedView: UIImage = .init()
     var selectedSectionAsset: Int = .init()
     var photoStore: PhotoStore?
     var selectedPhotos: Int = 0
@@ -29,8 +29,13 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.maximumZoomScale = 6.0
         
         self.tabBarController?.tabBar.isHidden = true
-        collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
+        detailImageView.image = selectedImageInClassfiedView
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
+        collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
     }
     
     //Todo: Selecting removable photos
@@ -79,10 +84,11 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
-        
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
         photoAsset?.fetchImage(size: CGSize(width: 50.0, height: 50.0),
                                contentMode: .aspectFill,
-                               options: nil,
+                               options: options,
                                resultHandler: { (requestedImage) in
                                 cell.thumbnailImageView.image = requestedImage
         })
@@ -93,7 +99,10 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard pressedIndexPath != indexPath else { return }
-        self.detailImageView.image = nil
+        
+        let selectedCell = collectionView.cellForItem(at: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
+        self.detailImageView.image = selectedCell.thumbnailImageView.image ?? UIImage.init()
+        
         self.detailImageView.contentMode = .scaleAspectFill
         
         let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
