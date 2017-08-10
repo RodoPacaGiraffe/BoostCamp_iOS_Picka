@@ -9,7 +9,8 @@
 import Foundation
 import Photos
 
-protocol PhotoClassifiable {
+
+protocol PhotoClassifiable: class {
     func classifyByTimeInterval(photoAssets: [PHAsset]) -> [[PHAsset]]
 }
 
