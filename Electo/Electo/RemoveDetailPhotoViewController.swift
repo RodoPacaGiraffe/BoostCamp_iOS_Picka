@@ -1,23 +1,24 @@
 //
-//  DetailViewController.swift
+//  RemoveDetailViewController.swift
 //  Electo
 //
-//  Created by byung-soo kwon on 2017. 8. 8..
+//  Created by byung-soo kwon on 2017. 8. 9..
 //  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 //
 
 import UIKit
 import Photos
-
-class DetailPhotoViewController: UIViewController {
-
+class RemoveDetailPhotoViewController: UIViewController {
+    
     @IBOutlet var detailImageView: UIImageView!
     var selectedSectionAsset: Int = 0
     var photoStore: PhotoStore?
-    
+    var selectedPhotos: [PHAsset]?
+    var selectedIndex: Int = 0
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        let asset = photoStore?.classifiedPhotoAssets[selectedSectionAsset].first
+        let asset = selectedPhotos?[selectedSectionAsset]
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .opportunistic
@@ -33,40 +34,44 @@ class DetailPhotoViewController: UIViewController {
     }
 }
 
-extension DetailPhotoViewController: UICollectionViewDataSource {
+extension RemoveDetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let storeAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset] else {
+        guard let storeAssets = selectedPhotos?.count else {
             print("There are no asset array")
             
             // MARK: return 0?
             return 0
         }
-        return storeAssets.count
+        print(storeAssets)
+        return storeAssets
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
-        let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "removeDetailPhotoCell", for: indexPath) as? RemoveDetailPhotoCell ?? RemoveDetailPhotoCell()
+        guard let photoAssets = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
         
-        photoAssets?.forEach{
-            $0.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (image) in
-                cell.thumbnailImageView.image = image
-            })
-        }
+        photoAssets.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (image) in
+            cell.thumbnailImageView.image = image
+        })
+        
         return cell
     }
 }
 
-extension DetailPhotoViewController: UICollectionViewDelegate {
+extension RemoveDetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+         guard let photoAssets = selectedPhotos?[indexPath.row] else { return }
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .opportunistic
-        photoAssets?.fetchFullSizeImage(options: options, resultHandler: { (data) in
+        photoAssets.fetchFullSizeImage(options: options, resultHandler: { (data) in
             guard let data = data else { return }
             self.detailImageView.image = UIImage(data: data)
         })
+        self.selectedIndex = indexPath.row
     }
 }
+
+
+
