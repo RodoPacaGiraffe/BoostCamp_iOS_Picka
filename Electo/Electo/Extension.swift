@@ -14,9 +14,9 @@ extension PHAsset {
     func fetchImage(size: CGSize, contentMode: PHImageContentMode,
                     options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) {
         let cachingImageManager = PHCachingImageManager()
-            cachingImageManager.requestImage(for: self, targetSize: size,
-                contentMode: contentMode, options: options) { image, _ in
-                resultHandler(image)
+        cachingImageManager.requestImage(for: self, targetSize: size,
+                                         contentMode: contentMode, options: options) { image, _ in
+                                            resultHandler(image)
         }
     }
     
