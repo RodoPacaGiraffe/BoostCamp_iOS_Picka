@@ -13,9 +13,9 @@ class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
     fileprivate(set) var classifiedPhotoAssets: [[PHAsset]] = []
     
-    init() {
+    init(loadedPhotoAssets: [PHAsset]?) {
         fetchPhotoAsset()
-        
+        applyRemovedPhotoAssets(loadedPhotoAssets: loadedPhotoAssets)
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
         
         NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
@@ -32,19 +32,27 @@ class PhotoStore: PhotoClassifiable {
         for index in 0 ..< fetchResult.count {
             
             photoAssets.append(fetchResult[index])
-//            photoAssets[index].location?.reverseGeocode()
+        }
+    }
+    
+    private func applyRemovedPhotoAssets(loadedPhotoAssets: [PHAsset]?) {
+        guard let loadedPhotoAssets = loadedPhotoAssets else { return }
+        
+        loadedPhotoAssets.forEach {
+            guard let removedAssetIndex = photoAssets.index(of: $0) else { return }
+            photoAssets.remove(at: removedAssetIndex)
         }
     }
 }
 
 extension PhotoStore: PhotoAssetRemovable {
     func remove(photoAsset: PHAsset) {
-        guard let photoAsset = photoAssets.index(of: photoAsset) else {
+        guard let index = photoAssets.index(of: photoAsset) else {
             print("This photoAsset is not founded")
             return
         }
         
-        photoAssets.remove(at: photoAsset)
+        photoAssets.remove(at: index)
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
@@ -58,10 +66,7 @@ extension PhotoStore: PhotoAssetRemovable {
         }
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
-        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
     }
 }
-
-
 
 

@@ -11,7 +11,7 @@ import UIKit
 class ClassifiedPhotoCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var locationLabel: UILabel!
-    @IBOutlet weak var imageStackView: UIStackView!
+    @IBOutlet var imageStackView: UIStackView!
     @IBOutlet var imageViews: [UIImageView]!
     @IBOutlet var moreImagesLabel: UILabel!
     

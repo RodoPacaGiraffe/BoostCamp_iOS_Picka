@@ -9,28 +9,80 @@
 import Foundation
 import Photos
 
-class RemovedPhotoStore: PhotoAssetRemovable {
+class RemovedPhotoStore: NSObject, NSCoding {
     weak var delegate: PhotoAssetRemovable?
     
-    private(set) var removedPhotoAssets: [PHAsset] = []
+    fileprivate(set) var removedPhotoAssets: [PHAsset] = []
+    fileprivate(set) var removedPhotoAssetsIdentifier: [String] = []
     
+    override init() {
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init()
+
+        guard let loadedPhotoAssetsIdentifier = aDecoder.decodeObject(
+            forKey: Constants.removedPhotoAssetsIdentifier) as? [String] else {
+                return nil
+        }
+        
+        removedPhotoAssetsIdentifier = loadedPhotoAssetsIdentifier
+        fetchPhotoAsset()
+    }
+    
+    private func fetchPhotoAsset() {
+        let fetchOptions = PHFetchOptions()
+        
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
+                                                         ascending: false)]
+        
+        let result = PHAsset.fetchAssets(withLocalIdentifiers: removedPhotoAssetsIdentifier, options: fetchOptions)
+        
+        for index in 0 ..< result.count {
+            removedPhotoAssets.append(result[index])
+        }
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(removedPhotoAssetsIdentifier, forKey: Constants.removedPhotoAssetsIdentifier)
+    }
+    
+    func saveRemovedPhotoAsset() {
+        guard let path = Constants.archiveURL?.path else {
+            return
+        }
+        
+        NSKeyedArchiver.archiveRootObject(self, toFile: path)
+    }
+}
+
+extension RemovedPhotoStore: PhotoAssetRemovable {
     func addPhotoAsset(toDelete photoAsset: PHAsset) {
         removedPhotoAssets.append(photoAsset)
+        removedPhotoAssetsIdentifier.append(photoAsset.localIdentifier)
         remove(photoAsset: photoAsset)
+        saveRemovedPhotoAsset()
     }
     
     func addPhotoAssets(toDelete photoAssets: [PHAsset]) {
         photoAssets.forEach {
             removedPhotoAssets.append($0)
+            removedPhotoAssetsIdentifier.append($0.localIdentifier)
             remove(photoAsset: $0)
         }
+        
+        saveRemovedPhotoAsset()
     }
     
     func removePhotoAsset(toRestore photoAsset: PHAsset) {
         guard let assetIndex = removedPhotoAssets.index(of: photoAsset) else { return }
         
         removedPhotoAssets.remove(at: assetIndex)
+        removedPhotoAssetsIdentifier.remove(at: assetIndex)
         restore(photoAsset: photoAsset)
+        
+        saveRemovedPhotoAsset()
     }
     
     func removePhotoAssets(toRestore photoAssets: [PHAsset]) {
@@ -38,8 +90,11 @@ class RemovedPhotoStore: PhotoAssetRemovable {
             guard let assetIndex = removedPhotoAssets.index(of: $0) else { return }
             
             removedPhotoAssets.remove(at: assetIndex)
+            removedPhotoAssetsIdentifier.remove(at: assetIndex)
             restore(photoAsset: $0)
         }
+    
+        saveRemovedPhotoAsset()
     }
     
     func remove(photoAsset: PHAsset) {
