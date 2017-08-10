@@ -197,7 +197,7 @@
 				TargetAttributes = {
 					C9E21E971F3439BB00B17CC4 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 9PZPL5979H;
+						DevelopmentTeam = 498MUQWSB4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -408,7 +408,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 9PZPL5979H;
+				DEVELOPMENT_TEAM = 498MUQWSB4;
 				INFOPLIST_FILE = Electo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -424,7 +424,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 9PZPL5979H;
+				DEVELOPMENT_TEAM = 498MUQWSB4;
 				INFOPLIST_FILE = Electo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

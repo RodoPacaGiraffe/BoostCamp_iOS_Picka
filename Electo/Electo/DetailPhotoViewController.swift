@@ -105,7 +105,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         options.isSynchronous = true
         options.progressHandler = { [weak self] _ -> Void in
             guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 guard self?.pressedIndexPath == indexPath else { return }
                 self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
                 self?.loadingIndicatorView.startAnimating()
@@ -116,7 +116,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         DispatchQueue.global().async { [weak self] _ -> Void in
             photoAssets?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     guard self?.pressedIndexPath == indexPath else { return }
                     self?.detailImageView.image = UIImage(data: data)
                     self?.loadingIndicatorView.stopAnimating()

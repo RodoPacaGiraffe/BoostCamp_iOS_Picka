@@ -24,7 +24,7 @@ class ClassifiedPhotoViewController: UIViewController {
         requestAuthorization()
     }
     
-    func requestAuthorization() {
+    private func requestAuthorization() {
         PHPhotoLibrary.requestAuthorization {
             [weak self] (authorizationStatus) -> Void in
             guard authorizationStatus == .authorized else { return }
@@ -39,10 +39,11 @@ class ClassifiedPhotoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        reload()
         self.tabBarController?.tabBar.isHidden = false
     }
     
-    func reload() {
+    @objc private func reload() {
         tableView.reloadData()
     }
     
