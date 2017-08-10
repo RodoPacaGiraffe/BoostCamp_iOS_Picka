@@ -130,7 +130,7 @@ extension RemovedPhotoViewController: UICollectionViewDelegate {
         case .off:
             guard let removePhotoStore = photoDataSource?.removeStore else { return }
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "removeDetailViewController") as? RemoveDetailPhotoViewController else { return }
-            detailViewController.selectedPhotos = removePhotoStore.removedPhotoAssets
+            detailViewController.selectedPhotosAsset = removePhotoStore.removedPhotoAssets
             show(detailViewController, sender: self)
         }
     }

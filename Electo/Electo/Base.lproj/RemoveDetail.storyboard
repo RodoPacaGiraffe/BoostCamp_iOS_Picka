@@ -30,9 +30,14 @@
                             </navigationBar>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LYZ-hY-fJS">
                                 <rect key="frame" x="0.0" y="44" width="375" height="375"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="375" id="9hN-zB-zTZ"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="DC3-o6-X39" appends="YES" id="d9X-PA-KKj"/>
+                                    <outletCollection property="gestureRecognizers" destination="Ee2-Na-9Vv" appends="YES" id="lTY-Lv-s2g"/>
+                                </connections>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doJ-fc-R7n">
                                 <rect key="frame" x="133" y="605" width="109" height="42"/>
@@ -107,9 +112,22 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="detailImageView" destination="LYZ-hY-fJS" id="rdE-Ux-QdH"/>
+                        <outlet property="thumbnailCollectionView" destination="njt-m2-9Rs" id="XUH-L1-RbI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FYl-hJ-ocP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="DC3-o6-X39">
+                    <connections>
+                        <action selector="leftSwipeAction:" destination="Jse-HF-Fz3" id="UqV-Xe-cM8"/>
+                        <outlet property="delegate" destination="Jse-HF-Fz3" id="svW-UN-eYB"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="Ee2-Na-9Vv">
+                    <connections>
+                        <action selector="rightSwipeAction:" destination="Jse-HF-Fz3" id="9fr-IA-l60"/>
+                        <outlet property="delegate" destination="Jse-HF-Fz3" id="UgR-ZE-JRV"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3208.8000000000002" y="-228.03598200899552"/>
         </scene>
