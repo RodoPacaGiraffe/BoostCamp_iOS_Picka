@@ -14,17 +14,52 @@ class RemovedPhotoViewController: UIViewController {
         case on = "Cancel"
         case off = "Choose"
     }
-    
-    @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var chooseButton: UIBarButtonItem!
+  
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var chooseButton: UIBarButtonItem!
+    @IBOutlet weak var buttonStackView: UIStackView!
+    @IBOutlet weak var deleteAllButton: UIButton!
     
     var photoDataSource: PhotoDataSource?
-    fileprivate var selectMode: SelectMode = .off
+    
+    fileprivate var selectMode: SelectMode = .off {
+        didSet {
+            toggleHiddenState(forViews: [deleteAllButton, buttonStackView])
+            collectionView.allowsMultipleSelection = !collectionView.allowsMultipleSelection
+            chooseButton.title = selectMode.rawValue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         collectionView.dataSource = photoDataSource
+        
+        setCellSize()
+    }
+    
+    func setCellSize() {
+        let width = (collectionView.bounds.width / 4) - flowLayout.minimumLineSpacing * 2
+        
+        flowLayout.itemSize.width = width
+        flowLayout.itemSize.height = width
+    }
+    
+    func toggleHiddenState(forViews views: [UIView]) {
+        views.forEach {
+            $0.isHidden = !$0.isHidden
+        }
+    }
+    
+    func resetSelectedItem(indexPaths: [IndexPath]) {
+        indexPaths.forEach {
+            guard let photoCell = collectionView.cellForItem(at: $0)
+                as? RemovedPhotoCell else { return }
+            
+            collectionView.deselectItem(at: $0, animated: true)
+            photoCell.deSelect()
+        }
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
@@ -38,9 +73,12 @@ class RemovedPhotoViewController: UIViewController {
         if selectMode == .off {
             selectMode = .on
         } else {
+            if let selectedItems = collectionView.indexPathsForSelectedItems {
+                resetSelectedItem(indexPaths: selectedItems)
+            }
+            
             selectMode = .off
         }
-        
         collectionView.allowsMultipleSelection = !collectionView.allowsMultipleSelection
         chooseButton.title = selectMode.rawValue
     }
@@ -87,7 +125,7 @@ extension RemovedPhotoViewController: UICollectionViewDelegate {
         
         switch selectMode {
         case .on:
-            photoCell.removedImageView.alpha = 0.3
+            photoCell.select()
         case .off:
             guard let removePhotoStore = photoDataSource?.removeStore else { return }
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "removeDetailViewController") as? RemoveDetailPhotoViewController else { return }
@@ -102,7 +140,7 @@ extension RemovedPhotoViewController: UICollectionViewDelegate {
         
         switch selectMode {
         case .on:
-            photoCell.removedImageView.alpha = 1.0
+            photoCell.deSelect()
         case .off:
             break
         }
