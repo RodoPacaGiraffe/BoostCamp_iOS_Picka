@@ -14,7 +14,6 @@
         <!--To be deleted-->
         <scene sceneID="4OH-wq-D0d">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="41h-lp-7Sx" customClass="RemovedPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3i6-NU-iL3"/>
@@ -50,7 +49,6 @@
                                             </subviews>
                                         </view>
                                         <constraints>
-
                                             <constraint firstAttribute="bottom" secondItem="Gni-q4-5G7" secondAttribute="bottom" id="43u-IE-pwi"/>
                                             <constraint firstItem="e4J-uM-gxv" firstAttribute="centerX" secondItem="nJ5-hn-lfj" secondAttribute="centerX" id="MwG-oq-BNO"/>
                                             <constraint firstItem="Gni-q4-5G7" firstAttribute="leading" secondItem="nJ5-hn-lfj" secondAttribute="leading" id="Rme-bP-RHU"/>
@@ -135,13 +133,14 @@
                         <outlet property="flowLayout" destination="E6F-z3-ydE" id="vUZ-Ca-ncT"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1368.8" y="-187.55622188905548"/>
         </scene>
-        <!--RemoveDetail-->
+        <!--Detail-->
         <scene sceneID="mFV-sd-knK">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="removeDetailViewController" storyboardName="RemoveDetail" id="atG-tl-dqr" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="detailViewController" storyboardName="Detail" id="atG-tl-dqr" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IXB-hm-4hD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2031" y="-246"/>
@@ -149,7 +148,6 @@
         <!--Navigation Controller-->
         <scene sceneID="lIA-zQ-r0R">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LpM-KQ-vWc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rai-15-VpX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sTf-Sp-eD7">
@@ -161,6 +159,7 @@
                         <segue destination="41h-lp-7Sx" kind="relationship" relationship="rootViewController" id="EFt-dc-JGS"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LpM-KQ-vWc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="429.60000000000002" y="-187.55622188905548"/>
         </scene>

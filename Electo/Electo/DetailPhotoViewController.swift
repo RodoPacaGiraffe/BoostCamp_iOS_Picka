@@ -16,11 +16,12 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     
-    
-    var selectedSectionAsset: Int = .init()
+    var selectedSectionAssets: [PHAsset] = []
+    var selectedSection: Int = 0
     var photoStore: PhotoStore?
     var selectedPhotos: Int = 0
     var pressedIndexPath: IndexPath?
+    var identifier: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +34,23 @@ class DetailPhotoViewController: UIViewController {
         
     }
     
+    func setAsset(_ identifier: String, _ sectionCount: Int) -> ([PHAsset], Int) {
+        switch identifier {
+        case "remove":
+            return (selectedSectionAssets, selectedSectionAssets.count)
+        default:
+            guard let assets = photoStore?.classifiedPhotoAssets[sectionCount] else { return ([], 0) }
+            return (assets, assets.count)
+        }
+    }
+    
     //Todo: Selecting removable photos
     @IBAction func selectForRemovePhoto(_ sender: UIButton) {
         print("selected!")
     }
     
     @IBAction func leftSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        guard let count = photoStore?.classifiedPhotoAssets[selectedSectionAsset].count else { return }
+        let count = setAsset(identifier, selectedSection).1
         //TODO: 개선
         selectedPhotos += 1
         if selectedPhotos == count {
@@ -62,25 +73,21 @@ class DetailPhotoViewController: UIViewController {
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
         
     }
+    
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let storeAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset] else {
-            assertionFailure("There are no asset array")
-            
-            // MARK: return 0?
-            return 0
-        }
-        return storeAssets.count
+        let storeAssetsCount = setAsset(identifier, selectedSection).1
+        return storeAssetsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
-        let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
-        
-        photoAsset?.fetchImage(size: CGSize(width: 50.0, height: 50.0),
+        let photoAssets = self.setAsset(identifier, selectedSection).0
+        let photoAsset = photoAssets[indexPath.item]
+        photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
                                contentMode: .aspectFill,
                                options: nil,
                                resultHandler: { (requestedImage) in
@@ -96,7 +103,8 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.detailImageView.image = nil
         self.detailImageView.contentMode = .scaleAspectFill
         
-        let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+        let assets = self.setAsset(identifier, selectedSection).0
+        let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
         
@@ -112,7 +120,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         }
         
         DispatchQueue.global().async { [weak self] _ -> Void in
-            photoAsset?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
+            asset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
                 DispatchQueue.main.async {
                     guard self?.pressedIndexPath == indexPath else { return }
