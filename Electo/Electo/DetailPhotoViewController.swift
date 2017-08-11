@@ -102,7 +102,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         
         let options = PHImageRequestOptions()
         
-        options.setImageRequestOptions(networkAccessAllowed: true, synchronous: true, deliveryMode: .opportunistic) { [weak self] _ -> Void in
+        options.setImageRequestOptions(networkAccessAllowed: true, synchronous: false, deliveryMode: .opportunistic) { [weak self] _ -> Void in
             guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
             DispatchQueue.main.async {
                 guard self?.pressedIndexPath == indexPath else { return }

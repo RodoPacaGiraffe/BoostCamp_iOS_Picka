@@ -18,14 +18,14 @@ class RemovedPhotoViewController: UIViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chooseButton: UIBarButtonItem!
-    @IBOutlet weak var buttonStackView: UIStackView!
-    @IBOutlet weak var deleteAllButton: UIButton!
+    @IBOutlet weak var buttonForEditStackView: UIStackView!
+    @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
     var photoDataSource: PhotoDataSource?
     
     fileprivate var selectMode: SelectMode = .off {
         didSet {
-            toggleHiddenState(forViews: [deleteAllButton, buttonStackView])
+            toggleHiddenState(forViews: [buttonForEditStackView, buttonForNormalStackView])
             chooseButton.title = selectMode.rawValue
         }
     }
@@ -62,10 +62,40 @@ class RemovedPhotoViewController: UIViewController {
         }
     }
     
-    @IBAction func recoverSelected(_ sender: UIButton) {
+    private func selectedPhotoAssets() -> [PHAsset] {
+        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return [] }
+        guard let removePhotoStore = self.photoDataSource?.removeStore else { return [] }
+        
+        var selectedPhotoAssets: [PHAsset] = []
+        
+        selectedItems.forEach {
+            let selectedPhotoAsset = removePhotoStore.removedPhotoAssets[$0.row]
+            selectedPhotoAssets.append(selectedPhotoAsset)
+        }
+        
+        return selectedPhotoAssets
+    }
+    
+    @IBAction func recoverAll(_ sender: UIButton) {
         guard let removePhotoStore = photoDataSource?.removeStore else { return }
         
+        let allRemovedPhotoAssets = removePhotoStore.removedPhotoAssets
+        removePhotoStore.removePhotoAssets(toRestore: allRemovedPhotoAssets)
+        
+        collectionView.reloadData()
+    }
+    
+    @IBAction func deleteAll(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func recoverSelected(_ sender: UIButton) {
+        guard let removePhotoStore = photoDataSource?.removeStore else { return }
+        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
+        
         removePhotoStore.removePhotoAssets(toRestore: selectedPhotoAssets())
+        resetSelectedItem(indexPaths: selectedItems)
+        
         collectionView.reloadData()
     }
     
@@ -81,11 +111,7 @@ class RemovedPhotoViewController: UIViewController {
         }
     }
     
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func deleteAction(_ sender: UIButton) {
+    @IBAction func deleteSelected(_ sender: UIButton) {
         switch selectMode {
         case .off:
             PHPhotoLibrary.shared().performChanges({
@@ -104,18 +130,8 @@ class RemovedPhotoViewController: UIViewController {
         }
     }
     
-    private func selectedPhotoAssets() -> [PHAsset] {
-        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return [] }
-        guard let removePhotoStore = self.photoDataSource?.removeStore else { return [] }
-        
-        var selectedPhotoAssets: [PHAsset] = []
-        
-        selectedItems.forEach {
-            let selectedPhotoAsset = removePhotoStore.removedPhotoAssets[$0.row]
-            selectedPhotoAssets.append(selectedPhotoAsset)
-        }
-        
-        return selectedPhotoAssets
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -139,11 +155,6 @@ extension RemovedPhotoViewController: UICollectionViewDelegate {
         let photoCell = collectionView.cellForItem(at: indexPath)
             as? RemovedPhotoCell ?? RemovedPhotoCell()
         
-        switch selectMode {
-        case .on:
-            photoCell.deSelect()
-        case .off:
-            break
-        }
+        photoCell.deSelect()
     }
 }

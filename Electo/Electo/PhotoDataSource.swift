@@ -18,12 +18,15 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
                 as? RemovedPhotoStore {
             removeStore = archivedRemoveStore
             photoStore = PhotoStore(loadedPhotoAssets: removeStore.removedPhotoAssets)
+   
         } else {
             removeStore = RemovedPhotoStore()
             photoStore = PhotoStore(loadedPhotoAssets: nil)
         }
    
+        
         removeStore.delegate = photoStore
+        
         
         super.init()
     }

@@ -58,29 +58,12 @@ class RemovedPhotoStore: NSObject, NSCoding {
 }
 
 extension RemovedPhotoStore: PhotoAssetRemovable {
-    func addPhotoAsset(toDelete photoAsset: PHAsset) {
-        removedPhotoAssets.append(photoAsset)
-        removedPhotoAssetsIdentifier.append(photoAsset.localIdentifier)
-        remove(photoAsset: photoAsset)
-        saveRemovedPhotoAsset()
-    }
-    
     func addPhotoAssets(toDelete photoAssets: [PHAsset]) {
         photoAssets.forEach {
             removedPhotoAssets.append($0)
             removedPhotoAssetsIdentifier.append($0.localIdentifier)
             remove(photoAsset: $0)
         }
-        
-        saveRemovedPhotoAsset()
-    }
-    
-    func removePhotoAsset(toRestore photoAsset: PHAsset) {
-        guard let assetIndex = removedPhotoAssets.index(of: photoAsset) else { return }
-        
-        removedPhotoAssets.remove(at: assetIndex)
-        removedPhotoAssetsIdentifier.remove(at: assetIndex)
-        restore(photoAsset: photoAsset)
         
         saveRemovedPhotoAsset()
     }
@@ -94,6 +77,18 @@ extension RemovedPhotoStore: PhotoAssetRemovable {
             restore(photoAsset: $0)
         }
     
+        saveRemovedPhotoAsset()
+    }
+    
+    func removefromPhotoLibrary(with photoAssets: [PHAsset]) {
+        photoAssets.forEach {
+            guard let assetIndex = removedPhotoAssets.index(of: $0) else { return }
+            
+            removedPhotoAssets.remove(at: assetIndex)
+            removedPhotoAssetsIdentifier.remove(at: assetIndex)
+            restore(photoAsset: $0)
+        }
+        
         saveRemovedPhotoAsset()
     }
     
