@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< HEAD
 		40481F911F3B289400362997 /* TemporaryDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40481F8F1F3B289400362997 /* TemporaryDetail.storyboard */; };
 		40481F931F3B292E00362997 /* TemporaryDetailPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40481F921F3B292E00362997 /* TemporaryDetailPhotoViewController.swift */; };
 		40481F951F3B2E3100362997 /* TemporaryDetailPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40481F941F3B2E3100362997 /* TemporaryDetailPhotoCell.swift */; };
+=======
+		40481F951F3B2E3100362997 /* RemoveDetailPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40481F941F3B2E3100362997 /* RemoveDetailPhotoCell.swift */; };
+>>>>>>> removeDetailView
 		40B4EA9C1F39940B00F4393A /* DetailPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */; };
 		40B4EA9E1F39A4AA00F4393A /* DetailPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */; };
 		7D77D70E1F35D035008E61FF /* ClassifiedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */; };
@@ -32,9 +36,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+<<<<<<< HEAD
 		40481F901F3B289400362997 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/TemporaryDetail.storyboard; sourceTree = "<group>"; };
 		40481F921F3B292E00362997 /* TemporaryDetailPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporaryDetailPhotoViewController.swift; sourceTree = "<group>"; };
 		40481F941F3B2E3100362997 /* TemporaryDetailPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporaryDetailPhotoCell.swift; sourceTree = "<group>"; };
+=======
+		40481F941F3B2E3100362997 /* RemoveDetailPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoveDetailPhotoCell.swift; sourceTree = "<group>"; };
+>>>>>>> removeDetailView
 		40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoViewController.swift; sourceTree = "<group>"; };
 		40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoCell.swift; sourceTree = "<group>"; };
 		7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoCell.swift; sourceTree = "<group>"; };
@@ -75,8 +83,12 @@
 				C9E21E9B1F3439BB00B17CC4 /* AppDelegate.swift */,
 				C9E21E9D1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift */,
 				40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */,
+<<<<<<< HEAD
 				C9804C1B1F39CD7700075E8F /* TemporaryPhotoViewController.swift */,
 				40481F921F3B292E00362997 /* TemporaryDetailPhotoViewController.swift */,
+=======
+				C9804C1B1F39CD7700075E8F /* RemovedPhotoViewController.swift */,
+>>>>>>> removeDetailView
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -116,8 +128,12 @@
 		C93874651F383D5400CB0AC4 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				C93874721F38624300CB0AC4 /* Temporary.storyboard */,
 				40481F8F1F3B289400362997 /* TemporaryDetail.storyboard */,
+=======
+				C93874721F38624300CB0AC4 /* Remove.storyboard */,
+>>>>>>> removeDetailView
 				C93874741F38624300CB0AC4 /* Detail.storyboard */,
 				C9E21E9F1F3439BB00B17CC4 /* Main.storyboard */,
 				C9E21EA21F3439BB00B17CC4 /* Assets.xcassets */,
@@ -230,7 +246,10 @@
 				C9E21EA11F3439BB00B17CC4 /* Main.storyboard in Resources */,
 				C93874761F38624300CB0AC4 /* Temporary.storyboard in Resources */,
 				C93874771F38624300CB0AC4 /* Detail.storyboard in Resources */,
+<<<<<<< HEAD
 				40481F911F3B289400362997 /* TemporaryDetail.storyboard in Resources */,
+=======
+>>>>>>> removeDetailView
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,7 +266,10 @@
 				C9804C1C1F39CD7700075E8F /* TemporaryPhotoViewController.swift in Sources */,
 				C938747B1F38625000CB0AC4 /* Extension.swift in Sources */,
 				C93874691F383DD600CB0AC4 /* PhotoStore.swift in Sources */,
+<<<<<<< HEAD
 				40481F931F3B292E00362997 /* TemporaryDetailPhotoViewController.swift in Sources */,
+=======
+>>>>>>> removeDetailView
 				C9E21E9E1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift in Sources */,
 				C94068BA1F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift in Sources */,
 				C93874671F383DCC00CB0AC4 /* PhotoDataSource.swift in Sources */,
@@ -263,6 +285,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+<<<<<<< HEAD
 		40481F8F1F3B289400362997 /* TemporaryDetail.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -272,6 +295,9 @@
 			sourceTree = "<group>";
 		};
 		C93874721F38624300CB0AC4 /* Temporary.storyboard */ = {
+=======
+		C93874721F38624300CB0AC4 /* Remove.storyboard */ = {
+>>>>>>> removeDetailView
 			isa = PBXVariantGroup;
 			children = (
 				C93874731F38624300CB0AC4 /* Base */,

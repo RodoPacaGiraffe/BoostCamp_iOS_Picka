@@ -17,6 +17,7 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     
+<<<<<<< HEAD
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAsset: Int = .init()
     var photoStore: PhotoStore?
@@ -24,6 +25,14 @@ class DetailPhotoViewController: UIViewController {
     var pressedIndexPath: IndexPath?
     var thumbnailFetchReqeustID: PHImageRequestID?
     
+=======
+    var selectedSectionAssets: [PHAsset] = []
+    var selectedSection: Int = 0
+    var photoStore: PhotoStore?
+    var selectedPhotos: Int = 0
+    var pressedIndexPath: IndexPath?
+    var identifier: String = ""
+>>>>>>> removeDetailView
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,56 +51,76 @@ class DetailPhotoViewController: UIViewController {
         doubleTapRecognizer.numberOfTapsRequired = 2
     }
     
+    func setAsset(_ identifier: String) -> [PHAsset] {
+        switch identifier {
+        case "fromTemporaryViewController":
+            return selectedSectionAssets
+        default:
+            guard let assets = photoStore?.classifiedPhotoAssets[selectedSection] else { return ([]) }
+            return assets
+        }
+    }
+    
+    func changeSwipe(direction: String) {
+        
+        switch direction {
+        case "right":
+            selectedPhotos -= 1
+            if selectedPhotos < 0 {
+                selectedPhotos += 1
+                return
+            }
+        case "left":
+            let count = setAsset(identifier).count
+            selectedPhotos += 1
+            if selectedPhotos == count {
+                selectedPhotos -= 1
+                return
+            }
+        default:
+            return
+        }
+    }
+    
     //Todo: Selecting removable photos
     @IBAction func selectForRemovePhoto(_ sender: UIButton) {
         print("selected!")
     }
     
     @IBAction func leftSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        guard let count = photoStore?.classifiedPhotoAssets[selectedSectionAsset].count else { return }
-        //TODO: 개선
-        selectedPhotos += 1
-        if selectedPhotos == count {
-            selectedPhotos -= 1
-            return
-        }
+        changeSwipe(direction: "left")
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     @IBAction func rightSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        selectedPhotos -= 1
-        if selectedPhotos < 0 {
-            selectedPhotos += 1
-            return
-        }
+        changeSwipe(direction: "right")
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
         
     }
     
+<<<<<<< HEAD
     @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
         detailImageView.contentMode = .scaleAspectFill
     }
     
+=======
+>>>>>>> removeDetailView
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let storeAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset] else {
-            assertionFailure("There are no asset array")
-            
-            // MARK: return 0?
-            return 0
-        }
-        return storeAssets.count
+        let storeAssetsCount = setAsset(identifier).count
+        return storeAssetsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
+<<<<<<< HEAD
         let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
         let options = PHImageRequestOptions()
         
@@ -104,6 +133,14 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
                                contentMode: .aspectFit,
                                options: options,
                                resultHandler: { (requestedImage) in
+=======
+        let photoAssets = self.setAsset(identifier)
+        let photoAsset = photoAssets[indexPath.item]
+        photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
+                              contentMode: .aspectFill,
+                              options: nil,
+                              resultHandler: { (requestedImage) in
+>>>>>>> removeDetailView
                                 cell.thumbnailImageView.image = requestedImage
         })
         return cell
@@ -119,7 +156,8 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.zoomScale = 1.0
         
-        let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+        let assets = self.setAsset(identifier)
+        let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
         
@@ -146,7 +184,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         }
         
         DispatchQueue.global().async { [weak self] _ -> Void in
-            photoAsset?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
+            asset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
                 DispatchQueue.main.async {
                     guard self?.pressedIndexPath == indexPath else { return }

@@ -13,7 +13,11 @@
         <!--To be deleted-->
         <scene sceneID="4OH-wq-D0d">
             <objects>
+<<<<<<< HEAD:Electo/Electo/Base.lproj/Temporary.storyboard
                 <viewController id="41h-lp-7Sx" customClass="TemporaryPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+=======
+                <viewController id="41h-lp-7Sx" customClass="RemovedPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+>>>>>>> removeDetailView:Electo/Electo/Base.lproj/Remove.storyboard
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3i6-NU-iL3"/>
                         <viewControllerLayoutGuide type="bottom" id="DaT-bt-SWC"/>
@@ -157,10 +161,10 @@
             </objects>
             <point key="canvasLocation" x="1368.8" y="-187.55622188905548"/>
         </scene>
-        <!--RemoveDetail-->
+        <!--Detail-->
         <scene sceneID="mFV-sd-knK">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="removeDetailViewController" storyboardName="RemoveDetail" id="atG-tl-dqr" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="detailViewController" storyboardName="Detail" id="atG-tl-dqr" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IXB-hm-4hD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2031" y="-246"/>
