@@ -22,6 +22,7 @@ class DetailPhotoViewController: UIViewController {
     var thumbnailFetchReqeustID: PHImageRequestID?
     var selectedSectionAssets: [PHAsset] = []
     var selectedSection: Int = 0
+    var selectedRow: Int = 0
     var photoStore: PhotoStore?
     var selectedPhotos: Int = 0
     var pressedIndexPath: IndexPath?
@@ -50,7 +51,7 @@ class DetailPhotoViewController: UIViewController {
             return selectedSectionAssets
         default:
             guard let creationDate = photoStore?.creationDate[selectedSection] else {return [] }
-            guard let assets = photoStore?.classifiedPhotoAssets[creationDate]?[selectedSection] else { return [] }
+            guard let assets = photoStore?.classifiedPhotoAssets[creationDate]?[selectedRow] else { return [] }
             return assets
         }
     }

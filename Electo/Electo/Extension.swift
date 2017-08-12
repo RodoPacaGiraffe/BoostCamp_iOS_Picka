@@ -38,7 +38,7 @@ extension Date {
         
         return abs(endTimeInterval) <= Constants.timeIntervalBoundary
     }
-    
+
     func toDateString() -> String {
         let dateForamtter: DateFormatter = DateFormatter()
         

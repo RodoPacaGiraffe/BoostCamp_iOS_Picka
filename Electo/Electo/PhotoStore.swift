@@ -19,15 +19,14 @@ class PhotoStore: PhotoClassifiable {
         
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
                                                          ascending: false)]
-        
         let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets).0
-        creationDate = classifyByTimeInterval(photoAssets: photoAssets).1
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        creationDate = Array(classifyByTimeInterval(photoAssets: photoAssets).keys).sorted(by: >)
         print(creationDate)
     }
     
@@ -44,7 +43,7 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.remove(at: unarchivedPhotoAssetsIndex)
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets).0
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
         
         return removedAssetsFromPhotoLibrary
     }
@@ -61,7 +60,7 @@ extension PhotoStore: PhotoStoreDelegate {
             photoAssets.remove(at: index)
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets).0
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
 
     func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset]) {
@@ -76,7 +75,7 @@ extension PhotoStore: PhotoStoreDelegate {
             return beforeCreationDate > afterCreationDate
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets).0
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
 }
 
