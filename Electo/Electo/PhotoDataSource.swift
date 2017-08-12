@@ -38,6 +38,9 @@ extension PhotoDataSource: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let _ = photoStore.classifiedPhotoAssets[photoStore.creationDate[section]]?.count else {
+            return nil
+        }
         return "\(photoStore.creationDate[section])"
     }
     
@@ -73,10 +76,6 @@ extension PhotoDataSource: UITableViewDataSource {
         
         temporaryPhotoStore.insert(photoAssets: assets)
         tableView.deleteRows(at: [indexPath], with: .fade)
-        print("\(indexPath.section), \(indexPath.row)")
-    
-//        tableView.deleteSections(IndexSet(arrayLiteral: indexPath.section), with: .fade)
-        
     }
         
 }

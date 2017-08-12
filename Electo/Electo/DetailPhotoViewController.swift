@@ -17,15 +17,14 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     
-    
+    var photoStore: PhotoStore?
     var thumbnailImages: [UIImage] = .init()
     var thumbnailFetchReqeustID: PHImageRequestID?
     var selectedSectionAssets: [PHAsset] = []
-    var selectedSection: Int = 0
-    var selectedRow: Int = 0
-    var photoStore: PhotoStore?
+    var selectedIndexPath: IndexPath = IndexPath()
+    var pressedIndexPath: IndexPath = IndexPath()
     var selectedPhotos: Int = 0
-    var pressedIndexPath: IndexPath?
+    
     var identifier: String = ""
     
     override func viewDidLoad() {
@@ -50,8 +49,8 @@ class DetailPhotoViewController: UIViewController {
         case "fromTemporaryViewController":
             return selectedSectionAssets
         default:
-            guard let creationDate = photoStore?.creationDate[selectedSection] else {return [] }
-            guard let assets = photoStore?.classifiedPhotoAssets[creationDate]?[selectedRow] else { return [] }
+            guard let creationDate = photoStore?.creationDate[selectedIndexPath.section] else {return [] }
+            guard let assets = photoStore?.classifiedPhotoAssets[creationDate]?[selectedIndexPath.row] else { return [] }
             return assets
         }
     }
