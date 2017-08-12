@@ -9,7 +9,7 @@
 import Foundation
 import Photos
 
-protocol PhotoAssetRemovable: class {
-    func remove(photoAsset: PHAsset)
-    func restore(photoAsset: PHAsset)
+protocol PhotoStoreDelegate: class {
+    func temporaryPhotoDidInserted(insertedPhotoAssets: [PHAsset])
+    func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset])
 }

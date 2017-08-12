@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class RemovedPhotoViewController: UIViewController {
+class TemporaryPhotoViewController: UIViewController {
     fileprivate enum SelectMode: String {
         case on = "Cancel"
         case off = "Choose"
@@ -55,7 +55,7 @@ class RemovedPhotoViewController: UIViewController {
     private func resetSelectedItem(indexPaths: [IndexPath]) {
         indexPaths.forEach {
             guard let photoCell = collectionView.cellForItem(at: $0)
-                as? RemovedPhotoCell else { return }
+                as? TemporaryPhotoCell else { return }
             
             collectionView.deselectItem(at: $0, animated: true)
             photoCell.deSelect()
@@ -64,12 +64,12 @@ class RemovedPhotoViewController: UIViewController {
     
     private func selectedPhotoAssets() -> [PHAsset] {
         guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return [] }
-        guard let removePhotoStore = self.photoDataSource?.removeStore else { return [] }
+        guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return [] }
         
         var selectedPhotoAssets: [PHAsset] = []
         
         selectedItems.forEach {
-            let selectedPhotoAsset = removePhotoStore.removedPhotoAssets[$0.row]
+            let selectedPhotoAsset = temporaryPhotoStore.photoAssets[$0.row]
             selectedPhotoAssets.append(selectedPhotoAsset)
         }
         
@@ -77,10 +77,10 @@ class RemovedPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverAll(_ sender: UIButton) {
-        guard let removePhotoStore = photoDataSource?.removeStore else { return }
+        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
         
-        let allRemovedPhotoAssets = removePhotoStore.removedPhotoAssets
-        removePhotoStore.removePhotoAssets(toRestore: allRemovedPhotoAssets)
+        let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
+        temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
         
         collectionView.reloadData()
     }
@@ -90,10 +90,10 @@ class RemovedPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
-        guard let removePhotoStore = photoDataSource?.removeStore else { return }
+        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
         guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
         
-        removePhotoStore.removePhotoAssets(toRestore: selectedPhotoAssets())
+        temporaryPhotoStore.remove(photoAssets: selectedPhotoAssets())
         resetSelectedItem(indexPaths: selectedItems)
         
         collectionView.reloadData()
@@ -115,7 +115,7 @@ class RemovedPhotoViewController: UIViewController {
         switch selectMode {
         case .off:
             PHPhotoLibrary.shared().performChanges({
-                guard let asset = self.photoDataSource?.removeStore.removedPhotoAssets else { return }
+                guard let asset = self.photoDataSource?.temporaryPhotoStore.photoAssets else { return }
                 
                 PHAssetChangeRequest.deleteAssets(asset as NSFastEnumeration)
             }) { (success, error) in
@@ -135,25 +135,25 @@ class RemovedPhotoViewController: UIViewController {
     }
 }
 
-extension RemovedPhotoViewController: UICollectionViewDelegate {
+extension TemporaryPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoCell = collectionView.cellForItem(at: indexPath)
-            as? RemovedPhotoCell ?? RemovedPhotoCell()
+            as? TemporaryPhotoCell ?? TemporaryPhotoCell()
         
         switch selectMode {
         case .on:
             photoCell.select()
         case .off:
-            guard let removePhotoStore = photoDataSource?.removeStore else { return }
-            guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "removeDetailViewController") as? RemoveDetailPhotoViewController else { return }
-            detailViewController.selectedPhotos = removePhotoStore.removedPhotoAssets
+            guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
+            guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "temporaryDetailPhotoViewController") as? TemporaryDetailPhotoViewController else { return }
+            detailViewController.selectedPhotos = temporaryPhotoStore.photoAssets
             show(detailViewController, sender: self)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let photoCell = collectionView.cellForItem(at: indexPath)
-            as? RemovedPhotoCell ?? RemovedPhotoCell()
+            as? TemporaryPhotoCell ?? TemporaryPhotoCell()
         
         photoCell.deSelect()
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RemoveDetailPhotoCell: UICollectionViewCell {
+class TemporaryDetailPhotoCell: UICollectionViewCell {
     
     @IBOutlet var thumbnailImageView: UIImageView!
 }

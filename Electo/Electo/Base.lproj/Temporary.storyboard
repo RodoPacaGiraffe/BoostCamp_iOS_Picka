@@ -13,7 +13,7 @@
         <!--To be deleted-->
         <scene sceneID="4OH-wq-D0d">
             <objects>
-                <viewController id="41h-lp-7Sx" customClass="RemovedPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="41h-lp-7Sx" customClass="TemporaryPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3i6-NU-iL3"/>
                         <viewControllerLayoutGuide type="bottom" id="DaT-bt-SWC"/>
@@ -32,7 +32,7 @@
                                     <inset key="sectionInset" minX="1" minY="1" maxX="1" maxY="1"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClassifiedPhotoCell" id="nJ5-hn-lfj" customClass="RemovedPhotoCell" customModule="Electo" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClassifiedPhotoCell" id="nJ5-hn-lfj" customClass="TemporaryPhotoCell" customModule="Electo" customModuleProvider="target">
                                         <rect key="frame" x="1" y="1" width="90" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -143,6 +143,8 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="buttonForEditStackView" destination="Vlj-ai-Q2p" id="Lkk-Zt-NXW"/>
                         <outlet property="buttonForNormalStackView" destination="Y3m-5o-0Su" id="qbC-gQ-ZYv"/>

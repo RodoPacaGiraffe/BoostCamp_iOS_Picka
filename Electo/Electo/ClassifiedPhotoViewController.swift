@@ -13,13 +13,13 @@ class ClassifiedPhotoViewController: UIViewController {
     //MARK: Properties
     @IBOutlet var tableView: UITableView!
     
-    var photoDataSource: PhotoDataSource?
+    var photoDataSource: PhotoDataSource = PhotoDataSource()
     
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
+        tableView.dataSource = photoDataSource
         
         requestAuthorization()
     }
@@ -29,9 +29,29 @@ class ClassifiedPhotoViewController: UIViewController {
             [weak self] (authorizationStatus) -> Void in
             guard authorizationStatus == .authorized else { return }
             
-            DispatchQueue.main.async {
-                self?.photoDataSource = PhotoDataSource()
-                self?.tableView.dataSource = self?.photoDataSource
+            DispatchQueue.global().sync {
+                self?.photoDataSource.photoStore.fetchPhotoAsset()
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            }
+            
+            guard let path = Constants.archiveURL?.path else { return }
+            
+            DispatchQueue.global().sync {
+                guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
+                    as? TemporaryPhotoStore else { return }
+
+                self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
+                self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
+    
+                let loadedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
+                self?.photoDataSource.photoStore.applyRemovedPhotoAssets(loadedPhotoAssets: loadedPhotoAssets)
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
             }
         }
     }
@@ -39,19 +59,15 @@ class ClassifiedPhotoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        reload()
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    @objc private func reload() {
         tableView.reloadData()
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "ModalRemovedPhotoVC" else { return }
         guard let navigationController = segue.destination as? UINavigationController,
             let removedPhotoViewController = navigationController.topViewController
-                as? RemovedPhotoViewController else { return }
+                as? TemporaryPhotoViewController else { return }
         
         removedPhotoViewController.photoDataSource = photoDataSource
     }
@@ -70,7 +86,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
         detailViewController.selectedSectionAsset = indexPath.section
-        detailViewController.photoStore = photoDataSource?.photoStore
+        detailViewController.photoStore = photoDataSource.photoStore
         
         show(detailViewController, sender: self)
     }

@@ -9,25 +9,16 @@
 import UIKit
 
 class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
-    let photoStore: PhotoStore
-    let removeStore: RemovedPhotoStore
+    var photoStore: PhotoStore = PhotoStore()
+    var temporaryPhotoStore: TemporaryPhotoStore = TemporaryPhotoStore() {
+        didSet {
+            temporaryPhotoStore.delegate = photoStore
+        }
+    }
     
     override init() {
-        if let path = Constants.archiveURL?.path,
-            let archivedRemoveStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-                as? RemovedPhotoStore {
-            removeStore = archivedRemoveStore
-            photoStore = PhotoStore(loadedPhotoAssets: removeStore.removedPhotoAssets)
-   
-        } else {
-            removeStore = RemovedPhotoStore()
-            photoStore = PhotoStore(loadedPhotoAssets: nil)
-        }
-   
-        
-        removeStore.delegate = photoStore
-        
-        
+        temporaryPhotoStore.delegate = photoStore
+
         super.init()
     }
 }
@@ -66,20 +57,20 @@ extension PhotoDataSource: UITableViewDataSource {
         
         let assets = photoStore.classifiedPhotoAssets[indexPath.section]
         
-        removeStore.addPhotoAssets(toDelete: assets)
+        temporaryPhotoStore.insert(photoAssets: assets)
         tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
     }
 }
 
 extension PhotoDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return removeStore.removedPhotoAssets.count
+        return temporaryPhotoStore.photoAssets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier,
-            for: indexPath) as? RemovedPhotoCell ?? RemovedPhotoCell()
-        let removedPhotoAsset = removeStore.removedPhotoAssets[indexPath.item]
+            for: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
+        let removedPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
         
         removedPhotoAsset.fetchImage(size: CGSize(width: 50, height: 50),
             contentMode: .aspectFit, options: nil) { removedPhotoImage in

@@ -8,7 +8,7 @@
 
 import UIKit
 import Photos
-class RemoveDetailPhotoViewController: UIViewController {
+class TemporaryDetailPhotoViewController: UIViewController {
     
     @IBOutlet var detailImageView: UIImageView!
     var selectedSectionAsset: Int = 0
@@ -34,7 +34,7 @@ class RemoveDetailPhotoViewController: UIViewController {
     }
 }
 
-extension RemoveDetailPhotoViewController: UICollectionViewDataSource {
+extension TemporaryDetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let storeAssets = selectedPhotos?.count else {
@@ -48,7 +48,7 @@ extension RemoveDetailPhotoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "removeDetailPhotoCell", for: indexPath) as? RemoveDetailPhotoCell ?? RemoveDetailPhotoCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "removeDetailPhotoCell", for: indexPath) as? TemporaryDetailPhotoCell ?? TemporaryDetailPhotoCell()
         guard let photoAssets = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
         
         photoAssets.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (image) in
@@ -59,7 +59,7 @@ extension RemoveDetailPhotoViewController: UICollectionViewDataSource {
     }
 }
 
-extension RemoveDetailPhotoViewController: UICollectionViewDelegate {
+extension TemporaryDetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
          guard let photoAssets = selectedPhotos?[indexPath.row] else { return }
         let options = PHImageRequestOptions()

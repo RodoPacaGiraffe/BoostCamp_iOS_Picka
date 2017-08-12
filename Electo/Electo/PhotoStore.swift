@@ -13,15 +13,7 @@ class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
     fileprivate(set) var classifiedPhotoAssets: [[PHAsset]] = []
     
-    init(loadedPhotoAssets: [PHAsset]?) {
-        fetchPhotoAsset()
-        applyRemovedPhotoAssets(loadedPhotoAssets: loadedPhotoAssets)
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
-        
-        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
-    }
-    
-    private func fetchPhotoAsset() {
+    func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
         
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
@@ -30,34 +22,43 @@ class PhotoStore: PhotoClassifiable {
         let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
         
         for index in 0 ..< fetchResult.count {
-            
             photoAssets.append(fetchResult[index])
         }
+        
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
-    private func applyRemovedPhotoAssets(loadedPhotoAssets: [PHAsset]?) {
+    func applyRemovedPhotoAssets(loadedPhotoAssets: [PHAsset]?) {
         guard let loadedPhotoAssets = loadedPhotoAssets else { return }
         
         loadedPhotoAssets.forEach {
             guard let removedAssetIndex = photoAssets.index(of: $0) else { return }
             photoAssets.remove(at: removedAssetIndex)
         }
+        
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
 }
 
-extension PhotoStore: PhotoAssetRemovable {
-    func remove(photoAsset: PHAsset) {
-        guard let index = photoAssets.index(of: photoAsset) else {
-            print("This photoAsset is not founded")
-            return
+extension PhotoStore: PhotoStoreDelegate {
+    func temporaryPhotoDidInserted(insertedPhotoAssets: [PHAsset]) {
+        insertedPhotoAssets.forEach {
+            guard let index = photoAssets.index(of: $0) else {
+                print("This photoAsset is not founded")
+                return
+            }
+            
+            photoAssets.remove(at: index)
         }
         
-        photoAssets.remove(at: index)
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
-    
-    func restore(photoAsset: PHAsset) {
-        photoAssets.append(photoAsset)
+
+    func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset]) {
+        removedPhotoAssets.forEach {
+            photoAssets.append($0)
+        }
+        
         photoAssets.sort { (before, after) in
             guard let beforeCreationDate = before.creationDate,
                 let afterCreationDate = after.creationDate else { return false }

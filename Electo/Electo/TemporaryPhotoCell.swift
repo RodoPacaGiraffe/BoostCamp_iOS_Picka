@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RemovedPhotoCell: UICollectionViewCell {
+class TemporaryPhotoCell: UICollectionViewCell {
     @IBOutlet weak var removedImageView: UIImageView!
     @IBOutlet weak var checkedImageView: UIImageView!
     
