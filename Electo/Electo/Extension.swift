@@ -11,7 +11,7 @@ import Photos
 import MapKit
 
 extension PHAsset {
-    func fetchImage(size: CGSize, contentMode: PHImageContentMode,
+    @discardableResult func fetchImage(size: CGSize, contentMode: PHImageContentMode,
                     options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
         var imageRequestID: PHImageRequestID = .init()
         let cachingImageManager = PHCachingImageManager()

@@ -34,7 +34,6 @@ class ClassifiedPhotoCell: UITableViewCell {
                 break
             }
             imageViews[index].image = photoImages[index]
-            setRasiusImageView(imageView: imageViews[index])
         }
     }
     
@@ -45,11 +44,6 @@ class ClassifiedPhotoCell: UITableViewCell {
         let numOfMoreImages = cellImages.count - Constants.maximumImageView
         moreImagesLabel.text = "+\(numOfMoreImages)"
         moreImagesLabel.isHidden = false
-    }
-    
-    func setRasiusImageView(imageView: UIImageView) {
-//        imageView.layer.cornerRadius = imageView.frame.width / 
-        imageView.clipsToBounds = true
     }
     
     func clearStackView() {

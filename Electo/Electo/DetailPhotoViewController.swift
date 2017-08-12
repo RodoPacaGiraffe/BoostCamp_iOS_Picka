@@ -19,7 +19,6 @@ class DetailPhotoViewController: UIViewController {
     
     
     var thumbnailImages: [UIImage] = .init()
-    var thumbnailFetchReqeustID: PHImageRequestID?
     var selectedSectionAssets: [PHAsset] = []
     var selectedSection: Int = 0
     var photoStore: PhotoStore?
@@ -116,16 +115,15 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         let photoAsset = photoAssets[indexPath.item]
         let options = PHImageRequestOptions()
         
-        if let previousRequestID = thumbnailFetchReqeustID {
-            let manager = PHCachingImageManager.default()
+        if let previousRequestID = cell.requestID {
+            let manager = PHImageManager.default()
             manager.cancelImageRequest(previousRequestID)
         }
         
-        thumbnailFetchReqeustID = photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
+        cell.requestID = photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
                                                         contentMode: .aspectFill,
                                                         options: options,
                                                         resultHandler: { (requestedImage) in
-                                                            
                                                             cell.thumbnailImageView.image = requestedImage
         })
         return cell
