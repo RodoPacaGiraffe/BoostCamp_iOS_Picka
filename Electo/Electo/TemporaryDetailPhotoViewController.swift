@@ -8,7 +8,7 @@
 
 import UIKit
 import Photos
-class RemoveDetailPhotoViewController: UIViewController {
+class TemporaryDetailPhotoViewController: UIViewController {
     
     @IBOutlet var detailImageView: UIImageView!
     var selectedSectionAsset: Int = 0
@@ -34,7 +34,7 @@ class RemoveDetailPhotoViewController: UIViewController {
     }
 }
 
-extension RemoveDetailPhotoViewController: UICollectionViewDataSource {
+extension TemporaryDetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let storeAssets = selectedPhotos?.count else {
@@ -48,8 +48,13 @@ extension RemoveDetailPhotoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+<<<<<<< HEAD:Electo/Electo/RemoveDetailPhotoViewController.swift
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "removeDetailPhotoCell", for: indexPath) as? RemoveDetailPhotoCell ?? RemoveDetailPhotoCell()
         guard let photoAsset = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
+=======
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "temporaryDetailPhotoCell", for: indexPath) as? TemporaryDetailPhotoCell ?? TemporaryDetailPhotoCell()
+        guard let photoAssets = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
+>>>>>>> ApplyRemovingFromPhotoLibrary:Electo/Electo/TemporaryDetailPhotoViewController.swift
         
         photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (requestedImage) in
             cell.thumbnailImageView.image = requestedImage
@@ -59,7 +64,7 @@ extension RemoveDetailPhotoViewController: UICollectionViewDataSource {
     }
 }
 
-extension RemoveDetailPhotoViewController: UICollectionViewDelegate {
+extension TemporaryDetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
          guard let photoAssets = selectedPhotos?[indexPath.row] else { return }
         let options = PHImageRequestOptions()
