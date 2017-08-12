@@ -14,18 +14,16 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     let removeStore: RemovedPhotoStore
     
     override init() {
-        guard let path = Constants.archiveURL?.path,
+        if let path = Constants.archiveURL?.path,
             let archivedRemoveStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-                as? RemovedPhotoStore else {
+                as? RemovedPhotoStore {
+            removeStore = archivedRemoveStore
+            photoStore = PhotoStore(loadedPhotoAssets: removeStore.removedPhotoAssets)
+        } else {
             removeStore = RemovedPhotoStore()
             photoStore = PhotoStore(loadedPhotoAssets: nil)
-                    
-            super.init()
-            return
         }
-        
-        removeStore = archivedRemoveStore
-        photoStore = PhotoStore(loadedPhotoAssets: removeStore.removedPhotoAssets)
+   
         removeStore.delegate = photoStore
         
         super.init()

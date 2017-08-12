@@ -62,7 +62,7 @@ extension CLLocation {
     }
 }
 
-extension UIImage{
+extension UIImage {
     func alpha(_ value: CGFloat) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
@@ -70,5 +70,16 @@ extension UIImage{
         UIGraphicsEndImageContext()
         
         return newImage
+    }
+}
+
+extension PHImageRequestOptions {
+    func setImageRequestOptions(networkAccessAllowed: Bool, synchronous: Bool,
+                                deliveryMode: PHImageRequestOptionsDeliveryMode,
+                                progressHandler:  PHAssetImageProgressHandler?) {
+        self.isNetworkAccessAllowed = networkAccessAllowed
+        self.isSynchronous = synchronous
+        self.deliveryMode = deliveryMode
+        self.progressHandler = progressHandler
     }
 }

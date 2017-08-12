@@ -119,14 +119,13 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.zoomScale = 1.0
         
-        let photoAssets = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+        let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
         
         let options = PHImageRequestOptions()
-        options.isNetworkAccessAllowed = true
-        options.isSynchronous = true
-        options.progressHandler = { [weak self] (progress, error, _, _) -> Void in
+
+        options.setImageRequestOptions(networkAccessAllowed: true, synchronous: true, deliveryMode: .opportunistic) { [weak self] _ -> Void in
             guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
             DispatchQueue.main.async {
                 guard self?.pressedIndexPath == indexPath else { return }
@@ -144,10 +143,9 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
                 progressView.setProgress(Float(percent), animated: true)
             }
         }
-        options.deliveryMode = .opportunistic
         
         DispatchQueue.global().async { [weak self] _ -> Void in
-            photoAssets?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
+            photoAsset?.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
                 DispatchQueue.main.async {
                     guard self?.pressedIndexPath == indexPath else { return }

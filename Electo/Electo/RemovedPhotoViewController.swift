@@ -26,7 +26,6 @@ class RemovedPhotoViewController: UIViewController {
     fileprivate var selectMode: SelectMode = .off {
         didSet {
             toggleHiddenState(forViews: [deleteAllButton, buttonStackView])
-            collectionView.allowsMultipleSelection = !collectionView.allowsMultipleSelection
             chooseButton.title = selectMode.rawValue
         }
     }
@@ -35,24 +34,25 @@ class RemovedPhotoViewController: UIViewController {
         super.viewDidLoad()
 
         collectionView.dataSource = photoDataSource
+        collectionView.allowsMultipleSelection = true
         
         setCellSize()
     }
     
-    func setCellSize() {
+    private func setCellSize() {
         let width = (collectionView.bounds.width / 4) - flowLayout.minimumLineSpacing * 2
         
         flowLayout.itemSize.width = width
         flowLayout.itemSize.height = width
     }
     
-    func toggleHiddenState(forViews views: [UIView]) {
+    private func toggleHiddenState(forViews views: [UIView]) {
         views.forEach {
             $0.isHidden = !$0.isHidden
         }
     }
     
-    func resetSelectedItem(indexPaths: [IndexPath]) {
+    private func resetSelectedItem(indexPaths: [IndexPath]) {
         indexPaths.forEach {
             guard let photoCell = collectionView.cellForItem(at: $0)
                 as? RemovedPhotoCell else { return }
@@ -65,7 +65,7 @@ class RemovedPhotoViewController: UIViewController {
     @IBAction func recoverSelected(_ sender: UIButton) {
         guard let removePhotoStore = photoDataSource?.removeStore else { return }
         
-        removePhotoStore.removePhotoAssets(toRestore: self.selectedPhotoAssets())
+        removePhotoStore.removePhotoAssets(toRestore: selectedPhotoAssets())
         collectionView.reloadData()
     }
     
@@ -79,8 +79,6 @@ class RemovedPhotoViewController: UIViewController {
             
             selectMode = .off
         }
-        collectionView.allowsMultipleSelection = !collectionView.allowsMultipleSelection
-        chooseButton.title = selectMode.rawValue
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
@@ -98,7 +96,7 @@ class RemovedPhotoViewController: UIViewController {
                 print("success")
             }
         case .on:
-            PHPhotoLibrary.shared().performChanges({
+            PHPhotoLibrary.shared().performChanges({ 
                 PHAssetChangeRequest.deleteAssets(self.selectedPhotoAssets() as NSFastEnumeration)
             }) { (success, error) in
                 print("success")
@@ -106,15 +104,17 @@ class RemovedPhotoViewController: UIViewController {
         }
     }
     
-    func selectedPhotoAssets() -> [PHAsset] {
+    private func selectedPhotoAssets() -> [PHAsset] {
         guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return [] }
         guard let removePhotoStore = self.photoDataSource?.removeStore else { return [] }
+        
         var selectedPhotoAssets: [PHAsset] = []
         
         selectedItems.forEach {
             let selectedPhotoAsset = removePhotoStore.removedPhotoAssets[$0.row]
             selectedPhotoAssets.append(selectedPhotoAsset)
         }
+        
         return selectedPhotoAssets
     }
 }
