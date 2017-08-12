@@ -14,52 +14,28 @@ class ClassifiedPhotoViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
+    let loadingView = LoadingView.instanceFromNib()
+    var originalTabBarFrame: CGRect = CGRect()
+    var timer: Timer?
+    var time: TimeInterval = 0 {
+        didSet {
+            stopTimer()
+            disappearLoadingView()
+        }
+    }
     
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.dataSource = photoDataSource
         
-        requestAuthorization()
-    }
-    
-    private func requestAuthorization() {
-        PHPhotoLibrary.requestAuthorization {
-            [weak self] (authorizationStatus) -> Void in
-            guard authorizationStatus == .authorized else { return }
-            
-            DispatchQueue.global().sync {
-                self?.photoDataSource.photoStore.fetchPhotoAsset()
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            }
-            
-            guard let path = Constants.archiveURL?.path else { return }
-            
-            DispatchQueue.global().sync {
-                guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-                    as? TemporaryPhotoStore else { return }
-                
-                self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
-                self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
-    
-                let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
-                
-                let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhotoAssets(unarchivedPhotoAssets: unarchivedPhotoAssets)
-                
-                if let photoAssets = removedAssetsFromLibrary {
-                    self?.photoDataSource.temporaryPhotoStore.remove(
-                        photoAssets: photoAssets, isPerformDelegate: false)
-                }
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            }
+        if let tabBarFrame = self.tabBarController?.tabBar.frame {
+            originalTabBarFrame = tabBarFrame
         }
+        
+        appearLoadingView()
+        requestAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +43,66 @@ class ClassifiedPhotoViewController: UIViewController {
         
         tableView.reloadData()
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    private func appearLoadingView() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) {
+            [weak self] (timer: Timer) in
+            
+            self?.time += timer.timeInterval
+        }
+        
+        self.view.addSubview(loadingView)
+        self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+    }
+    
+    private func disappearLoadingView() {
+        self.loadingView.stopIndicatorAnimating()
+        self.loadingView.removeFromSuperview()
+    
+        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.frame = originalTabBarFrame
+        
+        tableView.reloadData()
+    }
+    
+    private func requestAuthorization() {
+        PHPhotoLibrary.requestAuthorization {
+            [weak self] (authorizationStatus) -> Void in
+            guard authorizationStatus == .authorized else { return }
+            
+            self?.photoDataSource.photoStore.fetchPhotoAsset()
+            
+            self?.fetchArchivedTemporaryPhotoStore()
+        }
+    }
+    
+    private func fetchArchivedTemporaryPhotoStore() {
+        guard let path = Constants.archiveURL?.path else { return }
+        
+        DispatchQueue.global().async {
+            [weak self] in
+            guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
+                as? TemporaryPhotoStore else { return }
+            
+            self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
+            self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
+            
+            let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
+            
+            let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhotoAssets(unarchivedPhotoAssets: unarchivedPhotoAssets)
+            
+            if let photoAssets = removedAssetsFromLibrary {
+                self?.photoDataSource.temporaryPhotoStore.remove(
+                    photoAssets: photoAssets, isPerformDelegate: false)
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
