@@ -34,13 +34,34 @@ class DetailPhotoViewController: UIViewController {
         
     }
     
-    func setAsset(_ identifier: String, _ sectionCount: Int) -> (assets: [PHAsset], count: Int) {
+    func setAsset(_ identifier: String) -> [PHAsset] {
         switch identifier {
-        case "remove":
-            return (selectedSectionAssets, selectedSectionAssets.count)
+        case "fromTemporaryViewController":
+            return selectedSectionAssets
         default:
-            guard let assets = photoStore?.classifiedPhotoAssets[sectionCount] else { return ([], 0) }
-            return (assets, assets.count)
+            guard let assets = photoStore?.classifiedPhotoAssets[selectedSection] else { return ([]) }
+            return assets
+        }
+    }
+    
+    func changeSwipe(direction: String) {
+        
+        switch direction {
+        case "right":
+            selectedPhotos -= 1
+            if selectedPhotos < 0 {
+                selectedPhotos += 1
+                return
+            }
+        case "left":
+            let count = setAsset(identifier).count
+            selectedPhotos += 1
+            if selectedPhotos == count {
+                selectedPhotos -= 1
+                return
+            }
+        default:
+            return
         }
     }
     
@@ -50,24 +71,14 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction func leftSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        let count = setAsset(identifier, selectedSection).count
-        //TODO: 개선
-        selectedPhotos += 1
-        if selectedPhotos == count {
-            selectedPhotos -= 1
-            return
-        }
+        changeSwipe(direction: "left")
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     @IBAction func rightSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        selectedPhotos -= 1
-        if selectedPhotos < 0 {
-            selectedPhotos += 1
-            return
-        }
+        changeSwipe(direction: "right")
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
@@ -79,18 +90,18 @@ class DetailPhotoViewController: UIViewController {
 extension DetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let storeAssetsCount = setAsset(identifier, selectedSection).count
+        let storeAssetsCount = setAsset(identifier).count
         return storeAssetsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
-        let photoAssets = self.setAsset(identifier, selectedSection).assets
+        let photoAssets = self.setAsset(identifier)
         let photoAsset = photoAssets[indexPath.item]
         photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
-                               contentMode: .aspectFill,
-                               options: nil,
-                               resultHandler: { (requestedImage) in
+                              contentMode: .aspectFill,
+                              options: nil,
+                              resultHandler: { (requestedImage) in
                                 cell.thumbnailImageView.image = requestedImage
         })
         return cell
@@ -103,7 +114,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.detailImageView.image = nil
         self.detailImageView.contentMode = .scaleAspectFill
         
-        let assets = self.setAsset(identifier, selectedSection).assets
+        let assets = self.setAsset(identifier)
         let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
