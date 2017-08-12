@@ -12,12 +12,15 @@ import MapKit
 
 extension PHAsset {
     func fetchImage(size: CGSize, contentMode: PHImageContentMode,
-                    options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) {
+                    options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
+        var imageRequestID: PHImageRequestID = .init()
         let cachingImageManager = PHCachingImageManager()
-        cachingImageManager.requestImage(for: self, targetSize: size,
+        imageRequestID = cachingImageManager.requestImage(for: self, targetSize: size,
                                          contentMode: contentMode, options: options) { image, _ in
                                             resultHandler(image)
         }
+        
+        return imageRequestID
     }
     
     func fetchFullSizeImage(options: PHImageRequestOptions?, resultHandler: @escaping (Data?) -> Void) {

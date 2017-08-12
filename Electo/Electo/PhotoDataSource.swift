@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     let photoStore: PhotoStore
@@ -43,15 +44,18 @@ extension PhotoDataSource: UITableViewDataSource {
         
         let photoAssets = photoStore.classifiedPhotoAssets[indexPath.section]
         var fetchedImages: [UIImage] = .init()
+        
+        let options: PHImageRequestOptions = .init()
+        options.isSynchronous = true
         photoAssets.forEach {
             $0.fetchImage(size: CGSize(width: 50, height: 50),
-                contentMode: .aspectFit, options: nil) { photoImage in
-                guard let photoImage = photoImage else { return }
-                fetchedImages.append(photoImage)
-                    
-                if photoAssets.count == fetchedImages.count {
-                    cell.cellImages = fetchedImages
-                }
+                          contentMode: .aspectFit, options: options) { photoImage in
+                            guard let photoImage = photoImage else { return }
+                            fetchedImages.append(photoImage)
+                            
+                            if photoAssets.count == fetchedImages.count {
+                            cell.cellImages = fetchedImages
+                            }
             }
         }
         
@@ -78,7 +82,7 @@ extension PhotoDataSource: UICollectionViewDataSource {
             for: indexPath) as? RemovedPhotoCell ?? RemovedPhotoCell()
         let removedPhotoAsset = removeStore.removedPhotoAssets[indexPath.item]
         
-        removedPhotoAsset.fetchImage(size: CGSize(width: 50, height: 50),
+        removedPhotoAsset.fetchImage(size: CGSize(width: 90, height: 90),
             contentMode: .aspectFit, options: nil) { removedPhotoImage in
             guard let removedPhotoImage = removedPhotoImage else { return }
                         
