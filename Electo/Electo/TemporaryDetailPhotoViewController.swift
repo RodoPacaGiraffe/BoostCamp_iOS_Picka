@@ -48,14 +48,10 @@ extension TemporaryDetailPhotoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-<<<<<<< HEAD:Electo/Electo/RemoveDetailPhotoViewController.swift
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "removeDetailPhotoCell", for: indexPath) as? RemoveDetailPhotoCell ?? RemoveDetailPhotoCell()
-        guard let photoAsset = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
-=======
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "temporaryDetailPhotoCell", for: indexPath) as? TemporaryDetailPhotoCell ?? TemporaryDetailPhotoCell()
-        guard let photoAssets = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
->>>>>>> ApplyRemovingFromPhotoLibrary:Electo/Electo/TemporaryDetailPhotoViewController.swift
-        
+        guard let photoAsset = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
+    
         photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (requestedImage) in
             cell.thumbnailImageView.image = requestedImage
         })
