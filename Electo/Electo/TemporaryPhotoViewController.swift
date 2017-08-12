@@ -76,29 +76,6 @@ class TemporaryPhotoViewController: UIViewController {
         return selectedPhotoAssets
     }
     
-    @IBAction func recoverAll(_ sender: UIButton) {
-        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        
-        let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
-        temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
-        
-        collectionView.reloadData()
-    }
-    
-    @IBAction func deleteAll(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction func recoverSelected(_ sender: UIButton) {
-        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
-        
-        temporaryPhotoStore.remove(photoAssets: selectedPhotoAssets())
-        resetSelectedItem(indexPaths: selectedItems)
-        
-        collectionView.reloadData()
-    }
-    
     @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
         if selectMode == .off {
             selectMode = .on
@@ -111,23 +88,43 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    @IBAction func deleteSelected(_ sender: UIButton) {
-        switch selectMode {
-        case .off:
-            PHPhotoLibrary.shared().performChanges({
-                guard let asset = self.photoDataSource?.temporaryPhotoStore.photoAssets else { return }
-                
-                PHAssetChangeRequest.deleteAssets(asset as NSFastEnumeration)
-            }) { (success, error) in
-                print("success")
-            }
-        case .on:
-            PHPhotoLibrary.shared().performChanges({ 
-                PHAssetChangeRequest.deleteAssets(self.selectedPhotoAssets() as NSFastEnumeration)
-            }) { (success, error) in
-                print("success")
-            }
+    @IBAction func recoverAll(_ sender: UIButton) {
+        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
+        
+        let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
+        temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
+        
+        collectionView.reloadData()
+    }
+    
+    @IBAction func recoverSelected(_ sender: UIButton) {
+        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
+        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
+        
+        temporaryPhotoStore.remove(photoAssets: selectedPhotoAssets())
+        resetSelectedItem(indexPaths: selectedItems)
+        
+        collectionView.reloadData()
+    }
+    
+    @IBAction func deleteAll(_ sender: UIButton) {
+        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
+        
+        temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) {
+            [weak self] in
+            self?.collectionView.reloadData()
         }
+    }
+    
+    @IBAction func deleteSelected(_ sender: UIButton) {
+        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
+        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
+        
+        temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
+            [weak self] in
+            self?.collectionView.reloadData()
+        }
+        resetSelectedItem(indexPaths: selectedItems)
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {

@@ -67,28 +67,35 @@ extension TemporaryPhotoStore {
         savePhotoAsset()
     }
     
-    func remove(photoAssets: [PHAsset]) {
+    func remove(photoAssets: [PHAsset], isPerformDelegate: Bool = true) {
         photoAssets.forEach {
-            guard let assetIndex = photoAssets.index(of: $0) else { return }
-            
+            guard let assetIndex = self.photoAssets.index(of: $0) else { return }
+          
             self.photoAssets.remove(at: assetIndex)
             photoAssetsIdentifier.remove(at: assetIndex)
         }
         
-        temporaryPhotoDidRemoved(removedPhotoAssets: photoAssets)
+        if isPerformDelegate {
+            temporaryPhotoDidRemoved(removedPhotoAssets: photoAssets)
+        }
+
         savePhotoAsset()
     }
     
-    func removefromPhotoLibrary(with photoAssets: [PHAsset]) {
-        photoAssets.forEach {
-            guard let assetIndex = photoAssets.index(of: $0) else { return }
+    func removePhotoFromLibrary(with photoAssets: [PHAsset], completion: (() -> Void)?) {
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.deleteAssets(photoAssets as NSFastEnumeration)
+        }) { [weak self] (isSuccess, error) in
+            guard isSuccess else { return }
             
-            self.photoAssets.remove(at: assetIndex)
-            photoAssetsIdentifier.remove(at: assetIndex)
+            self?.remove(photoAssets: photoAssets, isPerformDelegate: false)
+            
+            if let completion = completion {
+                DispatchQueue.main.async {
+                    completion()
+                }
+            }
         }
-        
-        temporaryPhotoDidRemoved(removedPhotoAssets: photoAssets)
-        savePhotoAsset()
     }
 }
 

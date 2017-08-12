@@ -42,12 +42,18 @@ class ClassifiedPhotoViewController: UIViewController {
             DispatchQueue.global().sync {
                 guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
                     as? TemporaryPhotoStore else { return }
-
+                
                 self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
                 self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
     
-                let loadedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
-                self?.photoDataSource.photoStore.applyRemovedPhotoAssets(loadedPhotoAssets: loadedPhotoAssets)
+                let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
+                
+                let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhotoAssets(unarchivedPhotoAssets: unarchivedPhotoAssets)
+                
+                if let photoAssets = removedAssetsFromLibrary {
+                    self?.photoDataSource.temporaryPhotoStore.remove(
+                        photoAssets: photoAssets, isPerformDelegate: false)
+                }
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()

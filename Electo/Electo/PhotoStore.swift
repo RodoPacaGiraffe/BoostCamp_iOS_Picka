@@ -28,15 +28,22 @@ class PhotoStore: PhotoClassifiable {
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
-    func applyRemovedPhotoAssets(loadedPhotoAssets: [PHAsset]?) {
-        guard let loadedPhotoAssets = loadedPhotoAssets else { return }
+    func applyUnarchivedPhotoAssets(unarchivedPhotoAssets: [PHAsset]?) -> [PHAsset]?{
+        guard let unarchivedPhotoAssets = unarchivedPhotoAssets else { return nil }
+        var removedAssetsFromPhotoLibrary: [PHAsset]? = nil
         
-        loadedPhotoAssets.forEach {
-            guard let removedAssetIndex = photoAssets.index(of: $0) else { return }
-            photoAssets.remove(at: removedAssetIndex)
+        unarchivedPhotoAssets.forEach {
+            guard let unarchivedPhotoAssetsIndex = photoAssets.index(of: $0) else {
+                removedAssetsFromPhotoLibrary?.append($0)
+                return
+            }
+            
+            photoAssets.remove(at: unarchivedPhotoAssetsIndex)
         }
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        
+        return removedAssetsFromPhotoLibrary
     }
 }
 
