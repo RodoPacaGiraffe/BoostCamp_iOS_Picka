@@ -30,7 +30,7 @@ extension PhotoClassifiable {
                     firstPhotoAssetDate = creationDate
                     tempPhotoAssets = []
                     tempPhotoAssets.append(photoAsset)
-                    classifiedPhotoAssets[dateString] = nil
+                    
                     
                     continue
                 }

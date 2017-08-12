@@ -38,7 +38,7 @@ extension PhotoDataSource: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let _ = photoStore.classifiedPhotoAssets[photoStore.creationDate[section]]?.count else {
+        guard photoStore.classifiedPhotoAssets[photoStore.creationDate[section]]?.count != nil else {
             return nil
         }
         return "\(photoStore.creationDate[section])"
