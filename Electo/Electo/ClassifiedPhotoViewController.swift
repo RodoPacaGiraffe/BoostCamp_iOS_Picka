@@ -72,7 +72,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.photoStore = photoDataSource?.photoStore
         
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
-        detailViewController.selectedImageInClassfiedView = selectedCell.cellImages[indexPath.row]
+        detailViewController.thumbnailImages = selectedCell.cellImages
         
         show(detailViewController, sender: self)
         

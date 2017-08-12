@@ -49,10 +49,10 @@ extension RemoveDetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "removeDetailPhotoCell", for: indexPath) as? RemoveDetailPhotoCell ?? RemoveDetailPhotoCell()
-        guard let photoAssets = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
+        guard let photoAsset = selectedPhotos?[indexPath.row] else { return UICollectionViewCell() }
         
-        photoAssets.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (image) in
-            cell.thumbnailImageView.image = image
+        photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil, resultHandler: { (requestedImage) in
+            cell.thumbnailImageView.image = requestedImage
         })
         
         return cell
