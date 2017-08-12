@@ -141,16 +141,14 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
         case .on:
             photoCell.select()
         case .off:
-<<<<<<< HEAD:Electo/Electo/TemporaryPhotoViewController.swift
             guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-            guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "temporaryDetailPhotoViewController") as? TemporaryDetailPhotoViewController else { return }
-            detailViewController.selectedPhotos = temporaryPhotoStore.photoAssets
-=======
-            guard let removePhotoStore = photoDataSource?.removeStore else { return }
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
-            detailViewController.selectedSectionAssets = removePhotoStore.removedPhotoAssets
+            
+            //TODO: 이미지 전체 넘겨주기
+            let selectedCell = collectionView.cellForItem(at: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
+
+            detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
             detailViewController.identifier = "fromTemporaryViewController"
->>>>>>> removeDetailView:Electo/Electo/RemovedPhotoViewController.swift
             show(detailViewController, sender: self)
         }
     }

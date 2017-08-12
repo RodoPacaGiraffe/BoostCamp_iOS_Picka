@@ -17,22 +17,15 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     
-<<<<<<< HEAD
-    var thumbnailImages: [UIImage] = .init()
-    var selectedSectionAsset: Int = .init()
-    var photoStore: PhotoStore?
-    var selectedPhotos: Int = 0
-    var pressedIndexPath: IndexPath?
-    var thumbnailFetchReqeustID: PHImageRequestID?
     
-=======
+    var thumbnailImages: [UIImage] = .init()
+    var thumbnailFetchReqeustID: PHImageRequestID?
     var selectedSectionAssets: [PHAsset] = []
     var selectedSection: Int = 0
     var photoStore: PhotoStore?
     var selectedPhotos: Int = 0
     var pressedIndexPath: IndexPath?
     var identifier: String = ""
->>>>>>> removeDetailView
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,13 +95,11 @@ class DetailPhotoViewController: UIViewController {
         
     }
     
-<<<<<<< HEAD
+    
     @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
         detailImageView.contentMode = .scaleAspectFill
     }
     
-=======
->>>>>>> removeDetailView
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
@@ -120,8 +111,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
-<<<<<<< HEAD
-        let photoAsset = photoStore?.classifiedPhotoAssets[selectedSectionAsset][indexPath.item]
+        
+        let photoAssets = self.setAsset(identifier)
+        let photoAsset = photoAssets[indexPath.item]
         let options = PHImageRequestOptions()
         
         if let previousRequestID = thumbnailFetchReqeustID {
@@ -129,19 +121,12 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
             manager.cancelImageRequest(previousRequestID)
         }
         
-        thumbnailFetchReqeustID = photoAsset?.fetchImage(size: CGSize(width: 50.0, height: 50.0),
-                               contentMode: .aspectFit,
-                               options: options,
-                               resultHandler: { (requestedImage) in
-=======
-        let photoAssets = self.setAsset(identifier)
-        let photoAsset = photoAssets[indexPath.item]
-        photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
-                              contentMode: .aspectFill,
-                              options: nil,
-                              resultHandler: { (requestedImage) in
->>>>>>> removeDetailView
-                                cell.thumbnailImageView.image = requestedImage
+        thumbnailFetchReqeustID = photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
+                                                        contentMode: .aspectFill,
+                                                        options: options,
+                                                        resultHandler: { (requestedImage) in
+                                                            
+                                                            cell.thumbnailImageView.image = requestedImage
         })
         return cell
     }
@@ -162,8 +147,8 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         pressedIndexPath = indexPath
         
         let options = PHImageRequestOptions()
-
-
+        
+        
         options.setImageRequestOptions(networkAccessAllowed: true, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
             guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
             DispatchQueue.main.async {
