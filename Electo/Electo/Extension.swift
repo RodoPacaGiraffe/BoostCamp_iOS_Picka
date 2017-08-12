@@ -42,7 +42,7 @@ extension Date {
     func toDateString() -> String {
         let dateForamtter: DateFormatter = DateFormatter()
         
-        dateForamtter.dateFormat = "yyyy/MM/DD"
+        dateForamtter.dateFormat = "yyyy년 MM월 dd일"
         
         return dateForamtter.string(from: self)
     }

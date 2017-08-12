@@ -31,7 +31,6 @@ class ClassifiedPhotoViewController: UIViewController {
             
             DispatchQueue.global().sync {
                 self?.photoDataSource.photoStore.fetchPhotoAsset()
-                
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
@@ -91,7 +90,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
-        detailViewController.selectedSection = indexPath.section
+        detailViewController.selectedSection = indexPath.row
         detailViewController.photoStore = photoDataSource.photoStore
         
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()

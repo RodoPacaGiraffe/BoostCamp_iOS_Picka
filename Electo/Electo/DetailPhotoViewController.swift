@@ -49,7 +49,8 @@ class DetailPhotoViewController: UIViewController {
         case "fromTemporaryViewController":
             return selectedSectionAssets
         default:
-            guard let assets = photoStore?.classifiedPhotoAssets[selectedSection] else { return ([]) }
+            guard let creationDate = photoStore?.creationDate[selectedSection] else {return [] }
+            guard let assets = photoStore?.classifiedPhotoAssets[creationDate]?[selectedSection] else { return [] }
             return assets
         }
     }
@@ -99,7 +100,6 @@ class DetailPhotoViewController: UIViewController {
     @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
         detailImageView.contentMode = .scaleAspectFill
     }
-    
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {

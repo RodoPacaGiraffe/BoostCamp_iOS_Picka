@@ -11,7 +11,8 @@ import Photos
 
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
-    fileprivate(set) var classifiedPhotoAssets: [[PHAsset]] = []
+    fileprivate(set) var classifiedPhotoAssets: [String:[[PHAsset]]] = [:]
+    var creationDate: [String] = []
     
     func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
@@ -25,7 +26,9 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.append(fetchResult[index])
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets).0
+        creationDate = classifyByTimeInterval(photoAssets: photoAssets).1
+        print(creationDate)
     }
     
     func applyUnarchivedPhotoAssets(unarchivedPhotoAssets: [PHAsset]?) -> [PHAsset]?{
@@ -41,7 +44,7 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.remove(at: unarchivedPhotoAssetsIndex)
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets).0
         
         return removedAssetsFromPhotoLibrary
     }
@@ -58,7 +61,7 @@ extension PhotoStore: PhotoStoreDelegate {
             photoAssets.remove(at: index)
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets).0
     }
 
     func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset]) {
@@ -73,7 +76,7 @@ extension PhotoStore: PhotoStoreDelegate {
             return beforeCreationDate > afterCreationDate
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets).0
     }
 }
 
