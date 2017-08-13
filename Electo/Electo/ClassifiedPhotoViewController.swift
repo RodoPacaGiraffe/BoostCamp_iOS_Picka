@@ -56,7 +56,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func appearLoadingView() {
-        timer = Timer.scheduledTimer(withTimeInterval: Constants.loadingTime, repeats: false) {
+        timer = Timer.scheduledTimer(withTimeInterval: Constants.loadingTime, repeats: true) {
             [weak self] (timer: Timer) in
             
             self?.time += timer.timeInterval
@@ -84,29 +84,11 @@ class ClassifiedPhotoViewController: UIViewController {
             
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
-
-            DispatchQueue.global().sync {
-                guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-                    as? TemporaryPhotoStore else { return }
+            self?.fetchArchivedTemporaryPhotoStore()
                 
-                self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
-                self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
-    
-                let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
-                
-                let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhoto(
-                    assets: unarchivedPhotoAssets)
-                
-                if let photoAssets = removedAssetsFromLibrary {
-                    self?.photoDataSource.temporaryPhotoStore.remove(
-                        photoAssets: photoAssets, isPerformDelegate: false)
-                }
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
             }
-
         }
     }
     
@@ -123,7 +105,7 @@ class ClassifiedPhotoViewController: UIViewController {
             
             let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
             
-            let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhotoAssets(unarchivedPhotoAssets: unarchivedPhotoAssets)
+            let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: unarchivedPhotoAssets)
             
             if let photoAssets = removedAssetsFromLibrary {
                 self?.photoDataSource.temporaryPhotoStore.remove(
