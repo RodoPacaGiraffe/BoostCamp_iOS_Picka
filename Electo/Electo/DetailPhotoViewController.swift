@@ -31,7 +31,10 @@ class DetailPhotoViewController: UIViewController {
         
         displayDetailViewSetting()
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         print(zoomingScrollView.zoomScale)

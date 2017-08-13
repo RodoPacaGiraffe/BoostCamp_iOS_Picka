@@ -15,7 +15,6 @@ class ClassifiedPhotoViewController: UIViewController {
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
     let loadingView = LoadingView.instanceFromNib()
-    var originalTabBarFrame: CGRect = CGRect()
     var timer: Timer?
     var time: TimeInterval = 0 {
         didSet {
@@ -32,10 +31,6 @@ class ClassifiedPhotoViewController: UIViewController {
 
         tableView.dataSource = photoDataSource
         
-        if let tabBarFrame = self.tabBarController?.tabBar.frame {
-            originalTabBarFrame = tabBarFrame
-        }
-        
         appearLoadingView()
         requestAuthorization()
         
@@ -47,7 +42,6 @@ class ClassifiedPhotoViewController: UIViewController {
         super.viewWillAppear(animated)
         
         tableView.reloadData()
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func stopTimer() {
@@ -64,15 +58,15 @@ class ClassifiedPhotoViewController: UIViewController {
         
         self.view.addSubview(loadingView)
         self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     private func disappearLoadingView() {
         self.loadingView.stopIndicatorAnimating()
         self.loadingView.removeFromSuperview()
-    
+        
         self.navigationController?.navigationBar.isHidden = false
-        self.tabBarController?.tabBar.frame = originalTabBarFrame
+        self.tabBarController?.tabBar.isHidden = false
         
         tableView.reloadData()
     }
