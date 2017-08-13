@@ -22,6 +22,7 @@ class TemporaryPhotoViewController: UIViewController {
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
     var photoDataSource: PhotoDataSource?
+    var tempThumbnailImages: [UIImage] = .init()
     
     fileprivate var selectMode: SelectMode = .off {
         didSet {
@@ -154,10 +155,12 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
             
             //TODO: 이미지 전체 넘겨주기
-            let selectedCell = collectionView.cellForItem(at: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
-
             detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
             detailViewController.identifier = "fromTemporaryViewController"
+            
+            guard let selectedThumbnailImage = photoCell.thumbnailImageView.image else { return }
+            detailViewController.thumbnailImages.append(selectedThumbnailImage)
+            detailViewController.pressedIndexPath = indexPath
             show(detailViewController, sender: self)
         }
     }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Photos
 
 enum Order: String {
     case creationDate
@@ -19,6 +20,8 @@ enum LocationKey: String {
     case zip = "ZIP"
 }
 
+let cachingImageManager: PHCachingImageManager = PHCachingImageManager()
+
 struct Constants {
     static let cellIdentifier: String = "ClassifiedPhotoCell"
     static let timeIntervalBoundary: TimeInterval = 60.0
@@ -30,6 +33,7 @@ struct Constants {
     static let removedPhotoAssets = "removedPhotoAssets"
     static let removedAssetsFromPhotoLibrary = Notification.Name("removedAssetsFromPhotoLibrary")
     static let requiredReload = Notification.Name("requiredReload")
+    static let loadingTime: TimeInterval = 1
     static let archiveURL: URL? = {
         let documentDirectories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         
@@ -37,4 +41,5 @@ struct Constants {
         
         return documentDirectory.appendingPathComponent(Constants.archiveFileName)
     }()
+    static let numberOfTapsRequired: Int = 2
 }

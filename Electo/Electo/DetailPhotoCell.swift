@@ -7,7 +7,10 @@
 //
 
 import UIKit
+import Photos
 
 class DetailPhotoCell: UICollectionViewCell {
     @IBOutlet var thumbnailImageView: UIImageView!
+    
+    var requestID: PHImageRequestID?
 }

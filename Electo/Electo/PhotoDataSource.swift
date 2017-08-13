@@ -66,6 +66,7 @@ extension PhotoDataSource: UITableViewDataSource {
     }
 }
 
+// TemporaryPhotoViewController - DataSource
 extension PhotoDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return temporaryPhotoStore.photoAssets.count
@@ -77,10 +78,10 @@ extension PhotoDataSource: UICollectionViewDataSource {
         let removedPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
         
         removedPhotoAsset.fetchImage(size: CGSize(width: 90, height: 90),
-            contentMode: .aspectFit, options: nil) { removedPhotoImage in
-            guard let removedPhotoImage = removedPhotoImage else { return }
-                        
-            cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
+                                     contentMode: .aspectFit, options: nil) { removedPhotoImage in
+                                        guard let removedPhotoImage = removedPhotoImage else { return }
+                                                
+                                        cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
         }
     
         return cell
