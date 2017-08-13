@@ -48,24 +48,27 @@ extension PhotoDataSource: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
         
         let creationDate = photoStore.creationDate[indexPath.section]
-        let photoAssets = photoStore.classifiedPhotoAssets[creationDate]?[indexPath.row]
+        guard let photoAssets = photoStore.classifiedPhotoAssets[creationDate]?[indexPath.row] else {
+            return UITableViewCell()
+        }
         var fetchedImages: [UIImage] = .init()
      
         
         let options: PHImageRequestOptions = .init()
         options.isSynchronous = true
-        photoAssets?.forEach {
+        photoAssets.forEach {
             $0.fetchImage(size: CGSize(width: 50, height: 50),
                           contentMode: .aspectFit, options: options) { photoImage in
                             guard let photoImage = photoImage else { return }
                             fetchedImages.append(photoImage)
                             
-                            if photoAssets?.count == fetchedImages.count {
+                            if photoAssets.count == fetchedImages.count {
                             cell.cellImages = fetchedImages
                             }
             }
         }
         
+        cell.dateLabel.text = "\(photoAssets.count) Photos"
         return cell
     }
     
