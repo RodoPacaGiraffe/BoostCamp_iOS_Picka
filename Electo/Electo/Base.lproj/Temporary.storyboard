@@ -39,14 +39,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gni-q4-5G7">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gni-q4-5G7">
                                                     <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checked" translatesAutoresizingMaskIntoConstraints="NO" id="e4J-uM-gxv">
+                                                <imageView hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checked" translatesAutoresizingMaskIntoConstraints="NO" id="e4J-uM-gxv">
                                                     <rect key="frame" x="30.5" y="30" width="30" height="30"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="Gni-q4-5G7" secondAttribute="bottom" id="43u-IE-pwi"/>
                                             <constraint firstItem="e4J-uM-gxv" firstAttribute="centerX" secondItem="nJ5-hn-lfj" secondAttribute="centerX" id="MwG-oq-BNO"/>
@@ -117,6 +118,7 @@
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="81L-GL-LUT" secondAttribute="bottom" id="1CY-ym-J0a"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leading" id="3Bf-75-FUQ"/>
@@ -130,6 +132,9 @@
                             <constraint firstItem="Vlj-ai-Q2p" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leadingMargin" id="e64-90-QkN"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="top" secondItem="Pgi-Kc-4sb" secondAttribute="topMargin" id="fOs-Yg-zAk"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="lg2-Tl-jBv" appends="YES" id="pHf-LL-6ba"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="To be deleted" id="sbp-bB-XVA">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="oJp-TK-wXK">
@@ -151,9 +156,16 @@
                         <outlet property="chooseButton" destination="dl6-xh-00s" id="LhD-gr-SvM"/>
                         <outlet property="collectionView" destination="81L-GL-LUT" id="ghT-39-Lhg"/>
                         <outlet property="flowLayout" destination="E6F-z3-ydE" id="vUZ-Ca-ncT"/>
+                        <outlet property="longPressGesture" destination="lg2-Tl-jBv" id="nFu-Pq-jwI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="1" id="lg2-Tl-jBv">
+                    <connections>
+                        <action selector="longPressSelectAction:" destination="41h-lp-7Sx" id="R0W-yN-QkN"/>
+                        <outlet property="delegate" destination="41h-lp-7Sx" id="EuQ-jS-r3N"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1368.8" y="-187.55622188905548"/>
         </scene>

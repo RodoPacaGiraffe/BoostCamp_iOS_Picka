@@ -24,7 +24,7 @@ let cachingImageManager: PHCachingImageManager = PHCachingImageManager()
 
 struct Constants {
     static let cellIdentifier: String = "ClassifiedPhotoCell"
-    static let timeIntervalBoundary: TimeInterval = 60.0
+    static let timeIntervalBoundary: TimeInterval = 90.0
     static let maximumImageView: Int = 4
     static let stackViewSpacing: Int = 3
     static let temporaryPhotoAssetsIdentifier: String = "temporaryPhotoAssetsIdentifier"

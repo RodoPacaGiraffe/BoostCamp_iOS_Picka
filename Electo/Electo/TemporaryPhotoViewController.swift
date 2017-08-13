@@ -15,6 +15,7 @@ class TemporaryPhotoViewController: UIViewController {
         case off = "Choose"
     }
   
+    @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chooseButton: UIBarButtonItem!
@@ -87,14 +88,14 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
-        if selectMode == .off {
-            selectMode = .on
-        } else {
+        switch selectMode {
+        case .on:
             if let selectedItems = collectionView.indexPathsForSelectedItems {
                 resetSelectedItem(indexPaths: selectedItems)
             }
-            
             selectMode = .off
+        case .off:
+            selectMode = .on
         }
     }
     
@@ -140,9 +141,21 @@ class TemporaryPhotoViewController: UIViewController {
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func longPressSelectAction(_ sender: UILongPressGestureRecognizer) {
+        switch selectMode {
+        case .on: break
+        case .off:
+            guard let indexPath = self.collectionView.indexPathForItem(at: longPressGesture.location(in: collectionView)) else { return }
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+            selectMode = .on
+            collectionView(collectionView, didSelectItemAt: indexPath)
+        }
+    }
 }
 
 extension TemporaryPhotoViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoCell = collectionView.cellForItem(at: indexPath)
             as? TemporaryPhotoCell ?? TemporaryPhotoCell()
