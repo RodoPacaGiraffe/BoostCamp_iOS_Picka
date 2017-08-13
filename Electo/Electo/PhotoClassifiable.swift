@@ -34,7 +34,7 @@ extension PhotoClassifiable {
                     continue
                 }
 
-                classifiedPhotoAssets[dateString]?.append(tempPhotoAssets)
+                classifiedPhotoAssets[dateString] = [tempPhotoAssets]
                 firstPhotoAssetDate = creationDate
                 tempPhotoAssets = []
             }
@@ -52,9 +52,5 @@ extension PhotoClassifiable {
         let executionTime = methodFinish.timeIntervalSince(methodStart)
         print("Execution time: \(executionTime)")
         return classifiedPhotoAssets
-    }
-    
-    func getCreationDate() {
-        
     }
 }
