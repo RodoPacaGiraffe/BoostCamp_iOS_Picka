@@ -39,7 +39,7 @@ extension PhotoDataSource: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard photoStore.classifiedPhotoAssets[photoStore.creationDate[section]]?.count != nil else {
-            return nil
+            return ""
         }
         return "\(photoStore.creationDate[section])"
     }
@@ -76,7 +76,9 @@ extension PhotoDataSource: UITableViewDataSource {
         guard let assets = photoStore.classifiedPhotoAssets[creationDate]?[indexPath.row] else { return }
         
         temporaryPhotoStore.insert(photoAssets: assets)
-        tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.beginUpdates()
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+        tableView.endUpdates()
     }
         
 }

@@ -19,19 +19,18 @@ extension PhotoClassifiable {
         let methodStart = Date()
         var classifiedPhotoAssets: [String:[[PHAsset]]] = [:]
         var tempPhotoAssets: [PHAsset] = []
-        var dateString: String = ""
+        var dateString: String = firstPhotoAssetDate.toDateString()
         // TODO: Refactoring 필요, 한번에 추가하는 것 고려
         for photoAsset in photoAssets {
             guard let creationDate = photoAsset.creationDate else { return [:] }
             
             if !firstPhotoAssetDate.containedWithinBoundary(for: creationDate) { // guard
                 
-                guard tempPhotoAssets.count > 1 else {
+                guard tempPhotoAssets.count != 1 else {
                     firstPhotoAssetDate = creationDate
                     tempPhotoAssets = []
                     tempPhotoAssets.append(photoAsset)
-                    dateString = ""
-                    dateString = creationDate.toDateString()
+                   
                     continue
                 }
 
@@ -41,7 +40,7 @@ extension PhotoClassifiable {
             }
             
             // TODO: 이 부분 개선필요.
-            
+            dateString = creationDate.toDateString()
             if classifiedPhotoAssets[dateString] == nil && tempPhotoAssets.count == 1 {
                 classifiedPhotoAssets[dateString] = []
             
