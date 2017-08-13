@@ -12,5 +12,5 @@ import Photos
 class DetailPhotoCell: UICollectionViewCell {
     @IBOutlet var thumbnailImageView: UIImageView!
     
-    var requestID: PHImageRequestID? = .init()
+    var requestID: PHImageRequestID?
 }

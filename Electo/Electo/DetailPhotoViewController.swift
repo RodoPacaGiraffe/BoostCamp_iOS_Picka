@@ -29,22 +29,12 @@ class DetailPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.zoomingScrollView.minimumZoomScale = 1.0
-        self.zoomingScrollView.maximumZoomScale = 6.0
-        
-        self.tabBarController?.tabBar.isHidden = true
-        photoAssets = setAsset(identifier)
-        detailImageView.image = thumbnailImages.first
-        
-        collectionView(thumbnailCollectionView, didSelectItemAt: pressedIndexPath)
-        thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+        firstSetting()
     }
+
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
-        doubleTapRecognizer.numberOfTapsRequired = Constants.numberOfTapsRequired
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(zoomingScrollView.zoomScale)
     }
     
     func setAsset(_ identifier: String) -> [PHAsset] {
@@ -78,6 +68,20 @@ class DetailPhotoViewController: UIViewController {
         }
     }
     
+    func firstSetting() {
+        self.zoomingScrollView.minimumZoomScale = 1.0
+        self.zoomingScrollView.maximumZoomScale = 6.0
+        
+        self.tabBarController?.tabBar.isHidden = true
+        photoAssets = setAsset(identifier)
+        detailImageView.image = thumbnailImages.first
+        
+        collectionView(thumbnailCollectionView, didSelectItemAt: pressedIndexPath)
+        thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+        
+        doubleTapRecognizer.numberOfTapsRequired = Constants.numberOfTapsRequired
+    }
+    
     
     //Todo: Selecting removable photos
     @IBAction func selectForRemovePhoto(_ sender: UIButton) {
@@ -99,9 +103,9 @@ class DetailPhotoViewController: UIViewController {
         
     }
     
-    
     @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
-        detailImageView.contentMode = .scaleAspectFill
+        self.zoomingScrollView.setZoomScale(1.0, animated: true)
+        self.detailImageView.contentMode = .scaleAspectFill
     }
     
 }
@@ -138,7 +142,8 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         self.detailImageView.contentMode = .scaleAspectFill
-        self.zoomingScrollView.zoomScale = 1.0
+        print(self.zoomingScrollView.zoomScale)
+        self.zoomingScrollView.setZoomScale(1.0, animated: true)
         
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
@@ -183,6 +188,11 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
     }
     
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-        detailImageView.contentMode = .scaleAspectFit
+        self.detailImageView.contentMode = .scaleAspectFit
+    }
+    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        self.zoomingScrollView.setZoomScale(1.0, animated: true)
+        self.detailImageView.contentMode = .scaleAspectFill
     }
 }
