@@ -29,7 +29,7 @@ class DetailPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        firstSetting()
+        displayDetailViewSetting()
     }
 
     
@@ -68,7 +68,7 @@ class DetailPhotoViewController: UIViewController {
         }
     }
     
-    func firstSetting() {
+    func displayDetailViewSetting() {
         self.zoomingScrollView.minimumZoomScale = 1.0
         self.zoomingScrollView.maximumZoomScale = 6.0
         
