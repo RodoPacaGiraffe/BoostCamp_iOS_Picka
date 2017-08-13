@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Photos
 
 enum Order: String {
     case creationDate
@@ -18,6 +19,8 @@ enum LocationKey: String {
     case country = "Country"
     case zip = "ZIP"
 }
+
+let cachingImageManager: PHCachingImageManager = PHCachingImageManager()
 
 struct Constants {
     static let cellIdentifier: String = "ClassifiedPhotoCell"

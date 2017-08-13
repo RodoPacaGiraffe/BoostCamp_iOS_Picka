@@ -25,6 +25,8 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.append(fetchResult[index])
         }
         
+        cachingImageManager.startCachingImages(for: photoAssets, targetSize: CGSize(width: 50.0, height: 50.0), contentMode: .aspectFill, options: nil)
+        
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
