@@ -147,8 +147,8 @@ class TemporaryPhotoViewController: UIViewController {
         case .on: break
         case .off:
             guard let indexPath = self.collectionView.indexPathForItem(at: longPressGesture.location(in: collectionView)) else { return }
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
             selectMode = .on
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
             collectionView(collectionView, didSelectItemAt: indexPath)
         }
     }
