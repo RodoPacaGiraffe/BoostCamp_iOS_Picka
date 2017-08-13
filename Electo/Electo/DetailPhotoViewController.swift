@@ -44,7 +44,7 @@ class DetailPhotoViewController: UIViewController {
         doubleTapRecognizer.numberOfTapsRequired = 2
     }
     
-    func setAsset(_ identifier: String) -> [PHAsset] {
+    func getAsset(from identifier: String) -> [PHAsset] {
         switch identifier {
         case "fromTemporaryViewController":
             return selectedSectionAssets
@@ -65,7 +65,7 @@ class DetailPhotoViewController: UIViewController {
                 return
             }
         case "left":
-            let count = setAsset(identifier).count
+            let count = getAsset(from: identifier).count
             selectedPhotos += 1
             if selectedPhotos == count {
                 selectedPhotos -= 1
@@ -105,14 +105,14 @@ class DetailPhotoViewController: UIViewController {
 extension DetailPhotoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let storeAssetsCount = setAsset(identifier).count
+        let storeAssetsCount = getAsset(from: identifier).count
         return storeAssetsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
-        let photoAssets = self.setAsset(identifier)
+        let photoAssets = self.getAsset(from: identifier)
         let photoAsset = photoAssets[indexPath.item]
         let options = PHImageRequestOptions()
         
@@ -141,7 +141,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.zoomScale = 1.0
         
-        let assets = self.setAsset(identifier)
+        let assets = self.getAsset(from: identifier)
         let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
