@@ -19,7 +19,7 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     
     override init() {
         temporaryPhotoStore.delegate = photoStore
-
+        
         super.init()
     }
 }

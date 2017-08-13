@@ -22,6 +22,9 @@ class ClassifiedPhotoViewController: UIViewController {
         tableView.dataSource = photoDataSource
         
         requestAuthorization()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
+                                               name: Constants.requiredReload, object: nil)
     }
     
     private func requestAuthorization() {
@@ -48,7 +51,8 @@ class ClassifiedPhotoViewController: UIViewController {
     
                 let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
                 
-                let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhotoAssets(unarchivedPhotoAssets: unarchivedPhotoAssets)
+                let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhoto(
+                    assets: unarchivedPhotoAssets)
                 
                 if let photoAssets = removedAssetsFromLibrary {
                     self?.photoDataSource.temporaryPhotoStore.remove(
@@ -72,10 +76,16 @@ class ClassifiedPhotoViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "ModalRemovedPhotoVC" else { return }
         guard let navigationController = segue.destination as? UINavigationController,
-            let removedPhotoViewController = navigationController.topViewController
+            let temporaryPhotoViewController = navigationController.topViewController
                 as? TemporaryPhotoViewController else { return }
         
-        removedPhotoViewController.photoDataSource = photoDataSource
+        temporaryPhotoViewController.photoDataSource = photoDataSource
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }
 

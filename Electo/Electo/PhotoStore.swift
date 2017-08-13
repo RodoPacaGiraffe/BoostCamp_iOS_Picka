@@ -12,6 +12,11 @@ import Photos
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
     fileprivate(set) var classifiedPhotoAssets: [[PHAsset]] = []
+  
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
+                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+    }
     
     func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
@@ -25,13 +30,15 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.append(fetchResult[index])
         }
         
+        PhotoLibraryObserver.sharedInstance().setObserving(fetchResult: fetchResult)
+        
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
-    func applyUnarchivedPhotoAssets(unarchivedPhotoAssets: [PHAsset]?) -> [PHAsset]?{
-        guard let unarchivedPhotoAssets = unarchivedPhotoAssets else { return nil }
+    func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]?{
+        guard let unarchivedPhotoAssets = assets else { return nil }
         var removedAssetsFromPhotoLibrary: [PHAsset]? = nil
-        
+    
         unarchivedPhotoAssets.forEach {
             guard let unarchivedPhotoAssetsIndex = photoAssets.index(of: $0) else {
                 removedAssetsFromPhotoLibrary?.append($0)
@@ -44,6 +51,24 @@ class PhotoStore: PhotoClassifiable {
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
         
         return removedAssetsFromPhotoLibrary
+    }
+    
+    @objc func applyRemovedAssets(_ notification: Notification) {
+        guard let removedPhotoAssets = notification.userInfo?[Constants.removedPhotoAssets]
+            as? [PHAsset] else { return }
+        
+        removedPhotoAssets.forEach {
+            guard let index = photoAssets.index(of: $0) else {
+                print("This photoAsset is not founded from PhotoStore")
+                return
+            }
+
+            photoAssets.remove(at: index)
+        }
+        
+        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        
+        NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
     }
 }
 
