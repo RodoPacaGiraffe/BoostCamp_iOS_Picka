@@ -134,6 +134,7 @@
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="lg2-Tl-jBv" appends="YES" id="pHf-LL-6ba"/>
+                            <outletCollection property="gestureRecognizers" destination="3uX-T7-4hz" appends="YES" id="gZw-55-MBV"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="To be deleted" id="sbp-bB-XVA">
@@ -156,7 +157,6 @@
                         <outlet property="chooseButton" destination="dl6-xh-00s" id="LhD-gr-SvM"/>
                         <outlet property="collectionView" destination="81L-GL-LUT" id="ghT-39-Lhg"/>
                         <outlet property="flowLayout" destination="E6F-z3-ydE" id="vUZ-Ca-ncT"/>
-                        <outlet property="longPressGesture" destination="lg2-Tl-jBv" id="nFu-Pq-jwI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -166,6 +166,12 @@
                         <outlet property="delegate" destination="41h-lp-7Sx" id="EuQ-jS-r3N"/>
                     </connections>
                 </pongPressGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="3uX-T7-4hz">
+                    <connections>
+                        <action selector="panGestureSelectAction:" destination="41h-lp-7Sx" id="mDY-zV-juC"/>
+                        <outlet property="delegate" destination="41h-lp-7Sx" id="H9F-aB-Sia"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1368.8" y="-187.55622188905548"/>
         </scene>

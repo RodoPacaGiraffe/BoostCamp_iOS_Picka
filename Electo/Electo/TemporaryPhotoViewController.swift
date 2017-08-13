@@ -14,8 +14,7 @@ class TemporaryPhotoViewController: UIViewController {
         case on = "Cancel"
         case off = "Choose"
     }
-  
-    @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
+    
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chooseButton: UIBarButtonItem!
@@ -24,6 +23,7 @@ class TemporaryPhotoViewController: UIViewController {
     
     var photoDataSource: PhotoDataSource?
     var tempThumbnailImages: [UIImage] = .init()
+    var isSelecteDeselect: Bool = true
     
     fileprivate var selectMode: SelectMode = .off {
         didSet {
@@ -34,7 +34,7 @@ class TemporaryPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         collectionView.dataSource = photoDataSource
         collectionView.allowsMultipleSelection = true
         
@@ -143,16 +143,38 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func longPressSelectAction(_ sender: UILongPressGestureRecognizer) {
-        switch selectMode {
-        case .on: break
-        case .off:
-            guard let indexPath = self.collectionView.indexPathForItem(at: longPressGesture.location(in: collectionView)) else { return }
+        if selectMode == .off {
             selectMode = .on
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+            guard let indexPath = self.collectionView.indexPathForItem(at: sender.location(in: collectionView)) else { return }
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init(rawValue: 0))
             collectionView(collectionView, didSelectItemAt: indexPath)
+            
+        }
+    }
+    
+    @IBAction func panGestureSelectAction(_ sender: UIPanGestureRecognizer) {
+
+        guard let indexPath = self.collectionView.indexPathForItem(at: sender.location(in: collectionView)) else { return }
+        if selectMode == .on && isSelecteDeselect {
+            
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init(rawValue: 0))
+            collectionView(collectionView, didSelectItemAt: indexPath)
+            if sender.state == .ended {
+                isSelecteDeselect = false
+            }
+            
+        } else {
+            guard let indexPath = self.collectionView.indexPathForItem(at: sender.location(in: collectionView)) else { return }
+            
+            collectionView.deselectItem(at: indexPath, animated: true)
+            collectionView(collectionView, didDeselectItemAt: indexPath)
+            if sender.state == .ended {
+                isSelecteDeselect = true
+            }
         }
     }
 }
+
 
 extension TemporaryPhotoViewController: UICollectionViewDelegate {
     
