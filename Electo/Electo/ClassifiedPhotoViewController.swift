@@ -19,8 +19,10 @@ class ClassifiedPhotoViewController: UIViewController {
     var timer: Timer?
     var time: TimeInterval = 0 {
         didSet {
-            stopTimer()
-            disappearLoadingView()
+            if time == Constants.loadingTime {
+                stopTimer()
+                disappearLoadingView()
+            }
         }
     }
     
@@ -51,7 +53,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func appearLoadingView() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) {
+        timer = Timer.scheduledTimer(withTimeInterval: Constants.loadingTime, repeats: false) {
             [weak self] (timer: Timer) in
             
             self?.time += timer.timeInterval

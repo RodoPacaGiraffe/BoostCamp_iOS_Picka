@@ -27,6 +27,7 @@ struct Constants {
     static let temporaryPhotoAssetsIdentifier: String = "temporaryPhotoAssetsIdentifier"
     static let archiveFileName: String = "temporaryPhotoStore.archive"
     static let maximumSection: Int = 1
+    static let loadingTime: TimeInterval = 1
     static let archiveURL: URL? = {
         let documentDirectories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         
