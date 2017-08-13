@@ -30,7 +30,8 @@ extension PhotoClassifiable {
                     firstPhotoAssetDate = creationDate
                     tempPhotoAssets = []
                     tempPhotoAssets.append(photoAsset)
-                    
+                    dateString = ""
+                    dateString = creationDate.toDateString()
                     continue
                 }
 
@@ -40,13 +41,13 @@ extension PhotoClassifiable {
             }
             
             // TODO: 이 부분 개선필요.
-            dateString = creationDate.toDateString()
+            
             if classifiedPhotoAssets[dateString] == nil && tempPhotoAssets.count == 1 {
-                print(dateString)
                 classifiedPhotoAssets[dateString] = []
             
             }
             tempPhotoAssets.append(photoAsset)
+            
         }
         let methodFinish = Date()
         let executionTime = methodFinish.timeIntervalSince(methodStart)
