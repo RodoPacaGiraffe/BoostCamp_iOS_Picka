@@ -17,13 +17,13 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     
-    
+    var photoAssets: [PHAsset] = .init()
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
     var selectedSection: Int = 0
     var photoStore: PhotoStore?
     var selectedPhotos: Int = 0
-    var pressedIndexPath: IndexPath?
+    var pressedIndexPath: IndexPath = .init()
     var identifier: String = ""
     
     override func viewDidLoad() {
@@ -33,14 +33,18 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.maximumZoomScale = 6.0
         
         self.tabBarController?.tabBar.isHidden = true
-        detailImageView.image = thumbnailImages[0]
+        photoAssets = setAsset(identifier)
+        detailImageView.image = thumbnailImages.first
+        
+        collectionView(thumbnailCollectionView, didSelectItemAt: pressedIndexPath)
+        thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
-        doubleTapRecognizer.numberOfTapsRequired = 2
+        
+        doubleTapRecognizer.numberOfTapsRequired = Constants.numberOfTapsRequired
     }
     
     func setAsset(_ identifier: String) -> [PHAsset] {
@@ -73,6 +77,7 @@ class DetailPhotoViewController: UIViewController {
             return
         }
     }
+    
     
     //Todo: Selecting removable photos
     @IBAction func selectForRemovePhoto(_ sender: UIButton) {
@@ -111,7 +116,6 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
-        let photoAssets = self.setAsset(identifier)
         let photoAsset = photoAssets[indexPath.item]
         let options = PHImageRequestOptions()
         
@@ -132,21 +136,14 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
 
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard pressedIndexPath != indexPath else { return }
-        
-        self.detailImageView.image = thumbnailImages[indexPath.item]
         
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.zoomScale = 1.0
         
-        let assets = self.setAsset(identifier)
-        let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
         
         let options = PHImageRequestOptions()
-        
-        
         options.setImageRequestOptions(networkAccessAllowed: true, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
             guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
             DispatchQueue.main.async {
@@ -166,8 +163,9 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
             }
         }
         
+        let photoAsset: PHAsset = photoAssets[indexPath.item]
         DispatchQueue.global().async { [weak self] _ -> Void in
-            asset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
+            photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
                 DispatchQueue.main.async {
                     guard self?.pressedIndexPath == indexPath else { return }
