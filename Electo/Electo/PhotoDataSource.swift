@@ -50,6 +50,7 @@ extension PhotoDataSource: UITableViewDataSource {
         let creationDate = photoStore.creationDate[indexPath.section]
         let photoAssets = photoStore.classifiedPhotoAssets[creationDate]?[indexPath.row]
         var fetchedImages: [UIImage] = .init()
+     
         
         let options: PHImageRequestOptions = .init()
         options.isSynchronous = true
