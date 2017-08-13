@@ -11,7 +11,7 @@ import Photos
 
 class PhotoLibraryObserver: NSObject, PHPhotoLibraryChangeObserver {    
     private var fetchResult: PHFetchResult<PHAsset>?
-    static let photoLibraryObserver: PhotoLibraryObserver = PhotoLibraryObserver()
+    static let shared: PhotoLibraryObserver = PhotoLibraryObserver()
     
     override init() {
         super.init()
@@ -21,10 +21,6 @@ class PhotoLibraryObserver: NSObject, PHPhotoLibraryChangeObserver {
     
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
-    }
-    
-    static func sharedInstance() -> PhotoLibraryObserver {
-        return photoLibraryObserver
     }
     
     func setObserving(fetchResult: PHFetchResult<PHAsset>) {

@@ -30,7 +30,7 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.append(fetchResult[index])
         }
         
-        PhotoLibraryObserver.sharedInstance().setObserving(fetchResult: fetchResult)
+        PhotoLibraryObserver.shared.setObserving(fetchResult: fetchResult)
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
