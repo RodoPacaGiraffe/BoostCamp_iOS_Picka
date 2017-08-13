@@ -38,6 +38,9 @@ class ClassifiedPhotoViewController: UIViewController {
         
         appearLoadingView()
         requestAuthorization()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
+                                               name: Constants.requiredReload, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +84,29 @@ class ClassifiedPhotoViewController: UIViewController {
             
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
-            self?.fetchArchivedTemporaryPhotoStore()
+
+            DispatchQueue.global().sync {
+                guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
+                    as? TemporaryPhotoStore else { return }
+                
+                self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
+                self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
+    
+                let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
+                
+                let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhoto(
+                    assets: unarchivedPhotoAssets)
+                
+                if let photoAssets = removedAssetsFromLibrary {
+                    self?.photoDataSource.temporaryPhotoStore.remove(
+                        photoAssets: photoAssets, isPerformDelegate: false)
+                }
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            }
+
         }
     }
     
@@ -114,6 +139,14 @@ class ClassifiedPhotoViewController: UIViewController {
                 as? TemporaryPhotoViewController else { return }
         
         temporaryPhotoViewController.photoDataSource = photoDataSource
+
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+
     }
 }
 

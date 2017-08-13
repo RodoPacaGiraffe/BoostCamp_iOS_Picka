@@ -38,6 +38,9 @@ class TemporaryPhotoViewController: UIViewController {
         collectionView.allowsMultipleSelection = true
         
         setCellSize()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
+                                               name: Constants.requiredReload, object: nil)
     }
     
     private func setCellSize() {
@@ -75,6 +78,12 @@ class TemporaryPhotoViewController: UIViewController {
         }
         
         return selectedPhotoAssets
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
     }
     
     @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
