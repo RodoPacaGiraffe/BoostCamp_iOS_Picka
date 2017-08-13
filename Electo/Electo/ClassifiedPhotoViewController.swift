@@ -72,10 +72,10 @@ class ClassifiedPhotoViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "ModalRemovedPhotoVC" else { return }
         guard let navigationController = segue.destination as? UINavigationController,
-            let removedPhotoViewController = navigationController.topViewController
+            let temporaryPhotoViewController = navigationController.topViewController
                 as? TemporaryPhotoViewController else { return }
         
-        removedPhotoViewController.photoDataSource = photoDataSource
+        temporaryPhotoViewController.photoDataSource = photoDataSource
     }
 }
 
@@ -94,8 +94,10 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.selectedSection = indexPath.section
         detailViewController.photoStore = photoDataSource.photoStore
         
+        detailViewController.identifier = "fromClassifiedView"
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         detailViewController.thumbnailImages = selectedCell.cellImages
+        detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
         
         show(detailViewController, sender: self)
         

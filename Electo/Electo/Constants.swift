@@ -34,4 +34,5 @@ struct Constants {
         
         return documentDirectory.appendingPathComponent(Constants.archiveFileName)
     }()
+    static let numberOfTapsRequired: Int = 2
 }
