@@ -97,7 +97,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.identifier = "fromClassifiedView"
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         detailViewController.thumbnailImages = selectedCell.cellImages
-        detailViewController.pressedIndexPath = IndexPath.init(row: 0, section: 0)
+        detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
         
         show(detailViewController, sender: self)
         
