@@ -190,12 +190,7 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
         return self.detailImageView
     }
     
-    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-        self.detailImageView.contentMode = .scaleAspectFit
-    }
-    
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
-        self.detailImageView.contentMode = .scaleAspectFill
     }
 }
