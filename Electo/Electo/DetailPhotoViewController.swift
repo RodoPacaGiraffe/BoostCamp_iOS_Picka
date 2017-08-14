@@ -50,24 +50,22 @@ class DetailPhotoViewController: UIViewController {
         }
     }
     
-    func changeSwipe(direction: String) {
+    func changeSwipe(direction: Direction) {
         
-        switch direction {
-        case "right":
+        switch direction{
+        case  .right:
             selectedPhotos -= 1
             if selectedPhotos < 0 {
                 selectedPhotos += 1
                 return
             }
-        case "left":
+        case .left:
             let count = setAsset(identifier).count
             selectedPhotos += 1
             if selectedPhotos == count {
                 selectedPhotos -= 1
                 return
             }
-        default:
-            return
         }
     }
     
@@ -92,14 +90,14 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction func leftSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        changeSwipe(direction: "left")
+        changeSwipe(direction: Direction.left)
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     @IBAction func rightSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        changeSwipe(direction: "right")
+        changeSwipe(direction: Direction.right)
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
