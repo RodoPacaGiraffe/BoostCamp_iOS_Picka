@@ -42,8 +42,8 @@ extension PhotoDataSource: UITableViewDataSource {
         let options: PHImageRequestOptions = .init()
         options.isSynchronous = true
         photoAssets.forEach {
-            $0.fetchImage(size: CGSize(width: 50, height: 50),
-                          contentMode: .aspectFit, options: options) { photoImage in
+            $0.fetchImage(size: CGSize(width: 90, height: 90),
+                          contentMode: .aspectFill, options: options) { photoImage in
                             guard let photoImage = photoImage else { return }
                             fetchedImages.append(photoImage)
                             
@@ -78,7 +78,7 @@ extension PhotoDataSource: UICollectionViewDataSource {
         let removedPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
         
         removedPhotoAsset.fetchImage(size: CGSize(width: 90, height: 90),
-                                     contentMode: .aspectFit, options: nil) { removedPhotoImage in
+                                     contentMode: .aspectFill, options: nil) { removedPhotoImage in
                                         guard let removedPhotoImage = removedPhotoImage else { return }
                                                 
                                         cell.addRemovedImage(removedPhotoImage: removedPhotoImage)

@@ -129,11 +129,11 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
             manager.cancelImageRequest(previousRequestID)
         }
         
-        cell.requestID = photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
-                                                        contentMode: .aspectFill,
-                                                        options: options,
-                                                        resultHandler: { (requestedImage) in
-                                                            cell.thumbnailImageView.image = requestedImage
+        cell.requestID = photoAsset.fetchImage(size: CGSize(width: 60.0, height: 60.0),
+                                               contentMode: .aspectFill,
+                                               options: options,
+                                               resultHandler: { (requestedImage) in
+                                                cell.thumbnailImageView.image = requestedImage
         })
         return cell
     }
@@ -143,14 +143,15 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         self.detailImageView.contentMode = .scaleAspectFill
-        print(self.zoomingScrollView.zoomScale)
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
-        
+        let options = PHImageRequestOptions()
         selectedPhotos = indexPath.item
         pressedIndexPath = indexPath
         
-        let options = PHImageRequestOptions()
-        options.setImageRequestOptions(networkAccessAllowed: Constants.dataAllowed, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
+        
+        
+        options.setImageRequestOptions(networkAccessAllowed: Constants.dataAllowed, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, stop, _)-> Void in
+            
             guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
             DispatchQueue.main.async {
                 guard self?.pressedIndexPath == indexPath else { return }
@@ -166,20 +167,28 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
                 self?.detailImageView.addSubview(progressView)
                 
                 progressView.setProgress(Float(percent), animated: true)
+                
             }
         }
         
         let photoAsset: PHAsset = photoAssets[indexPath.item]
         DispatchQueue.global().async { [weak self] _ -> Void in
             photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
-                guard let data = fetchedData else { return }
+                guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
+                guard let data = fetchedData else {
+                    self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
+                    return
+                }
                 DispatchQueue.main.async {
                     guard self?.pressedIndexPath == indexPath else { return }
                     self?.detailImageView.image = UIImage(data: data)
                     self?.loadingIndicatorView.stopAnimating()
                 }
             })
+            
+            
         }
+        
     }
 }
 
