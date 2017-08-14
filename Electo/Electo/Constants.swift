@@ -10,7 +10,7 @@ import Foundation
 import Photos
 
 
-enum Direction: String {
+enum Direction {
     case left
     case right
 }
@@ -48,4 +48,5 @@ struct Constants {
     }()
     static let numberOfTapsRequired: Int = 2
     static var dataAllowed: Bool = true
+    static let fetchImageSize = CGSize(width: 50, height: 50)
 }

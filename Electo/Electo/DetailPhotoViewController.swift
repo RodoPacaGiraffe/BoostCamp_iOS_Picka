@@ -129,7 +129,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
             manager.cancelImageRequest(previousRequestID)
         }
         
-        cell.requestID = photoAsset.fetchImage(size: CGSize(width: 60.0, height: 60.0),
+        cell.requestID = photoAsset.fetchImage(size: Constants.fetchImageSize,
                                                contentMode: .aspectFill,
                                                options: options,
                                                resultHandler: { (requestedImage) in
