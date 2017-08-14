@@ -21,10 +21,10 @@ class PhotoStore: PhotoClassifiable {
     func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
         
+        
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
                                                          ascending: false)]
-        
-        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
