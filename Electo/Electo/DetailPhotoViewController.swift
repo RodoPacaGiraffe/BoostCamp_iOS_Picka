@@ -16,12 +16,13 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
+    @IBOutlet var flowLayout: UICollectionViewFlowLayout!
     
     var photoAssets: [PHAsset] = .init()
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
     var selectedSection: Int = 0
-    var photoStore: PhotoStore?
+    var photoDataSource: PhotoDataSource?
     var selectedPhotos: Int = 0
     var pressedIndexPath: IndexPath = .init()
     var identifier: String = ""
@@ -29,23 +30,31 @@ class DetailPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setFlowLayout()
         displayDetailViewSetting()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(zoomingScrollView.zoomScale)
+    func setFlowLayout() {
+        flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
+        flowLayout.itemSize.width = flowLayout.itemSize.height
     }
-    
+
     func setAsset(_ identifier: String) -> [PHAsset] {
         switch identifier {
         case "fromTemporaryViewController":
             return selectedSectionAssets
         default:
-            guard let assets = photoStore?.classifiedPhotoAssets[selectedSection] else { return ([]) }
+            guard let assets = photoDataSource?.photoStore.classifiedPhotoAssets[selectedSection] else {
+                return ([]) }
+            
             return assets
         }
     }
@@ -75,7 +84,6 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.minimumZoomScale = 1.0
         self.zoomingScrollView.maximumZoomScale = 6.0
         
-        self.tabBarController?.tabBar.isHidden = true
         photoAssets = setAsset(identifier)
         detailImageView.image = thumbnailImages.first
         
@@ -83,12 +91,6 @@ class DetailPhotoViewController: UIViewController {
         thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
         
         doubleTapRecognizer.numberOfTapsRequired = Constants.numberOfTapsRequired
-    }
-    
-    
-    //Todo: Selecting removable photos
-    @IBAction func selectForRemovePhoto(_ sender: UIButton) {
-        print("selected!")
     }
     
     @IBAction func leftSwipeAction(_ sender: UISwipeGestureRecognizer) {
@@ -109,6 +111,15 @@ class DetailPhotoViewController: UIViewController {
     @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
         self.detailImageView.contentMode = .scaleAspectFill
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "ModalRemovedPhotoVC" else { return }
+        guard let navigationController = segue.destination as? UINavigationController,
+            let temporaryPhotoViewController = navigationController.topViewController
+                as? TemporaryPhotoViewController else { return }
+        
+        temporaryPhotoViewController.photoDataSource = photoDataSource
     }
     
 }

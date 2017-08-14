@@ -40,6 +40,7 @@ class ClassifiedPhotoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    
         
         tableView.reloadData()
     }
@@ -115,7 +116,6 @@ class ClassifiedPhotoViewController: UIViewController {
                 as? TemporaryPhotoViewController else { return }
         
         temporaryPhotoViewController.photoDataSource = photoDataSource
-
     }
     
     func reloadData() {
@@ -139,7 +139,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
         detailViewController.selectedSection = indexPath.section
-        detailViewController.photoStore = photoDataSource.photoStore
+        detailViewController.photoDataSource = photoDataSource
         
         detailViewController.identifier = "fromClassifiedView"
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
