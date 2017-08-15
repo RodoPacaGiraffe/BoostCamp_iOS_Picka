@@ -27,32 +27,24 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
 extension PhotoDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
       
-        return photoStore.creationDate.count
+        return photoStore.classifiedPhotoAssets.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sectionCount = photoStore.classifiedPhotoAssets[photoStore.creationDate[section]]?.count else {
-            return 0
-        }
-        return sectionCount
+       
+        return photoStore.classifiedPhotoAssets[section].photoAssetsArray.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard photoStore.classifiedPhotoAssets[photoStore.creationDate[section]]?.count != nil else {
-            return nil
-        }
-        return "\(photoStore.creationDate[section])"
+       
+        return photoStore.classifiedPhotoAssets[section].date.toDateString()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
         
-        let creationDate = photoStore.creationDate[indexPath.section]
-        guard let photoAssets = photoStore.classifiedPhotoAssets[creationDate]?[indexPath.row] else {
-            return UITableViewCell()
-        }
+        let photoAssets = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
         var fetchedImages: [UIImage] = .init()
-     
         
         let options: PHImageRequestOptions = .init()
         options.isSynchronous = true
@@ -75,13 +67,11 @@ extension PhotoDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         
-        let creationDate = photoStore.creationDate[indexPath.section]
-        guard let assets = photoStore.classifiedPhotoAssets[creationDate]?[indexPath.row] else { return }
+        let assets = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
         
         temporaryPhotoStore.insert(photoAssets: assets)
-        tableView.beginUpdates()
+   
         tableView.deleteRows(at: [indexPath], with: .automatic)
-        tableView.endUpdates()
     }
         
 }

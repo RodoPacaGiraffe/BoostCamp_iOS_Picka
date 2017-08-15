@@ -11,8 +11,7 @@ import Photos
 
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
-    fileprivate(set) var classifiedPhotoAssets: [String:[[PHAsset]]] = [:]
-    var creationDate: [String] = []
+    fileprivate(set) var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
     
     func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
@@ -26,8 +25,6 @@ class PhotoStore: PhotoClassifiable {
         }
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
-        creationDate = Array(classifyByTimeInterval(photoAssets: photoAssets).keys).sorted(by: >)
-        print(creationDate)
     }
     
     func applyUnarchivedPhotoAssets(unarchivedPhotoAssets: [PHAsset]?) -> [PHAsset]?{

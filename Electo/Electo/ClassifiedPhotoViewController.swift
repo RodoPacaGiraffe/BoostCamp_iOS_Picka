@@ -104,8 +104,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.thumbnailImages = selectedCell.cellImages
         
         show(detailViewController, sender: self)
-        
-        
+
     }
 }
 

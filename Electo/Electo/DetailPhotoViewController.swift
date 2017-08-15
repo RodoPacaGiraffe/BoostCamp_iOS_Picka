@@ -49,8 +49,9 @@ class DetailPhotoViewController: UIViewController {
         case "fromTemporaryViewController":
             return selectedSectionAssets
         default:
-            guard let creationDate = photoStore?.creationDate[selectedIndexPath.section] else {return [] }
-            guard let assets = photoStore?.classifiedPhotoAssets[creationDate]?[selectedIndexPath.row] else { return [] }
+            guard let assets = photoStore?.classifiedPhotoAssets[
+                selectedIndexPath.section].photoAssetsArray[selectedIndexPath.row] else { return [] }
+            
             return assets
         }
     }

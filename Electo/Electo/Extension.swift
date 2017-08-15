@@ -33,10 +33,20 @@ extension PHAsset {
 }
 
 extension Date {
-    func containedWithinBoundary(for date: Date) -> Bool {
+    func getDifference(from date: Date) -> Difference {
         let endTimeInterval = self.timeIntervalSince(date)
         
-        return abs(endTimeInterval) <= Constants.timeIntervalBoundary
+        let day1 = Calendar.current.component(.day, from: self)
+        
+        let day2 = Calendar.current.component(.day, from: date)
+        
+        if (abs(endTimeInterval) > Constants.timeIntervalBoundary) && (day1 == day2) {
+            return .intervalBoundary
+        } else if day1 != day2 {
+            return .day
+        } else {
+            return .none
+        }
     }
 
     func toDateString() -> String {
