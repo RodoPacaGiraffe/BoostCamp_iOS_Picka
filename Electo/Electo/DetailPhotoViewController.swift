@@ -181,6 +181,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
             as? DetailPhotoCell else { return }
     
         previousSelectedCell?.deSelect()
+        
         thumbnailViewCell.select()
         previousSelectedCell = thumbnailViewCell
         
