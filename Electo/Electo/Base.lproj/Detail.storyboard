@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -80,25 +80,22 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oDd-kC-e5K">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yMN-2W-4Kp">
-                                                    <rect key="frame" x="16" y="5" width="61" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" red="0.28571033801149465" green="0.76501031091370564" blue="0.28655256600081114" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" title="Selected"/>
-                                                    <connections>
-                                                        <action selector="selectForRemovePhoto:" destination="24c-6t-MzH" eventType="touchUpInside" id="oCT-xs-uMD"/>
-                                                    </connections>
-                                                </button>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checked" translatesAutoresizingMaskIntoConstraints="NO" id="VJk-HC-7Tc">
+                                                    <rect key="frame" x="35" y="35" width="30" height="30"/>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="oDd-kC-e5K" firstAttribute="height" secondItem="M0z-3K-VEl" secondAttribute="height" id="2s7-S0-4Uf"/>
                                             <constraint firstItem="oDd-kC-e5K" firstAttribute="centerX" secondItem="M0z-3K-VEl" secondAttribute="centerX" id="3Zw-hN-r0K"/>
                                             <constraint firstAttribute="width" secondItem="oDd-kC-e5K" secondAttribute="height" multiplier="1:1" id="46s-gr-7Sr"/>
+                                            <constraint firstItem="VJk-HC-7Tc" firstAttribute="centerY" secondItem="M0z-3K-VEl" secondAttribute="centerY" id="OFz-hs-LiF"/>
                                             <constraint firstItem="oDd-kC-e5K" firstAttribute="centerY" secondItem="M0z-3K-VEl" secondAttribute="centerY" id="boI-qo-emE"/>
+                                            <constraint firstItem="VJk-HC-7Tc" firstAttribute="centerX" secondItem="M0z-3K-VEl" secondAttribute="centerX" id="fg0-BJ-cSj"/>
                                             <constraint firstItem="oDd-kC-e5K" firstAttribute="width" secondItem="M0z-3K-VEl" secondAttribute="width" id="gpP-JJ-cuQ"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="checkedImageView" destination="VJk-HC-7Tc" id="Zbg-va-rin"/>
                                             <outlet property="thumbnailImageView" destination="oDd-kC-e5K" id="942-cL-jzW"/>
                                         </connections>
                                     </collectionViewCell>
@@ -166,4 +163,7 @@
             <point key="canvasLocation" x="3208.8000000000002" y="-228.03598200899552"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Checked" width="30" height="30"/>
+    </resources>
 </document>

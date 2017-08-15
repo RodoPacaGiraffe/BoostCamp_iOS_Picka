@@ -11,8 +11,7 @@ import UIKit
 class TemporaryPhotoCell: UICollectionViewCell {
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var checkedImageView: UIImageView!
-
-
+    
     func addRemovedImage(removedPhotoImage: UIImage) {
         thumbnailImageView.image = removedPhotoImage
     }

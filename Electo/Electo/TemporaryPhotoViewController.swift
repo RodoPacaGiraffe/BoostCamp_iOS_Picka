@@ -22,7 +22,8 @@ class TemporaryPhotoViewController: UIViewController {
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
     var photoDataSource: PhotoDataSource?
-    var tempThumbnailImages: [UIImage] = .init()
+    var tempThumbnailImages: [UIImage] = []
+    var selectedIndexPaths: [IndexPath] = []
     
     fileprivate var selectMode: SelectMode = .off {
         didSet {
