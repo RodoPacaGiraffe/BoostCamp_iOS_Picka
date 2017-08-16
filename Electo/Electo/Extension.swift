@@ -58,15 +58,17 @@ extension Date {
 }
 
 extension CLLocation {
-    func reverseGeocode() {
+    func reverseGeocode(completion: @escaping (_ locationString: String) -> Void) {
         let geoCoder = CLGeocoder()
-        
+        var locationString: String = .init()
+
         geoCoder.reverseGeocodeLocation(self, completionHandler: { placemarks, error in
             guard let addressDictionary = placemarks?[0].addressDictionary else { return }
-            guard let city = addressDictionary[LocationKey.city] as? String else { return }
-            guard let country = addressDictionary[LocationKey.country] as? String else { return }
-            print(city)
-            print(country)
+            guard let country = addressDictionary[LocationKey.country.rawValue] as? String else { return }
+            guard let city = addressDictionary[LocationKey.city.rawValue] as? String else { return }
+            locationString = country + city
+    
+            completion(locationString)
         })
     }
 }

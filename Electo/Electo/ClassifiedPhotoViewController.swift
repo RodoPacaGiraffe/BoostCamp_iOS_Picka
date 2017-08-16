@@ -145,7 +145,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
             print("cell is not a photoCell")
             return
         }
-        
+        print(indexPath)
         photoCell.clearStackView()
     }
     

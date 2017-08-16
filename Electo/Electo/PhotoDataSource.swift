@@ -22,6 +22,21 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
         
         super.init()
     }
+    
+    let geoCoder = CLGeocoder()
+    
+    func reverseGeocode(location: CLLocation,completion: @escaping (_ locationString: String) -> Void) {
+        var locationString: String = .init()
+        
+        geoCoder.reverseGeocodeLocation(location, completionHandler: { placemarks, error in
+            guard let addressDictionary = placemarks?[0].addressDictionary else { return }
+            guard let country = addressDictionary[LocationKey.country.rawValue] as? String else { return }
+            guard let city = addressDictionary[LocationKey.city.rawValue] as? String else { return }
+            locationString = country + city
+            
+            completion(locationString)
+        })
+    }
 }
 
 extension PhotoDataSource: UITableViewDataSource {
@@ -59,8 +74,8 @@ extension PhotoDataSource: UITableViewDataSource {
                             }
             }
         }
-        
         cell.dateLabel.text = "\(photoAssets.count) Photos"
+        
         return cell
     }
     

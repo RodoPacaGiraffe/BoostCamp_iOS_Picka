@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We will use photo library.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We will use your location info.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Main</string>
 	<key>UIMainStoryboardFile</key>

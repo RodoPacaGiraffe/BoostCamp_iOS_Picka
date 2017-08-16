@@ -31,7 +31,7 @@ class PhotoStore: PhotoClassifiable {
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
         }
-        
+
         PhotoLibraryObserver.shared.setObserving(fetchResult: fetchResult)
         
         cachingImageManager.startCachingImages(for: photoAssets,
