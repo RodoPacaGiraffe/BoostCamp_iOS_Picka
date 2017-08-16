@@ -42,14 +42,14 @@ extension PhotoClassifiable {
                 guard !tempPhotoAssetsArray.isEmpty else { break }
                 
                 let classifiedPhotoAssets = ClassifiedPhotoAssets(
-                    date: creationDate, photoAssetsArray: tempPhotoAssetsArray)
+                    date: referencePhotoAssetDate, photoAssetsArray: tempPhotoAssetsArray)
                 
                 classifiedPhotoAssetsArray.append(classifiedPhotoAssets)
-                tempPhotoAssetsArray = []
+                tempPhotoAssetsArray.removeAll()
             }
             
             referencePhotoAssetDate = creationDate
-            tempPhotoAssets = []
+            tempPhotoAssets.removeAll()
             tempPhotoAssets.append(photoAsset)
         }
 

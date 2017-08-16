@@ -67,13 +67,17 @@ extension PhotoDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         
-        let assets = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+        let classifiedPhotoAssets = photoStore.classifiedPhotoAssets[indexPath.section]
+        let assets = classifiedPhotoAssets.photoAssetsArray[indexPath.row]
         
         temporaryPhotoStore.insert(photoAssets: assets)
-   
-        tableView.deleteRows(at: [indexPath], with: .automatic)
-    }
         
+        if classifiedPhotoAssets.photoAssetsArray.count == 1 {
+            tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+        } else {
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 }
 
 extension PhotoDataSource: UICollectionViewDataSource {
@@ -84,9 +88,9 @@ extension PhotoDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier,
             for: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
-        let removedPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
+        let temporaryPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
         
-        removedPhotoAsset.fetchImage(size: CGSize(width: 90, height: 90),
+        temporaryPhotoAsset.fetchImage(size: CGSize(width: 90, height: 90),
             contentMode: .aspectFit, options: nil) { removedPhotoImage in
             guard let removedPhotoImage = removedPhotoImage else { return }
                         
