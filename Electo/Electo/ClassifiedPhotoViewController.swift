@@ -39,7 +39,7 @@ class ClassifiedPhotoViewController: UIViewController {
         super.viewDidLoad()
 
         setTableView()
-//        appearLoadingView()
+        appearLoadingView()
         requestAuthorization()
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
@@ -89,7 +89,6 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.refreshControl.endRefreshing()
             }
         }
-        tableView.reloadData()
     }
     
     private func requestAuthorization() {
@@ -98,17 +97,17 @@ class ClassifiedPhotoViewController: UIViewController {
             guard authorizationStatus == .authorized else { return }
             
             self?.photoDataSource.photoStore.fetchPhotoAsset()
-            self?.fetchArchivedTemporaryPhotoStore()
-                
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
+            
+            guard let path = Constants.archiveURL?.path else {
+                self?.reloadData()
+                return
             }
+
+            self?.fetchArchivedTemporaryPhotoStore(from: path)
         }
     }
     
-    private func fetchArchivedTemporaryPhotoStore() {
-        guard let path = Constants.archiveURL?.path else { return }
-        
+    private func fetchArchivedTemporaryPhotoStore(from path: String) {
         DispatchQueue.global().async {
             [weak self] in
             guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
@@ -125,6 +124,8 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.photoDataSource.temporaryPhotoStore.remove(
                     photoAssets: photoAssets, isPerformDelegate: false)
             }
+            
+            self?.reloadData()
         }
     }
     
@@ -141,8 +142,8 @@ class ClassifiedPhotoViewController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
-
     }
+    
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
        print(sender.state)
         if sender.isOn {
