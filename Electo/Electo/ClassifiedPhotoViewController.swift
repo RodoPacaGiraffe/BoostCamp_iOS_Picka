@@ -190,10 +190,10 @@ class ClassifiedPhotoViewController: UIViewController {
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         guard selectedCell.imageViews[selectedPhotoIndex].image != nil else { return }
 
-        detailViewController.selectedIndexPath = indexPath
         detailViewController.photoDataSource = photoDataSource
         detailViewController.identifier = "fromClassifiedView"
         detailViewController.thumbnailImages = selectedCell.cellImages
+        detailViewController.selectedIndexPath = indexPath
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
         show(detailViewController, sender: self)
     }
