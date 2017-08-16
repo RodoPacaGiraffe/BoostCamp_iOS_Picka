@@ -14,7 +14,7 @@
         <!--Settings-->
         <scene sceneID="YHV-ED-j9e">
             <objects>
-                <tableViewController id="lZz-3f-zf2" sceneMemberID="viewController">
+                <tableViewController id="lZz-3f-zf2" customClass="SettingViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="bLG-r1-zKu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -37,6 +37,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C37-bf-6c9">
                                                     <rect key="frame" x="318" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="networkAllowSwitch:" destination="lZz-3f-zf2" eventType="valueChanged" id="HS0-dV-31E"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
