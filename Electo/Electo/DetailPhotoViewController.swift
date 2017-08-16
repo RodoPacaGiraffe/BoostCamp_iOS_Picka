@@ -25,7 +25,6 @@ class DetailPhotoViewController: UIViewController {
     var selectedIndexPath: IndexPath = IndexPath()
     var pressedIndexPath: IndexPath = IndexPath()
     var selectedPhotos: Int = 0
-    var pressedIndexPath: IndexPath = .init()
     var previousSelectedCell: DetailPhotoCell?
     var identifier: String = ""
     
@@ -64,7 +63,7 @@ class DetailPhotoViewController: UIViewController {
                 selectedPhotos += 1
                 return
             }
-        case "left":
+        case .left:
             let count = getAsset(from: identifier).count
 
             selectedPhotos += 1
@@ -80,7 +79,7 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.maximumZoomScale = 6.0
         
         self.tabBarController?.tabBar.isHidden = true
-        photoAssets = setAsset(identifier)
+        photoAssets = getAsset(from: identifier)
         detailImageView.image = thumbnailImages.first
         
         fetchFullSizeImage(from: pressedIndexPath)

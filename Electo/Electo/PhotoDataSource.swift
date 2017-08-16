@@ -98,7 +98,7 @@ extension PhotoDataSource: UICollectionViewDataSource {
             cell.deSelect()
         }
         
-        removedPhotoAsset.fetchImage(size: Constants.fetchImageSize,
+        temporaryPhotoAsset.fetchImage(size: Constants.fetchImageSize,
                                      contentMode: .aspectFill, options: nil) { removedPhotoImage in
                                         guard let removedPhotoImage = removedPhotoImage else { return }
                                                 
