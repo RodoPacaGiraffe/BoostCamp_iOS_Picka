@@ -26,17 +26,24 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
 
 extension PhotoDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
+      
         return photoStore.classifiedPhotoAssets.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Constants.maximumSection
+       
+        return photoStore.classifiedPhotoAssets[section].photoAssetsArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+       
+        return photoStore.classifiedPhotoAssets[section].date.toDateString()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
         
-        let photoAssets = photoStore.classifiedPhotoAssets[indexPath.section]
+        let photoAssets = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
         var fetchedImages: [UIImage] = .init()
         
         let options: PHImageRequestOptions = .init()
@@ -53,16 +60,23 @@ extension PhotoDataSource: UITableViewDataSource {
             }
         }
         
+        cell.dateLabel.text = "\(photoAssets.count) Photos"
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         
-        let assets = photoStore.classifiedPhotoAssets[indexPath.section]
+        let classifiedPhotoAssets = photoStore.classifiedPhotoAssets[indexPath.section]
+        let assets = classifiedPhotoAssets.photoAssetsArray[indexPath.row]
         
         temporaryPhotoStore.insert(photoAssets: assets)
-        tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+        
+        if classifiedPhotoAssets.photoAssetsArray.count == 1 {
+            tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+        } else {
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }
 
@@ -75,7 +89,14 @@ extension PhotoDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier,
             for: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
-        let removedPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
+        let temporaryPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
+
+        if let selectedItems = collectionView.indexPathsForSelectedItems,
+            selectedItems.contains(indexPath) {
+            cell.select()
+        } else {
+            cell.deSelect()
+        }
         
         removedPhotoAsset.fetchImage(size: Constants.fetchImageSize,
                                      contentMode: .aspectFill, options: nil) { removedPhotoImage in
