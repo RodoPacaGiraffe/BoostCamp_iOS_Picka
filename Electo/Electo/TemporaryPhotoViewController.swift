@@ -155,12 +155,12 @@ class TemporaryPhotoViewController: UIViewController {
     @IBAction func panGestureSelectAction(_ sender: UIPanGestureRecognizer) {
 
         guard let indexPath = self.collectionView.indexPathForItem(at: sender.location(in: collectionView)) else { return }
-        if selectMode == .on && isSelecteDeselect {
+        if selectMode == .on && isSelected {
             
             collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init(rawValue: 0))
             collectionView(collectionView, didSelectItemAt: indexPath)
             if sender.state == .ended {
-                isSelecteDeselect = false
+                isSelected = false
             }
             
         } else {
@@ -169,7 +169,7 @@ class TemporaryPhotoViewController: UIViewController {
             collectionView.deselectItem(at: indexPath, animated: true)
             collectionView(collectionView, didDeselectItemAt: indexPath)
             if sender.state == .ended {
-                isSelecteDeselect = true
+                isSelected = true
             }
         }
     }
