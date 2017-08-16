@@ -12,13 +12,41 @@ import Photos
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
 
-    fileprivate(set) var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
+//    var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
+    
+    var classifiedPhotoAssets: [ClassifiedPhotoAssets] = [] {
+        didSet {
+            Timer.init(fire: Date(), interval: 1, repeats: true) {[weak self] _ in
+                self?.getLocation()
+                print("실행중")
+                }.fire()
+        }
+    }
   
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
                                                name: Constants.removedAssetsFromPhotoLibrary, object: nil)
     }
-
+    
+    func getLocation() {
+        var getCount: Int = 0
+        classifiedPhotoAssets.forEach {
+            $0.photoAssetsArray.forEach { (classifiedPhotoAsset) in
+                let value = classifiedPhotoAsset
+                guard getCount < 30 else { return }
+                if classifiedPhotoAsset.location == "" {
+                    getCount += 1
+                    let location = classifiedPhotoAsset.photoAssets.first?.location
+                    location?.reverseGeocode {
+                        (locationString) -> Void in
+                        value.getLocation(location: locationString)
+                        print(value.location)
+                    }
+                }
+            }
+        }
+    }
+    
     func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
         

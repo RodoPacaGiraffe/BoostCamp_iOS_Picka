@@ -67,7 +67,7 @@ extension CLLocation {
             guard let country = addressDictionary[LocationKey.country.rawValue] as? String else { return }
             guard let city = addressDictionary[LocationKey.city.rawValue] as? String else { return }
             locationString = country + city
-    
+            
             completion(locationString)
         })
     }

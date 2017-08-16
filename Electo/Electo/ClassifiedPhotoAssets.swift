@@ -11,5 +11,14 @@ import Photos
 
 struct ClassifiedPhotoAssets {
     let date: Date
-    let photoAssetsArray: [[PHAsset]]
+    var photoAssetsArray: [ClassifiedPhotoAsset]
+}
+
+class ClassifiedPhotoAsset {
+    var photoAssets: [PHAsset] = []
+    var location: String = ""
+    
+    func getLocation(location: String) {
+        self.location = location
+    }
 }

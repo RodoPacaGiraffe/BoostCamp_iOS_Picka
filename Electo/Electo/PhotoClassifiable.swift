@@ -17,8 +17,9 @@ extension PhotoClassifiable {
     func classifyByTimeInterval(photoAssets: [PHAsset]) -> [ClassifiedPhotoAssets] {
         guard var referencePhotoAssetDate = photoAssets.first?.creationDate else { return [] }
         var classifiedPhotoAssetsArray: [ClassifiedPhotoAssets] = []
-        var tempPhotoAssets: [PHAsset] = []
-        var tempPhotoAssetsArray: [[PHAsset]] = []
+        
+        var tempPhotoAssets: ClassifiedPhotoAsset = .init()
+        var tempPhotoAssetsArray: [ClassifiedPhotoAsset] = []
         
         // TODO: Refactoring 필요, 한번에 추가하는 것 고려
         for photoAsset in photoAssets {
@@ -28,19 +29,19 @@ extension PhotoClassifiable {
         
             switch difference {
             case .none:
-                tempPhotoAssets.append(photoAsset)
+                tempPhotoAssets.photoAssets.append(photoAsset)
                 continue
             case .intervalBoundary:
-                if tempPhotoAssets.count > Constants.minimumPhotoCount - 1 {
+                if tempPhotoAssets.photoAssets.count > Constants.minimumPhotoCount - 1 {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
                 }
             case .day:
-                if tempPhotoAssets.count > Constants.minimumPhotoCount - 1 {
+                if tempPhotoAssets.photoAssets.count > Constants.minimumPhotoCount - 1 {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
                 }
                 
                 guard !tempPhotoAssetsArray.isEmpty else { break }
-                
+
                 let classifiedPhotoAssets = ClassifiedPhotoAssets(
                     date: referencePhotoAssetDate, photoAssetsArray: tempPhotoAssetsArray)
                 
@@ -49,10 +50,11 @@ extension PhotoClassifiable {
             }
             
             referencePhotoAssetDate = creationDate
-            tempPhotoAssets.removeAll()
-            tempPhotoAssets.append(photoAsset)
+            tempPhotoAssets.photoAssets.removeAll()
+            
+            tempPhotoAssets.photoAssets.append(photoAsset)
         }
-
+        
         return classifiedPhotoAssetsArray
     }
 }

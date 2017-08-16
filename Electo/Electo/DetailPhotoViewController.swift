@@ -60,7 +60,7 @@ class DetailPhotoViewController: UIViewController {
             guard let assets = photoStore?.classifiedPhotoAssets[
                 selectedIndexPath.section].photoAssetsArray[selectedIndexPath.row] else { return [] }
             
-            return assets
+            return assets.photoAssets
         }
     }
     
