@@ -76,8 +76,6 @@ class ClassifiedPhotoViewController: UIViewController {
     private func disappearLoadingView() {
         self.loadingView.stopIndicatorAnimating()
         self.loadingView.removeFromSuperview()        
-        self.navigationController?.navigationBar.isHidden = false
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     @objc private func pullToRefresh() {
@@ -156,10 +154,8 @@ class ClassifiedPhotoViewController: UIViewController {
             })
             alertController.addAction(okAction)
             alertController.addAction(cancelAction)
-            print("on")
             present(alertController, animated: true, completion: nil)
         } else {
-            print("off")
             Constants.dataAllowed = false
         }
     }

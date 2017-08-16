@@ -11,7 +11,6 @@ import Photos
 
 class DetailPhotoCell: UICollectionViewCell {
     @IBOutlet var thumbnailImageView: UIImageView!
-    @IBOutlet var checkedImageView: UIImageView!
     
     var requestID: PHImageRequestID?
     
@@ -21,11 +20,9 @@ class DetailPhotoCell: UICollectionViewCell {
     
     func select() {
         thumbnailImageView.alpha = 0.5
-        checkedImageView.isHidden = false
     }
     
     func deSelect() {
         thumbnailImageView.alpha = 1.0
-        checkedImageView.isHidden = true
     }
 }
