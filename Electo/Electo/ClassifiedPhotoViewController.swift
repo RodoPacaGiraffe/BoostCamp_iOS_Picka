@@ -14,9 +14,18 @@ class ClassifiedPhotoViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
-    let loadingView = LoadingView.instanceFromNib()
-    var timer: Timer?
-    var time: TimeInterval = 0 {
+    private let loadingView = LoadingView.instanceFromNib()
+    
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector (pullToRefresh), for: .valueChanged)
+        
+        return refreshControl
+    }()
+    
+    private var timer: Timer?
+    
+    private var time: TimeInterval = 0 {
         didSet {
             if time == Constants.loadingTime {
                 stopTimer()
@@ -29,9 +38,8 @@ class ClassifiedPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.dataSource = photoDataSource
-        
-        appearLoadingView()
+        setTableView()
+//        appearLoadingView()
         requestAuthorization()
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
@@ -43,6 +51,11 @@ class ClassifiedPhotoViewController: UIViewController {
     
         
         tableView.reloadData()
+    }
+    
+    private func setTableView() {
+        tableView.dataSource = photoDataSource
+        tableView.addSubview(refreshControl)
     }
     
     private func stopTimer() {
@@ -62,8 +75,20 @@ class ClassifiedPhotoViewController: UIViewController {
     
     private func disappearLoadingView() {
         self.loadingView.stopIndicatorAnimating()
-        self.loadingView.removeFromSuperview()
+        self.loadingView.removeFromSuperview()        
+        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+    }
     
+    @objc private func pullToRefresh() {
+        DispatchQueue.global().async { [weak self] in
+            self?.photoDataSource.photoStore.fetchPhotoAsset()
+            
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+                self?.refreshControl.endRefreshing()
+            }
+        }
         tableView.reloadData()
     }
     
@@ -112,7 +137,7 @@ class ClassifiedPhotoViewController: UIViewController {
         temporaryPhotoViewController.photoDataSource = photoDataSource
     }
     
-    func reloadData() {
+    @objc private func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
