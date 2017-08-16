@@ -9,6 +9,11 @@
 import Foundation
 import Photos
 
+
+enum Direction {
+    case left
+    case right
+}
 enum Order: String {
     case creationDate
 }
@@ -49,4 +54,6 @@ struct Constants {
         return documentDirectory.appendingPathComponent(Constants.archiveFileName)
     }()
     static let numberOfTapsRequired: Int = 2
+    static var dataAllowed: Bool = true
+    static let fetchImageSize = CGSize(width: 50, height: 50)
 }

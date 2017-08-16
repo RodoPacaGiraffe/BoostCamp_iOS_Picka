@@ -55,10 +55,10 @@ class DetailPhotoViewController: UIViewController {
         }
     }
     
-    func changeSwipe(direction: String) {
+    func changeSwipe(direction: Direction) {
         
-        switch direction {
-        case "right":
+        switch direction{
+        case  .right:
             selectedPhotos -= 1
             if selectedPhotos < 0 {
                 selectedPhotos += 1
@@ -66,13 +66,12 @@ class DetailPhotoViewController: UIViewController {
             }
         case "left":
             let count = getAsset(from: identifier).count
+
             selectedPhotos += 1
             if selectedPhotos == count {
                 selectedPhotos -= 1
                 return
             }
-        default:
-            return
         }
     }
     
@@ -125,14 +124,14 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction func leftSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        changeSwipe(direction: "left")
+        changeSwipe(direction: Direction.left)
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     @IBAction func rightSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        changeSwipe(direction: "right")
+        changeSwipe(direction: Direction.right)
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
         thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
@@ -164,11 +163,11 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
             manager.cancelImageRequest(previousRequestID)
         }
         
-        cell.requestID = photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
-                                                        contentMode: .aspectFill,
-                                                        options: options,
-                                                        resultHandler: { (requestedImage) in
-                                                            cell.thumbnailImageView.image = requestedImage
+        cell.requestID = photoAsset.fetchImage(size: Constants.fetchImageSize,
+                                               contentMode: .aspectFill,
+                                               options: options,
+                                               resultHandler: { (requestedImage) in
+                                                cell.thumbnailImageView.image = requestedImage
         })
         
         if previousSelectedCell == nil {
@@ -192,12 +191,13 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
-        
 
+        let options = PHImageRequestOptions()
         let assets = self.getAsset(from: identifier)
         let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
         
+
         fetchFullSizeImage(from: indexPath)
     }
 }
