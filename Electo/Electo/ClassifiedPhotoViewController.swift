@@ -110,7 +110,6 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.deniedAlert()
                 return
             }
-            
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
             guard let path = Constants.archiveURL?.path else {
@@ -119,6 +118,7 @@ class ClassifiedPhotoViewController: UIViewController {
             }
 
             self?.fetchArchivedTemporaryPhotoStore(from: path)
+            self?.reloadData()
         }
     }
     
