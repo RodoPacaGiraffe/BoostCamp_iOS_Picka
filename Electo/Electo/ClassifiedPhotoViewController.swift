@@ -48,6 +48,7 @@ class ClassifiedPhotoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    
         
         tableView.reloadData()
     }
@@ -70,14 +71,11 @@ class ClassifiedPhotoViewController: UIViewController {
         }
         
         self.view.addSubview(loadingView)
-        self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = true
     }
     
     private func disappearLoadingView() {
         self.loadingView.stopIndicatorAnimating()
-        self.loadingView.removeFromSuperview()
-        
+        self.loadingView.removeFromSuperview()        
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -91,6 +89,7 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.refreshControl.endRefreshing()
             }
         }
+        tableView.reloadData()
     }
     
     private func requestAuthorization() {
@@ -99,7 +98,6 @@ class ClassifiedPhotoViewController: UIViewController {
             guard authorizationStatus == .authorized else { return }
             
             self?.photoDataSource.photoStore.fetchPhotoAsset()
-            
             self?.fetchArchivedTemporaryPhotoStore()
                 
             DispatchQueue.main.async {
@@ -137,7 +135,6 @@ class ClassifiedPhotoViewController: UIViewController {
                 as? TemporaryPhotoViewController else { return }
         
         temporaryPhotoViewController.photoDataSource = photoDataSource
-
     }
     
     @objc private func reloadData() {
@@ -145,6 +142,25 @@ class ClassifiedPhotoViewController: UIViewController {
             self?.tableView.reloadData()
         }
 
+    }
+    @IBAction func networkAllowSwitch(_ sender: UISwitch) {
+       print(sender.state)
+        if sender.isOn {
+            let alertController = UIAlertController(title: "", message: "It will use network data", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                Constants.dataAllowed = true
+            })
+            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: { (action) in
+                Constants.dataAllowed = false
+            })
+            alertController.addAction(okAction)
+            alertController.addAction(cancelAction)
+            print("on")
+            present(alertController, animated: true, completion: nil)
+        } else {
+            print("off")
+            Constants.dataAllowed = false
+        }
     }
 }
 
@@ -158,10 +174,17 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         photoCell.clearStackView()
     }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+      
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
-        detailViewController.selectedSection = indexPath.section
-        detailViewController.photoStore = photoDataSource.photoStore
+      
+        detailViewController.selectedIndexPath = indexPath
+        detailViewController.photoDataSource = photoDataSource
         
         detailViewController.identifier = "fromClassifiedView"
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
@@ -169,8 +192,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
         
         show(detailViewController, sender: self)
-        
-        
+
     }
 }
 
