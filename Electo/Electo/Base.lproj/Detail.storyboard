@@ -31,6 +31,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="btj-VA-ycu">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <subviews>
+
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w7C-Zz-CO8">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="466.5"/>
                                         <subviews>
@@ -164,4 +165,7 @@
             <point key="canvasLocation" x="3933" y="-228"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Checked" width="30" height="30"/>
+    </resources>
 </document>
