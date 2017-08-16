@@ -14,6 +14,7 @@ class ClassifiedPhotoViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
+    var moveToTempVCButtonItem: UIBarButtonItem?
     private let loadingView = LoadingView.instanceFromNib()
     
     private let refreshControl: UIRefreshControl = {
@@ -40,6 +41,7 @@ class ClassifiedPhotoViewController: UIViewController {
 
         setTableView()
         appearLoadingView()
+        setNavigationButtonItem()
         requestAuthorization()
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
@@ -48,8 +50,10 @@ class ClassifiedPhotoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
         
+        let count = photoDataSource.temporaryPhotoStore.photoAssets.count
+
+        moveToTempVCButtonItem?.updateBadge(With: count)
         tableView.reloadData()
     }
     
@@ -75,7 +79,7 @@ class ClassifiedPhotoViewController: UIViewController {
     
     private func disappearLoadingView() {
         self.loadingView.stopIndicatorAnimating()
-        self.loadingView.removeFromSuperview()        
+        self.loadingView.removeFromSuperview()
     }
     
     @objc private func pullToRefresh() {
@@ -127,6 +131,20 @@ class ClassifiedPhotoViewController: UIViewController {
         }
     }
     
+    private func setNavigationButtonItem() {
+        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: 0)
+        
+        moveToTempVCButtonItem?.addButtonTarget(target: self,
+                                                action: #selector (moveToTemporaryViewController),
+                                                for: .touchUpInside)
+        
+        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
+    }
+    
+    @objc private func moveToTemporaryViewController() {
+        performSegue(withIdentifier: "ModalRemovedPhotoVC", sender: self)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "ModalRemovedPhotoVC" else { return }
         guard let navigationController = segue.destination as? UINavigationController,
@@ -139,6 +157,10 @@ class ClassifiedPhotoViewController: UIViewController {
     @objc private func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
+            
+            guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
+            
+            self?.moveToTempVCButtonItem?.updateBadge(With: count)
         }
     }
     

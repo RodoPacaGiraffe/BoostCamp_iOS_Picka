@@ -17,7 +17,7 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     @IBOutlet var flowLayout: UICollectionViewFlowLayout!
-    
+    var moveToTempVCButtonItem: UIBarButtonItem?
 
     var photoAssets: [PHAsset] = .init()
     var thumbnailImages: [UIImage] = .init()
@@ -35,10 +35,15 @@ class DetailPhotoViewController: UIViewController {
         
         setFlowLayout()
         displayDetailViewSetting()
+        setNavigationButtonItem()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
+        
+        guard let count = photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
+        
+        moveToTempVCButtonItem?.updateBadge(With: count)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -97,6 +102,22 @@ class DetailPhotoViewController: UIViewController {
         thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
         
         doubleTapRecognizer.numberOfTapsRequired = Constants.numberOfTapsRequired
+    }
+    
+    private func setNavigationButtonItem() {
+        guard let count = photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
+        
+        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: count)
+        
+        moveToTempVCButtonItem?.addButtonTarget(target: self,
+                                                action: #selector (moveToTemporaryViewController),
+                                                for: .touchUpInside)
+        
+        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
+    }
+    
+    @objc private func moveToTemporaryViewController() {
+        performSegue(withIdentifier: "ModalRemovedPhotoVC", sender: self)
     }
     
     func fetchFullSizeImage(from indexPath: IndexPath) {

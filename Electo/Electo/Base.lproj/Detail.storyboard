@@ -111,13 +111,7 @@
                             <constraint firstAttribute="trailing" secondItem="0wh-SJ-JHc" secondAttribute="trailing" constant="15" id="yR7-MW-aPA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="pHw-bZ-KCK">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="wBI-hn-2Pe">
-                            <connections>
-                                <segue destination="Daf-So-tGF" kind="presentation" identifier="ModalRemovedPhotoVC" id="d9n-Aw-Px8"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="pHw-bZ-KCK"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="detailImageView" destination="y6d-An-LKm" id="Kpc-Xe-bxx"/>
@@ -126,6 +120,7 @@
                         <outlet property="loadingIndicatorView" destination="ONe-yI-LrC" id="hvo-f9-Xg5"/>
                         <outlet property="thumbnailCollectionView" destination="0wh-SJ-JHc" id="ye4-kY-E3y"/>
                         <outlet property="zoomingScrollView" destination="w7C-Zz-CO8" id="gFQ-B4-RjO"/>
+                        <segue destination="Daf-So-tGF" kind="presentation" identifier="ModalRemovedPhotoVC" id="8cX-Wp-xXk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vM-D0-mbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
