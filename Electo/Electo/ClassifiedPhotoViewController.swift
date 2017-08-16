@@ -159,7 +159,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
       
         detailViewController.selectedIndexPath = indexPath
-        detailViewController.photoStore = photoDataSource.photoStore
+        detailViewController.photoDataSource = photoDataSource
         
         detailViewController.identifier = "fromClassifiedView"
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()

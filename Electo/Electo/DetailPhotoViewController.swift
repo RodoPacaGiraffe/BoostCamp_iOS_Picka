@@ -19,7 +19,6 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var flowLayout: UICollectionViewFlowLayout!
     
 
-    var photoStore: PhotoStore?
     var photoAssets: [PHAsset] = .init()
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
@@ -57,8 +56,10 @@ class DetailPhotoViewController: UIViewController {
         case "fromTemporaryViewController":
             return selectedSectionAssets
         default:
-            guard let assets = photoStore?.classifiedPhotoAssets[
-                selectedIndexPath.section].photoAssetsArray[selectedIndexPath.row] else { return [] }
+            guard let photoStore = photoDataSource?.photoStore else { return [] }
+            
+            let assets = photoStore.classifiedPhotoAssets[
+                selectedIndexPath.section].photoAssetsArray[selectedIndexPath.row]
             
             return assets
         }
