@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Rai-15-VpX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Rai-15-VpX">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -66,12 +67,12 @@
                                 </connections>
                             </collectionView>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
-                                <rect key="frame" x="16" y="617" width="343" height="30"/>
+                                <rect key="frame" x="16" y="600.5" width="343" height="46.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dk9-Mw-hsd">
-                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="30"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Recover Selected">
+                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="46.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Recover Selected" backgroundImage="Cleanable-23">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -79,9 +80,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sns-Ue-VMg">
-                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="30"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Delete Selected">
+                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="46.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Delete Selected" backgroundImage="Cleanable-24">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -91,22 +92,22 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Y3m-5o-0Su">
-                                <rect key="frame" x="16" y="617" width="343" height="30"/>
+                                <rect key="frame" x="16" y="600.5" width="343" height="46.5"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltc-HR-n3Q">
-                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="30"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Recover All">
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltc-HR-n3Q">
+                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="46.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Recover All" backgroundImage="Cleanable-23">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="recoverAll:" destination="41h-lp-7Sx" eventType="touchUpInside" id="cYb-fH-8Ba"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y55-Ef-PtW">
-                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="30"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Delete All">
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y55-Ef-PtW">
+                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="46.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Delete All" backgroundImage="Cleanable-24">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -121,10 +122,12 @@
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="81L-GL-LUT" secondAttribute="bottom" id="1CY-ym-J0a"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leading" id="3Bf-75-FUQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Y3m-5o-0Su" secondAttribute="trailing" id="5zt-EX-GYP"/>
+                            <constraint firstItem="Vlj-ai-Q2p" firstAttribute="height" secondItem="Y3m-5o-0Su" secondAttribute="height" id="7rD-3G-wFp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Vlj-ai-Q2p" secondAttribute="trailing" id="9Bu-hO-096"/>
                             <constraint firstItem="Y3m-5o-0Su" firstAttribute="centerX" secondItem="Vlj-ai-Q2p" secondAttribute="centerX" id="AAJ-Xq-xYU"/>
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="Vlj-ai-Q2p" secondAttribute="bottom" constant="20" id="DkY-Id-A2h"/>
                             <constraint firstItem="Y3m-5o-0Su" firstAttribute="centerY" secondItem="Vlj-ai-Q2p" secondAttribute="centerY" id="Fn9-U1-mOa"/>
+                            <constraint firstItem="Y3m-5o-0Su" firstAttribute="height" secondItem="81L-GL-LUT" secondAttribute="height" multiplier="0.07" id="Ied-ov-bZ9"/>
                             <constraint firstItem="Y3m-5o-0Su" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leadingMargin" id="TQV-1n-udT"/>
                             <constraint firstAttribute="trailing" secondItem="81L-GL-LUT" secondAttribute="trailing" id="Y1C-OI-jcM"/>
                             <constraint firstItem="Vlj-ai-Q2p" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leadingMargin" id="e64-90-QkN"/>
@@ -185,5 +188,7 @@
     </scenes>
     <resources>
         <image name="Checked" width="30" height="30"/>
+        <image name="Cleanable-23" width="288" height="98"/>
+        <image name="Cleanable-24" width="288" height="98"/>
     </resources>
 </document>

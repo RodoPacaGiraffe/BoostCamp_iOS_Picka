@@ -48,6 +48,9 @@ class DetailPhotoViewController: UIViewController {
     func setFlowLayout() {
         flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
         flowLayout.itemSize.width = flowLayout.itemSize.height
+        if identifier == "fromTemporaryViewController" {
+            navigationItem.setRightBarButtonItems(nil, animated: false)
+        }
     }
 
     
