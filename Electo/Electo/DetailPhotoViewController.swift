@@ -210,11 +210,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
 
-        let options = PHImageRequestOptions()
-        let assets = self.getAsset(from: identifier)
-        let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
-        
 
         fetchFullSizeImage(from: indexPath)
     }

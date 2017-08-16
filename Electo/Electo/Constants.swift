@@ -55,5 +55,5 @@ struct Constants {
     }()
     static let numberOfTapsRequired: Int = 2
     static var dataAllowed: Bool = true
-    static let fetchImageSize = CGSize(width: 50, height: 50)
+    static let fetchImageSize = CGSize(width: 90, height: 90)
 }

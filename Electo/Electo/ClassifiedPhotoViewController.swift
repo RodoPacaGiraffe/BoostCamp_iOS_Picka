@@ -58,17 +58,12 @@ class ClassifiedPhotoViewController: UIViewController {
         }
         
         self.view.addSubview(loadingView)
-        self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = true
     }
     
     private func disappearLoadingView() {
         self.loadingView.stopIndicatorAnimating()
         self.loadingView.removeFromSuperview()
-        
-        self.navigationController?.navigationBar.isHidden = false
-        self.tabBarController?.tabBar.isHidden = false
-        
+    
         tableView.reloadData()
     }
     
