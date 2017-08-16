@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kT9-Cq-I1L">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kT9-Cq-I1L">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -86,7 +86,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="OKC-hj-xga" secondAttribute="trailing" constant="-1" id="u6y-jR-3lD"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                         <inset key="separatorInset" minX="500" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <outlet property="dateLabel" destination="5Un-Xs-MsE" id="jsk-bC-bjO"/>
@@ -153,11 +153,11 @@
             </objects>
             <point key="canvasLocation" x="3846" y="-228"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Photos-->
         <scene sceneID="RJw-Z1-njC">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jIs-QX-MrQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="8hF-gO-Uag"/>
+                    <tabBarItem key="tabBarItem" title="Photos" image="Cleanable-19" selectedImage="Cleanable-19" id="vvd-LH-pJU"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sUb-GM-l8U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -177,10 +177,11 @@
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="kT9-Cq-I1L" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="t2W-cp-JDd">
+                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" id="t2W-cp-JDd">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="jIs-QX-MrQ" kind="relationship" relationship="viewControllers" id="dUU-1W-VR3"/>
@@ -191,4 +192,8 @@
             <point key="canvasLocation" x="1614" y="-228"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Cleanable-19" width="26" height="26"/>
+    </resources>
+    <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
 </document>
