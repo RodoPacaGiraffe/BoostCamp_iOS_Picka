@@ -23,7 +23,7 @@ class TemporaryPhotoViewController: UIViewController {
     
     var photoDataSource: PhotoDataSource?
     var tempThumbnailImages: [UIImage] = .init()
-    var isSelecteDeselect: Bool = true
+    var isSelected: Bool = true
     
     fileprivate var selectMode: SelectMode = .off {
         didSet {
