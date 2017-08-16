@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		40B4EA9C1F39940B00F4393A /* DetailPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */; };
 		40B4EA9E1F39A4AA00F4393A /* DetailPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */; };
+		7D69DCDE1F44E10400BC83E9 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */; };
 		7D77D70E1F35D035008E61FF /* ClassifiedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */; };
 		C931F0431F3F6F02004653EE /* PhotoLibraryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931F0421F3F6F02004653EE /* PhotoLibraryObserver.swift */; };
 		C931F0451F42D0C6004653EE /* ClassifiedPhotoAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931F0441F42D0C6004653EE /* ClassifiedPhotoAssets.swift */; };
@@ -34,6 +35,7 @@
 /* Begin PBXFileReference section */
 		40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoViewController.swift; sourceTree = "<group>"; };
 		40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoCell.swift; sourceTree = "<group>"; };
+		7D69DCDD1F44E10400BC83E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
 		7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoCell.swift; sourceTree = "<group>"; };
 		C931F0421F3F6F02004653EE /* PhotoLibraryObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryObserver.swift; sourceTree = "<group>"; };
 		C931F0441F42D0C6004653EE /* ClassifiedPhotoAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoAssets.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				C93874721F38624300CB0AC4 /* Temporary.storyboard */,
 				C93874741F38624300CB0AC4 /* Detail.storyboard */,
 				C9E21E9F1F3439BB00B17CC4 /* Main.storyboard */,
+				7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */,
 				C9E21EA21F3439BB00B17CC4 /* Assets.xcassets */,
 			);
 			name = Interface;
@@ -197,7 +200,7 @@
 				TargetAttributes = {
 					C9E21E971F3439BB00B17CC4 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 498MUQWSB4;
+						DevelopmentTeam = 9PZPL5979H;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -230,6 +233,7 @@
 				C98429C31F3F1F6400D2E1B8 /* LoadingView.xib in Resources */,
 				C93874761F38624300CB0AC4 /* Temporary.storyboard in Resources */,
 				C93874771F38624300CB0AC4 /* Detail.storyboard in Resources */,
+				7D69DCDE1F44E10400BC83E9 /* Setting.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +267,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7D69DCDD1F44E10400BC83E9 /* Base */,
+			);
+			name = Setting.storyboard;
+			sourceTree = "<group>";
+		};
 		C93874721F38624300CB0AC4 /* Temporary.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -391,7 +403,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 498MUQWSB4;
+				DEVELOPMENT_TEAM = 9PZPL5979H;
 				INFOPLIST_FILE = Electo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -408,7 +420,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 498MUQWSB4;
+				DEVELOPMENT_TEAM = 9PZPL5979H;
 				INFOPLIST_FILE = Electo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
