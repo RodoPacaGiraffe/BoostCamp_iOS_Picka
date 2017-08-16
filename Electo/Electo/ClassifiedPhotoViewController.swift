@@ -14,14 +14,61 @@ class ClassifiedPhotoViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
+    let loadingView = LoadingView.instanceFromNib()
+    var timer: Timer?
+    var time: TimeInterval = 0 {
+        didSet {
+            if time == Constants.loadingTime {
+                stopTimer()
+                disappearLoadingView()
+            }
+        }
+    }
     
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.dataSource = photoDataSource
         
+        appearLoadingView()
         requestAuthorization()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
+                                               name: Constants.requiredReload, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    private func appearLoadingView() {
+        timer = Timer.scheduledTimer(withTimeInterval: Constants.loadingTime, repeats: true) {
+            [weak self] (timer: Timer) in
+            
+            self?.time += timer.timeInterval
+        }
+        
+        self.view.addSubview(loadingView)
+        self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    private func disappearLoadingView() {
+        self.loadingView.stopIndicatorAnimating()
+        self.loadingView.removeFromSuperview()
+        
+        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        
+        tableView.reloadData()
     }
     
     private func requestAuthorization() {
@@ -29,52 +76,52 @@ class ClassifiedPhotoViewController: UIViewController {
             [weak self] (authorizationStatus) -> Void in
             guard authorizationStatus == .authorized else { return }
             
-            DispatchQueue.global().sync {
-                self?.photoDataSource.photoStore.fetchPhotoAsset()
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            }
-            
-            guard let path = Constants.archiveURL?.path else { return }
-            
-            DispatchQueue.global().sync {
-                guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-                    as? TemporaryPhotoStore else { return }
+            self?.photoDataSource.photoStore.fetchPhotoAsset()
+            self?.fetchArchivedTemporaryPhotoStore()
                 
-                self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
-                self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
-    
-                let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
-                
-                let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhotoAssets(unarchivedPhotoAssets: unarchivedPhotoAssets)
-                
-                if let photoAssets = removedAssetsFromLibrary {
-                    self?.photoDataSource.temporaryPhotoStore.remove(
-                        photoAssets: photoAssets, isPerformDelegate: false)
-                }
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
             }
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    private func fetchArchivedTemporaryPhotoStore() {
+        guard let path = Constants.archiveURL?.path else { return }
         
-        tableView.reloadData()
-        self.tabBarController?.tabBar.isHidden = false
+        DispatchQueue.global().async {
+            [weak self] in
+            guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
+                as? TemporaryPhotoStore else { return }
+            
+            self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
+            self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
+            
+            let unarchivedPhotoAssets = self?.photoDataSource.temporaryPhotoStore.photoAssets
+            
+            let removedAssetsFromLibrary = self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: unarchivedPhotoAssets)
+            
+            if let photoAssets = removedAssetsFromLibrary {
+                self?.photoDataSource.temporaryPhotoStore.remove(
+                    photoAssets: photoAssets, isPerformDelegate: false)
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "ModalRemovedPhotoVC" else { return }
         guard let navigationController = segue.destination as? UINavigationController,
-            let removedPhotoViewController = navigationController.topViewController
+            let temporaryPhotoViewController = navigationController.topViewController
                 as? TemporaryPhotoViewController else { return }
         
-        removedPhotoViewController.photoDataSource = photoDataSource
+        temporaryPhotoViewController.photoDataSource = photoDataSource
+
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+
     }
 }
 
@@ -100,8 +147,10 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.selectedIndexPath = indexPath
         detailViewController.photoStore = photoDataSource.photoStore
         
+        detailViewController.identifier = "fromClassifiedView"
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         detailViewController.thumbnailImages = selectedCell.cellImages
+        detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
         
         show(detailViewController, sender: self)
 

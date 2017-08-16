@@ -19,7 +19,7 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     
     override init() {
         temporaryPhotoStore.delegate = photoStore
-
+        
         super.init()
     }
 }
@@ -80,6 +80,7 @@ extension PhotoDataSource: UITableViewDataSource {
     }
 }
 
+// TemporaryPhotoViewController - DataSource
 extension PhotoDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return temporaryPhotoStore.photoAssets.count
@@ -89,12 +90,19 @@ extension PhotoDataSource: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier,
             for: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
         let temporaryPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
+
+        if let selectedItems = collectionView.indexPathsForSelectedItems,
+            selectedItems.contains(indexPath) {
+            cell.select()
+        } else {
+            cell.deSelect()
+        }
         
-        temporaryPhotoAsset.fetchImage(size: CGSize(width: 90, height: 90),
-            contentMode: .aspectFit, options: nil) { removedPhotoImage in
-            guard let removedPhotoImage = removedPhotoImage else { return }
-                        
-            cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
+        removedPhotoAsset.fetchImage(size: CGSize(width: 90, height: 90),
+                                     contentMode: .aspectFit, options: nil) { removedPhotoImage in
+                                        guard let removedPhotoImage = removedPhotoImage else { return }
+                                                
+                                        cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
         }
     
         return cell

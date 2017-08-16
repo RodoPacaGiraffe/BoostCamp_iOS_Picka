@@ -17,11 +17,16 @@ class TemporaryPhotoStore: NSObject, NSCoding {
     
     override init() {
         super.init()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
+                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init()
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
+                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
         guard let loadedPhotoAssetsIdentifier = aDecoder.decodeObject(
             forKey: Constants.temporaryPhotoAssetsIdentifier) as? [String] else {
                 return nil
@@ -53,6 +58,22 @@ class TemporaryPhotoStore: NSObject, NSCoding {
         }
         
         NSKeyedArchiver.archiveRootObject(self, toFile: path)
+    }
+    
+    @objc func applyRemovedAssets(_ notification: Notification) {
+        guard let removedPhotoAssets = notification.userInfo?[Constants.removedPhotoAssets]
+            as? [PHAsset] else { return }
+        
+        removedPhotoAssets.forEach {
+            guard let index = photoAssets.index(of: $0) else {
+                print("This photoAsset is not founded from temporaryPhotoStore")
+                return
+            }
+            
+            photoAssets.remove(at: index)
+        }
+        
+        NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
     }
 }
 

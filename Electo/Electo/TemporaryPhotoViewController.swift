@@ -22,6 +22,8 @@ class TemporaryPhotoViewController: UIViewController {
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
     var photoDataSource: PhotoDataSource?
+    var tempThumbnailImages: [UIImage] = []
+    var selectedIndexPaths: [IndexPath] = []
     
     fileprivate var selectMode: SelectMode = .off {
         didSet {
@@ -37,6 +39,9 @@ class TemporaryPhotoViewController: UIViewController {
         collectionView.allowsMultipleSelection = true
         
         setCellSize()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
+                                               name: Constants.requiredReload, object: nil)
     }
     
     private func setCellSize() {
@@ -49,16 +54,6 @@ class TemporaryPhotoViewController: UIViewController {
     private func toggleHiddenState(forViews views: [UIView]) {
         views.forEach {
             $0.isHidden = !$0.isHidden
-        }
-    }
-    
-    private func resetSelectedItem(indexPaths: [IndexPath]) {
-        indexPaths.forEach {
-            guard let photoCell = collectionView.cellForItem(at: $0)
-                as? TemporaryPhotoCell else { return }
-            
-            collectionView.deselectItem(at: $0, animated: true)
-            photoCell.deSelect()
         }
     }
     
@@ -76,15 +71,27 @@ class TemporaryPhotoViewController: UIViewController {
         return selectedPhotoAssets
     }
     
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
+    }
+    
+    private func initSelection() {
+        guard let selectedItems = collectionView.indexPathsForSelectedItems else {
+            return
+        }
+        
+        collectionView.reloadItems(at: selectedItems)
+    }
+    
     @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
         if selectMode == .off {
             selectMode = .on
         } else {
-            if let selectedItems = collectionView.indexPathsForSelectedItems {
-                resetSelectedItem(indexPaths: selectedItems)
-            }
-            
             selectMode = .off
+            
+            initSelection()
         }
     }
     
@@ -99,11 +106,9 @@ class TemporaryPhotoViewController: UIViewController {
     
     @IBAction func recoverSelected(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
         
         temporaryPhotoStore.remove(photoAssets: selectedPhotoAssets())
-        resetSelectedItem(indexPaths: selectedItems)
-        
+      
         collectionView.reloadData()
     }
     
@@ -118,13 +123,11 @@ class TemporaryPhotoViewController: UIViewController {
     
     @IBAction func deleteSelected(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
-        
+    
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
             self?.collectionView.reloadData()
         }
-        resetSelectedItem(indexPaths: selectedItems)
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
@@ -134,9 +137,9 @@ class TemporaryPhotoViewController: UIViewController {
 
 extension TemporaryPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let photoCell = collectionView.cellForItem(at: indexPath)
-            as? TemporaryPhotoCell ?? TemporaryPhotoCell()
-        
+        guard let photoCell = collectionView.cellForItem(at: indexPath)
+            as? TemporaryPhotoCell else { return }
+     
         switch selectMode {
         case .on:
             photoCell.select()
@@ -145,10 +148,12 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
             
             //TODO: 이미지 전체 넘겨주기
-            let selectedCell = collectionView.cellForItem(at: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
-
             detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
             detailViewController.identifier = "fromTemporaryViewController"
+            
+            guard let selectedThumbnailImage = photoCell.thumbnailImageView.image else { return }
+            detailViewController.thumbnailImages.append(selectedThumbnailImage)
+            detailViewController.pressedIndexPath = indexPath
             show(detailViewController, sender: self)
         }
     }
@@ -156,7 +161,7 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let photoCell = collectionView.cellForItem(at: indexPath)
             as? TemporaryPhotoCell ?? TemporaryPhotoCell()
-        
+        print("여기?")
         photoCell.deSelect()
     }
 }

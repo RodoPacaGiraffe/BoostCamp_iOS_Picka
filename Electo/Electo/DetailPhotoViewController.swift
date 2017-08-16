@@ -17,31 +17,30 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     
+
     var photoStore: PhotoStore?
+    var photoAssets: [PHAsset] = .init()
     var thumbnailImages: [UIImage] = .init()
-    var thumbnailFetchReqeustID: PHImageRequestID?
     var selectedSectionAssets: [PHAsset] = []
     var selectedIndexPath: IndexPath = IndexPath()
     var pressedIndexPath: IndexPath = IndexPath()
     var selectedPhotos: Int = 0
-    
+    var pressedIndexPath: IndexPath = .init()
+    var previousSelectedCell: DetailPhotoCell?
     var identifier: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.zoomingScrollView.minimumZoomScale = 1.0
-        self.zoomingScrollView.maximumZoomScale = 6.0
-        
-        self.tabBarController?.tabBar.isHidden = true
-        detailImageView.image = thumbnailImages[0]
+        displayDetailViewSetting()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        collectionView(thumbnailCollectionView, didSelectItemAt: IndexPath.init(row: 0, section: 0))
-        doubleTapRecognizer.numberOfTapsRequired = 2
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(zoomingScrollView.zoomScale)
     }
     
     func getAsset(from identifier: String) -> [PHAsset] {
@@ -77,9 +76,52 @@ class DetailPhotoViewController: UIViewController {
         }
     }
     
-    //Todo: Selecting removable photos
-    @IBAction func selectForRemovePhoto(_ sender: UIButton) {
-        print("selected!")
+    func displayDetailViewSetting() {
+        self.zoomingScrollView.minimumZoomScale = 1.0
+        self.zoomingScrollView.maximumZoomScale = 6.0
+        
+        self.tabBarController?.tabBar.isHidden = true
+        photoAssets = setAsset(identifier)
+        detailImageView.image = thumbnailImages.first
+        
+        fetchFullSizeImage(from: pressedIndexPath)
+        thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+        
+        doubleTapRecognizer.numberOfTapsRequired = Constants.numberOfTapsRequired
+    }
+    
+    func fetchFullSizeImage(from indexPath: IndexPath) {
+        let options = PHImageRequestOptions()
+        options.setImageRequestOptions(networkAccessAllowed: true, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
+            DispatchQueue.main.async {
+                guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
+
+                guard self?.pressedIndexPath == indexPath else { return }
+                self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
+                self?.loadingIndicatorView.startAnimating()
+                
+                let percent = 100 * progress
+                let progressView: UIProgressView = .init()
+                progressView.progressViewStyle = .bar
+                progressView.tintColor = UIColor.black
+                
+                progressView.frame = CGRect.init(x: (self?.detailImageView.center.x)! - 100, y: (self?.detailImageView.center.y)!, width: 250, height: 250)
+                self?.detailImageView.addSubview(progressView)
+                
+                progressView.setProgress(Float(percent), animated: true)
+            }
+        }
+        
+        let photoAsset: PHAsset = photoAssets[indexPath.item]
+        DispatchQueue.global().async { [weak self] _ -> Void in
+            photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
+                guard let data = fetchedData else { return }
+                DispatchQueue.main.async {
+                    self?.detailImageView.image = UIImage(data: data)
+                    self?.loadingIndicatorView.stopAnimating()
+                }
+            })
+        }
     }
     
     @IBAction func leftSwipeAction(_ sender: UISwipeGestureRecognizer) {
@@ -97,14 +139,13 @@ class DetailPhotoViewController: UIViewController {
         
     }
     
-    
     @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
-        detailImageView.contentMode = .scaleAspectFill
+        self.zoomingScrollView.setZoomScale(1.0, animated: true)
+        self.detailImageView.contentMode = .scaleAspectFill
     }
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let storeAssetsCount = getAsset(from: identifier).count
         return storeAssetsCount
@@ -113,72 +154,51 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
+
         let photoAssets = self.getAsset(from: identifier)
         let photoAsset = photoAssets[indexPath.item]
         let options = PHImageRequestOptions()
         
-        if let previousRequestID = thumbnailFetchReqeustID {
-            let manager = PHCachingImageManager.default()
+        if let previousRequestID = cell.requestID {
+            let manager = PHImageManager.default()
             manager.cancelImageRequest(previousRequestID)
         }
         
-        thumbnailFetchReqeustID = photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
+        cell.requestID = photoAsset.fetchImage(size: CGSize(width: 50.0, height: 50.0),
                                                         contentMode: .aspectFill,
                                                         options: options,
                                                         resultHandler: { (requestedImage) in
-                                                            
                                                             cell.thumbnailImageView.image = requestedImage
         })
+        
+        if previousSelectedCell == nil {
+            cell.select()
+            previousSelectedCell = cell
+        }
+        
         return cell
     }
 }
 
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard pressedIndexPath != indexPath else { return }
+        guard let thumbnailViewCell = collectionView.cellForItem(at: indexPath)
+            as? DetailPhotoCell else { return }
+    
+        previousSelectedCell?.deSelect()
         
-        self.detailImageView.image = thumbnailImages[indexPath.item]
+        thumbnailViewCell.select()
+        previousSelectedCell = thumbnailViewCell
         
         self.detailImageView.contentMode = .scaleAspectFill
-        self.zoomingScrollView.zoomScale = 1.0
+        self.zoomingScrollView.setZoomScale(1.0, animated: true)
         
+
         let assets = self.getAsset(from: identifier)
         let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
-        pressedIndexPath = indexPath
         
-        let options = PHImageRequestOptions()
-        
-        
-        options.setImageRequestOptions(networkAccessAllowed: true, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
-            guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
-            DispatchQueue.main.async {
-                guard self?.pressedIndexPath == indexPath else { return }
-                self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
-                self?.loadingIndicatorView.startAnimating()
-                
-                let percent = 100 * progress
-                let progressView: UIProgressView = .init()
-                progressView.progressViewStyle = .bar
-                progressView.tintColor = UIColor.black
-                
-                progressView.frame = CGRect.init(x: (self?.detailImageView.center.x)! - 100, y: (self?.detailImageView.center.y)!, width: 250, height: 250)
-                self?.detailImageView.addSubview(progressView)
-                
-                progressView.setProgress(Float(percent), animated: true)
-            }
-        }
-        
-        DispatchQueue.global().async { [weak self] _ -> Void in
-            asset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
-                guard let data = fetchedData else { return }
-                DispatchQueue.main.async {
-                    guard self?.pressedIndexPath == indexPath else { return }
-                    self?.detailImageView.image = UIImage(data: data)
-                    self?.loadingIndicatorView.stopAnimating()
-                }
-            })
-        }
+        fetchFullSizeImage(from: indexPath)
     }
 }
 
@@ -187,7 +207,7 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
         return self.detailImageView
     }
     
-    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-        detailImageView.contentMode = .scaleAspectFit
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        self.zoomingScrollView.setZoomScale(1.0, animated: true)
     }
 }

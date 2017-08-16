@@ -155,12 +155,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Nd6-jb-DDu"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="6Bo-bw-Z81"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qXl-KO-IhZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2439.1999999999998" y="-228.03598200899552"/>
+            <point key="canvasLocation" x="2414" y="-228"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="PzK-hO-9vM">
@@ -178,7 +178,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Clz-sb-Lzz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1500" y="-228.03598200899552"/>
+            <point key="canvasLocation" x="1614" y="-228"/>
         </scene>
     </scenes>
 </document>
