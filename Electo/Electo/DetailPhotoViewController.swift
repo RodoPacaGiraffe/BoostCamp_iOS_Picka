@@ -17,11 +17,13 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     
+
+    var photoStore: PhotoStore?
     var photoAssets: [PHAsset] = .init()
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
-    var selectedSection: Int = 0
-    var photoStore: PhotoStore?
+    var selectedIndexPath: IndexPath = IndexPath()
+    var pressedIndexPath: IndexPath = IndexPath()
     var selectedPhotos: Int = 0
     var pressedIndexPath: IndexPath = .init()
     var previousSelectedCell: DetailPhotoCell?
@@ -41,12 +43,14 @@ class DetailPhotoViewController: UIViewController {
         print(zoomingScrollView.zoomScale)
     }
     
-    func setAsset(_ identifier: String) -> [PHAsset] {
+    func getAsset(from identifier: String) -> [PHAsset] {
         switch identifier {
         case "fromTemporaryViewController":
             return selectedSectionAssets
         default:
-            guard let assets = photoStore?.classifiedPhotoAssets[selectedSection] else { return ([]) }
+            guard let assets = photoStore?.classifiedPhotoAssets[
+                selectedIndexPath.section].photoAssetsArray[selectedIndexPath.row] else { return [] }
+            
             return assets
         }
     }
@@ -61,7 +65,7 @@ class DetailPhotoViewController: UIViewController {
                 return
             }
         case "left":
-            let count = setAsset(identifier).count
+            let count = getAsset(from: identifier).count
             selectedPhotos += 1
             if selectedPhotos == count {
                 selectedPhotos -= 1
@@ -139,18 +143,19 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
         self.detailImageView.contentMode = .scaleAspectFill
     }
-    
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let storeAssetsCount = setAsset(identifier).count
+        let storeAssetsCount = getAsset(from: identifier).count
         return storeAssetsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
+
+        let photoAssets = self.getAsset(from: identifier)
         let photoAsset = photoAssets[indexPath.item]
         let options = PHImageRequestOptions()
         
@@ -188,6 +193,9 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
         
+
+        let assets = self.getAsset(from: identifier)
+        let asset = assets[indexPath.item]
         selectedPhotos = indexPath.item
         
         fetchFullSizeImage(from: indexPath)

@@ -11,13 +11,14 @@ import Photos
 
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
-    fileprivate(set) var classifiedPhotoAssets: [[PHAsset]] = []
+
+    fileprivate(set) var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
   
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
                                                name: Constants.removedAssetsFromPhotoLibrary, object: nil)
     }
-    
+
     func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
         
@@ -25,6 +26,7 @@ class PhotoStore: PhotoClassifiable {
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
                                                          ascending: false)]
         let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
