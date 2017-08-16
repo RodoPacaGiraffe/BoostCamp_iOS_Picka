@@ -77,6 +77,13 @@ extension PhotoDataSource: UICollectionViewDataSource {
             for: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
         let removedPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
         
+        if let selectedItems = collectionView.indexPathsForSelectedItems,
+            selectedItems.contains(indexPath) {
+            cell.select()
+        } else {
+            cell.deSelect()
+        }
+        
         removedPhotoAsset.fetchImage(size: CGSize(width: 90, height: 90),
                                      contentMode: .aspectFit, options: nil) { removedPhotoImage in
                                         guard let removedPhotoImage = removedPhotoImage else { return }
