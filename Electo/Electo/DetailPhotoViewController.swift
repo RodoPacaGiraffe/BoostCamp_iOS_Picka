@@ -16,12 +16,15 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
+    @IBOutlet var flowLayout: UICollectionViewFlowLayout!
     
 
     var photoStore: PhotoStore?
     var photoAssets: [PHAsset] = .init()
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
+    var selectedSection: Int = 0
+    var photoDataSource: PhotoDataSource?
     var selectedIndexPath: IndexPath = IndexPath()
     var pressedIndexPath: IndexPath = IndexPath()
     var selectedPhotos: Int = 0
@@ -31,16 +34,23 @@ class DetailPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setFlowLayout()
         displayDetailViewSetting()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(zoomingScrollView.zoomScale)
+    func setFlowLayout() {
+        flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
+        flowLayout.itemSize.width = flowLayout.itemSize.height
     }
+
     
     func getAsset(from identifier: String) -> [PHAsset] {
         switch identifier {
@@ -141,6 +151,15 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
         self.detailImageView.contentMode = .scaleAspectFill
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "ModalRemovedPhotoVC" else { return }
+        guard let navigationController = segue.destination as? UINavigationController,
+            let temporaryPhotoViewController = navigationController.topViewController
+                as? TemporaryPhotoViewController else { return }
+        
+        temporaryPhotoViewController.photoDataSource = photoDataSource
+    }    
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {

@@ -11,6 +11,7 @@ import Photos
 
 class DetailPhotoCell: UICollectionViewCell {
     @IBOutlet var thumbnailImageView: UIImageView!
+    @IBOutlet var checkButton: UIButton!
     @IBOutlet var checkedImageView: UIImageView!
     
     var requestID: PHImageRequestID?

@@ -143,8 +143,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="buttonForEditStackView" destination="Vlj-ai-Q2p" id="Lkk-Zt-NXW"/>
                         <outlet property="buttonForNormalStackView" destination="Y3m-5o-0Su" id="qbC-gQ-ZYv"/>
@@ -170,6 +168,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rai-15-VpX" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sTf-Sp-eD7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
