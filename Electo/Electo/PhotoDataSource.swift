@@ -11,6 +11,7 @@ import Photos
 
 class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     var photoStore: PhotoStore = PhotoStore()
+    
     var temporaryPhotoStore: TemporaryPhotoStore = TemporaryPhotoStore() {
         didSet {
             temporaryPhotoStore.delegate = photoStore
@@ -20,22 +21,8 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     override init() {
         temporaryPhotoStore.delegate = photoStore
         
-        super.init()
-    }
-    
-    let geoCoder = CLGeocoder()
-    
-    func reverseGeocode(location: CLLocation,completion: @escaping (_ locationString: String) -> Void) {
-        var locationString: String = .init()
         
-        geoCoder.reverseGeocodeLocation(location, completionHandler: { placemarks, error in
-            guard let addressDictionary = placemarks?[0].addressDictionary else { return }
-            guard let country = addressDictionary[LocationKey.country.rawValue] as? String else { return }
-            guard let city = addressDictionary[LocationKey.city.rawValue] as? String else { return }
-            locationString = country + city
-            
-            completion(locationString)
-        })
+        super.init()
     }
 }
 
@@ -59,13 +46,6 @@ extension PhotoDataSource: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
         
         let classifiedPhotoAsset = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
-        
-//        if photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].location == "" {
-//            photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets.first?.location?.reverseGeocode {
-//                [weak self] (locationString) -> Void in
-//                self?.photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].getLocation(location: locationString)
-//            }
-//        }
         
         var fetchedImages: [UIImage] = .init()
         

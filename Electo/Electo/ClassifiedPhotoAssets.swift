@@ -11,10 +11,10 @@ import Photos
 
 struct ClassifiedPhotoAssets {
     let date: Date
-    var photoAssetsArray: [ClassifiedPhotoAsset]
+    var photoAssetsArray: [ClassifiedGroup]
 }
 
-class ClassifiedPhotoAsset {
+class ClassifiedGroup {
     var photoAssets: [PHAsset] = []
     var location: String = ""
     

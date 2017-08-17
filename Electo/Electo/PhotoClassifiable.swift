@@ -18,8 +18,8 @@ extension PhotoClassifiable {
         guard var referencePhotoAssetDate = photoAssets.first?.creationDate else { return [] }
         var classifiedPhotoAssetsArray: [ClassifiedPhotoAssets] = []
         
-        var tempPhotoAssets: ClassifiedPhotoAsset = .init()
-        var tempPhotoAssetsArray: [ClassifiedPhotoAsset] = []
+        var tempPhotoAssets: ClassifiedGroup = .init()
+        var tempPhotoAssetsArray: [ClassifiedGroup] = []
         
         // TODO: Refactoring 필요, 한번에 추가하는 것 고려
         for photoAsset in photoAssets {
@@ -34,10 +34,12 @@ extension PhotoClassifiable {
             case .intervalBoundary:
                 if tempPhotoAssets.photoAssets.count > Constants.minimumPhotoCount - 1 {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
+                    tempPhotoAssets = .init()
                 }
             case .day:
                 if tempPhotoAssets.photoAssets.count > Constants.minimumPhotoCount - 1 {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
+                    tempPhotoAssets = .init()
                 }
                 
                 guard !tempPhotoAssetsArray.isEmpty else { break }

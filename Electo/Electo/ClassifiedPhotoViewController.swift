@@ -36,6 +36,7 @@ class ClassifiedPhotoViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
