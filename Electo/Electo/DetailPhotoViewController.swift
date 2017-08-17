@@ -212,7 +212,6 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
 
         selectedPhotos = indexPath.item
-
         fetchFullSizeImage(from: indexPath)
     }
 }
