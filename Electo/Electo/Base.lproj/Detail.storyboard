@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -98,7 +97,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="bby-OX-aNI" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" id="3iN-oR-mXa"/>
                             <constraint firstItem="bby-OX-aNI" firstAttribute="top" secondItem="w7C-Zz-CO8" secondAttribute="bottom" id="4v3-Sy-5xc"/>
@@ -145,7 +144,6 @@
                     </connections>
                 </swipeGestureRecognizer>
                 <swipeGestureRecognizer direction="left" id="bt6-1x-X0t">
-                
                     <connections>
                         <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="swd-Ce-cYl"/>
                         <outlet property="delegate" destination="24c-6t-MzH" id="FjA-9h-faK"/>
@@ -163,4 +161,7 @@
             <point key="canvasLocation" x="3933" y="-228"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="d9n-Aw-Px8"/>
+    </inferredMetricsTieBreakers>
 </document>

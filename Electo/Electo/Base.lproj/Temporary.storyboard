@@ -66,11 +66,11 @@
                                     <outlet property="delegate" destination="41h-lp-7Sx" id="M1G-Sm-1sc"/>
                                 </connections>
                             </collectionView>
-                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
                                 <rect key="frame" x="16" y="600.5" width="343" height="46.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dk9-Mw-hsd">
-                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="46.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="46.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Recover Selected" backgroundImage="Cleanable-23">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -80,7 +80,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sns-Ue-VMg">
-                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="46.5"/>
+                                        <rect key="frame" x="184" y="0.0" width="159" height="46.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Delete Selected" backgroundImage="Cleanable-24">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -91,11 +91,11 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Y3m-5o-0Su">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Y3m-5o-0Su">
                                 <rect key="frame" x="16" y="600.5" width="343" height="46.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltc-HR-n3Q">
-                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="46.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="46.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Recover All" backgroundImage="Cleanable-23">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -105,7 +105,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y55-Ef-PtW">
-                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="46.5"/>
+                                        <rect key="frame" x="184" y="0.0" width="159" height="46.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Delete All" backgroundImage="Cleanable-24">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -117,7 +117,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="81L-GL-LUT" secondAttribute="bottom" id="1CY-ym-J0a"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leading" id="3Bf-75-FUQ"/>
