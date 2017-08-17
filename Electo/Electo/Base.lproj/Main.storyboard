@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jIs-QX-MrQ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
@@ -69,7 +68,7 @@
                                                     </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 Photos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Un-Xs-MsE">
-                                                    <rect key="frame" x="8" y="17" width="71.5" height="20.5"/>
+                                                    <rect key="frame" x="8" y="5" width="71.5" height="41"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -114,14 +113,7 @@
                             <constraint firstItem="POu-e3-FrG" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="q9p-sP-e7d"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="Y0A-Bd-PEE">
-                            <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalRemovedPhotoVC" id="OfB-lh-lfo"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu"/>
                     <connections>
                         <outlet property="tableView" destination="POu-e3-FrG" id="kGH-RN-jcJ"/>
                         <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalRemovedPhotoVC" id="5Yv-4U-t7U"/>
@@ -137,7 +129,7 @@
                 <viewControllerPlaceholder storyboardName="Temporary" id="RpQ-Ak-e2Y" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u8C-48-l48" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3838" y="-468"/>
+            <point key="canvasLocation" x="3914" y="-471"/>
         </scene>
         <!--Detail-->
         <scene sceneID="Shn-UT-5Zp">
@@ -153,7 +145,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jIs-QX-MrQ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Photos" image="Cleanable-18" id="vvd-LH-pJU"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" misplaced="YES" id="sUb-GM-l8U">
+                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" id="sUb-GM-l8U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -170,29 +162,9 @@
             </objects>
             <point key="canvasLocation" x="2414" y="-228"/>
         </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="PzK-hO-9vM">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="kT9-Cq-I1L" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" id="t2W-cp-JDd">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="jIs-QX-MrQ" kind="relationship" relationship="viewControllers" id="dUU-1W-VR3"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Clz-sb-Lzz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1614" y="-228"/>
-        </scene>
     </scenes>
     <resources>
         <image name="Cleanable-18" width="26" height="26"/>
     </resources>
     <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-
 </document>
