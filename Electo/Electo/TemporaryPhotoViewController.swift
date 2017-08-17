@@ -14,7 +14,7 @@ class TemporaryPhotoViewController: UIViewController {
         case on = "Cancel"
         case off = "Choose"
     }
-  
+    
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chooseButton: UIBarButtonItem!
@@ -34,7 +34,7 @@ class TemporaryPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         collectionView.dataSource = photoDataSource
         collectionView.allowsMultipleSelection = true
         
@@ -96,20 +96,25 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverAll(_ sender: UIButton) {
-        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        
-        let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
-        temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
-        
-        collectionView.reloadData()
+        recoverAlertController(title: "Recover All Photos", message: "Recover All Photos") { (action) in
+            guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
+            let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
+            temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
+            
+            self.collectionView.reloadData()
+            self.dismiss(animated: true, completion: nil)
+
+        }
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
-        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        
-        temporaryPhotoStore.remove(photoAssets: selectedPhotoAssets())
-      
-        collectionView.reloadData()
+        recoverAlertController(title: "Recover Selected Photos", message: "Recover Selected Photos") { (action) in
+            guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
+            temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
+            
+            self.collectionView.reloadData()
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @IBAction func deleteAll(_ sender: UIButton) {
@@ -123,7 +128,7 @@ class TemporaryPhotoViewController: UIViewController {
     
     @IBAction func deleteSelected(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-    
+        
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
             self?.collectionView.reloadData()
@@ -133,13 +138,22 @@ class TemporaryPhotoViewController: UIViewController {
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    func recoverAlertController(title: String, message: String, completion: @escaping (UIAlertAction) -> Void) {
+        let alertController = UIAlertController(title: "Recover", message: "", preferredStyle: .actionSheet)
+        let recoverAction = UIAlertAction(title: title, style: .default, handler: completion)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(recoverAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension TemporaryPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let photoCell = collectionView.cellForItem(at: indexPath)
             as? TemporaryPhotoCell else { return }
-     
+        
         switch selectMode {
         case .on:
             photoCell.select()
