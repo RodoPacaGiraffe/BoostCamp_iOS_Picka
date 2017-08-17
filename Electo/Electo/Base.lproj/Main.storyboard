@@ -114,15 +114,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
-                        <barButtonItem key="leftBarButtonItem" id="Gff-e1-mKL">
-                            <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="gsU-gX-Ivg">
-                                <rect key="frame" x="16" y="6" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="networkAllowSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="fQc-Tu-Q0M"/>
-                                </connections>
-                            </switch>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="Y0A-Bd-PEE">
                             <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -153,6 +144,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uGc-5Z-9bo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3846" y="-228"/>
+        </scene>
+        <!--Setting-->
+        <scene sceneID="mIY-mP-1kz">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Setting" id="sPn-16-k3o" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="X6Z-f2-2A5"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DRx-Wi-thB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2429" y="377"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RJw-Z1-njC">
@@ -185,6 +186,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="jIs-QX-MrQ" kind="relationship" relationship="viewControllers" id="dUU-1W-VR3"/>
+                        <segue destination="sPn-16-k3o" kind="relationship" relationship="viewControllers" id="Pmx-Wa-n0n"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Clz-sb-Lzz" userLabel="First Responder" sceneMemberID="firstResponder"/>
