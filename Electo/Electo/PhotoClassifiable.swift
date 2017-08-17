@@ -20,7 +20,6 @@ extension PhotoClassifiable {
         var tempPhotoAssets: [PHAsset] = []
         var tempPhotoAssetsArray: [[PHAsset]] = []
         
-        // TODO: Refactoring 필요, 한번에 추가하는 것 고려
         for photoAsset in photoAssets {
             guard let creationDate = photoAsset.creationDate else { return [] }
         
@@ -31,11 +30,11 @@ extension PhotoClassifiable {
                 tempPhotoAssets.append(photoAsset)
                 continue
             case .intervalBoundary:
-                if tempPhotoAssets.count > Constants.minimumPhotoCount - 1 {
+                if tempPhotoAssets.count >= Constants.minimumPhotoCount {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
                 }
             case .day:
-                if tempPhotoAssets.count > Constants.minimumPhotoCount - 1 {
+                if tempPhotoAssets.count >= Constants.minimumPhotoCount {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
                 }
                 
