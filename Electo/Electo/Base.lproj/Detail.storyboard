@@ -25,7 +25,7 @@
                             <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7C-Zz-CO8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                 <subviews>
-                                    <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
+                                    <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                         <gestureRecognizers/>
                                         <connections>
@@ -55,6 +55,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bby-OX-aNI">
                                 <rect key="frame" x="0.0" y="507" width="375" height="160"/>
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="BvB-Ae-UTG"/>
+                                </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0wh-SJ-JHc">
                                 <rect key="frame" x="15" y="537" width="345" height="100"/>
@@ -103,7 +106,6 @@
                             <constraint firstItem="w7C-Zz-CO8" firstAttribute="top" secondItem="4Vr-NV-Z1L" secondAttribute="top" id="TBs-2n-ZSJ"/>
                             <constraint firstItem="w7C-Zz-CO8" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" id="Yvu-2F-bLi"/>
                             <constraint firstItem="ZVZ-bo-emb" firstAttribute="top" secondItem="bby-OX-aNI" secondAttribute="bottom" id="feo-zE-9eu"/>
-                            <constraint firstItem="0wh-SJ-JHc" firstAttribute="height" secondItem="4Vr-NV-Z1L" secondAttribute="height" multiplier="0.15" id="nW6-db-R3E"/>
                             <constraint firstItem="0wh-SJ-JHc" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" constant="15" id="rHO-G4-RSP"/>
                             <constraint firstItem="ZVZ-bo-emb" firstAttribute="top" secondItem="0wh-SJ-JHc" secondAttribute="bottom" constant="30" id="v4A-b7-tlW"/>
                             <constraint firstAttribute="trailing" secondItem="w7C-Zz-CO8" secondAttribute="trailing" id="vxe-24-TIR"/>
@@ -136,6 +138,7 @@
                     </connections>
                 </swipeGestureRecognizer>
                 <swipeGestureRecognizer direction="left" id="bt6-1x-X0t">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="Brx-js-aPc">
                     <connections>
                         <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="swd-Ce-cYl"/>
                         <outlet property="delegate" destination="24c-6t-MzH" id="FjA-9h-faK"/>

@@ -199,7 +199,6 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
       
-        detailViewController.selectedIndexPath = indexPath
         detailViewController.photoDataSource = photoDataSource
         detailViewController.selectedSectionAssets = photoDataSource.photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
         detailViewController.identifier = "fromClassifiedView"
@@ -208,7 +207,6 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
         
         show(detailViewController, sender: self)
-
     }
 }
 
