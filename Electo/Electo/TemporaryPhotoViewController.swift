@@ -21,6 +21,7 @@ class TemporaryPhotoViewController: UIViewController {
     @IBOutlet weak var buttonForEditStackView: UIStackView!
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
+    var originalNavigationPosition: CGPoint?
     var originalPosition: CGPoint?
     var currentTouchPosition: CGPoint?
     var photoDataSource: PhotoDataSource?
@@ -105,7 +106,7 @@ class TemporaryPhotoViewController: UIViewController {
             
             self.collectionView.reloadData()
             self.dismiss(animated: true, completion: nil)
-
+            
         }
     }
     
@@ -156,21 +157,32 @@ class TemporaryPhotoViewController: UIViewController {
         switch sender.state {
         case .began:
             originalPosition = view.center
+            originalNavigationPosition = navigationController?.navigationBar.center
             currentTouchPosition = sender.location(in: self.view)
+            
         case .changed:
             
             if translation.y > 0 {
                 self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: translation.y)
+    
+                self.navigationController?.navigationBar.frame.origin = CGPoint(x: self.view.frame.origin.x, y: translation.y + 20)
             }
         case .ended:
             let velocity = sender.velocity(in: self.view)
             if velocity.y >= 150 {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.dismiss(animated: true, completion: nil)
-            })
-               
+                UIView.animate(withDuration: 0.2, animations: { 
+                    self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.size.height)
+                    self.navigationController?.navigationBar.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.size.height)
+                }, completion: { (completed) in
+                    if completed {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                })
             } else {
-                self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.origin.y)
+                UIView.animate(withDuration: 0.2, animations: { 
+                    self.view.center = self.originalPosition!
+                    self.navigationController?.navigationBar.center = self.originalNavigationPosition!
+                })
             }
         default: break
             
