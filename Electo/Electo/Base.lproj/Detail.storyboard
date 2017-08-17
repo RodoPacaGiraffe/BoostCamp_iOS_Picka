@@ -113,7 +113,14 @@
                             <constraint firstAttribute="trailing" secondItem="0wh-SJ-JHc" secondAttribute="trailing" constant="15" id="yR7-MW-aPA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="pHw-bZ-KCK"/>
+                    <navigationItem key="navigationItem" id="pHw-bZ-KCK">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="wBI-hn-2Pe">
+                            <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <segue destination="Daf-So-tGF" kind="presentation" identifier="ModalRemovedPhotoVC" id="d9n-Aw-Px8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="detailImageView" destination="y6d-An-LKm" id="Kpc-Xe-bxx"/>
