@@ -15,16 +15,13 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
-    @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     @IBOutlet var flowLayout: UICollectionViewFlowLayout!
     var moveToTempVCButtonItem: UIBarButtonItem?
     
-    var photoAssets: [PHAsset] = .init()
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
     var selectedSection: Int = 0
     var photoDataSource: PhotoDataSource?
-    var selectedIndexPath: IndexPath = IndexPath()
     var pressedIndexPath: IndexPath = IndexPath()
     var selectedPhotos: Int = 0
     var previousSelectedCell: DetailPhotoCell?
@@ -39,17 +36,9 @@ class DetailPhotoViewController: UIViewController {
         setNavigationButtonItem()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-        
+    override func viewWillAppear(_ animated: Bool) {   
         guard let count = photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
-        
         moveToTempVCButtonItem?.updateBadge(With: count)
-    }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func setFlowLayout() {
@@ -91,13 +80,10 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.maximumZoomScale = 6.0
         
         self.tabBarController?.tabBar.isHidden = true
-        photoAssets = getAsset(from: identifier)
         detailImageView.image = thumbnailImages.first
         
         fetchFullSizeImage(from: pressedIndexPath)
         thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
-        
-        doubleTapRecognizer.numberOfTapsRequired = Constants.numberOfTapsRequired
     }
     
     private func setTranslucentToNavigationBar() {
@@ -143,7 +129,7 @@ class DetailPhotoViewController: UIViewController {
             }
         }
         
-        let photoAsset: PHAsset = photoAssets[indexPath.item]
+        let photoAsset: PHAsset = selectedSectionAssets[indexPath.item]
         DispatchQueue.global().async { [weak self] _ -> Void in
             photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
@@ -165,7 +151,19 @@ class DetailPhotoViewController: UIViewController {
     }
     
     func moveToNextPhoto() {
+        guard !selectedSectionAssets.isEmpty else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
         
+        if selectedPhotos >= selectedSectionAssets.count - 1 {
+            updatePhotoIndex(direction: .right)
+        }
+
+        let index = IndexPath(row: selectedPhotos, section: 0)
+        
+        collectionView(thumbnailCollectionView, didSelectItemAt: index)
+        thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
@@ -174,13 +172,19 @@ class DetailPhotoViewController: UIViewController {
         switch sender.state {
         case .began:
             startPanGesturePoint = location
+            setTranslucentToNavigationBar()
         case .ended:
-            if (startPanGesturePoint.y - location.y) > view.bounds.height / 4 {
-                moveToTrash()
-            } else {
+            guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
+                
+                self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+                self.navigationController?.navigationBar.isTranslucent = false
+                
                 detailImageView.center = CGPoint(x: zoomingScrollView.center.x,
                                                  y: zoomingScrollView.center.y)
+                break
             }
+        
+            moveToTrashAnimation()
         case .changed:
             detailImageView.frame.origin.y = location.y
         default:
@@ -188,29 +192,30 @@ class DetailPhotoViewController: UIViewController {
         }
     }
     
-    func moveToTrash() {
-        setTranslucentToNavigationBar()
+    private func moveToTrashAnimation() {
+        guard let naviBarHeight = self.navigationController?.navigationBar.bounds.height else { return }
         
-        UIView.animate(withDuration: 0.3,
-                       animations: {
-                        self.detailImageView.center = CGPoint(x: self.thumbnailCollectionView.bounds.width, y: -(self.navigationController?.navigationBar.bounds.height)! / 2)
-                        self.detailImageView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        let targetY = -(naviBarHeight / 2)
+        let targetX = thumbnailCollectionView.bounds.width
+        
+        UIView.animate(withDuration: 0.2,
+        animations: {
+            self.detailImageView.center = CGPoint(x: targetX, y: targetY)
+            self.detailImageView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
         }, completion: { _ in
-            guard let selectedIndexPath = self.thumbnailCollectionView.indexPathsForSelectedItems?.first else { return }
+
+            self.navigationController?.navigationBar.isTranslucent = false
+            self.photoDataSource?.temporaryPhotoStore.insert(photoAssets: [self.getAsset(from: self.identifier)[self.selectedPhotos]])
             
-            self.photoDataSource?.temporaryPhotoStore.insert(photoAssets: [self.getAsset(from: self.identifier)[selectedIndexPath.row]])
+            self.selectedSectionAssets.remove(at: self.selectedPhotos)
+            
+            self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
             
             self.detailImageView.center = self.zoomingScrollView.center
             self.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             
-            self.selectedSectionAssets.remove(at: selectedIndexPath.row)
-            
-            self.navigationController?.navigationBar.isTranslucent = false
-            
-            DispatchQueue.main.async {
-                self.thumbnailCollectionView.reloadSections(IndexSet(integer: selectedIndexPath.section))
-                
-            }
+            self.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
+            self.moveToNextPhoto()
         })
     }
     
