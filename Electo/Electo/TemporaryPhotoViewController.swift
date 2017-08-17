@@ -22,9 +22,7 @@ class TemporaryPhotoViewController: UIViewController {
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
     var photoDataSource: PhotoDataSource?
-    var tempThumbnailImages: [UIImage] = []
-    var selectedIndexPaths: [IndexPath] = []
-    
+  
     fileprivate var selectMode: SelectMode = .off {
         didSet {
             toggleHiddenState(forViews: [buttonForEditStackView, buttonForNormalStackView])
@@ -35,13 +33,18 @@ class TemporaryPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.dataSource = photoDataSource
-        collectionView.allowsMultipleSelection = true
-        
+        setCollectionView()
         setCellSize()
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
+    }
+    
+    private func setCollectionView() {
+        collectionView.dataSource = photoDataSource
+        collectionView.allowsMultipleSelection = true
+        collectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: collectionView.frame.maxY - buttonForNormalStackView.frame.origin.y, right: 0.0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: collectionView.frame.maxY - buttonForNormalStackView.frame.origin.y, right: 0.0)
     }
     
     private func setCellSize() {
@@ -71,7 +74,7 @@ class TemporaryPhotoViewController: UIViewController {
         return selectedPhotoAssets
     }
     
-    func reloadData() {
+    @objc private func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
@@ -96,14 +99,14 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverAll(_ sender: UIButton) {
-        recoverAlertController(title: "Recover All Photos", message: "Recover All Photos") { (action) in
-            guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
+        recoverAlertController(title: "Recover All Photos", message: "Recover All Photos") {
+            [weak self] (action) in
+            guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
             temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
             
-            self.collectionView.reloadData()
-            self.dismiss(animated: true, completion: nil)
-
+            self?.collectionView.reloadSections(IndexSet(integer: 0))
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -112,8 +115,7 @@ class TemporaryPhotoViewController: UIViewController {
             guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
             temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
             
-            self.collectionView.reloadData()
-            self.dismiss(animated: true, completion: nil)
+            self.collectionView.reloadSections(IndexSet(integer: 0))
         }
     }
     
@@ -122,7 +124,8 @@ class TemporaryPhotoViewController: UIViewController {
         
         temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) {
             [weak self] in
-            self?.collectionView.reloadData()
+            self?.collectionView.reloadSections(IndexSet(integer: 0))
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -131,7 +134,7 @@ class TemporaryPhotoViewController: UIViewController {
         
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
-            self?.collectionView.reloadData()
+            self?.collectionView.reloadSections(IndexSet(integer: 0))
         }
     }
     
@@ -139,7 +142,8 @@ class TemporaryPhotoViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func recoverAlertController(title: String, message: String, completion: @escaping (UIAlertAction) -> Void) {
+    private func recoverAlertController(title: String, message: String,
+                                        completion: @escaping (UIAlertAction) -> Void) {
         let alertController = UIAlertController(title: "Recover", message: "", preferredStyle: .actionSheet)
         let recoverAction = UIAlertAction(title: title, style: .default, handler: completion)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

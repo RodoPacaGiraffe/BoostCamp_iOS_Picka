@@ -134,5 +134,12 @@ extension UIBarButtonItem {
         guard let labelIndex = index, let label = button.subviews[labelIndex] as? UILabel else { return }
         
         label.text = "\(temporaryPhotoAssetsCount)"
+        
+        guard temporaryPhotoAssetsCount != 0 else {
+            self.isEnabled = false
+            return
+        }
+        
+        self.isEnabled = true
     }
 }

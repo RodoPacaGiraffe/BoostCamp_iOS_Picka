@@ -41,21 +41,15 @@ class DetailPhotoViewController: UIViewController {
         moveToTempVCButtonItem?.updateBadge(With: count)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        detailImageView.layer.removeAllAnimations()
+    }
+    
     private func setFlowLayout() {
         flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
         flowLayout.itemSize.width = flowLayout.itemSize.height
         if identifier == "fromTemporaryViewController" {
             navigationItem.setRightBarButtonItems(nil, animated: false)
-        }
-    }
-
-    
-    func getAsset(from identifier: String) -> [PHAsset] {
-        switch identifier {
-        case "fromTemporaryViewController":
-            return selectedSectionAssets
-        default:
-            return selectedSectionAssets
         }
     }
     
@@ -67,7 +61,7 @@ class DetailPhotoViewController: UIViewController {
                 selectedPhotos += 1
             }
         case UISwipeGestureRecognizerDirection.left:
-            let count = getAsset(from: identifier).count
+            let count = selectedSectionAssets.count
 
             selectedPhotos += 1
             if selectedPhotos == count {
@@ -179,7 +173,6 @@ class DetailPhotoViewController: UIViewController {
             startPanGesturePoint = location
             setTranslucentToNavigationBar()
         case .ended:
-
             guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
                 
                 self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
@@ -206,23 +199,30 @@ class DetailPhotoViewController: UIViewController {
         let targetX = thumbnailCollectionView.bounds.width
         
         UIView.animate(withDuration: 0.2,
-        animations: {
-            self.detailImageView.center = CGPoint(x: targetX, y: targetY)
-            self.detailImageView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
-        }, completion: { _ in
+        animations: { [weak self] in
+            guard let detailVC = self else { return }
+            detailVC.detailImageView.center = CGPoint(x: targetX, y: targetY)
+            detailVC.detailImageView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+        }, completion: { [weak self] _ in
+            guard let detailVC = self else { return }
+            detailVC.navigationController?.navigationBar.isTranslucent = false
+            detailVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            
+            detailVC.photoDataSource?.temporaryPhotoStore.insert(
+                photoAssets: [detailVC.selectedSectionAssets[detailVC.selectedPhotos]])
+            
+            guard let count = detailVC.photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
+            
+            detailVC.moveToTempVCButtonItem?.updateBadge(With: count)
 
-            self.navigationController?.navigationBar.isTranslucent = false
-            self.photoDataSource?.temporaryPhotoStore.insert(photoAssets: [self.getAsset(from: self.identifier)[self.selectedPhotos]])
+            detailVC.selectedSectionAssets.remove(at: detailVC.selectedPhotos)
             
-            self.selectedSectionAssets.remove(at: self.selectedPhotos)
+            detailVC.detailImageView.center = detailVC.zoomingScrollView.center
+            detailVC.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             
-            self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            detailVC.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
             
-            self.detailImageView.center = self.zoomingScrollView.center
-            self.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            
-            self.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
-            self.moveToNextPhoto()
+            detailVC.moveToNextPhoto()
         })
     }
     
@@ -244,14 +244,13 @@ class DetailPhotoViewController: UIViewController {
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let storeAssetsCount = getAsset(from: identifier).count
-        return storeAssetsCount
+        return selectedSectionAssets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
-        let photoAssets = self.getAsset(from: identifier)
+        let photoAssets = selectedSectionAssets
         let photoAsset = photoAssets[indexPath.item]
         let options = PHImageRequestOptions()
         

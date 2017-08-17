@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jIs-QX-MrQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jIs-QX-MrQ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -112,7 +112,13 @@
                             <constraint firstItem="POu-e3-FrG" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="q9p-sP-e7d"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu"/>
+                    <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
+                        <barButtonItem key="leftBarButtonItem" image="Settings" id="97q-k1-UQh">
+                            <connections>
+                                <segue destination="fDP-Yq-zDr" kind="show" id="NRV-d7-QnV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="POu-e3-FrG" id="kGH-RN-jcJ"/>
                         <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalRemovedPhotoVC" id="5Yv-4U-t7U"/>
@@ -137,6 +143,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uGc-5Z-9bo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3846" y="-228"/>
+        </scene>
+        <!--Setting-->
+        <scene sceneID="bol-p4-sQb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Setting" id="fDP-Yq-zDr" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RM3-tO-Owb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3922" y="22"/>
         </scene>
         <!--Photos-->
         <scene sceneID="RJw-Z1-njC">
@@ -164,6 +178,7 @@
     </scenes>
     <resources>
         <image name="Cleanable-18" width="26" height="26"/>
+        <image name="Settings" width="26" height="26"/>
     </resources>
     <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
 </document>

@@ -81,6 +81,8 @@ extension PhotoDataSource: UITableViewDataSource {
         } else {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+        
+        NotificationCenter.default.post(name: Constants.requiredUpdatingBadge, object: nil)
     }
 }
 

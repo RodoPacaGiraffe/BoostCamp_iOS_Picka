@@ -35,7 +35,6 @@ class SettingViewController: UITableViewController {
     }
     
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
-        print(sender.state)
         if sender.isOn {
             let alertController = UIAlertController(title: "", message: "It will use network data", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
@@ -54,7 +53,7 @@ class SettingViewController: UITableViewController {
         }
     }
     
-    func setTickStackView() {
+    private func setTickStackView() {
         let sliderWidth: CGFloat = slider.frame.width
         guard let tickWidth: CGFloat = tickStackView.subviews.first?.frame.width else { return }
         tickStackView.spacing = (sliderWidth - tickWidth * 5) / 4 - 1
