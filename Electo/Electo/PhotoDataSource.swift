@@ -11,6 +11,7 @@ import Photos
 
 class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     var photoStore: PhotoStore = PhotoStore()
+    
     var temporaryPhotoStore: TemporaryPhotoStore = TemporaryPhotoStore() {
         didSet {
             temporaryPhotoStore.delegate = photoStore
@@ -20,13 +21,14 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     override init() {
         temporaryPhotoStore.delegate = photoStore
         
+        
         super.init()
     }
 }
 
 extension PhotoDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-      
+        
         return photoStore.classifiedPhotoAssets.count
     }
     
@@ -43,24 +45,27 @@ extension PhotoDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
         
-        let photoAssets = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+        let classifiedPhotoAsset = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+        
         var fetchedImages: [UIImage] = .init()
         
         let options: PHImageRequestOptions = .init()
         options.isSynchronous = true
-        photoAssets.forEach {
+        classifiedPhotoAsset.photoAssets.forEach {
             $0.fetchImage(size: Constants.fetchImageSize,
                           contentMode: .aspectFill, options: options) { photoImage in
                             guard let photoImage = photoImage else { return }
                             fetchedImages.append(photoImage)
                             
-                            if photoAssets.count == fetchedImages.count {
+                            if classifiedPhotoAsset.photoAssets.count == fetchedImages.count {
                             cell.cellImages = fetchedImages
                             }
             }
         }
+        cell.dateLabel.text = "\(classifiedPhotoAsset.photoAssets.count) Photos"
+        print(classifiedPhotoAsset.location)
+        cell.locationLabel.text = classifiedPhotoAsset.location
         
-        cell.dateLabel.text = "\(photoAssets.count) Photos"
         return cell
     }
     
@@ -70,7 +75,7 @@ extension PhotoDataSource: UITableViewDataSource {
         let classifiedPhotoAssets = photoStore.classifiedPhotoAssets[indexPath.section]
         let assets = classifiedPhotoAssets.photoAssetsArray[indexPath.row]
         
-        temporaryPhotoStore.insert(photoAssets: assets)
+        temporaryPhotoStore.insert(photoAssets: assets.photoAssets)
         
         if classifiedPhotoAssets.photoAssetsArray.count == 1 {
             tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)

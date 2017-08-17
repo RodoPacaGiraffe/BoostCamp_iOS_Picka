@@ -17,8 +17,9 @@ extension PhotoClassifiable {
     func classifyByTimeInterval(photoAssets: [PHAsset]) -> [ClassifiedPhotoAssets] {
         guard var referencePhotoAssetDate = photoAssets.first?.creationDate else { return [] }
         var classifiedPhotoAssetsArray: [ClassifiedPhotoAssets] = []
-        var tempPhotoAssets: [PHAsset] = []
-        var tempPhotoAssetsArray: [[PHAsset]] = []
+        
+        var tempPhotoAssets: ClassifiedGroup = .init()
+        var tempPhotoAssetsArray: [ClassifiedGroup] = []
         
         for photoAsset in photoAssets {
             guard let creationDate = photoAsset.creationDate else { return [] }
@@ -27,19 +28,21 @@ extension PhotoClassifiable {
         
             switch difference {
             case .none:
-                tempPhotoAssets.append(photoAsset)
+                tempPhotoAssets.photoAssets.append(photoAsset)
                 continue
             case .intervalBoundary:
                 if tempPhotoAssets.count >= Constants.minimumPhotoCount {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
+                    tempPhotoAssets = .init()
                 }
             case .day:
                 if tempPhotoAssets.count >= Constants.minimumPhotoCount {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
+                    tempPhotoAssets = .init()
                 }
                 
                 guard !tempPhotoAssetsArray.isEmpty else { break }
-                
+
                 let classifiedPhotoAssets = ClassifiedPhotoAssets(
                     date: referencePhotoAssetDate, photoAssetsArray: tempPhotoAssetsArray)
                 
@@ -48,10 +51,11 @@ extension PhotoClassifiable {
             }
             
             referencePhotoAssetDate = creationDate
-            tempPhotoAssets.removeAll()
-            tempPhotoAssets.append(photoAsset)
+            tempPhotoAssets.photoAssets.removeAll()
+            
+            tempPhotoAssets.photoAssets.append(photoAsset)
         }
-
+        
         return classifiedPhotoAssetsArray
     }
 }

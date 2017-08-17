@@ -51,6 +51,7 @@ class ClassifiedPhotoCell: UITableViewCell {
             $0.image = nil
         }
         moreImagesLabel.isHidden = true
+        locationLabel.text = nil
     }
 }
 

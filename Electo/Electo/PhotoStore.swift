@@ -12,13 +12,13 @@ import Photos
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
 
-    fileprivate(set) var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
+    var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
   
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
                                                name: Constants.removedAssetsFromPhotoLibrary, object: nil)
     }
-
+    
     func fetchPhotoAsset() {
         photoAssets.removeAll()
         
@@ -33,7 +33,7 @@ class PhotoStore: PhotoClassifiable {
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
         }
-        
+
         PhotoLibraryObserver.shared.setObserving(fetchResult: fetchResult)
         
         cachingImageManager.startCachingImages(for: photoAssets,
