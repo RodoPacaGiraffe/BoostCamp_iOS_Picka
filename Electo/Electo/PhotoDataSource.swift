@@ -21,7 +21,6 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     override init() {
         temporaryPhotoStore.delegate = photoStore
         
-        
         super.init()
     }
 }
@@ -63,7 +62,7 @@ extension PhotoDataSource: UITableViewDataSource {
             }
         }
         cell.dateLabel.text = "\(classifiedPhotoAsset.photoAssets.count) Photos"
-        print(classifiedPhotoAsset.location)
+   
         cell.locationLabel.text = classifiedPhotoAsset.location
         
         return cell

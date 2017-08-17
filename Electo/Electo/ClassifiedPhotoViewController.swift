@@ -204,7 +204,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
             print("cell is not a photoCell")
             return
         }
-        print(indexPath)
+
         photoCell.clearStackView()
     }
     
@@ -219,7 +219,8 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
       
         detailViewController.photoDataSource = photoDataSource
-        detailViewController.selectedSectionAssets = photoDataSource.photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+        detailViewController.selectedSectionAssets = photoDataSource.photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets
+       
         detailViewController.identifier = "fromClassifiedView"
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         detailViewController.thumbnailImages = selectedCell.cellImages

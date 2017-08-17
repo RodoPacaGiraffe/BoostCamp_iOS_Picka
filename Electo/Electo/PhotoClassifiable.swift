@@ -31,12 +31,12 @@ extension PhotoClassifiable {
                 tempPhotoAssets.photoAssets.append(photoAsset)
                 continue
             case .intervalBoundary:
-                if tempPhotoAssets.count >= Constants.minimumPhotoCount {
+                if tempPhotoAssets.photoAssets.count >= Constants.minimumPhotoCount {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
                     tempPhotoAssets = .init()
                 }
             case .day:
-                if tempPhotoAssets.count >= Constants.minimumPhotoCount {
+                if tempPhotoAssets.photoAssets.count >= Constants.minimumPhotoCount {
                     tempPhotoAssetsArray.append(tempPhotoAssets)
                     tempPhotoAssets = .init()
                 }
