@@ -100,6 +100,7 @@ extension UIBarButtonItem {
         label.layer.cornerRadius = label.bounds.size.height / 2
         label.textAlignment = .center
         label.baselineAdjustment = .alignCenters
+        label.font = UIFont.systemFont(ofSize: 10)
         label.adjustsFontSizeToFitWidth = true
         label.layer.masksToBounds = true
         label.textColor = .white
