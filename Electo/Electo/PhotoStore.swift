@@ -20,6 +20,8 @@ class PhotoStore: PhotoClassifiable {
     }
 
     func fetchPhotoAsset() {
+        photoAssets.removeAll()
+        
         let fetchOptions = PHFetchOptions()
         
         

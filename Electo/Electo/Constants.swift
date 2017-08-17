@@ -9,11 +9,6 @@
 import Foundation
 import Photos
 
-
-enum Direction {
-    case left
-    case right
-}
 enum Order: String {
     case creationDate
 }
