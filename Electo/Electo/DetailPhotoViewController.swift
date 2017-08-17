@@ -126,6 +126,7 @@ class DetailPhotoViewController: UIViewController {
             photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
                 guard let data = fetchedData else { return }
                 DispatchQueue.main.async {
+                    guard self?.pressedIndexPath == indexPath else { return }
                     self?.detailImageView.image = UIImage(data: data)
                     self?.loadingIndicatorView.stopAnimating()
                 }
@@ -207,7 +208,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         
         thumbnailViewCell.select()
         previousSelectedCell = thumbnailViewCell
-        
+        self.pressedIndexPath = indexPath
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
 
