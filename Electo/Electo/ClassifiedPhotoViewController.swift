@@ -118,7 +118,6 @@ class ClassifiedPhotoViewController: UIViewController {
             }
 
             self?.fetchArchivedTemporaryPhotoStore(from: path)
-            self?.reloadData()
         }
     }
     
@@ -126,8 +125,11 @@ class ClassifiedPhotoViewController: UIViewController {
         DispatchQueue.global().async {
             [weak self] in
             guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-                as? TemporaryPhotoStore else { return }
-            
+                as? TemporaryPhotoStore else {
+                    self?.reloadData()
+                    return
+            }
+            print("here")
             self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
             self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
             
