@@ -1,0 +1,21 @@
+
+/* Class = "UIButton"; normalTitle = "Recover Selected"; ObjectID = "Dk9-Mw-hsd"; */
+"Dk9-Mw-hsd.normalTitle" = "Recover Selected";
+
+/* Class = "UIBarButtonItem"; title = "Choose"; ObjectID = "dl6-xh-00s"; */
+"dl6-xh-00s.title" = "Choose";
+
+/* Class = "UIButton"; normalTitle = "Recover All"; ObjectID = "ltc-HR-n3Q"; */
+"ltc-HR-n3Q.normalTitle" = "Recover All";
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "oJp-TK-wXK"; */
+"oJp-TK-wXK.title" = "Cancel";
+
+/* Class = "UINavigationItem"; title = "To be deleted"; ObjectID = "sbp-bB-XVA"; */
+"sbp-bB-XVA.title" = "To be deleted";
+
+/* Class = "UIButton"; normalTitle = "Delete Selected"; ObjectID = "sns-Ue-VMg"; */
+"sns-Ue-VMg.normalTitle" = "Delete Selected";
+
+/* Class = "UIButton"; normalTitle = "Delete All"; ObjectID = "y55-Ef-PtW"; */
+"y55-Ef-PtW.normalTitle" = "Delete All";
