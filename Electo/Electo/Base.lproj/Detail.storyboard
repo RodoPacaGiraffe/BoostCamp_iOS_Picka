@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,8 +29,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                         <gestureRecognizers/>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="XyJ-XY-8x4" appends="YES" id="eak-bg-iAz"/>
                                             <outletCollection property="gestureRecognizers" destination="Brx-js-aPc" appends="YES" id="5QG-Bn-Lpq"/>
+                                            <outletCollection property="gestureRecognizers" destination="xUD-pf-VQI" appends="YES" id="7f8-9K-1Eo"/>
+                                            <outletCollection property="gestureRecognizers" destination="bt6-1x-X0t" appends="YES" id="9Vf-Zm-Npi"/>
                                         </connections>
                                     </imageView>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ONe-yI-LrC">
@@ -114,7 +115,6 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="detailImageView" destination="y6d-An-LKm" id="Kpc-Xe-bxx"/>
-                        <outlet property="doubleTapRecognizer" destination="XyJ-XY-8x4" id="MhD-dY-ZfV"/>
                         <outlet property="flowLayout" destination="tdY-X4-OQb" id="CZ2-6L-IsE"/>
                         <outlet property="loadingIndicatorView" destination="ONe-yI-LrC" id="hvo-f9-Xg5"/>
                         <outlet property="thumbnailCollectionView" destination="0wh-SJ-JHc" id="ye4-kY-E3y"/>
@@ -123,30 +123,24 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vM-D0-mbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="Na3-78-bnX">
-                    <connections>
-                        <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="ohw-T6-PcB"/>
-                        <outlet property="delegate" destination="24c-6t-MzH" id="4Kk-J6-CXA"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="right" id="BKC-n7-6bP">
-                    <connections>
-                        <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="mAw-Gh-Z7h"/>
-                        <outlet property="delegate" destination="24c-6t-MzH" id="NON-J4-VRc"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <tapGestureRecognizer id="XyJ-XY-8x4">
-                    <connections>
-                        <action selector="doubleTap:" destination="24c-6t-MzH" id="TBH-Hn-n2a"/>
-                        <outlet property="delegate" destination="24c-6t-MzH" id="l6X-q9-rlB"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="Brx-js-aPc">
                     <connections>
                         <action selector="panGestureAction:" destination="24c-6t-MzH" id="g9w-vr-QDc"/>
                         <outlet property="delegate" destination="24c-6t-MzH" id="Ffr-fv-1b1"/>
                     </connections>
                 </panGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="xUD-pf-VQI">
+                    <connections>
+                        <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="9zr-AL-48z"/>
+                        <outlet property="delegate" destination="24c-6t-MzH" id="afB-Wi-Qth"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="bt6-1x-X0t">
+                    <connections>
+                        <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="swd-Ce-cYl"/>
+                        <outlet property="delegate" destination="24c-6t-MzH" id="FjA-9h-faK"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3208.8000000000002" y="-228.03598200899552"/>
         </scene>

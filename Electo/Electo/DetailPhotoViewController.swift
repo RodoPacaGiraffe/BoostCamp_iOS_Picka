@@ -15,7 +15,6 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
-    @IBOutlet var doubleTapRecognizer: UITapGestureRecognizer!
     @IBOutlet var flowLayout: UICollectionViewFlowLayout!
     var moveToTempVCButtonItem: UIBarButtonItem?
     
@@ -97,7 +96,6 @@ class DetailPhotoViewController: UIViewController {
         fetchFullSizeImage(from: pressedIndexPath)
         thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
         
-        doubleTapRecognizer.numberOfTapsRequired = Constants.numberOfTapsRequired
     }
     
     private func setTranslucentToNavigationBar() {
@@ -154,7 +152,7 @@ class DetailPhotoViewController: UIViewController {
             })
         }
     }
-    
+
     @IBAction func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
         updatePhotoIndex(direction: sender.direction)
         
@@ -169,23 +167,28 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
+
         let location = sender.translation(in: self.view)
         
         switch sender.state {
         case .began:
             startPanGesturePoint = location
         case .ended:
+            
             if (startPanGesturePoint.y - location.y) > view.bounds.height / 4 {
                 moveToTrash()
             } else {
-                detailImageView.center = CGPoint(x: zoomingScrollView.center.x,
-                                                 y: zoomingScrollView.center.y)
+                UIView.animate(withDuration: 0.2, animations: { 
+                    self.detailImageView.center = CGPoint(x: self.zoomingScrollView.center.x,
+                                                     y: self.zoomingScrollView.center.y)
+                })
             }
         case .changed:
             detailImageView.frame.origin.y = location.y
         default:
             break
         }
+      
     }
     
     func moveToTrash() {
@@ -226,7 +229,8 @@ class DetailPhotoViewController: UIViewController {
                 as? TemporaryPhotoViewController else { return }
         
         temporaryPhotoViewController.photoDataSource = photoDataSource
-    }    
+    }
+    
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
@@ -289,5 +293,12 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
+    }
+}
+
+extension DetailPhotoViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        otherGestureRecognizer.require(toFail: gestureRecognizer)
+        return true
     }
 }
