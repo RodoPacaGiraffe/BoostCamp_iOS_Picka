@@ -25,13 +25,12 @@
                             <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7C-Zz-CO8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
+                                    <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                         <gestureRecognizers/>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="BKC-n7-6bP" appends="YES" id="ra7-Rv-v8Z"/>
                                             <outletCollection property="gestureRecognizers" destination="XyJ-XY-8x4" appends="YES" id="eak-bg-iAz"/>
-                                            <outletCollection property="gestureRecognizers" destination="Na3-78-bnX" appends="YES" id="Px5-25-eRo"/>
+                                            <outletCollection property="gestureRecognizers" destination="Brx-js-aPc" appends="YES" id="5QG-Bn-Lpq"/>
                                         </connections>
                                     </imageView>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ONe-yI-LrC">
@@ -126,13 +125,13 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vM-D0-mbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="left" id="Na3-78-bnX">
                     <connections>
-                        <action selector="leftSwipeAction:" destination="24c-6t-MzH" id="Sxc-iM-PHa"/>
+                        <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="ohw-T6-PcB"/>
                         <outlet property="delegate" destination="24c-6t-MzH" id="4Kk-J6-CXA"/>
                     </connections>
                 </swipeGestureRecognizer>
                 <swipeGestureRecognizer direction="right" id="BKC-n7-6bP">
                     <connections>
-                        <action selector="rightSwipeAction:" destination="24c-6t-MzH" id="GJs-nt-2Pr"/>
+                        <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="mAw-Gh-Z7h"/>
                         <outlet property="delegate" destination="24c-6t-MzH" id="NON-J4-VRc"/>
                     </connections>
                 </swipeGestureRecognizer>
@@ -142,6 +141,12 @@
                         <outlet property="delegate" destination="24c-6t-MzH" id="l6X-q9-rlB"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="Brx-js-aPc">
+                    <connections>
+                        <action selector="panGestureAction:" destination="24c-6t-MzH" id="g9w-vr-QDc"/>
+                        <outlet property="delegate" destination="24c-6t-MzH" id="Ffr-fv-1b1"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3208.8000000000002" y="-228.03598200899552"/>
         </scene>

@@ -100,10 +100,7 @@ class ClassifiedPhotoViewController: UIViewController {
             
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
-            guard let path = Constants.archiveURL?.path else {
-                self?.reloadData()
-                return
-            }
+            guard let path = Constants.archiveURL?.path else { return }
 
             self?.fetchArchivedTemporaryPhotoStore(from: path)
         }
@@ -204,7 +201,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
       
         detailViewController.selectedIndexPath = indexPath
         detailViewController.photoDataSource = photoDataSource
-        
+        detailViewController.selectedSectionAssets = photoDataSource.photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
         detailViewController.identifier = "fromClassifiedView"
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         detailViewController.thumbnailImages = selectedCell.cellImages

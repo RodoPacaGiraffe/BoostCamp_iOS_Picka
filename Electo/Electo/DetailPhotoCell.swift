@@ -20,9 +20,11 @@ class DetailPhotoCell: UICollectionViewCell {
     
     func select() {
         thumbnailImageView.alpha = 0.5
+        self.isSelected = true
     }
     
     func deSelect() {
         thumbnailImageView.alpha = 1.0
+        self.isSelected = false
     }
 }
