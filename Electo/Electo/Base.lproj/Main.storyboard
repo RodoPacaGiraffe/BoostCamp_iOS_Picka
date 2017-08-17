@@ -27,7 +27,7 @@
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="ClassifiedPhotoCell" rowHeight="150" id="iJY-bk-UoN" customClass="ClassifiedPhotoCell" customModule="Electo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ClassifiedPhotoCell" rowHeight="150" id="iJY-bk-UoN" customClass="ClassifiedPhotoCell" customModule="Electo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="35" width="375" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iJY-bk-UoN" id="0kh-d5-kAa">
@@ -105,20 +105,30 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="POu-e3-FrG" secondAttribute="bottom" id="QnJ-gt-Hzo"/>
                             <constraint firstItem="POu-e3-FrG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XDC-o2-Xb2"/>
                             <constraint firstItem="POu-e3-FrG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iTR-jn-gBh"/>
                             <constraint firstItem="POu-e3-FrG" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="q9p-sP-e7d"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="NmD-ph-19I" appends="YES" id="IWO-O7-TBE"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu"/>
                     <connections>
                         <outlet property="tableView" destination="POu-e3-FrG" id="kGH-RN-jcJ"/>
+                        <outlet property="touchLocation" destination="NmD-ph-19I" id="raj-4O-ZRp"/>
                         <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalRemovedPhotoVC" id="5Yv-4U-t7U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="NmD-ph-19I">
+                    <connections>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="VVl-8u-Zer"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3220" y="-228.03598200899552"/>
         </scene>
