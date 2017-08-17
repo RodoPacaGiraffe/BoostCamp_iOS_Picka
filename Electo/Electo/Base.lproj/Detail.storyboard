@@ -138,7 +138,7 @@
                     </connections>
                 </swipeGestureRecognizer>
                 <swipeGestureRecognizer direction="left" id="bt6-1x-X0t">
-                <panGestureRecognizer minimumNumberOfTouches="1" id="Brx-js-aPc">
+                
                     <connections>
                         <action selector="horizontalSwipeAction:" destination="24c-6t-MzH" id="swd-Ce-cYl"/>
                         <outlet property="delegate" destination="24c-6t-MzH" id="FjA-9h-faK"/>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jIs-QX-MrQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jIs-QX-MrQ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -114,14 +114,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
-                        <barButtonItem key="leftBarButtonItem" id="Gff-e1-mKL">
-                            <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="gsU-gX-Ivg">
-                                <rect key="frame" x="16" y="6" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="networkAllowSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="fQc-Tu-Q0M"/>
-                                </connections>
-                            </switch>
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="Y0A-Bd-PEE">
                             <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -162,7 +154,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DRx-Wi-thB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2429" y="377"/>
+            <point key="canvasLocation" x="3219" y="223"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RJw-Z1-njC">
@@ -183,24 +175,8 @@
             </objects>
             <point key="canvasLocation" x="2414" y="-228"/>
         </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="PzK-hO-9vM">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="kT9-Cq-I1L" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="t2W-cp-JDd">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="jIs-QX-MrQ" kind="relationship" relationship="viewControllers" id="dUU-1W-VR3"/>
-                        <segue destination="sPn-16-k3o" kind="relationship" relationship="viewControllers" id="Pmx-Wa-n0n"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Clz-sb-Lzz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1614" y="-228"/>
-        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="OfB-lh-lfo"/>
+    </inferredMetricsTieBreakers>
 </document>
