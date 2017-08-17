@@ -140,7 +140,7 @@ class DetailPhotoViewController: UIViewController {
             })
         }
     }
-    
+
     @IBAction func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
         updatePhotoIndex(direction: sender.direction)
         
@@ -167,6 +167,7 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
+
         let location = sender.translation(in: self.view)
         
         switch sender.state {
@@ -174,6 +175,7 @@ class DetailPhotoViewController: UIViewController {
             startPanGesturePoint = location
             setTranslucentToNavigationBar()
         case .ended:
+
             guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
                 
                 self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
@@ -190,6 +192,7 @@ class DetailPhotoViewController: UIViewController {
         default:
             break
         }
+      
     }
     
     private func moveToTrashAnimation() {
@@ -231,7 +234,8 @@ class DetailPhotoViewController: UIViewController {
                 as? TemporaryPhotoViewController else { return }
         
         temporaryPhotoViewController.photoDataSource = photoDataSource
-    }    
+    }
+    
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
@@ -294,5 +298,12 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
+    }
+}
+
+extension DetailPhotoViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        otherGestureRecognizer.require(toFail: gestureRecognizer)
+        return true
     }
 }
