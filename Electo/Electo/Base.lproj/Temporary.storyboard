@@ -135,12 +135,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="To be deleted" id="sbp-bB-XVA">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="oJp-TK-wXK">
+                        <barButtonItem key="leftBarButtonItem" image="Cleanable-26" id="oJp-TK-wXK">
+                            <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancel:" destination="41h-lp-7Sx" id="EUY-4p-lkZ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Choose" id="dl6-xh-00s">
+                            <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="toggleSelectMode:" destination="41h-lp-7Sx" id="jMf-TC-e0O"/>
                             </connections>
@@ -190,5 +192,6 @@
         <image name="Checked" width="30" height="30"/>
         <image name="Cleanable-23" width="288" height="98"/>
         <image name="Cleanable-24" width="288" height="98"/>
+        <image name="Cleanable-26" width="25" height="25"/>
     </resources>
 </document>
