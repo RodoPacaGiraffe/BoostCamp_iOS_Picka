@@ -190,8 +190,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
                                                 cell.thumbnailImageView.image = requestedImage
         })
         
-        if previousSelectedCell == nil {
+        if indexPath == pressedIndexPath {
             cell.select()
+            selectedPhotos = pressedIndexPath.row
             previousSelectedCell = cell
         }
         

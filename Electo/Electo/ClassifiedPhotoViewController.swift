@@ -13,6 +13,7 @@ class ClassifiedPhotoViewController: UIViewController {
     //MARK: Properties
     @IBOutlet var tableView: UITableView!
     
+    @IBOutlet var touchLocation: UIPanGestureRecognizer!
     var photoDataSource: PhotoDataSource = PhotoDataSource()
     private let loadingView = LoadingView.instanceFromNib()
     
@@ -180,6 +181,39 @@ class ClassifiedPhotoViewController: UIViewController {
             Constants.dataAllowed = false
         }
     }
+    
+    func getLocationOfSelectedPhoto(sender: UIPanGestureRecognizer) -> Int {
+        let location = sender.location(in: self.view)
+        let bound = self.view.frame.width
+    
+        switch location.x {
+        case 0..<bound/4:
+            return 0
+        case (bound / 4)..<(bound / 2):
+            return 1
+        case (bound / 2)..<(3 * bound / 4):
+            return 2
+        case (3 * bound / 4)..<(bound):
+            return 3
+        default:
+            return 0
+        }
+    }
+    
+    func getSelectedPhoto(indexPath: IndexPath) {
+       
+        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
+        let selectedPhotoIndex = getLocationOfSelectedPhoto(sender: touchLocation)
+        let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
+        guard selectedCell.imageViews[selectedPhotoIndex].image != nil else { return }
+
+        detailViewController.photoDataSource = photoDataSource
+        detailViewController.identifier = "fromClassifiedView"
+        detailViewController.thumbnailImages = selectedCell.cellImages
+        detailViewController.selectedIndexPath = indexPath
+        detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
+        show(detailViewController, sender: self)
+    }
 }
 
 extension ClassifiedPhotoViewController: UITableViewDelegate {
@@ -199,18 +233,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
-      
-        detailViewController.selectedIndexPath = indexPath
-        detailViewController.photoDataSource = photoDataSource
-        
-        detailViewController.identifier = "fromClassifiedView"
-        let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
-        detailViewController.thumbnailImages = selectedCell.cellImages
-        detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
-        
-        show(detailViewController, sender: self)
-
+        getSelectedPhoto(indexPath: indexPath)
     }
 }
 
