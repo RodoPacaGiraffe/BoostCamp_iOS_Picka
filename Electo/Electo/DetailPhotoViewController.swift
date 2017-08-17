@@ -141,6 +141,7 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction func rightSwipeAction(_ sender: UISwipeGestureRecognizer) {
+        print("swipe")
         changeSwipe(direction: Direction.right)
         let index = IndexPath(row: selectedPhotos, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)

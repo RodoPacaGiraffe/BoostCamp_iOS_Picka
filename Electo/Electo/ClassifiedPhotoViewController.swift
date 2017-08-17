@@ -91,11 +91,25 @@ class ClassifiedPhotoViewController: UIViewController {
         }
     }
     
+    private func deniedAlert() {
+        let alertController = UIAlertController(title: "", message: "No Authorization", preferredStyle: .alert)
+        let goSettingAction = UIAlertAction(title: "Go Settings", style: .default) { (action) in
+            guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
+            UIApplication.shared.open(url)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(goSettingAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     private func requestAuthorization() {
         PHPhotoLibrary.requestAuthorization {
             [weak self] (authorizationStatus) -> Void in
-            guard authorizationStatus == .authorized else { return }
-            
+            guard authorizationStatus == .authorized else {
+                self?.deniedAlert()
+                return
+            }
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
             guard let path = Constants.archiveURL?.path else {
@@ -111,8 +125,11 @@ class ClassifiedPhotoViewController: UIViewController {
         DispatchQueue.global().async {
             [weak self] in
             guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-                as? TemporaryPhotoStore else { return }
-            
+                as? TemporaryPhotoStore else {
+                    self?.reloadData()
+                    return
+            }
+            print("here")
             self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
             self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
             
