@@ -159,7 +159,6 @@ class DetailPhotoViewController: UIViewController {
         if selectedPhotos >= selectedSectionAssets.count - 1 {
             updatePhotoIndex(direction: .right)
         }
-
         let index = IndexPath(row: selectedPhotos, section: 0)
         
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
@@ -286,7 +285,6 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
 
         selectedPhotos = indexPath.item
-
         fetchFullSizeImage(from: indexPath)
     }
 }
