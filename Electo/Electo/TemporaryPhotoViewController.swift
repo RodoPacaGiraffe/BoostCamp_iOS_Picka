@@ -21,6 +21,8 @@ class TemporaryPhotoViewController: UIViewController {
     @IBOutlet weak var buttonForEditStackView: UIStackView!
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
+    var originalPosition: CGPoint?
+    var currentTouchPosition: CGPoint?
     var photoDataSource: PhotoDataSource?
     var tempThumbnailImages: [UIImage] = []
     var selectedIndexPaths: [IndexPath] = []
@@ -146,6 +148,35 @@ class TemporaryPhotoViewController: UIViewController {
         alertController.addAction(recoverAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
+    }
+    @IBAction func slideToDismiss(_ sender: UIPanGestureRecognizer) {
+        
+        let translation = sender.translation(in: self.view)
+        
+        switch sender.state {
+        case .began:
+            originalPosition = view.center
+            currentTouchPosition = sender.location(in: self.view)
+        case .changed:
+            
+            if translation.y > 0 {
+                self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: translation.y)
+            }
+        case .ended:
+            let velocity = sender.velocity(in: self.view)
+            if velocity.y >= 150 {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.dismiss(animated: true, completion: nil)
+            })
+               
+            } else {
+                self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.origin.y)
+            }
+        default: break
+            
+        }
+        
+        
     }
 }
 
