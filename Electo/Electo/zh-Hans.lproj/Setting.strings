@@ -1,0 +1,36 @@
+
+/* Class = "UILabel"; text = "How to Use"; ObjectID = "0yU-Xi-rJw"; */
+"0yU-Xi-rJw.text" = "如何使用";
+
+/* Class = "UILabel"; text = "Grouping"; ObjectID = "1Qx-0d-DlA"; */
+"1Qx-0d-DlA.text" = "分组";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "2iU-o0-EDj"; */
+"2iU-o0-EDj.title" = "环境";
+
+/* Class = "UILabel"; text = "Share"; ObjectID = "4oO-id-BoZ"; */
+"4oO-id-BoZ.text" = "分享";
+
+/* Class = "UITableViewSection"; headerTitle = "More"; ObjectID = "APT-Yh-sza"; */
+"APT-Yh-sza.headerTitle" = "更";
+
+/* Class = "UILabel"; text = "For downloading iCloud photos."; ObjectID = "PIp-4u-GYH"; */
+"PIp-4u-GYH.text" = "要下载的iCloud照片";
+
+/* Class = "UITableViewSection"; headerTitle = "Setting"; ObjectID = "QBY-nO-vNx"; */
+"QBY-nO-vNx.headerTitle" = "环境";
+
+/* Class = "UILabel"; text = "Credit"; ObjectID = "T1Y-Ff-UmD"; */
+"T1Y-Ff-UmD.text" = "制片人";
+
+/* Class = "UILabel"; text = "1"; ObjectID = "TE7-Vo-Aml"; */
+"TE7-Vo-Aml.text" = "1";
+
+/* Class = "UILabel"; text = "Cellular Data "; ObjectID = "Wd2-Hz-8Of"; */
+"Wd2-Hz-8Of.text" = "蜂窝数据";
+
+/* Class = "UILabel"; text = "Adjust the degree of grouping. "; ObjectID = "j7s-24-KIQ"; */
+"j7s-24-KIQ.text" = "调整分组的程度";
+
+/* Class = "UILabel"; text = "5"; ObjectID = "rO0-Ef-uly"; */
+"rO0-Ef-uly.text" = "5";

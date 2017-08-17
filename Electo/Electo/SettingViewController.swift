@@ -16,22 +16,24 @@ class SettingViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTickStackView()
+//        setTickStackView()
     }
     
     @IBAction func sliderValueChanged(_ sender: UISlider) {
         switch sender.value {
-        case 1..<1.5:
-            sender.setValue(1.0, animated: true)
-        case 1.5..<2.5:
-            sender.setValue(2.0, animated: true)
-        case 2.5..<3.5:
-            sender.setValue(3.0, animated: true)
-        case 3.5..<4.5:
-            sender.setValue(4.0, animated: true)
+        case Clustering.interval1:
+            sender.setValue(30.0, animated: true)
+        case Clustering.interval2:
+            sender.setValue(60.0, animated: true)
+        case Clustering.interval3:
+            sender.setValue(90.0, animated: true)
+        case Clustering.interval4:
+            sender.setValue(120.0, animated: true)
         default:
-            sender.setValue(5.0, animated: true)
+            sender.setValue(150.0, animated: true)
         }
+        
+        Constants.timeIntervalBoundary = Double(sender.value)
     }
     
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
@@ -54,9 +56,9 @@ class SettingViewController: UITableViewController {
         }
     }
     
-    func setTickStackView() {
-        let sliderWidth: CGFloat = slider.frame.width
-        guard let tickWidth: CGFloat = tickStackView.subviews.first?.frame.width else { return }
-        tickStackView.spacing = (sliderWidth - tickWidth * 5) / 4 - 1
-    }
+//    func setTickStackView() {
+//        let sliderWidth: CGFloat = slider.frame.width
+//        guard let tickWidth: CGFloat = tickStackView.subviews.first?.frame.width else { return }
+//        tickStackView.spacing = (sliderWidth - tickWidth * 5) / 4 + 1
+//    }
 }
