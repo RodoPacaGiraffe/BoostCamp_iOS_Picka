@@ -46,7 +46,8 @@ class ClassifiedPhotoViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector (updateBadge), name: Constants.requiredUpdatingBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
+                                               name: Constants.requiredUpdatingBadge, object: nil)
     }
     
     deinit {

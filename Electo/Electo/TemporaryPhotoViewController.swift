@@ -106,7 +106,17 @@ class TemporaryPhotoViewController: UIViewController {
             temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
             
             self?.collectionView.reloadSections(IndexSet(integer: 0))
-            self?.dismiss(animated: true, completion: nil)
+
+            guard let navigationController = self?.presentingViewController
+                as? UINavigationController else { return }
+            
+            if navigationController.topViewController is ClassifiedPhotoViewController {
+                self?.dismiss(animated: true, completion: nil)
+            } else {
+                self?.dismiss(animated: false) {
+                    navigationController.popToRootViewController(animated: true)
+                }
+            }
         }
     }
     

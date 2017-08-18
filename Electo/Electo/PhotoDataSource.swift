@@ -27,17 +27,14 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
 
 extension PhotoDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         return photoStore.classifiedPhotoAssets.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
         return photoStore.classifiedPhotoAssets[section].photoAssetsArray.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-       
         return photoStore.classifiedPhotoAssets[section].date.toDateString()
     }
     

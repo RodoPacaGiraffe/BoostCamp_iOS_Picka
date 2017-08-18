@@ -39,7 +39,6 @@ struct Constants {
     static let removedPhotoAssets = "removedPhotoAssets"
     static let removedAssetsFromPhotoLibrary = Notification.Name("removedAssetsFromPhotoLibrary")
     static let requiredReload = Notification.Name("requiredReload")
-    static let restoreTemporaryPhotoAssets = Notification.Name("restoreTemporaryPhotoAssets")
     static let requiredUpdatingBadge = Notification.Name("requiredUpdatingBadge")
     static let loadingTime: TimeInterval = 1.5
 

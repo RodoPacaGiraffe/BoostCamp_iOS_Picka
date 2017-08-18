@@ -20,7 +20,6 @@ class DetailPhotoViewController: UIViewController {
     
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
-    var selectedSection: Int = 0
     var photoDataSource: PhotoDataSource?
     var pressedIndexPath: IndexPath = IndexPath()
     var selectedPhotos: Int = 0
@@ -34,6 +33,32 @@ class DetailPhotoViewController: UIViewController {
         setFlowLayout()
         displayDetailViewSetting()
         setNavigationButtonItem()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
+                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Constants.requiredReload, object: nil)
+    }
+    
+    @objc func applyRemovedAssets(_ notification: Notification) {
+        guard let removedPhotoAssets = notification.userInfo?[Constants.removedPhotoAssets]
+            as? [PHAsset] else { return }
+        
+        removedPhotoAssets.forEach {
+            guard let index = selectedSectionAssets.index(of: $0) else {
+                print("This photoAsset is not founded from DetailVC")
+                return
+            }
+            
+            selectedSectionAssets.remove(at: index)
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
+            self?.moveToNextPhoto()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {   
@@ -76,7 +101,6 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.minimumZoomScale = 1.0
         self.zoomingScrollView.maximumZoomScale = 6.0
         
-        self.tabBarController?.tabBar.isHidden = true
         detailImageView.image = thumbnailImages.first
         
         fetchFullSizeImage(from: pressedIndexPath)
@@ -250,9 +274,18 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
+        if previousSelectedCell == nil {
+            cell.select()
+            previousSelectedCell = cell
+        } else if let selectedItems = collectionView.indexPathsForSelectedItems,
+            selectedItems.contains(indexPath) {
+            cell.select()
+        } else {
+            cell.deSelect()
+        }
+        
         let photoAssets = selectedSectionAssets
         let photoAsset = photoAssets[indexPath.item]
-        let options = PHImageRequestOptions()
         
         if let previousRequestID = cell.requestID {
             let manager = PHImageManager.default()
@@ -261,15 +294,10 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         
         cell.requestID = photoAsset.fetchImage(size: Constants.fetchImageSize,
                                                contentMode: .aspectFill,
-                                               options: options,
+                                               options: nil,
                                                resultHandler: { (requestedImage) in
                                                 cell.thumbnailImageView.image = requestedImage
         })
-        
-        if previousSelectedCell == nil {
-            cell.select()
-            previousSelectedCell = cell
-        }
         
         return cell
     }
