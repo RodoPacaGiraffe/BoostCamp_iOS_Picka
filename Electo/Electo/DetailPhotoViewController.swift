@@ -173,21 +173,21 @@ class DetailPhotoViewController: UIViewController {
     @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
 
         let location = sender.translation(in: self.view)
-        
+        guard let navigationBarHeight = self.navigationController?.navigationBar.bounds.size.height else { return }
         switch sender.state {
         case .began:
             currentImageViewPosition = self.detailImageView.frame.origin
             startPanGesturePoint = location
           
         case .changed:
+            
             if location.y < -10 {
               setTranslucentToNavigationBar()
-              detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x, y: location.y - 32)
+              detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
+                                                     y: location.y - navigationBarHeight)
             }
         case .ended:
-
             guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
-                
                 self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
                 self.navigationController?.navigationBar.isTranslucent = false
                 
@@ -195,12 +195,10 @@ class DetailPhotoViewController: UIViewController {
                                                  y: zoomingScrollView.center.y)
                 break
             }
-        
             moveToTrashAnimation()
         default:
             break
         }
-      
     }
     
     private func moveToTrashAnimation() {
