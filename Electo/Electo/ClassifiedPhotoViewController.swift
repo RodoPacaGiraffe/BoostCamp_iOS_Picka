@@ -60,10 +60,34 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     func getLocation() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.photoDataSource.fetchLocation()
-            print("장소 받아오는중")
-        }.fire()
+        fetchLocation()
+    }
+    
+    func fetchLocation() {
+        var getCount: Int = 0
+        var fetchCount: Int = 0
+        for classifiedPhotoAssets in self.photoDataSource.photoStore.classifiedPhotoAssets {
+            for classifiedGroup in classifiedPhotoAssets.photoAssetsArray {
+                guard classifiedGroup.location == "" else { continue }
+                guard let location: CLLocation = classifiedGroup.photoAssets.first?.location else { continue }
+                guard getCount < 30 else { return }
+                getCount += 1
+                
+                location.reverseGeocode { (locationString) -> Void in
+                    DispatchQueue.main.async {
+                        classifiedGroup.getLocation(location: locationString)
+                        guard fetchCount < 30 else {
+                            self.tableView.reloadData()
+                            return
+                        }
+                    }
+                    
+                    fetchCount += 1
+                    print(fetchCount)
+                    
+                }
+            }
+        }
     }
     
     private func setTableView() {
