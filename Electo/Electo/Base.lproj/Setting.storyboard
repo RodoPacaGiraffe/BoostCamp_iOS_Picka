@@ -13,7 +13,7 @@
         <!--Settings-->
         <scene sceneID="YHV-ED-j9e">
             <objects>
-                <tableViewController id="lZz-3f-zf2" customClass="SettingViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="SettingViewController" storyboardIdentifier="SettingViewController" id="lZz-3f-zf2" customClass="SettingViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="bLG-r1-zKu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -181,6 +181,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="2iU-o0-EDj"/>
                     <connections>
+                        <outlet property="dataAllowedSwitch" destination="C37-bf-6c9" id="9Co-KQ-KQI"/>
                         <outlet property="slider" destination="wQQ-K4-gD0" id="bqm-P1-iua"/>
                     </connections>
                 </tableViewController>

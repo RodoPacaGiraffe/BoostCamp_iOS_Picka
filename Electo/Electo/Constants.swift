@@ -26,6 +26,14 @@ enum Difference {
     case intervalBoundary
 }
 
+enum GroupingInterval: Float {
+    case level1 = 30
+    case level2 = 60
+    case level3 = 90
+    case level4 = 120
+    case level5 = 150
+}
+
 struct Clustering {
     static let interval1: Range<Float> = 30..<45
     static let interval2: Range<Float> = 45..<75

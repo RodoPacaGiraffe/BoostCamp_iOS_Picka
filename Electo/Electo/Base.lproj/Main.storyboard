@@ -116,7 +116,7 @@
                     <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
                         <barButtonItem key="leftBarButtonItem" image="Cleanable-20" id="lHY-8Q-Q44">
                             <connections>
-                                <segue destination="jqG-M0-DjR" kind="show" id="d1n-Aa-PwX"/>
+                                <segue destination="jqG-M0-DjR" kind="show" identifier="PressedSetting" id="d1n-Aa-PwX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -148,7 +148,7 @@
         <!--Setting-->
         <scene sceneID="ihj-0k-nGy">
             <objects>
-                <viewControllerPlaceholder storyboardName="Setting" id="jqG-M0-DjR" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="SettingViewController" storyboardName="Setting" id="jqG-M0-DjR" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LUW-FM-va5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3862" y="-110"/>
