@@ -11,9 +11,6 @@ import Photos
 
 class DetailPhotoViewController: UIViewController {
     
-    @IBOutlet var leftGesture: UISwipeGestureRecognizer!
-    @IBOutlet var rightGesture: UISwipeGestureRecognizer!
-    @IBOutlet var panGesture: UIPanGestureRecognizer!
     @IBOutlet var zoomingScrollView: UIScrollView!
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
@@ -30,7 +27,7 @@ class DetailPhotoViewController: UIViewController {
     var previousSelectedCell: DetailPhotoCell?
     var identifier: String = ""
     var startPanGesturePoint: CGPoint = CGPoint()
-    
+    var currentImageViewPosition: CGPoint = CGPoint()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -179,8 +176,14 @@ class DetailPhotoViewController: UIViewController {
         
         switch sender.state {
         case .began:
+            currentImageViewPosition = self.detailImageView.frame.origin
             startPanGesturePoint = location
-            setTranslucentToNavigationBar()
+          
+        case .changed:
+            if location.y < -10 {
+              setTranslucentToNavigationBar()
+              detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x, y: location.y - 32)
+            }
         case .ended:
 
             guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
@@ -194,8 +197,6 @@ class DetailPhotoViewController: UIViewController {
             }
         
             moveToTrashAnimation()
-        case .changed:
-            detailImageView.frame.origin.y = location.y
         default:
             break
         }
@@ -227,11 +228,6 @@ class DetailPhotoViewController: UIViewController {
             self.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
             self.moveToNextPhoto()
         })
-    }
-
-    @IBAction func screenEdgePan(_ sender: UIScreenEdgePanGestureRecognizer) {
-        print("edge")
-        dismiss(animated: true, completion: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -309,8 +305,6 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
 
 extension DetailPhotoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        
-        otherGestureRecognizer.require(toFail: gestureRecognizer)
         return true
     }
 }

@@ -21,11 +21,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7C-Zz-CO8">
+                            <scrollView verifyAmbiguity="off" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7C-Zz-CO8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
+                                    <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
+                                        <rect key="frame" x="0.0" y="-32" width="375" height="507"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="Brx-js-aPc" appends="YES" id="5QG-Bn-Lpq"/>
@@ -38,14 +39,8 @@
                                     </activityIndicatorView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="y6d-An-LKm" secondAttribute="trailing" id="Bct-MP-agK"/>
-                                    <constraint firstItem="y6d-An-LKm" firstAttribute="leading" secondItem="w7C-Zz-CO8" secondAttribute="leading" id="FDb-m8-oyb"/>
-                                    <constraint firstItem="y6d-An-LKm" firstAttribute="height" secondItem="w7C-Zz-CO8" secondAttribute="height" id="Hfv-oM-4dJ"/>
                                     <constraint firstItem="ONe-yI-LrC" firstAttribute="centerX" secondItem="w7C-Zz-CO8" secondAttribute="centerX" id="KG2-so-gkj"/>
-                                    <constraint firstItem="y6d-An-LKm" firstAttribute="top" secondItem="w7C-Zz-CO8" secondAttribute="top" id="PSz-0n-GV1"/>
                                     <constraint firstItem="ONe-yI-LrC" firstAttribute="centerY" secondItem="w7C-Zz-CO8" secondAttribute="centerY" id="eQM-is-qsA"/>
-                                    <constraint firstItem="y6d-An-LKm" firstAttribute="width" secondItem="w7C-Zz-CO8" secondAttribute="width" id="r1d-J3-URF"/>
-                                    <constraint firstAttribute="bottom" secondItem="y6d-An-LKm" secondAttribute="bottom" id="xSu-KH-Mqd"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="24c-6t-MzH" id="4EG-0o-BVx"/>
@@ -98,6 +93,7 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="bby-OX-aNI" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" id="3iN-oR-mXa"/>
                             <constraint firstItem="bby-OX-aNI" firstAttribute="top" secondItem="w7C-Zz-CO8" secondAttribute="bottom" id="4v3-Sy-5xc"/>
@@ -124,13 +120,9 @@
                     <connections>
                         <outlet property="detailImageView" destination="y6d-An-LKm" id="Kpc-Xe-bxx"/>
                         <outlet property="flowLayout" destination="tdY-X4-OQb" id="CZ2-6L-IsE"/>
-                        <outlet property="leftGesture" destination="bt6-1x-X0t" id="apz-Xx-MIv"/>
                         <outlet property="loadingIndicatorView" destination="ONe-yI-LrC" id="hvo-f9-Xg5"/>
-                        <outlet property="panGesture" destination="Brx-js-aPc" id="fMm-yd-Vfy"/>
-                        <outlet property="rightGesture" destination="xUD-pf-VQI" id="7zY-pZ-Gdl"/>
                         <outlet property="thumbnailCollectionView" destination="0wh-SJ-JHc" id="ye4-kY-E3y"/>
                         <outlet property="zoomingScrollView" destination="w7C-Zz-CO8" id="gFQ-B4-RjO"/>
-                        <segue destination="Daf-So-tGF" kind="presentation" identifier="ModalRemovedPhotoVC" id="8cX-Wp-xXk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vM-D0-mbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -164,7 +156,4 @@
             <point key="canvasLocation" x="3933" y="-228"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="d9n-Aw-Px8"/>
-    </inferredMetricsTieBreakers>
 </document>
