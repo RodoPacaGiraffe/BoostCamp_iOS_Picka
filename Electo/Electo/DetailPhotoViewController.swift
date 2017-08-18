@@ -177,10 +177,7 @@ class DetailPhotoViewController: UIViewController {
         switch sender.state {
         case .began:
             currentImageViewPosition = self.detailImageView.frame.origin
-            startPanGesturePoint = location
-          
         case .changed:
-            
             if location.y < -10 {
               setTranslucentToNavigationBar()
               detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
@@ -190,7 +187,6 @@ class DetailPhotoViewController: UIViewController {
             guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
                 self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
                 self.navigationController?.navigationBar.isTranslucent = false
-                
                 detailImageView.center = CGPoint(x: zoomingScrollView.center.x,
                                                  y: zoomingScrollView.center.y)
                 break
