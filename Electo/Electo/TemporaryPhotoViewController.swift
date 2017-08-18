@@ -153,7 +153,9 @@ class TemporaryPhotoViewController: UIViewController {
     @IBAction func slideToDismiss(_ sender: UIPanGestureRecognizer) {
         
         let translation = sender.translation(in: self.view)
-        
+        var originalViewFrame = self.view.frame.origin
+        var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
+       
         switch sender.state {
         case .began:
             originalPosition = view.center
@@ -161,34 +163,35 @@ class TemporaryPhotoViewController: UIViewController {
             currentTouchPosition = sender.location(in: self.view)
             
         case .changed:
-            
             if translation.y > 0 {
-                self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: translation.y)
-    
-                self.navigationController?.navigationBar.frame.origin = CGPoint(x: self.view.frame.origin.x, y: translation.y + 20)
+                self.view.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                 y: translation.y)
+                self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                                                y: translation.y + 20)
             }
         case .ended:
             let velocity = sender.velocity(in: self.view)
-            if velocity.y >= 150 {
-                UIView.animate(withDuration: 0.2, animations: { 
-                    self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.size.height)
-                    self.navigationController?.navigationBar.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.size.height)
-                }, completion: { (completed) in
-                    if completed {
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                })
-            } else {
-                UIView.animate(withDuration: 0.2, animations: { 
-                    self.view.center = self.originalPosition!
-                    self.navigationController?.navigationBar.center = self.originalNavigationPosition!
-                })
-            }
-        default: break
             
+            guard velocity.y >= 150  else {
+                UIView.animate(withDuration: 0.2, animations: { [weak self] _ in
+                    guard let originalPosition = self?.originalPosition else { return }
+                    guard let originalNavigationPosition = self?.originalNavigationPosition else { return }
+                    self?.view.center = originalPosition
+                    self?.navigationController?.navigationBar.center = originalNavigationPosition
+                })
+                break
+            }
+            UIView.animate(withDuration: 0.2, animations: {
+                originalViewFrame = CGPoint(x: originalViewFrame.x,
+                                            y: self.view.frame.size.height)
+                originalNavigationBarFrame = CGPoint(x: originalViewFrame.x,
+                                                     y: self.view.frame.size.height)},
+                           completion: { [weak self] completed in
+                            guard completed == true else { return }
+                            self?.dismiss(animated: true, completion: nil)
+            })
+        default: break
         }
-        
-        
     }
 }
 
