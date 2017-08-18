@@ -44,8 +44,6 @@ class ClassifiedPhotoViewController: UIViewController {
         setNavigationButtonItem()
         requestAuthorization()
         
-        NotificationCenter.default.addObserver(self, selector: #selector (getLocation),
-                                               name: Constants.requiredGetLocation, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
     }
@@ -57,37 +55,8 @@ class ClassifiedPhotoViewController: UIViewController {
 
         moveToTempVCButtonItem?.updateBadge(With: count)
         tableView.reloadData()
-    }
-    
-    func getLocation() {
-        fetchLocation()
-    }
-    
-    func fetchLocation() {
-        var getCount: Int = 0
-        var fetchCount: Int = 0
-        for classifiedPhotoAssets in self.photoDataSource.photoStore.classifiedPhotoAssets {
-            for classifiedGroup in classifiedPhotoAssets.photoAssetsArray {
-                guard classifiedGroup.location == "" else { continue }
-                guard let location: CLLocation = classifiedGroup.photoAssets.first?.location else { continue }
-                guard getCount < 30 else { return }
-                getCount += 1
-                
-                location.reverseGeocode { (locationString) -> Void in
-                    DispatchQueue.main.async {
-                        classifiedGroup.getLocation(location: locationString)
-                        guard fetchCount < 30 else {
-                            self.tableView.reloadData()
-                            return
-                        }
-                    }
-                    
-                    fetchCount += 1
-                    print(fetchCount)
-                    
-                }
-            }
-        }
+        
+        fetchLocationToVisibleCells()
     }
     
     private func setTableView() {
@@ -115,6 +84,16 @@ class ClassifiedPhotoViewController: UIViewController {
         self.loadingView.removeFromSuperview()
     }
     
+    private func setNavigationButtonItem() {
+        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: 0)
+        
+        moveToTempVCButtonItem?.addButtonTarget(target: self,
+                                                action: #selector (moveToTemporaryViewController),
+                                                for: .touchUpInside)
+        
+        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
+    }
+    
     @objc private func pullToRefresh() {
         DispatchQueue.global().async { [weak self] in
             self?.photoDataSource.photoStore.fetchPhotoAsset()
@@ -122,10 +101,22 @@ class ClassifiedPhotoViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.refreshControl.endRefreshing()
+                self?.fetchLocationToVisibleCells()
             }
         }
     }
     
+    @objc private func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+            
+            guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
+            
+            self?.moveToTempVCButtonItem?.updateBadge(With: count)
+            self?.fetchLocationToVisibleCells()
+        }
+    }
+
     private func deniedAlert() {
         let alertController = UIAlertController(title: "", message: "No Authorization", preferredStyle: .alert)
         let goSettingAction = UIAlertAction(title: "Go Settings", style: .default) { (action) in
@@ -161,7 +152,7 @@ class ClassifiedPhotoViewController: UIViewController {
                     self?.reloadData()
                     return
             }
-            print("here")
+
             self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
             self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
             
@@ -178,14 +169,23 @@ class ClassifiedPhotoViewController: UIViewController {
         }
     }
     
-    private func setNavigationButtonItem() {
-        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: 0)
+    fileprivate func fetchLocationToVisibleCells() {
+        guard let indexPaths = tableView.indexPathsForVisibleRows else { return }
         
-        moveToTempVCButtonItem?.addButtonTarget(target: self,
-                                                action: #selector (moveToTemporaryViewController),
-                                                for: .touchUpInside)
-        
-        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
+        for indexPath in indexPaths {
+            guard let photoCell = tableView.cellForRow(at: indexPath)
+                as? ClassifiedPhotoCell else { continue }
+            
+            let classifiedGroup = photoDataSource.photoStore.classifiedPhotoAssets[
+                indexPath.section].photoAssetsArray[indexPath.row]
+            
+            guard classifiedGroup.location.isEmpty else { continue }
+            
+            classifiedGroup.photoAssets.first?.location?.reverseGeocode { locationString in
+                photoCell.locationLabel.text = locationString
+                classifiedGroup.location = locationString
+            }
+        }
     }
     
     @objc private func moveToTemporaryViewController() {
@@ -199,16 +199,6 @@ class ClassifiedPhotoViewController: UIViewController {
                 as? TemporaryPhotoViewController else { return }
         
         temporaryPhotoViewController.photoDataSource = photoDataSource
-    }
-    
-    @objc private func reloadData() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-            
-            guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
-            
-            self?.moveToTempVCButtonItem?.updateBadge(With: count)
-        }
     }
 
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
@@ -231,12 +221,25 @@ class ClassifiedPhotoViewController: UIViewController {
 }
 
 extension ClassifiedPhotoViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let classifiedGroup = photoDataSource.photoStore.classifiedPhotoAssets[
+            indexPath.section].photoAssetsArray[indexPath.row]
+        
+        guard let photoCell = cell as? ClassifiedPhotoCell else {
+            print("cell is not a photoCell")
+            return
+        }
+        
+        photoCell.locationLabel.text = classifiedGroup.location
+    }
+    
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let photoCell = cell as? ClassifiedPhotoCell else {
             print("cell is not a photoCell")
             return
         }
-
+        
+        photoCell.locationLabel.text = ""
         photoCell.clearStackView()
     }
     
@@ -259,6 +262,18 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
         
         show(detailViewController, sender: self)
+    }
+}
+
+extension ClassifiedPhotoViewController {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard !decelerate else { return }
+        
+        fetchLocationToVisibleCells()
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        fetchLocationToVisibleCells()
     }
 }
 

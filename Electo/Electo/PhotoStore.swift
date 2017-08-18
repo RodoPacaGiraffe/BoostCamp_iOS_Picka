@@ -41,8 +41,6 @@ class PhotoStore: PhotoClassifiable {
                                                contentMode: .aspectFill, options: nil)
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
-        NotificationCenter.default.post(name: Constants.requiredGetLocation, object: nil)
-        
     }
     
     func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]?{
@@ -77,8 +75,7 @@ class PhotoStore: PhotoClassifiable {
         }
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
-        
-        NotificationCenter.default.post(name: Constants.requiredGetLocation, object: nil)
+
         NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
     }
 }

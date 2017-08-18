@@ -22,8 +22,4 @@ class ClassifiedPhotoAssets {
 class ClassifiedGroup {
     var photoAssets: [PHAsset] = []
     var location: String = ""
-    
-    func getLocation(location: String) {
-        self.location = location
-    }
 }

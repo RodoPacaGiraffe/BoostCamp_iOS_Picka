@@ -39,7 +39,6 @@ struct Constants {
     static let removedPhotoAssets = "removedPhotoAssets"
     static let removedAssetsFromPhotoLibrary = Notification.Name("removedAssetsFromPhotoLibrary")
     static let requiredReload = Notification.Name("requiredReload")
-    static let requiredGetLocation = Notification.Name("requiredGetLocation")
     static let loadingTime: TimeInterval = 1.5
 
     static let archiveURL: URL? = {
@@ -49,6 +48,7 @@ struct Constants {
         
         return documentDirectory.appendingPathComponent(Constants.archiveFileName)
     }()
+    
     static let numberOfTapsRequired: Int = 2
     static var dataAllowed: Bool = true
     static let fetchImageSize = CGSize(width: 90, height: 90)
