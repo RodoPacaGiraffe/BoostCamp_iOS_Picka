@@ -51,74 +51,32 @@
                                                     <rect key="frame" x="2" y="41" width="371" height="91"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2j5-6q-kKQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="93" height="91"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="371" height="91"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sqL-0o-gdQ">
                                                                     <rect key="frame" x="0.0" y="0.0" width="93" height="91"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
-                                                                <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iYy-nD-V6h">
-                                                                    <rect key="frame" x="0.0" y="86" width="93" height="5"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="01R-ye-wuV">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="93" height="5"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                    </view>
-                                                                    <blurEffect style="light"/>
-                                                                </visualEffectView>
-                                                            </subviews>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eLQ-OP-IKP">
-                                                            <rect key="frame" x="93" y="0.0" width="92.5" height="91"/>
-                                                            <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nG9-A3-MnX">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="93" height="91"/>
+                                                                    <rect key="frame" x="93" y="0.0" width="93" height="91"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
-                                                                <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tlU-dR-hGZ">
-                                                                    <rect key="frame" x="0.0" y="86" width="93" height="5"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="ewg-we-Lea">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="93" height="5"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                    </view>
-                                                                    <blurEffect style="light"/>
-                                                                </visualEffectView>
-                                                            </subviews>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9C9-NA-JYI">
-                                                            <rect key="frame" x="185.5" y="0.0" width="93" height="91"/>
-                                                            <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CFf-YZ-Nu0">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="93" height="91"/>
+                                                                    <rect key="frame" x="186" y="0.0" width="93" height="91"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
-                                                                <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5IZ-N2-yhF">
-                                                                    <rect key="frame" x="0.0" y="86" width="93" height="5"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="dqq-mL-vgf">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="93" height="5"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                    </view>
-                                                                    <blurEffect style="light"/>
-                                                                </visualEffectView>
-                                                            </subviews>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8pi-gt-CYZ">
-                                                            <rect key="frame" x="278.5" y="0.0" width="92.5" height="91"/>
-                                                            <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SAX-mL-kVf">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="93" height="91"/>
+                                                                    <rect key="frame" x="279" y="0.0" width="93" height="91"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
-                                                                <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zhw-N7-S2G">
-                                                                    <rect key="frame" x="0.0" y="86" width="93" height="5"/>
+                                                                <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ESI-pJ-fE6">
+                                                                    <rect key="frame" x="0.0" y="86" width="372" height="5"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="XPB-K5-llM">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="93" height="5"/>
+                                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="F7J-kz-51W">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="372" height="5"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     </view>
-                                                                    <blurEffect style="light"/>
+                                                                    <blurEffect style="extraLight"/>
                                                                 </visualEffectView>
                                                             </subviews>
                                                         </view>
@@ -155,10 +113,6 @@
                                             <outletCollection property="imageViews" destination="nG9-A3-MnX" collectionClass="NSMutableArray" id="iOX-QB-rC7"/>
                                             <outletCollection property="imageViews" destination="CFf-YZ-Nu0" collectionClass="NSMutableArray" id="7R4-aV-FA2"/>
                                             <outletCollection property="imageViews" destination="SAX-mL-kVf" collectionClass="NSMutableArray" id="0LB-iq-2Ty"/>
-                                            <outletCollection property="blurEffectViews" destination="iYy-nD-V6h" collectionClass="NSMutableArray" id="L4V-qY-zHn"/>
-                                            <outletCollection property="blurEffectViews" destination="tlU-dR-hGZ" collectionClass="NSMutableArray" id="j1e-Ne-pSG"/>
-                                            <outletCollection property="blurEffectViews" destination="5IZ-N2-yhF" collectionClass="NSMutableArray" id="RIv-xI-5vg"/>
-                                            <outletCollection property="blurEffectViews" destination="zhw-N7-S2G" collectionClass="NSMutableArray" id="WcC-ww-8hf"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

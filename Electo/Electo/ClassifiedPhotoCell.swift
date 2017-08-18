@@ -15,7 +15,6 @@ class ClassifiedPhotoCell: UITableViewCell {
     @IBOutlet var imageViews: [UIImageView]!
     @IBOutlet var moreImagesLabel: UILabel!
     
-    @IBOutlet var blurEffectViews: [UIVisualEffectView]!
     var cellImages: [UIImage] = .init() {
         didSet {
             addPhotoImagesToStackView(photoImages: cellImages)
@@ -35,7 +34,7 @@ class ClassifiedPhotoCell: UITableViewCell {
                 break
             }
             imageViews[index].image = photoImages[index]
-            blurEffectViews[index].effect = UIBlurEffect.init(style: .regular)
+            
         }
     }
     
@@ -52,9 +51,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         imageViews.forEach {
             $0.image = nil
         }
-        blurEffectViews.forEach {
-            $0.effect = nil
-        }
+
         moreImagesLabel.isHidden = true
         locationLabel.text = nil
     }
