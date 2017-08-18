@@ -212,7 +212,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
       
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.font = UIFont.systemFont(ofSize: 14)
-        header.contentView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
+        header.contentView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.05)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

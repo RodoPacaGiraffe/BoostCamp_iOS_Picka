@@ -11,6 +11,9 @@ import Photos
 
 class DetailPhotoViewController: UIViewController {
     
+    @IBOutlet var leftGesture: UISwipeGestureRecognizer!
+    @IBOutlet var rightGesture: UISwipeGestureRecognizer!
+    @IBOutlet var panGesture: UIPanGestureRecognizer!
     @IBOutlet var zoomingScrollView: UIScrollView!
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
@@ -225,10 +228,10 @@ class DetailPhotoViewController: UIViewController {
             self.moveToNextPhoto()
         })
     }
-    
-    @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
-        self.zoomingScrollView.setZoomScale(1.0, animated: true)
-        self.detailImageView.contentMode = .scaleAspectFill
+
+    @IBAction func screenEdgePan(_ sender: UIScreenEdgePanGestureRecognizer) {
+        print("edge")
+        dismiss(animated: true, completion: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -280,7 +283,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let thumbnailViewCell = collectionView.cellForItem(at: indexPath)
             as? DetailPhotoCell else { return }
-    
+
         previousSelectedCell?.deSelect()
         
         thumbnailViewCell.select()
@@ -306,6 +309,7 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
 
 extension DetailPhotoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
         otherGestureRecognizer.require(toFail: gestureRecognizer)
         return true
     }
