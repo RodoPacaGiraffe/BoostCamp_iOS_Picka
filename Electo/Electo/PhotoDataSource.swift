@@ -23,6 +23,28 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
         
         super.init()
     }
+    
+    func fetchLocation() {
+        var getCount: Int = 0
+        var fetchCount: Int = 0
+        for classifiedPhotoAssets in photoStore.classifiedPhotoAssets {
+            for classifiedGroup in classifiedPhotoAssets.photoAssetsArray {
+                guard classifiedGroup.location == "" else { continue }
+                guard let location: CLLocation = classifiedGroup.photoAssets.first?.location else { continue }
+                guard getCount < 30 else { return }
+                getCount += 1
+                
+                location.reverseGeocode { (locationString) -> Void in
+                    classifiedGroup.getLocation(location: locationString)
+                    fetchCount += 1
+                    print(fetchCount)
+                    guard fetchCount < 30 else {
+                        NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+                        return }
+                }
+            }
+        }
+    }
 }
 
 extension PhotoDataSource: UITableViewDataSource {

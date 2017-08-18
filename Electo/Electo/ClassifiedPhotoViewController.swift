@@ -38,15 +38,16 @@ class ClassifiedPhotoViewController: UIViewController {
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setTableView()
         appearLoadingView()
         setNavigationButtonItem()
         requestAuthorization()
         
+        NotificationCenter.default.addObserver(self, selector: #selector (getLocation),
+                                               name: Constants.requiredGetLocation, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,6 +57,13 @@ class ClassifiedPhotoViewController: UIViewController {
 
         moveToTempVCButtonItem?.updateBadge(With: count)
         tableView.reloadData()
+    }
+    
+    func getLocation() {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.photoDataSource.fetchLocation()
+            print("장소 받아오는중")
+        }.fire()
     }
     
     private func setTableView() {
