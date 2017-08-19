@@ -9,16 +9,17 @@
 import Foundation
 import Photos
 
-struct ClassifiedPhotoAssets {
-    let date: Date
-    var photoAssetsArray: [ClassifiedGroup]
+class ClassifiedPhotoAssets {
+    var date: Date = Date()
+    var photoAssetsArray: [ClassifiedGroup] = []
+    
+    init(date: Date, photoAssetsArray: [ClassifiedGroup]) {
+        self.date = date
+        self.photoAssetsArray = photoAssetsArray
+    }
 }
 
 class ClassifiedGroup {
     var photoAssets: [PHAsset] = []
     var location: String = ""
-    
-    func getLocation(location: String) {
-        self.location = location
-    }
 }
