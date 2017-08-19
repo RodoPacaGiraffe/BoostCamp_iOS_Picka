@@ -14,9 +14,6 @@
 /* Class = "UITableViewSection"; headerTitle = "More"; ObjectID = "APT-Yh-sza"; */
 "APT-Yh-sza.headerTitle" = "أكثر من";
 
-/* Class = "UILabel"; text = "For downloading iCloud photos."; ObjectID = "PIp-4u-GYH"; */
-"PIp-4u-GYH.text" = "لتحميل iCloud الصور";
-
 /* Class = "UITableViewSection"; headerTitle = "Setting"; ObjectID = "QBY-nO-vNx"; */
 "QBY-nO-vNx.headerTitle" = "ضبط";
 
@@ -26,8 +23,8 @@
 /* Class = "UILabel"; text = "1"; ObjectID = "TE7-Vo-Aml"; */
 "TE7-Vo-Aml.text" = "1";
 
-/* Class = "UILabel"; text = "Cellular Data "; ObjectID = "Wd2-Hz-8Of"; */
-"Wd2-Hz-8Of.text" = "بيانات خليوية";
+/* Class = "UILabel"; text = "Allow iCloud Photo Download"; ObjectID = "Wd2-Hz-8Of"; */
+"Wd2-Hz-8Of.text" = "السماح الصورة تحميل";
 
 /* Class = "UILabel"; text = "Adjust the degree of grouping. "; ObjectID = "j7s-24-KIQ"; */
 "j7s-24-KIQ.text" = "ضبط درجة التجميع";

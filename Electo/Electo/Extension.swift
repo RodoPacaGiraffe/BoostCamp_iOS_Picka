@@ -49,11 +49,11 @@ extension Date {
     }
 
     func toDateString() -> String {
-        let dateForamtter: DateFormatter = DateFormatter()
+        let dateFormatter: DateFormatter = DateFormatter()
         
-        dateForamtter.dateFormat = "yyyy년 MM월 dd일"
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
         
-        return dateForamtter.string(from: self)
+        return dateFormatter.string(from: self)
     }
 }
 
