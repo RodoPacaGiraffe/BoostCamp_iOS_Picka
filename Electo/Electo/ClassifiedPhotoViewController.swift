@@ -248,6 +248,8 @@ class ClassifiedPhotoViewController: UIViewController {
         detailViewController.identifier = "fromClassifiedView"
         detailViewController.thumbnailImages = selectedCell.cellImages
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
+        detailViewController.selectedPhotos = selectedPhotoIndex
+        
         show(detailViewController, sender: self)
     }
 }
@@ -303,7 +305,7 @@ extension ClassifiedPhotoViewController {
 extension ClassifiedPhotoViewController: SettingDelegate {
     func groupingChnaged() {
         self.pullToRefresh()
-        print("new pool")
+        print("new grouping")
     }
 }
 

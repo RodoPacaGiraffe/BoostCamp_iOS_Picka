@@ -21,12 +21,13 @@ class DetailPhotoViewController: UIViewController {
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
     var photoDataSource: PhotoDataSource?
-    var pressedIndexPath: IndexPath = IndexPath()
+    var pressedIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     var selectedPhotos: Int = 0
     var previousSelectedCell: DetailPhotoCell?
     var identifier: String = ""
     var startPanGesturePoint: CGPoint = CGPoint()
     var currentImageViewPosition: CGPoint = CGPoint()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,6 +124,8 @@ class DetailPhotoViewController: UIViewController {
                                                 for: .touchUpInside)
         
         self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
+        
+        self.navigationItem.title = selectedSectionAssets.first?.creationDate?.toDateString()
     }
     
     @objc private func moveToTemporaryViewController() {
