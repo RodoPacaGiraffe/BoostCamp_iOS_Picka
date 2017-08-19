@@ -14,9 +14,6 @@
 /* Class = "UITableViewSection"; headerTitle = "More"; ObjectID = "APT-Yh-sza"; */
 "APT-Yh-sza.headerTitle" = "更";
 
-/* Class = "UILabel"; text = "For downloading iCloud photos."; ObjectID = "PIp-4u-GYH"; */
-"PIp-4u-GYH.text" = "要下載iCloud圖片";
-
 /* Class = "UITableViewSection"; headerTitle = "Setting"; ObjectID = "QBY-nO-vNx"; */
 "QBY-nO-vNx.headerTitle" = "設置";
 
@@ -26,8 +23,8 @@
 /* Class = "UILabel"; text = "1"; ObjectID = "TE7-Vo-Aml"; */
 "TE7-Vo-Aml.text" = "1";
 
-/* Class = "UILabel"; text = "Cellular Data "; ObjectID = "Wd2-Hz-8Of"; */
-"Wd2-Hz-8Of.text" = "蜂窩數據";
+/* Class = "UILabel"; text = "Allow iCloud Photo Download"; ObjectID = "Wd2-Hz-8Of"; */
+"Wd2-Hz-8Of.text" = "允許照片下載";
 
 /* Class = "UILabel"; text = "Adjust the degree of grouping. "; ObjectID = "j7s-24-KIQ"; */
 "j7s-24-KIQ.text" = "調整分組的程度";

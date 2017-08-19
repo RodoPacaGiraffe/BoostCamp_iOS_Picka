@@ -14,9 +14,6 @@
 /* Class = "UITableViewSection"; headerTitle = "More"; ObjectID = "APT-Yh-sza"; */
 "APT-Yh-sza.headerTitle" = "더보기";
 
-/* Class = "UILabel"; text = "For downloading iCloud photos."; ObjectID = "PIp-4u-GYH"; */
-"PIp-4u-GYH.text" = "iCloud 사진을 다운로드하는 데 필요합니다.";
-
 /* Class = "UITableViewSection"; headerTitle = "Setting"; ObjectID = "QBY-nO-vNx"; */
 "QBY-nO-vNx.headerTitle" = "설정";
 
@@ -26,8 +23,8 @@
 /* Class = "UILabel"; text = "1"; ObjectID = "TE7-Vo-Aml"; */
 "TE7-Vo-Aml.text" = "1";
 
-/* Class = "UILabel"; text = "Cellular Data "; ObjectID = "Wd2-Hz-8Of"; */
-"Wd2-Hz-8Of.text" = "셀룰러 데이터";
+/* Class = "UILabel"; text = "Allow iCloud Photo Download"; ObjectID = "Wd2-Hz-8Of"; */
+"Wd2-Hz-8Of.text" = "iCloud 사진 다운로드 허용";
 
 /* Class = "UILabel"; text = "Adjust the degree of grouping. "; ObjectID = "j7s-24-KIQ"; */
 "j7s-24-KIQ.text" = "그룹화 정도를 조절합니다.";
