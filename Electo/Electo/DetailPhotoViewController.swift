@@ -131,6 +131,7 @@ class DetailPhotoViewController: UIViewController {
     
     func fetchFullSizeImage(from indexPath: IndexPath) {
         let options = PHImageRequestOptions()
+        
         options.setImageRequestOptions(networkAccessAllowed: true, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
             DispatchQueue.main.async {
                 guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
@@ -138,27 +139,27 @@ class DetailPhotoViewController: UIViewController {
                 guard self?.pressedIndexPath == indexPath else { return }
                 self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
                 self?.loadingIndicatorView.startAnimating()
-                
-                let percent = 100 * progress
-                let progressView: UIProgressView = .init()
-                progressView.progressViewStyle = .bar
-                progressView.tintColor = UIColor.black
-                
-                progressView.frame = CGRect.init(x: (self?.detailImageView.center.x)! - 100, y: (self?.detailImageView.center.y)!, width: 250, height: 250)
-                self?.detailImageView.addSubview(progressView)
-                
-                progressView.setProgress(Float(percent), animated: true)
             }
         }
         
         let photoAsset: PHAsset = selectedSectionAssets[indexPath.item]
+        
         DispatchQueue.global().async { [weak self] _ -> Void in
-            photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] (fetchedData) in
-                guard let data = fetchedData else { return }
+            photoAsset.fetchFullSizeImage(options: options, resultHandler: {
+                [weak self] data in
+                guard let fetchedData = data else { return }
+                guard let detailVC = self else { return }
+                
                 DispatchQueue.main.async {
-                    guard self?.pressedIndexPath == indexPath else { return }
-                    self?.detailImageView.image = UIImage(data: data)
-                    self?.loadingIndicatorView.stopAnimating()
+                    guard detailVC.pressedIndexPath == indexPath else { return }
+                    
+                    detailVC.loadingIndicatorView.stopAnimating()
+                    
+                    UIView.transition(with: detailVC.detailImageView, duration: 0.25,
+                                      options: .transitionCrossDissolve,
+                                      animations: {
+                                        self?.detailImageView.image = UIImage(data: fetchedData) },
+                                      completion: nil)
                 }
             })
         }

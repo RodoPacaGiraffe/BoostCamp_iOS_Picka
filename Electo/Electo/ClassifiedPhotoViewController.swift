@@ -59,12 +59,7 @@ class ClassifiedPhotoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let count = photoDataSource.temporaryPhotoStore.photoAssets.count
-        
-        moveToTempVCButtonItem?.updateBadge(With: count)
-        tableView.reloadData()
-        
-        fetchLocationToVisibleCells()
+        reloadData()
     }
     
     private func setTableView() {

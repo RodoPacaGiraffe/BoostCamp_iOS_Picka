@@ -114,6 +114,8 @@ class TemporaryPhotoViewController: UIViewController {
             guard let navigationController = self?.presentingViewController
                 as? UINavigationController else { return }
             
+            NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+            
             if navigationController.topViewController is ClassifiedPhotoViewController {
                 self?.dismiss(animated: true, completion: nil)
             } else {
@@ -165,8 +167,8 @@ class TemporaryPhotoViewController: UIViewController {
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
+    
     @IBAction func slideToDismiss(_ sender: UIPanGestureRecognizer) {
-        
         let translation = sender.translation(in: self.view)
         let originalViewFrame = self.view.frame.origin
        
@@ -175,19 +177,18 @@ class TemporaryPhotoViewController: UIViewController {
             originalPosition = view.center
             originalNavigationPosition = navigationController?.navigationBar.center
             currentTouchPosition = sender.location(in: self.view)
-            
         case .changed:
             if translation.y > 100 {
                 UIView.animate(withDuration: 0.2, animations: { 
                     self.view.frame.origin = CGPoint(x: originalViewFrame.x,
                                                      y: translation.y + 64)
-                    self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
-                                                                                    y: translation.y + 20)
+                    self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x, y: translation.y + 20)
                 })
             }
         case .ended:
             dismissWhenTouchesEnded(sender)
-        default: break
+        default:
+            break
         }
     }
     
@@ -205,6 +206,7 @@ class TemporaryPhotoViewController: UIViewController {
             })
             return
         }
+        
         UIView.animate(withDuration: 0.2, animations: {
             originalViewFrame = CGPoint(x: originalViewFrame.x,
                                         y: self.view.frame.size.height)
@@ -214,7 +216,6 @@ class TemporaryPhotoViewController: UIViewController {
                         guard completed == true else { return }
                         self?.dismiss(animated: true, completion: nil)
         })
-
     }
 }
 
