@@ -179,7 +179,7 @@ class TemporaryPhotoViewController: UIViewController {
         case .changed:
             if translation.y > 0 {
                 self.view.frame.origin = CGPoint(x: originalViewFrame.x,
-                                                 y: translation.y)
+                                                 y: translation.y + 64)
                 self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
                                                                                 y: translation.y + 20)
             }

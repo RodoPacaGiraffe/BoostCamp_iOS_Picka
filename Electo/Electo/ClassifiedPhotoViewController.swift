@@ -102,7 +102,7 @@ class ClassifiedPhotoViewController: UIViewController {
         self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
     }
     
-    @objc private func pullToRefresh() {
+    @objc func pullToRefresh() {
         DispatchQueue.global().async { [weak self] in
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
@@ -125,6 +125,8 @@ class ClassifiedPhotoViewController: UIViewController {
             self?.fetchLocationToVisibleCells()
         }
     }
+    
+    
 
     private func deniedAlert() {
         let alertController = UIAlertController(title: "", message: "No Authorization", preferredStyle: .alert)
@@ -219,16 +221,6 @@ class ClassifiedPhotoViewController: UIViewController {
     
     @objc private func updateBadge() {
         moveToTempVCButtonItem?.updateBadge(With: photoDataSource.temporaryPhotoStore.photoAssets.count)
-    }
-    
-    @objc private func reloadData() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-            
-            guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
-            
-            self?.moveToTempVCButtonItem?.updateBadge(With: count)
-        }
     }
     
     func getIndexOfSelectedPhoto(from sender: UIPanGestureRecognizer) -> Int {

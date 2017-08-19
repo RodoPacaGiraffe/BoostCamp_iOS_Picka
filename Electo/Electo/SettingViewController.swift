@@ -77,12 +77,6 @@ class SettingViewController: UITableViewController {
         }
     }
     
-
-    private func setTickStackView() {
-        let sliderWidth: CGFloat = slider.frame.width
-        guard let tickWidth: CGFloat = tickStackView.subviews.first?.frame.width else { return }
-        tickStackView.spacing = (sliderWidth - tickWidth * 5) / 4 - 1
-
     func setSwitch() {
         let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? false
         dataAllowedSwitch.setOn(dataAllowed, animated: false)
