@@ -129,7 +129,9 @@ class ClassifiedPhotoViewController: UIViewController {
             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
             UIApplication.shared.open(url)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] (action) in
+            self?.view.addSubview(EmptyView.instanceFromNib())
+        }
         alertController.addAction(goSettingAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
