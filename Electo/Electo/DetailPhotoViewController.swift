@@ -291,6 +291,8 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
 
         selectedPhotos = indexPath.item
         fetchFullSizeImage(from: indexPath)
+        
+        self.navigationItem.title = selectedSectionAssets[indexPath.item].creationDate?.toDateString()
     }
 }
 
@@ -305,7 +307,8 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
 }
 
 extension DetailPhotoViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         otherGestureRecognizer.require(toFail: gestureRecognizer)
         return true
     }
