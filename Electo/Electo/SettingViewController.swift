@@ -86,6 +86,16 @@ class SettingViewController: UITableViewController {
         let timeIntervalBoundary: Double = UserDefaults.standard
             .object(forKey: "timeIntervalBoundary") as? Double ?? Double(GroupingInterval.level3.rawValue)
         slider.setValue(Float(timeIntervalBoundary), animated: false)
-
+        
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath)
+        if indexPath == IndexPath.init(row: 1, section: 1) {
+            let message = "Download The Best Photo Clean&Refine App."
+            let url = URL(string: "https://naver.com")
+            let activityViewController = UIActivityViewController(activityItems: [message, url], applicationActivities: nil)
+            activityViewController.excludedActivityTypes = [.airDrop, .addToReadingList]
+            self.present(activityViewController, animated: true, completion: nil)
+        }
     }
 }
