@@ -132,6 +132,8 @@ class TemporaryPhotoViewController: UIViewController {
             temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
             
             self.collectionView.reloadSections(IndexSet(integer: 0))
+            
+            NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
         }
     }
     
@@ -228,6 +230,7 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
         case .on:
             photoCell.select()
         case .off:
+            collectionView.deselectItem(at: indexPath, animated: true)
             guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
             
@@ -239,8 +242,8 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             detailViewController.thumbnailImages.append(selectedThumbnailImage)
             detailViewController.pressedIndexPath = indexPath
             
-            detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[indexPath.item]
-                .creationDate?.toDateString()
+            detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[
+                indexPath.item].creationDate?.toDateString()
             show(detailViewController, sender: self)
         }
     }
@@ -248,7 +251,6 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let photoCell = collectionView.cellForItem(at: indexPath)
             as? TemporaryPhotoCell ?? TemporaryPhotoCell()
-        print("여기?")
         photoCell.deSelect()
     }
 }
