@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,12 +21,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView verifyAmbiguity="off" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7C-Zz-CO8">
+                            <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7C-Zz-CO8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                 <subviews>
-                                    <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
-                                        <rect key="frame" x="0.0" y="-32" width="375" height="507"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="Brx-js-aPc" appends="YES" id="5QG-Bn-Lpq"/>
@@ -39,8 +38,14 @@
                                     </activityIndicatorView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="ONe-yI-LrC" firstAttribute="centerX" secondItem="w7C-Zz-CO8" secondAttribute="centerX" id="KG2-so-gkj"/>
-                                    <constraint firstItem="ONe-yI-LrC" firstAttribute="centerY" secondItem="w7C-Zz-CO8" secondAttribute="centerY" id="eQM-is-qsA"/>
+                                    <constraint firstItem="ONe-yI-LrC" firstAttribute="centerY" secondItem="y6d-An-LKm" secondAttribute="centerY" id="3Tq-9c-UMZ"/>
+                                    <constraint firstItem="y6d-An-LKm" firstAttribute="width" secondItem="w7C-Zz-CO8" secondAttribute="width" id="93i-Kc-Gwh"/>
+                                    <constraint firstItem="y6d-An-LKm" firstAttribute="top" secondItem="w7C-Zz-CO8" secondAttribute="top" id="TK6-gj-7B1"/>
+                                    <constraint firstAttribute="bottom" secondItem="y6d-An-LKm" secondAttribute="bottom" id="VhX-Di-ycw"/>
+                                    <constraint firstItem="y6d-An-LKm" firstAttribute="leading" secondItem="w7C-Zz-CO8" secondAttribute="leading" id="Y7l-k8-Li2"/>
+                                    <constraint firstItem="ONe-yI-LrC" firstAttribute="centerX" secondItem="y6d-An-LKm" secondAttribute="centerX" id="g8S-07-Ou4"/>
+                                    <constraint firstAttribute="trailing" secondItem="y6d-An-LKm" secondAttribute="trailing" id="jCV-t7-xpT"/>
+                                    <constraint firstItem="y6d-An-LKm" firstAttribute="height" secondItem="w7C-Zz-CO8" secondAttribute="height" id="xZ4-0b-fhM"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="24c-6t-MzH" id="4EG-0o-BVx"/>
@@ -98,7 +103,7 @@
                             <constraint firstItem="bby-OX-aNI" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" id="3iN-oR-mXa"/>
                             <constraint firstItem="bby-OX-aNI" firstAttribute="top" secondItem="w7C-Zz-CO8" secondAttribute="bottom" id="4v3-Sy-5xc"/>
                             <constraint firstItem="0wh-SJ-JHc" firstAttribute="top" secondItem="w7C-Zz-CO8" secondAttribute="bottom" constant="30" id="7Rc-px-0wt"/>
-                            <constraint firstItem="w7C-Zz-CO8" firstAttribute="top" secondItem="4Vr-NV-Z1L" secondAttribute="top" id="TBs-2n-ZSJ"/>
+                            <constraint firstItem="w7C-Zz-CO8" firstAttribute="top" secondItem="4Vr-NV-Z1L" secondAttribute="top" id="AnR-oK-mUs"/>
                             <constraint firstItem="w7C-Zz-CO8" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" id="Yvu-2F-bLi"/>
                             <constraint firstItem="ZVZ-bo-emb" firstAttribute="top" secondItem="bby-OX-aNI" secondAttribute="bottom" id="feo-zE-9eu"/>
                             <constraint firstItem="0wh-SJ-JHc" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" constant="15" id="rHO-G4-RSP"/>

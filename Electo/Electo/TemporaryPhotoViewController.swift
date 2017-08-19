@@ -177,11 +177,13 @@ class TemporaryPhotoViewController: UIViewController {
             currentTouchPosition = sender.location(in: self.view)
             
         case .changed:
-            if translation.y > 0 {
-                self.view.frame.origin = CGPoint(x: originalViewFrame.x,
-                                                 y: translation.y + 64)
-                self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
-                                                                                y: translation.y + 20)
+            if translation.y > 100 {
+                UIView.animate(withDuration: 0.2, animations: { 
+                    self.view.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                     y: translation.y + 64)
+                    self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                                                    y: translation.y + 20)
+                })
             }
         case .ended:
             dismissWhenTouchesEnded(sender)
@@ -192,9 +194,9 @@ class TemporaryPhotoViewController: UIViewController {
     func dismissWhenTouchesEnded(_ sender: UIPanGestureRecognizer) {
         var originalViewFrame = self.view.frame.origin
         var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
-        let velocity = sender.velocity(in: self.view)
+        let translation = sender.translation(in: self.view)
         
-        guard velocity.y >= 150  else {
+        guard translation.y > 150  else {
             UIView.animate(withDuration: 0.2, animations: { [weak self] _ in
                 guard let originalPosition = self?.originalPosition else { return }
                 guard let originalNavigationPosition = self?.originalNavigationPosition else { return }
@@ -249,3 +251,10 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
         photoCell.deSelect()
     }
 }
+
+extension TemporaryPhotoViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
