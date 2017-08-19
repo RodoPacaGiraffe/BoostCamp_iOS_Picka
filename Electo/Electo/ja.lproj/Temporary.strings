@@ -1,0 +1,18 @@
+
+/* Class = "UIButton"; normalTitle = "Recover Selected"; ObjectID = "Dk9-Mw-hsd"; */
+"Dk9-Mw-hsd.normalTitle" = "洗濯した写真復元";
+
+/* Class = "UIBarButtonItem"; title = "Choose"; ObjectID = "dl6-xh-00s"; */
+"dl6-xh-00s.title" = "洗濯";
+
+/* Class = "UIButton"; normalTitle = "Recover All"; ObjectID = "ltc-HR-n3Q"; */
+"ltc-HR-n3Q.normalTitle" = "全部復元";
+
+/* Class = "UINavigationItem"; title = "To be deleted"; ObjectID = "sbp-bB-XVA"; */
+"sbp-bB-XVA.title" = "削除するもの";
+
+/* Class = "UIButton"; normalTitle = "Delete Selected"; ObjectID = "sns-Ue-VMg"; */
+"sns-Ue-VMg.normalTitle" = "洗濯した写真削除";
+
+/* Class = "UIButton"; normalTitle = "Delete All"; ObjectID = "y55-Ef-PtW"; */
+"y55-Ef-PtW.normalTitle" = "全部削除";

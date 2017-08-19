@@ -36,6 +36,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40950C2D1F48540C00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/EmptyView.strings; sourceTree = "<group>"; };
+		40950C2E1F48540C00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Electo/ja.lproj/Temporary.strings; sourceTree = "<group>"; };
+		40950C2F1F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Electo/ja.lproj/Detail.strings; sourceTree = "<group>"; };
+		40950C301F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		40950C311F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Electo/ja.lproj/Setting.strings; sourceTree = "<group>"; };
 		40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoViewController.swift; sourceTree = "<group>"; };
 		40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoCell.swift; sourceTree = "<group>"; };
 		7D69DCDD1F44E10400BC83E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
@@ -311,6 +316,7 @@
 				7DB071641F464C2800F37D7F /* ar */,
 				7DB071681F464EBC00F37D7F /* zh-Hans */,
 				7DB0716C1F464F3400F37D7F /* zh-Hant */,
+				40950C311F48540D00C1A2F8 /* ja */,
 			);
 			name = Setting.storyboard;
 			sourceTree = "<group>";
@@ -323,6 +329,7 @@
 				7DB071791F481A4F00F37D7F /* ko */,
 				7DB0717B1F481A5000F37D7F /* zh-Hans */,
 				7DB0717D1F481A5200F37D7F /* zh-Hant */,
+				40950C2D1F48540C00C1A2F8 /* ja */,
 			);
 			name = EmptyView.xib;
 			sourceTree = "<group>";
@@ -335,6 +342,7 @@
 				7DB071611F464C2800F37D7F /* ar */,
 				7DB071651F464EBC00F37D7F /* zh-Hans */,
 				7DB071691F464F3400F37D7F /* zh-Hant */,
+				40950C2E1F48540C00C1A2F8 /* ja */,
 			);
 			name = Temporary.storyboard;
 			sourceTree = "<group>";
@@ -347,6 +355,7 @@
 				7DB071621F464C2800F37D7F /* ar */,
 				7DB071661F464EBC00F37D7F /* zh-Hans */,
 				7DB0716A1F464F3400F37D7F /* zh-Hant */,
+				40950C2F1F48540D00C1A2F8 /* ja */,
 			);
 			name = Detail.storyboard;
 			sourceTree = "<group>";
@@ -359,6 +368,7 @@
 				7DB071631F464C2800F37D7F /* ar */,
 				7DB071671F464EBC00F37D7F /* zh-Hans */,
 				7DB0716B1F464F3400F37D7F /* zh-Hant */,
+				40950C301F48540D00C1A2F8 /* ja */,
 			);
 			name = Main.storyboard;
 			path = Electo;

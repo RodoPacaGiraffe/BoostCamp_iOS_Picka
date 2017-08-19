@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "4 Photos"; ObjectID = "5Un-Xs-MsE"; */
+"5Un-Xs-MsE.text" = "4 写真";
+
+/* Class = "UILabel"; text = "Location"; ObjectID = "OKC-hj-xga"; */
+"OKC-hj-xga.text" = "ロケーション";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "dxa-0p-Mrx"; */
+"dxa-0p-Mrx.text" = "ラベル";
+
+/* Class = "UINavigationItem"; title = "Photos"; ObjectID = "haJ-Md-wRu"; */
+"haJ-Md-wRu.title" = "写真";
+
+/* Class = "UITabBarItem"; title = "Photos"; ObjectID = "vvd-LH-pJU"; */
+"vvd-LH-pJU.title" = "写真";
