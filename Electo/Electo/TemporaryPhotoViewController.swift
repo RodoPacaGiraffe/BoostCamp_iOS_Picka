@@ -21,6 +21,9 @@ class TemporaryPhotoViewController: UIViewController {
     @IBOutlet weak var buttonForEditStackView: UIStackView!
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
+    var originalNavigationPosition: CGPoint?
+    var originalPosition: CGPoint?
+    var currentTouchPosition: CGPoint?
     var photoDataSource: PhotoDataSource?
     var tempThumbnailImages: [UIImage] = []
     var selectedIndexPaths: [IndexPath] = []
@@ -103,7 +106,7 @@ class TemporaryPhotoViewController: UIViewController {
             
             self.collectionView.reloadData()
             self.dismiss(animated: true, completion: nil)
-
+            
         }
     }
     
@@ -147,6 +150,55 @@ class TemporaryPhotoViewController: UIViewController {
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
+    @IBAction func slideToDismiss(_ sender: UIPanGestureRecognizer) {
+        
+        let translation = sender.translation(in: self.view)
+        let originalViewFrame = self.view.frame.origin
+       
+        switch sender.state {
+        case .began:
+            originalPosition = view.center
+            originalNavigationPosition = navigationController?.navigationBar.center
+            currentTouchPosition = sender.location(in: self.view)
+            
+        case .changed:
+            if translation.y > 0 {
+                self.view.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                 y: translation.y)
+                self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                                                y: translation.y + 20)
+            }
+        case .ended:
+            dismissWhenTouchesEnded(sender)
+        default: break
+        }
+    }
+    
+    func dismissWhenTouchesEnded(_ sender: UIPanGestureRecognizer) {
+        var originalViewFrame = self.view.frame.origin
+        var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
+        let velocity = sender.velocity(in: self.view)
+        
+        guard velocity.y >= 150  else {
+            UIView.animate(withDuration: 0.2, animations: { [weak self] _ in
+                guard let originalPosition = self?.originalPosition else { return }
+                guard let originalNavigationPosition = self?.originalNavigationPosition else { return }
+                self?.view.center = originalPosition
+                self?.navigationController?.navigationBar.center = originalNavigationPosition
+            })
+            return
+        }
+        UIView.animate(withDuration: 0.2, animations: {
+            originalViewFrame = CGPoint(x: originalViewFrame.x,
+                                        y: self.view.frame.size.height)
+            originalNavigationBarFrame = CGPoint(x: originalViewFrame.x,
+                                                 y: self.view.frame.size.height)},
+                       completion: { [weak self] completed in
+                        guard completed == true else { return }
+                        self?.dismiss(animated: true, completion: nil)
+        })
+
+    }
 }
 
 extension TemporaryPhotoViewController: UICollectionViewDelegate {
@@ -168,6 +220,9 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             guard let selectedThumbnailImage = photoCell.thumbnailImageView.image else { return }
             detailViewController.thumbnailImages.append(selectedThumbnailImage)
             detailViewController.pressedIndexPath = indexPath
+            
+            detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[indexPath.item]
+                .creationDate?.toDateString()
             show(detailViewController, sender: self)
         }
     }

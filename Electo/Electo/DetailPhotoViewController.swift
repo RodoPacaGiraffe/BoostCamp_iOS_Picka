@@ -284,6 +284,8 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
 
         selectedPhotos = indexPath.item
         fetchFullSizeImage(from: indexPath)
+        
+        self.navigationItem.title = selectedSectionAssets[indexPath.item].creationDate?.toDateString()
     }
 }
 

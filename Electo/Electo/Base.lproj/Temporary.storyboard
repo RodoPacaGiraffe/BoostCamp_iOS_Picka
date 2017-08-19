@@ -118,6 +118,7 @@
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="81L-GL-LUT" secondAttribute="bottom" id="1CY-ym-J0a"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leading" id="3Bf-75-FUQ"/>
@@ -133,6 +134,9 @@
                             <constraint firstItem="Vlj-ai-Q2p" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leadingMargin" id="e64-90-QkN"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="top" secondItem="Pgi-Kc-4sb" secondAttribute="topMargin" id="fOs-Yg-zAk"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="wqT-sT-8b4" appends="YES" id="NUM-eS-lGk"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="To be deleted" id="sbp-bB-XVA">
                         <barButtonItem key="leftBarButtonItem" image="Cleanable-26" id="oJp-TK-wXK">
@@ -157,6 +161,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="wqT-sT-8b4">
+                    <connections>
+                        <action selector="slideToDismiss:" destination="41h-lp-7Sx" id="fUK-7l-WGv"/>
+                        <outlet property="delegate" destination="41h-lp-7Sx" id="3or-hK-mrV"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1368.8" y="-187.55622188905548"/>
         </scene>
@@ -171,7 +181,7 @@
         <!--Navigation Controller-->
         <scene sceneID="lIA-zQ-r0R">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rai-15-VpX" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="overFullScreen" id="Rai-15-VpX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="sTf-Sp-eD7">
