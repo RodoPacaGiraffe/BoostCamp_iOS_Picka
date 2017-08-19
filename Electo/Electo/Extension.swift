@@ -136,3 +136,11 @@ extension UIBarButtonItem {
         label.text = "\(temporaryPhotoAssetsCount)"
     }
 }
+
+extension UIView {
+    func makeRoundBorder(degree: CGFloat) {
+        self.layoutIfNeeded()
+        layer.cornerRadius = self.frame.height / degree
+        layer.masksToBounds = true
+    }
+}
