@@ -310,7 +310,7 @@ extension ClassifiedPhotoViewController {
 extension ClassifiedPhotoViewController: SettingDelegate {
     func groupingChnaged() {
         self.pullToRefresh()
-        print("new pool")
+        print("new grouping")
     }
 }
 
