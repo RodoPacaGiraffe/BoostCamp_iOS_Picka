@@ -34,8 +34,9 @@ class ClassifiedPhotoCell: UITableViewCell {
                 break
             }
             imageViews[index].image = photoImages[index]
-            
         }
+        imageStackView.subviews.first?.makeRoundBorder(degree: 16.0)
+        imageStackView.subviews.first?.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1)
     }
     
     func setLabel() {
