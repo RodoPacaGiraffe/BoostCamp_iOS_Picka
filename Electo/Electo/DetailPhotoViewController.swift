@@ -20,7 +20,6 @@ class DetailPhotoViewController: UIViewController {
     
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
-    var selectedSection: Int = 0
     var photoDataSource: PhotoDataSource?
     var pressedIndexPath: IndexPath = IndexPath()
     var selectedPhotos: Int = 0
@@ -34,6 +33,32 @@ class DetailPhotoViewController: UIViewController {
         setFlowLayout()
         displayDetailViewSetting()
         setNavigationButtonItem()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
+                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Constants.requiredReload, object: nil)
+    }
+    
+    @objc func applyRemovedAssets(_ notification: Notification) {
+        guard let removedPhotoAssets = notification.userInfo?[Constants.removedPhotoAssets]
+            as? [PHAsset] else { return }
+        
+        removedPhotoAssets.forEach {
+            guard let index = selectedSectionAssets.index(of: $0) else {
+                print("This photoAsset is not founded from DetailVC")
+                return
+            }
+            
+            selectedSectionAssets.remove(at: index)
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
+            self?.moveToNextPhoto()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {   
@@ -41,21 +66,15 @@ class DetailPhotoViewController: UIViewController {
         moveToTempVCButtonItem?.updateBadge(With: count)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        detailImageView.layer.removeAllAnimations()
+    }
+    
     private func setFlowLayout() {
         flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
         flowLayout.itemSize.width = flowLayout.itemSize.height
         if identifier == "fromTemporaryViewController" {
             navigationItem.setRightBarButtonItems(nil, animated: false)
-        }
-    }
-
-    
-    func getAsset(from identifier: String) -> [PHAsset] {
-        switch identifier {
-        case "fromTemporaryViewController":
-            return selectedSectionAssets
-        default:
-            return selectedSectionAssets
         }
     }
     
@@ -67,7 +86,7 @@ class DetailPhotoViewController: UIViewController {
                 selectedPhotos += 1
             }
         case UISwipeGestureRecognizerDirection.left:
-            let count = getAsset(from: identifier).count
+            let count = selectedSectionAssets.count
 
             selectedPhotos += 1
             if selectedPhotos == count {
@@ -82,7 +101,6 @@ class DetailPhotoViewController: UIViewController {
         self.zoomingScrollView.minimumZoomScale = 1.0
         self.zoomingScrollView.maximumZoomScale = 6.0
         
-        self.tabBarController?.tabBar.isHidden = true
         detailImageView.image = thumbnailImages.first
         
         fetchFullSizeImage(from: pressedIndexPath)
@@ -204,23 +222,30 @@ class DetailPhotoViewController: UIViewController {
         let targetX = thumbnailCollectionView.bounds.width
         
         UIView.animate(withDuration: 0.2,
-        animations: {
-            self.detailImageView.center = CGPoint(x: targetX, y: targetY)
-            self.detailImageView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
-        }, completion: { _ in
+        animations: { [weak self] in
+            guard let detailVC = self else { return }
+            detailVC.detailImageView.center = CGPoint(x: targetX, y: targetY)
+            detailVC.detailImageView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+        }, completion: { [weak self] _ in
+            guard let detailVC = self else { return }
+            detailVC.navigationController?.navigationBar.isTranslucent = false
+            detailVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            
+            detailVC.photoDataSource?.temporaryPhotoStore.insert(
+                photoAssets: [detailVC.selectedSectionAssets[detailVC.selectedPhotos]])
+            
+            guard let count = detailVC.photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
+            
+            detailVC.moveToTempVCButtonItem?.updateBadge(With: count)
 
-            self.navigationController?.navigationBar.isTranslucent = false
-            self.photoDataSource?.temporaryPhotoStore.insert(photoAssets: [self.getAsset(from: self.identifier)[self.selectedPhotos]])
+            detailVC.selectedSectionAssets.remove(at: detailVC.selectedPhotos)
             
-            self.selectedSectionAssets.remove(at: self.selectedPhotos)
+            detailVC.detailImageView.center = detailVC.zoomingScrollView.center
+            detailVC.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             
-            self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            detailVC.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
             
-            self.detailImageView.center = self.zoomingScrollView.center
-            self.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            
-            self.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
-            self.moveToNextPhoto()
+            detailVC.moveToNextPhoto()
         })
     }
 
@@ -237,16 +262,24 @@ class DetailPhotoViewController: UIViewController {
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let storeAssetsCount = getAsset(from: identifier).count
-        return storeAssetsCount
+        return selectedSectionAssets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
-        let photoAssets = self.getAsset(from: identifier)
+         if indexPath == pressedIndexPath {
+            cell.select()
+            selectedPhotos = pressedIndexPath.row
+        } else if let selectedItems = collectionView.indexPathsForSelectedItems,
+            selectedItems.contains(indexPath) {
+            cell.select()
+        } else {
+            cell.deSelect()
+        }
+        
+        let photoAssets = selectedSectionAssets
         let photoAsset = photoAssets[indexPath.item]
-        let options = PHImageRequestOptions()
         
         if let previousRequestID = cell.requestID {
             let manager = PHImageManager.default()
@@ -255,15 +288,10 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         
         cell.requestID = photoAsset.fetchImage(size: Constants.fetchImageSize,
                                                contentMode: .aspectFill,
-                                               options: options,
+                                               options: nil,
                                                resultHandler: { (requestedImage) in
                                                 cell.thumbnailImageView.image = requestedImage
         })
-        
-        if indexPath == pressedIndexPath {
-            cell.select()
-            selectedPhotos = pressedIndexPath.row
-        }
         
         return cell
     }

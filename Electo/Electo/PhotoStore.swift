@@ -19,6 +19,10 @@ class PhotoStore: PhotoClassifiable {
                                                name: Constants.removedAssetsFromPhotoLibrary, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+    }
+    
     func fetchPhotoAsset() {
         photoAssets.removeAll()
         
@@ -43,7 +47,7 @@ class PhotoStore: PhotoClassifiable {
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
-    func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]?{
+    @discardableResult func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]?{
         guard let unarchivedPhotoAssets = assets else { return nil }
         var removedAssetsFromPhotoLibrary: [PHAsset]? = nil
     

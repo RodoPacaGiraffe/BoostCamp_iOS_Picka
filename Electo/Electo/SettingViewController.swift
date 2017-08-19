@@ -51,7 +51,6 @@ class SettingViewController: UITableViewController {
     }
     
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
-        print(sender.state)
         if sender.isOn {
             let alertController = UIAlertController(title: "", message: "It will use network data", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
@@ -78,6 +77,12 @@ class SettingViewController: UITableViewController {
         }
     }
     
+
+    private func setTickStackView() {
+        let sliderWidth: CGFloat = slider.frame.width
+        guard let tickWidth: CGFloat = tickStackView.subviews.first?.frame.width else { return }
+        tickStackView.spacing = (sliderWidth - tickWidth * 5) / 4 - 1
+
     func setSwitch() {
         let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? false
         dataAllowedSwitch.setOn(dataAllowed, animated: false)
@@ -87,5 +92,6 @@ class SettingViewController: UITableViewController {
         let timeIntervalBoundary: Double = UserDefaults.standard
             .object(forKey: "timeIntervalBoundary") as? Double ?? Double(GroupingInterval.level3.rawValue)
         slider.setValue(Float(timeIntervalBoundary), animated: false)
+
     }
 }

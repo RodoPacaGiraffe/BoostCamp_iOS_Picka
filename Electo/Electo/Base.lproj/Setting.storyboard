@@ -180,6 +180,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="2iU-o0-EDj"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="dataAllowedSwitch" destination="C37-bf-6c9" id="9Co-KQ-KQI"/>
                         <outlet property="slider" destination="wQQ-K4-gD0" id="bqm-P1-iua"/>

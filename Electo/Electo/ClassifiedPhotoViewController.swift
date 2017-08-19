@@ -47,6 +47,13 @@ class ClassifiedPhotoViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
+                                               name: Constants.requiredUpdatingBadge, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Constants.requiredReload, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Constants.requiredUpdatingBadge, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,6 +105,7 @@ class ClassifiedPhotoViewController: UIViewController {
     @objc private func pullToRefresh() {
         DispatchQueue.global().async { [weak self] in
             self?.photoDataSource.photoStore.fetchPhotoAsset()
+            self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -207,6 +215,10 @@ class ClassifiedPhotoViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc private func updateBadge() {
+        moveToTempVCButtonItem?.updateBadge(With: photoDataSource.temporaryPhotoStore.photoAssets.count)
     }
     
     @objc private func reloadData() {
