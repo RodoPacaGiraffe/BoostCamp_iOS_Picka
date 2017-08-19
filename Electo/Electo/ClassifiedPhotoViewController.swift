@@ -21,20 +21,8 @@ class ClassifiedPhotoViewController: UIViewController {
     private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector (pullToRefresh), for: .valueChanged)
-        
         return refreshControl
     }()
-    
-    private var timer: Timer?
-    
-    private var time: TimeInterval = 0 {
-        didSet {
-            if time == Constants.loadingTime {
-                stopTimer()
-                disappearLoadingView()
-            }
-        }
-    }
     
     //MARK: Functions
     override func viewDidLoad() {
@@ -67,24 +55,15 @@ class ClassifiedPhotoViewController: UIViewController {
         tableView.addSubview(refreshControl)
     }
     
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
-    
     private func appearLoadingView() {
-        timer = Timer.scheduledTimer(withTimeInterval: Constants.loadingTime, repeats: true) {
-            [weak self] (timer: Timer) in
-            
-            self?.time += timer.timeInterval
-        }
-        
         self.view.addSubview(loadingView)
     }
     
     private func disappearLoadingView() {
-        self.loadingView.stopIndicatorAnimating()
-        self.loadingView.removeFromSuperview()
+        DispatchQueue.main.async {
+            self.loadingView.stopIndicatorAnimating()
+            self.loadingView.removeFromSuperview()
+        }
     }
     
     private func setNavigationButtonItem() {
@@ -146,6 +125,12 @@ class ClassifiedPhotoViewController: UIViewController {
             }
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
+            guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
+            
+            cachingImageManager.startCachingImages(for: photoAssets,
+                                                   targetSize: Constants.fetchImageSize,
+                                                   contentMode: .aspectFill, options: nil)
+            
             guard let path = Constants.archiveURL?.path else { return }
             
             self?.fetchArchivedTemporaryPhotoStore(from: path)
@@ -158,6 +143,7 @@ class ClassifiedPhotoViewController: UIViewController {
             guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
                 as? TemporaryPhotoStore else {
                     self?.reloadData()
+                    self?.disappearLoadingView()
                     return
             }
 
@@ -174,6 +160,7 @@ class ClassifiedPhotoViewController: UIViewController {
             }
             
             self?.reloadData()
+            self?.disappearLoadingView()
         }
     }
     

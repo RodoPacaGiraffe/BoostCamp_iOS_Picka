@@ -40,10 +40,6 @@ class PhotoStore: PhotoClassifiable {
 
         PhotoLibraryObserver.shared.setObserving(fetchResult: fetchResult)
         
-        cachingImageManager.startCachingImages(for: photoAssets,
-                                               targetSize: Constants.fetchImageSize,
-                                               contentMode: .aspectFill, options: nil)
-        
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     

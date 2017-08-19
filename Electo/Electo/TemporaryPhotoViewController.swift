@@ -162,11 +162,14 @@ class TemporaryPhotoViewController: UIViewController {
     
     private func recoverAlertController(title: String, message: String,
                                         completion: @escaping (UIAlertAction) -> Void) {
-        let alertController = UIAlertController(title: "Recover", message: "", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
         let recoverAction = UIAlertAction(title: title, style: .default, handler: completion)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
         alertController.addAction(recoverAction)
         alertController.addAction(cancelAction)
+        alertController.view.tintColor = UIColor.darkGray
+       
         present(alertController, animated: true, completion: nil)
     }
     
