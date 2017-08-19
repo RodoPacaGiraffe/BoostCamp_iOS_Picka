@@ -178,7 +178,7 @@ class TemporaryPhotoViewController: UIViewController {
             originalNavigationPosition = navigationController?.navigationBar.center
             currentTouchPosition = sender.location(in: self.view)
         case .changed:
-            if translation.y > 100 {
+            if translation.y > 200 {
                 UIView.animate(withDuration: 0.2, animations: { 
                     self.view.frame.origin = CGPoint(x: originalViewFrame.x,
                                                      y: translation.y + 64)
@@ -197,7 +197,7 @@ class TemporaryPhotoViewController: UIViewController {
         var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
         let translation = sender.translation(in: self.view)
         
-        guard translation.y > 150  else {
+        guard translation.y > 300  else {
             UIView.animate(withDuration: 0.2, animations: { [weak self] _ in
                 guard let originalPosition = self?.originalPosition else { return }
                 guard let originalNavigationPosition = self?.originalNavigationPosition else { return }

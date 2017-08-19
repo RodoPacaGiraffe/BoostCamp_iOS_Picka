@@ -241,16 +241,24 @@ class ClassifiedPhotoViewController: UIViewController {
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
         let selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
-        guard selectedCell.imageViews[selectedPhotoIndex].image != nil else { return }
+        guard selectedCell.imageViews[selectedPhotoIndex].image != nil else {
+            print("hello")
+             dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, 0)
+            show(detailViewController, sender: self)
+                return
+        }
         
+        dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, selectedPhotoIndex)
+        show(detailViewController, sender: self)
+    }
+    
+    func dataSetOfTransfer(to detailViewController: DetailPhotoViewController, selectedCell: ClassifiedPhotoCell, of indexPath: IndexPath, _ selectedPhotoIndex: Int) {
         detailViewController.photoDataSource = photoDataSource
         detailViewController.selectedSectionAssets = photoDataSource.photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets
         detailViewController.identifier = "fromClassifiedView"
         detailViewController.thumbnailImages = selectedCell.cellImages
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
         detailViewController.selectedPhotos = selectedPhotoIndex
-        
-        show(detailViewController, sender: self)
     }
 }
 
