@@ -255,24 +255,6 @@ class ClassifiedPhotoViewController: UIViewController {
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
         show(detailViewController, sender: self)
     }
-   
-    @IBAction func networkAllowSwitch(_ sender: UISwitch) {
-        print(sender.state)
-        if sender.isOn {
-            let alertController = UIAlertController(title: "", message: "It will use network data", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                Constants.dataAllowed = true
-            })
-            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: { (action) in
-                Constants.dataAllowed = false
-            })
-            alertController.addAction(okAction)
-            alertController.addAction(cancelAction)
-            present(alertController, animated: true, completion: nil)
-        } else {
-            Constants.dataAllowed = false
-        }
-    }
 }
 
 extension ClassifiedPhotoViewController: UITableViewDelegate {
