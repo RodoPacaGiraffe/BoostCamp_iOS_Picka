@@ -75,7 +75,7 @@ class PhotoStore: PhotoClassifiable {
         }
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
-        
+
         NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
     }
 }

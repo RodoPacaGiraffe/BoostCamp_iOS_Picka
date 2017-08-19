@@ -47,7 +47,6 @@ class ClassifiedPhotoViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +56,8 @@ class ClassifiedPhotoViewController: UIViewController {
         
         moveToTempVCButtonItem?.updateBadge(With: count)
         tableView.reloadData()
+        
+        fetchLocationToVisibleCells()
     }
     
     private func setTableView() {
@@ -84,6 +85,16 @@ class ClassifiedPhotoViewController: UIViewController {
         self.loadingView.removeFromSuperview()
     }
     
+    private func setNavigationButtonItem() {
+        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: 0)
+        
+        moveToTempVCButtonItem?.addButtonTarget(target: self,
+                                                action: #selector (moveToTemporaryViewController),
+                                                for: .touchUpInside)
+        
+        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
+    }
+    
     @objc private func pullToRefresh() {
         DispatchQueue.global().async { [weak self] in
             self?.photoDataSource.photoStore.fetchPhotoAsset()
@@ -91,10 +102,22 @@ class ClassifiedPhotoViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.refreshControl.endRefreshing()
+                self?.fetchLocationToVisibleCells()
             }
         }
     }
     
+    @objc private func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+            
+            guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
+            
+            self?.moveToTempVCButtonItem?.updateBadge(With: count)
+            self?.fetchLocationToVisibleCells()
+        }
+    }
+
     private func deniedAlert() {
         let alertController = UIAlertController(title: "", message: "No Authorization", preferredStyle: .alert)
         let goSettingAction = UIAlertAction(title: "Go Settings", style: .default) { (action) in
@@ -130,7 +153,7 @@ class ClassifiedPhotoViewController: UIViewController {
                     self?.reloadData()
                     return
             }
-            print("here")
+
             self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
             self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
             
@@ -147,14 +170,23 @@ class ClassifiedPhotoViewController: UIViewController {
         }
     }
     
-    private func setNavigationButtonItem() {
-        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: 0)
+    fileprivate func fetchLocationToVisibleCells() {
+        guard let indexPaths = tableView.indexPathsForVisibleRows else { return }
         
-        moveToTempVCButtonItem?.addButtonTarget(target: self,
-                                                action: #selector (moveToTemporaryViewController),
-                                                for: .touchUpInside)
-        
-        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
+        for indexPath in indexPaths {
+            guard let photoCell = tableView.cellForRow(at: indexPath)
+                as? ClassifiedPhotoCell else { continue }
+            
+            let classifiedGroup = photoDataSource.photoStore.classifiedPhotoAssets[
+                indexPath.section].photoAssetsArray[indexPath.row]
+            
+            guard classifiedGroup.location.isEmpty else { continue }
+            
+            classifiedGroup.photoAssets.first?.location?.reverseGeocode { locationString in
+                photoCell.locationLabel.text = locationString
+                classifiedGroup.location = locationString
+            }
+        }
     }
     
     @objc private func moveToTemporaryViewController() {
@@ -212,8 +244,7 @@ class ClassifiedPhotoViewController: UIViewController {
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
         show(detailViewController, sender: self)
     }
-    
-    
+   
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
         print(sender.state)
         if sender.isOn {
@@ -234,12 +265,25 @@ class ClassifiedPhotoViewController: UIViewController {
 }
 
 extension ClassifiedPhotoViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let classifiedGroup = photoDataSource.photoStore.classifiedPhotoAssets[
+            indexPath.section].photoAssetsArray[indexPath.row]
+        
         guard let photoCell = cell as? ClassifiedPhotoCell else {
             print("cell is not a photoCell")
             return
         }
         
+        photoCell.locationLabel.text = classifiedGroup.location
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let photoCell = cell as? ClassifiedPhotoCell else {
+            print("cell is not a photoCell")
+            return
+        }
+
+        photoCell.locationLabel.text = ""
         photoCell.clearStackView()
     }
     
@@ -247,11 +291,24 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.font = UIFont.systemFont(ofSize: 14)
-        header.contentView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
+        header.contentView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.05)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         showSelectedPhoto(at: indexPath)
+    }
+}
+
+extension ClassifiedPhotoViewController {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard !decelerate else { return }
+        
+        fetchLocationToVisibleCells()
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        fetchLocationToVisibleCells()
     }
 }
 
