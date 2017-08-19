@@ -191,15 +191,15 @@ class DetailPhotoViewController: UIViewController {
     @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
 
         let location = sender.translation(in: self.view)
-        guard let navigationBarHeight = self.navigationController?.navigationBar.bounds.size.height else { return }
+
         switch sender.state {
         case .began:
             currentImageViewPosition = self.detailImageView.frame.origin
         case .changed:
             if location.y < -10 {
-              setTranslucentToNavigationBar()
-              detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
-                                                     y: location.y - navigationBarHeight)
+                setTranslucentToNavigationBar()
+                detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
+                                                     y: location.y )
             }
         case .ended:
             guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
