@@ -12,7 +12,6 @@
 		7D69DCDE1F44E10400BC83E9 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */; };
 		7D69DCE01F45009000BC83E9 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D69DCDF1F45009000BC83E9 /* SettingViewController.swift */; };
 		7D77D70E1F35D035008E61FF /* ClassifiedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */; };
-		7DB0712E1F455F6400F37D7F /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB0712D1F455F6400F37D7F /* CustomSlider.swift */; };
 		C931F0431F3F6F02004653EE /* PhotoLibraryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931F0421F3F6F02004653EE /* PhotoLibraryObserver.swift */; };
 		C931F0451F42D0C6004653EE /* ClassifiedPhotoAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931F0441F42D0C6004653EE /* ClassifiedPhotoAssets.swift */; };
 		C93874671F383DCC00CB0AC4 /* PhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */; };
@@ -40,7 +39,22 @@
 		7D69DCDD1F44E10400BC83E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
 		7D69DCDF1F45009000BC83E9 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoCell.swift; sourceTree = "<group>"; };
-		7DB0712D1F455F6400F37D7F /* CustomSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomSlider.swift; path = ../CustomSlider.swift; sourceTree = "<group>"; };
+		7DB0715D1F464B4B00F37D7F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Electo/ko.lproj/Temporary.strings; sourceTree = "<group>"; };
+		7DB0715E1F464B4B00F37D7F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Electo/ko.lproj/Detail.strings; sourceTree = "<group>"; };
+		7DB0715F1F464B4B00F37D7F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		7DB071601F464B4B00F37D7F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Electo/ko.lproj/Setting.strings; sourceTree = "<group>"; };
+		7DB071611F464C2800F37D7F /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Electo/ar.lproj/Temporary.strings; sourceTree = "<group>"; };
+		7DB071621F464C2800F37D7F /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Electo/ar.lproj/Detail.strings; sourceTree = "<group>"; };
+		7DB071631F464C2800F37D7F /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
+		7DB071641F464C2800F37D7F /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Electo/ar.lproj/Setting.strings; sourceTree = "<group>"; };
+		7DB071651F464EBC00F37D7F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Electo/zh-Hans.lproj/Temporary.strings"; sourceTree = "<group>"; };
+		7DB071661F464EBC00F37D7F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Electo/zh-Hans.lproj/Detail.strings"; sourceTree = "<group>"; };
+		7DB071671F464EBC00F37D7F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		7DB071681F464EBC00F37D7F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Electo/zh-Hans.lproj/Setting.strings"; sourceTree = "<group>"; };
+		7DB071691F464F3400F37D7F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Electo/zh-Hant.lproj/Temporary.strings"; sourceTree = "<group>"; };
+		7DB0716A1F464F3400F37D7F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Electo/zh-Hant.lproj/Detail.strings"; sourceTree = "<group>"; };
+		7DB0716B1F464F3400F37D7F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		7DB0716C1F464F3400F37D7F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Electo/zh-Hant.lproj/Setting.strings"; sourceTree = "<group>"; };
 		C931F0421F3F6F02004653EE /* PhotoLibraryObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryObserver.swift; sourceTree = "<group>"; };
 		C931F0441F42D0C6004653EE /* ClassifiedPhotoAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoAssets.swift; sourceTree = "<group>"; };
 		C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDataSource.swift; sourceTree = "<group>"; };
@@ -94,7 +108,6 @@
 				40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */,
 				C9804C191F39CD1700075E8F /* TemporaryPhotoCell.swift */,
 				C98429C01F3EF9E500D2E1B8 /* LoadingView.swift */,
-				7DB0712D1F455F6400F37D7F /* CustomSlider.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -218,6 +231,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = C9E21E8F1F3439BB00B17CC4;
 			productRefGroup = C9E21E991F3439BB00B17CC4 /* Products */;
@@ -252,7 +266,6 @@
 			files = (
 				40B4EA9C1F39940B00F4393A /* DetailPhotoViewController.swift in Sources */,
 				40B4EA9E1F39A4AA00F4393A /* DetailPhotoCell.swift in Sources */,
-				7DB0712E1F455F6400F37D7F /* CustomSlider.swift in Sources */,
 				C9804C1C1F39CD7700075E8F /* TemporaryPhotoViewController.swift in Sources */,
 				C938747B1F38625000CB0AC4 /* Extension.swift in Sources */,
 				C931F0431F3F6F02004653EE /* PhotoLibraryObserver.swift in Sources */,
@@ -279,6 +292,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				7D69DCDD1F44E10400BC83E9 /* Base */,
+				7DB071601F464B4B00F37D7F /* ko */,
+				7DB071641F464C2800F37D7F /* ar */,
+				7DB071681F464EBC00F37D7F /* zh-Hans */,
+				7DB0716C1F464F3400F37D7F /* zh-Hant */,
 			);
 			name = Setting.storyboard;
 			sourceTree = "<group>";
@@ -287,6 +304,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				C93874731F38624300CB0AC4 /* Base */,
+				7DB0715D1F464B4B00F37D7F /* ko */,
+				7DB071611F464C2800F37D7F /* ar */,
+				7DB071651F464EBC00F37D7F /* zh-Hans */,
+				7DB071691F464F3400F37D7F /* zh-Hant */,
 			);
 			name = Temporary.storyboard;
 			sourceTree = "<group>";
@@ -295,6 +316,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				C93874751F38624300CB0AC4 /* Base */,
+				7DB0715E1F464B4B00F37D7F /* ko */,
+				7DB071621F464C2800F37D7F /* ar */,
+				7DB071661F464EBC00F37D7F /* zh-Hans */,
+				7DB0716A1F464F3400F37D7F /* zh-Hant */,
 			);
 			name = Detail.storyboard;
 			sourceTree = "<group>";
@@ -303,6 +328,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				C9E21EA01F3439BB00B17CC4 /* Base */,
+				7DB0715F1F464B4B00F37D7F /* ko */,
+				7DB071631F464C2800F37D7F /* ar */,
+				7DB071671F464EBC00F37D7F /* zh-Hans */,
+				7DB0716B1F464F3400F37D7F /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			path = Electo;
@@ -315,6 +344,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -366,6 +396,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

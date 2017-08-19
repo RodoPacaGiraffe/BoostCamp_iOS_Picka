@@ -1,0 +1,18 @@
+
+/* Class = "UIButton"; normalTitle = "Recover Selected"; ObjectID = "Dk9-Mw-hsd"; */
+"Dk9-Mw-hsd.normalTitle" = "선택 복원";
+
+/* Class = "UIBarButtonItem"; title = "Choose"; ObjectID = "dl6-xh-00s"; */
+"dl6-xh-00s.title" = "선택";
+
+/* Class = "UIButton"; normalTitle = "Recover All"; ObjectID = "ltc-HR-n3Q"; */
+"ltc-HR-n3Q.normalTitle" = "모두 복원";
+
+/* Class = "UINavigationItem"; title = "To be deleted"; ObjectID = "sbp-bB-XVA"; */
+"sbp-bB-XVA.title" = "삭제 예정";
+
+/* Class = "UIButton"; normalTitle = "Delete Selected"; ObjectID = "sns-Ue-VMg"; */
+"sns-Ue-VMg.normalTitle" = "선택 삭제";
+
+/* Class = "UIButton"; normalTitle = "Delete All"; ObjectID = "y55-Ef-PtW"; */
+"y55-Ef-PtW.normalTitle" = "모두 삭제";

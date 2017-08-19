@@ -93,8 +93,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="OKC-hj-xga" secondAttribute="trailing" constant="6" id="0LM-oz-VmF"/>
                                                 <constraint firstItem="dbg-FS-0Nh" firstAttribute="leading" secondItem="0kh-d5-kAa" secondAttribute="leading" constant="2" id="1Ig-ln-aSr"/>
-
                                                 <constraint firstItem="dbg-FS-0Nh" firstAttribute="top" secondItem="5Un-Xs-MsE" secondAttribute="bottom" constant="-3" id="8bb-WN-Xx3"/>
                                                 <constraint firstItem="7KR-dQ-HZk" firstAttribute="centerY" secondItem="dbg-FS-0Nh" secondAttribute="centerY" id="HEe-eF-0k2"/>
                                                 <constraint firstItem="dbg-FS-0Nh" firstAttribute="top" secondItem="0kh-d5-kAa" secondAttribute="top" constant="41" id="YHH-Fd-mFB"/>
@@ -137,7 +137,13 @@
                             <outletCollection property="gestureRecognizers" destination="NmD-ph-19I" appends="YES" id="IWO-O7-TBE"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu"/>
+                    <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
+                        <barButtonItem key="leftBarButtonItem" image="Cleanable-20" id="lHY-8Q-Q44">
+                            <connections>
+                                <segue destination="jqG-M0-DjR" kind="show" identifier="PressedSetting" id="d1n-Aa-PwX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="POu-e3-FrG" id="kGH-RN-jcJ"/>
                         <outlet property="touchLocation" destination="NmD-ph-19I" id="raj-4O-ZRp"/>
@@ -169,6 +175,14 @@
             </objects>
             <point key="canvasLocation" x="3846" y="-228"/>
         </scene>
+        <!--Setting-->
+        <scene sceneID="ihj-0k-nGy">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="SettingViewController" storyboardName="Setting" id="jqG-M0-DjR" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LUW-FM-va5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3862" y="-110"/>
+        </scene>
         <!--Photos-->
         <scene sceneID="RJw-Z1-njC">
             <objects>
@@ -195,6 +209,7 @@
     </scenes>
     <resources>
         <image name="Cleanable-18" width="26" height="26"/>
+        <image name="Cleanable-20" width="26" height="26"/>
     </resources>
     <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
 </document>

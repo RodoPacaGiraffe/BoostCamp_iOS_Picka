@@ -194,12 +194,19 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "ModalRemovedPhotoVC" else { return }
-        guard let navigationController = segue.destination as? UINavigationController,
-            let temporaryPhotoViewController = navigationController.topViewController
-                as? TemporaryPhotoViewController else { return }
-        
-        temporaryPhotoViewController.photoDataSource = photoDataSource
+        guard let identifier = segue.identifier else { return }
+        switch identifier {
+        case "ModalRemovedPhotoVC":
+            guard let navigationController = segue.destination as? UINavigationController,
+                let temporaryPhotoViewController = navigationController.topViewController
+                    as? TemporaryPhotoViewController else { return }
+            temporaryPhotoViewController.photoDataSource = photoDataSource
+        case "PressedSetting":
+            guard let settingViewController = segue.destination as? SettingViewController else { return }
+            settingViewController.settingDelegate = self
+        default:
+            break
+        }
     }
     
     @objc private func reloadData() {
@@ -309,6 +316,13 @@ extension ClassifiedPhotoViewController {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         fetchLocationToVisibleCells()
+    }
+}
+
+extension ClassifiedPhotoViewController: SettingDelegate {
+    func groupingChnaged() {
+        self.pullToRefresh()
+        print("new pool")
     }
 }
 
