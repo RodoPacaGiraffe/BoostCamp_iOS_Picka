@@ -21,6 +21,18 @@ class ClassifiedPhotoCell: UITableViewCell {
         }
     }
     
+    override func layoutSubviews() {
+        self.subviews.forEach { subview in
+            let typeString = String(describing: type(of: subview))
+            guard typeString == Constants.deleteConfirmationView else { return }
+            
+            guard let target = imageStackView else { return }
+        
+            subview.frame.size.height = target.frame.size.height
+            subview.frame.origin.y = target.frame.origin.y
+        }
+    }
+    
     func update(date: String, location: String?) {
         numberOfPhotosLabel.text = date
         locationLabel.text = location
@@ -36,7 +48,10 @@ class ClassifiedPhotoCell: UITableViewCell {
             imageViews[index].image = photoImages[index]
         }
         imageStackView.subviews.first?.makeRoundBorder(degree: 16.0)
-        imageStackView.subviews.first?.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1)
+        imageStackView.subviews.first?.backgroundColor = UIColor(red: 243/255,
+                                                                 green: 243/255,
+                                                                 blue: 243/255,
+                                                                 alpha: 1)
     }
     
     func setLabel() {

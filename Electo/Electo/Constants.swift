@@ -76,4 +76,5 @@ struct Constants {
     static let numberOfTapsRequired: Int = 2
     static var dataAllowed: Bool = true
     static let fetchImageSize = CGSize(width: 150, height: 150)
+    static let deleteConfirmationView: String = "UITableViewCellDeleteConfirmationView"
 }
