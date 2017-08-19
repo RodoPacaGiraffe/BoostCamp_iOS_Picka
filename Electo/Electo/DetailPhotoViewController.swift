@@ -16,17 +16,27 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet var thumbnailCollectionView: UICollectionView!
     @IBOutlet var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet var flowLayout: UICollectionViewFlowLayout!
-    var moveToTempVCButtonItem: UIBarButtonItem?
+    @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
     
+    var moveToTempVCButtonItem: UIBarButtonItem?
     var thumbnailImages: [UIImage] = .init()
     var selectedSectionAssets: [PHAsset] = []
     var photoDataSource: PhotoDataSource?
     var pressedIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     var selectedPhotos: Int = 0
     var previousSelectedCell: DetailPhotoCell?
-    var identifier: String = ""
     var startPanGesturePoint: CGPoint = CGPoint()
     var currentImageViewPosition: CGPoint = CGPoint()
+    var isInitialFetchImage: Bool = true
+    
+    var identifier: String = "" {
+        didSet {
+            if identifier == "fromTemporaryViewController" {
+                navigationItem.setRightBarButtonItems(nil, animated: false)
+                panGestureRecognizer.isEnabled = false
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +46,14 @@ class DetailPhotoViewController: UIViewController {
         setNavigationButtonItem()
         
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
-                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+                                               name: Constants.removedAssetsFromPhotoLibrary,
+                                               object: nil)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: Constants.requiredReload, object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: Constants.removedAssetsFromPhotoLibrary,
+                                                  object: nil)
     }
     
     @objc func applyRemovedAssets(_ notification: Notification) {
@@ -74,9 +87,6 @@ class DetailPhotoViewController: UIViewController {
     private func setFlowLayout() {
         flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
         flowLayout.itemSize.width = flowLayout.itemSize.height
-        if identifier == "fromTemporaryViewController" {
-            navigationItem.setRightBarButtonItems(nil, animated: false)
-        }
     }
     
     private func updatePhotoIndex(direction: UISwipeGestureRecognizerDirection) {
@@ -158,6 +168,12 @@ class DetailPhotoViewController: UIViewController {
                     
                     detailVC.loadingIndicatorView.stopAnimating()
                     
+                    guard !detailVC.isInitialFetchImage else {
+                        detailVC.detailImageView.image = UIImage(data: fetchedData)
+                        detailVC.isInitialFetchImage = false
+                        return
+                    }
+                    
                     UIView.transition(with: detailVC.detailImageView, duration: 0.25,
                                       options: .transitionCrossDissolve,
                                       animations: {
@@ -193,7 +209,6 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
-
         let location = sender.translation(in: self.view)
 
         switch sender.state {
@@ -213,6 +228,7 @@ class DetailPhotoViewController: UIViewController {
                                                  y: zoomingScrollView.center.y)
                 break
             }
+            
             moveToTrashAnimation()
         default:
             break
