@@ -26,7 +26,7 @@ class DetailPhotoViewController: UIViewController {
     var previousSelectedCell: DetailPhotoCell?
     var identifier: String = ""
     var startPanGesturePoint: CGPoint = CGPoint()
-    
+    var currentImageViewPosition: CGPoint = CGPoint()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -191,29 +191,28 @@ class DetailPhotoViewController: UIViewController {
     @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
 
         let location = sender.translation(in: self.view)
-        
+        guard let navigationBarHeight = self.navigationController?.navigationBar.bounds.size.height else { return }
         switch sender.state {
         case .began:
-            startPanGesturePoint = location
-            setTranslucentToNavigationBar()
+            currentImageViewPosition = self.detailImageView.frame.origin
+        case .changed:
+            if location.y < -10 {
+              setTranslucentToNavigationBar()
+              detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
+                                                     y: location.y - navigationBarHeight)
+            }
         case .ended:
             guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
-                
                 self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
                 self.navigationController?.navigationBar.isTranslucent = false
-                
                 detailImageView.center = CGPoint(x: zoomingScrollView.center.x,
                                                  y: zoomingScrollView.center.y)
                 break
             }
-        
             moveToTrashAnimation()
-        case .changed:
-            detailImageView.frame.origin.y = location.y
         default:
             break
         }
-      
     }
     
     private func moveToTrashAnimation() {
@@ -249,11 +248,6 @@ class DetailPhotoViewController: UIViewController {
             detailVC.moveToNextPhoto()
         })
     }
-    
-    @IBAction func doubleTap(_ sender: UITapGestureRecognizer) {
-        self.zoomingScrollView.setZoomScale(1.0, animated: true)
-        self.detailImageView.contentMode = .scaleAspectFill
-    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "ModalRemovedPhotoVC" else { return }
@@ -274,9 +268,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
-        if previousSelectedCell == nil {
+         if indexPath == pressedIndexPath {
             cell.select()
-            previousSelectedCell = cell
+            selectedPhotos = pressedIndexPath.row
         } else if let selectedItems = collectionView.indexPathsForSelectedItems,
             selectedItems.contains(indexPath) {
             cell.select()
@@ -307,7 +301,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let thumbnailViewCell = collectionView.cellForItem(at: indexPath)
             as? DetailPhotoCell else { return }
-    
+
         previousSelectedCell?.deSelect()
         
         thumbnailViewCell.select()
@@ -318,6 +312,8 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
 
         selectedPhotos = indexPath.item
         fetchFullSizeImage(from: indexPath)
+        
+        self.navigationItem.title = selectedSectionAssets[indexPath.item].creationDate?.toDateString()
     }
 }
 
@@ -333,7 +329,6 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
 
 extension DetailPhotoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        otherGestureRecognizer.require(toFail: gestureRecognizer)
         return true
     }
 }

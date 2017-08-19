@@ -58,9 +58,7 @@ extension PhotoDataSource: UITableViewDataSource {
                             }
             }
         }
-        cell.dateLabel.text = "\(classifiedPhotoAsset.photoAssets.count) Photos"
-   
-        cell.locationLabel.text = classifiedPhotoAsset.location
+        cell.numberOfPhotosLabel.text = "\(classifiedPhotoAsset.photoAssets.count) Photos"
         
         return cell
     }

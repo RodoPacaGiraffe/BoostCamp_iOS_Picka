@@ -9,7 +9,7 @@
 import UIKit
 
 class ClassifiedPhotoCell: UITableViewCell {
-    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var numberOfPhotosLabel: UILabel!
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var imageStackView: UIStackView!
     @IBOutlet var imageViews: [UIImageView]!
@@ -22,7 +22,7 @@ class ClassifiedPhotoCell: UITableViewCell {
     }
     
     func update(date: String, location: String?) {
-        dateLabel.text = date
+        numberOfPhotosLabel.text = date
         locationLabel.text = location
     }
     
@@ -35,6 +35,8 @@ class ClassifiedPhotoCell: UITableViewCell {
             }
             imageViews[index].image = photoImages[index]
         }
+        imageStackView.subviews.first?.makeRoundBorder(degree: 16.0)
+        imageStackView.subviews.first?.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1)
     }
     
     func setLabel() {
@@ -50,6 +52,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         imageViews.forEach {
             $0.image = nil
         }
+
         moreImagesLabel.isHidden = true
         locationLabel.text = nil
     }

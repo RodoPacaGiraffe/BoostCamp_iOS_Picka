@@ -1,0 +1,18 @@
+
+/* Class = "UIButton"; normalTitle = "Recover Selected"; ObjectID = "Dk9-Mw-hsd"; */
+"Dk9-Mw-hsd.normalTitle" = "استعادة المختارة";
+
+/* Class = "UIBarButtonItem"; title = "Choose"; ObjectID = "dl6-xh-00s"; */
+"dl6-xh-00s.title" = "اختار";
+
+/* Class = "UIButton"; normalTitle = "Recover All"; ObjectID = "ltc-HR-n3Q"; */
+"ltc-HR-n3Q.normalTitle" = "استعادة جميع";
+
+/* Class = "UINavigationItem"; title = "To be deleted"; ObjectID = "sbp-bB-XVA"; */
+"sbp-bB-XVA.title" = "للحذف";
+
+/* Class = "UIButton"; normalTitle = "Delete Selected"; ObjectID = "sns-Ue-VMg"; */
+"sns-Ue-VMg.normalTitle" = "احذف المختار";
+
+/* Class = "UIButton"; normalTitle = "Delete All"; ObjectID = "y55-Ef-PtW"; */
+"y55-Ef-PtW.normalTitle" = "حذف الكل";

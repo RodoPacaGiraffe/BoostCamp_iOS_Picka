@@ -9,6 +9,12 @@
 import Foundation
 import Photos
 
+enum PhotoIndex: Int {
+    case first = 0
+    case second = 1
+    case third = 2
+    case fourth = 3
+}
 enum Order: String {
     case creationDate
 }
@@ -25,11 +31,28 @@ enum Difference {
     case day
     case intervalBoundary
 }
+
+enum GroupingInterval: Float {
+    case level1 = 30
+    case level2 = 60
+    case level3 = 90
+    case level4 = 120
+    case level5 = 150
+}
+
+struct Clustering {
+    static let interval1: Range<Float> = 30..<45
+    static let interval2: Range<Float> = 45..<75
+    static let interval3: Range<Float> = 75..<105
+    static let interval4: Range<Float> = 105..<135
+    static let interval5: Range<Float> = 135..<150
+}
+
 let cachingImageManager: PHCachingImageManager = PHCachingImageManager()
 
 struct Constants {
     static let cellIdentifier: String = "ClassifiedPhotoCell"
-    static let timeIntervalBoundary: TimeInterval = 90.0
+    static var timeIntervalBoundary: TimeInterval = 90.0
     static let maximumImageView: Int = 4
     static let stackViewSpacing: Int = 3
     static let temporaryPhotoAssetsIdentifier: String = "temporaryPhotoAssetsIdentifier"
