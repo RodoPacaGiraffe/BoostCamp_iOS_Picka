@@ -9,7 +9,7 @@
 import UIKit
 
 class ClassifiedPhotoCell: UITableViewCell {
-    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var numberOfPhotosLabel: UILabel!
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var imageStackView: UIStackView!
     @IBOutlet var imageViews: [UIImageView]!
@@ -22,7 +22,7 @@ class ClassifiedPhotoCell: UITableViewCell {
     }
     
     func update(date: String, location: String?) {
-        dateLabel.text = date
+        numberOfPhotosLabel.text = date
         locationLabel.text = location
     }
     
