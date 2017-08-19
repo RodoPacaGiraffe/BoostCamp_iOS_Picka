@@ -18,8 +18,3 @@ class ClassifiedPhotoAssets {
         self.photoAssetsArray = photoAssetsArray
     }
 }
-
-class ClassifiedGroup {
-    var photoAssets: [PHAsset] = []
-    var location: String = ""
-}

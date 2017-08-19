@@ -10,7 +10,6 @@ import UIKit
 import Photos
 
 class ClassifiedPhotoViewController: UIViewController {
-    //MARK: Properties
     @IBOutlet var tableView: UITableView!
     @IBOutlet var touchLocation: UIPanGestureRecognizer!
     
@@ -24,7 +23,6 @@ class ClassifiedPhotoViewController: UIViewController {
         return refreshControl
     }()
     
-    //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -103,16 +101,27 @@ class ClassifiedPhotoViewController: UIViewController {
     
 
     private func deniedAlert() {
-        let alertController = UIAlertController(title: "", message: "No Authorization", preferredStyle: .alert)
-        let goSettingAction = UIAlertAction(title: "Go Settings", style: .default) { (action) in
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        
+        let goSettingAction = UIAlertAction(title: "Go Settings", style: .default) {
+            (action) in
             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
             UIApplication.shared.open(url)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] (action) in
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) {
+            [weak self] (action) in
             self?.view.addSubview(EmptyView.instanceFromNib())
         }
-        alertController.addAction(goSettingAction)
+        
+        let titleString  = "No Authorization"
+        
+        alertController.setValue(titleString.getAttributedString(),
+                                 forKey: "attributedTitle")
+        
         alertController.addAction(cancelAction)
+        alertController.addAction(goSettingAction)
+        
         present(alertController, animated: true, completion: nil)
     }
     
@@ -231,7 +240,6 @@ class ClassifiedPhotoViewController: UIViewController {
         let selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         guard selectedCell.imageViews[selectedPhotoIndex].image != nil else {
-            print("hello")
              dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, 0)
             show(detailViewController, sender: self)
                 return
@@ -300,9 +308,8 @@ extension ClassifiedPhotoViewController {
 }
 
 extension ClassifiedPhotoViewController: SettingDelegate {
-    func groupingChnaged() {
+    func groupingChanged() {
         self.pullToRefresh()
-        print("new grouping")
     }
 }
 
