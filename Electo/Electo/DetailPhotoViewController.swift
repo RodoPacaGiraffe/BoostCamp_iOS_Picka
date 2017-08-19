@@ -271,6 +271,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
          if indexPath == pressedIndexPath {
             cell.select()
             selectedPhotos = pressedIndexPath.row
+            previousSelectedCell = cell
         } else if let selectedItems = collectionView.indexPathsForSelectedItems,
             selectedItems.contains(indexPath) {
             cell.select()
