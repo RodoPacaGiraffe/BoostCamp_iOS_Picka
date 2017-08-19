@@ -12,6 +12,7 @@ import Photos
 class ClassifiedPhotoViewController: UIViewController {
     //MARK: Properties
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var touchLocation: UIPanGestureRecognizer!
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
     var moveToTempVCButtonItem: UIBarButtonItem?
@@ -52,7 +53,7 @@ class ClassifiedPhotoViewController: UIViewController {
         super.viewWillAppear(animated)
         
         let count = photoDataSource.temporaryPhotoStore.photoAssets.count
-
+        
         moveToTempVCButtonItem?.updateBadge(With: count)
         tableView.reloadData()
         
@@ -139,7 +140,7 @@ class ClassifiedPhotoViewController: UIViewController {
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
             guard let path = Constants.archiveURL?.path else { return }
-
+            
             self?.fetchArchivedTemporaryPhotoStore(from: path)
         }
     }
@@ -200,9 +201,52 @@ class ClassifiedPhotoViewController: UIViewController {
         
         temporaryPhotoViewController.photoDataSource = photoDataSource
     }
-
+    
+    @objc private func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+            
+            guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
+            
+            self?.moveToTempVCButtonItem?.updateBadge(With: count)
+        }
+    }
+    
+    func getIndexOfSelectedPhoto(from sender: UIPanGestureRecognizer) -> Int {
+        let location = sender.location(in: self.view)
+        let bound = self.view.frame.width
+        
+        switch location.x {
+        case 0..<bound / 4:
+            return PhotoIndex.first.rawValue
+        case (bound / 4)..<(bound / 2):
+            return PhotoIndex.second.rawValue
+        case (bound / 2)..<(3 * bound / 4):
+            return PhotoIndex.third.rawValue
+        case (3 * bound / 4)..<(bound):
+            return PhotoIndex.fourth.rawValue
+        default:
+            return PhotoIndex.first.rawValue
+        }
+    }
+    
+    func showSelectedPhoto(at indexPath: IndexPath) {
+        
+        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
+        let selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
+        let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
+        guard selectedCell.imageViews[selectedPhotoIndex].image != nil else { return }
+        
+        detailViewController.photoDataSource = photoDataSource
+        detailViewController.selectedSectionAssets = photoDataSource.photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets
+        detailViewController.identifier = "fromClassifiedView"
+        detailViewController.thumbnailImages = selectedCell.cellImages
+        detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
+        show(detailViewController, sender: self)
+    }
+   
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
-       print(sender.state)
+        print(sender.state)
         if sender.isOn {
             let alertController = UIAlertController(title: "", message: "It will use network data", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
@@ -238,33 +282,21 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
             print("cell is not a photoCell")
             return
         }
-        
+
         photoCell.locationLabel.text = ""
         photoCell.clearStackView()
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-      
+        
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.font = UIFont.systemFont(ofSize: 14)
         header.contentView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.05)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
-      
-        detailViewController.photoDataSource = photoDataSource
-        detailViewController.selectedSectionAssets = photoDataSource.photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets
-       
-        detailViewController.identifier = "fromClassifiedView"
-        let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
-        detailViewController.thumbnailImages = selectedCell.cellImages
-        detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
-        
-        detailViewController.navigationItem.title = photoDataSource.photoStore
-            .classifiedPhotoAssets[indexPath.section].date.toDateString()
-        
-        show(detailViewController, sender: self)
+
+        showSelectedPhoto(at: indexPath)
     }
 }
 

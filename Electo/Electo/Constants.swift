@@ -9,6 +9,12 @@
 import Foundation
 import Photos
 
+enum PhotoIndex: Int {
+    case first = 0
+    case second = 1
+    case third = 2
+    case fourth = 3
+}
 enum Order: String {
     case creationDate
 }
