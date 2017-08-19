@@ -226,6 +226,9 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
         detailViewController.thumbnailImages = selectedCell.cellImages
         detailViewController.pressedIndexPath = IndexPath(row: 0, section: 0)
         
+        detailViewController.navigationItem.title = photoDataSource.photoStore
+            .classifiedPhotoAssets[indexPath.section].date.toDateString()
+        
         show(detailViewController, sender: self)
     }
 }

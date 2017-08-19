@@ -168,6 +168,9 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             guard let selectedThumbnailImage = photoCell.thumbnailImageView.image else { return }
             detailViewController.thumbnailImages.append(selectedThumbnailImage)
             detailViewController.pressedIndexPath = indexPath
+            
+            detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[indexPath.item]
+                .creationDate?.toDateString()
             show(detailViewController, sender: self)
         }
     }
