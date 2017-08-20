@@ -186,6 +186,7 @@ class DetailPhotoViewController: UIViewController {
 
     @IBAction func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
         updatePhotoIndex(direction: sender.direction)
+        print(selectedPhotos)
         
         let index = IndexPath(row: selectedPhotos, section: 0)
         
@@ -215,7 +216,7 @@ class DetailPhotoViewController: UIViewController {
         case .began:
             currentImageViewPosition = self.detailImageView.frame.origin
         case .changed:
-            if location.y < -10 {
+            if location.y < -20 || location.y > 20{
                 setTranslucentToNavigationBar()
                 detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
                                                      y: location.y )
@@ -288,13 +289,16 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
-         if indexPath == pressedIndexPath {
+        if  previousSelectedCell == nil && indexPath == pressedIndexPath  {
             cell.select()
             selectedPhotos = pressedIndexPath.row
             previousSelectedCell = cell
-        } else if let selectedItems = collectionView.indexPathsForSelectedItems,
-            selectedItems.contains(indexPath) {
-            cell.select()
+            
+        } else if indexPath == pressedIndexPath {
+                cell.select()
+                selectedPhotos = pressedIndexPath.row
+                previousSelectedCell = cell
+            
         } else {
             cell.deSelect()
         }
@@ -322,7 +326,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let thumbnailViewCell = collectionView.cellForItem(at: indexPath)
             as? DetailPhotoCell else { return }
-
+        
         previousSelectedCell?.deSelect()
         
         thumbnailViewCell.select()
