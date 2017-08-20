@@ -98,5 +98,7 @@ class SettingViewController: UITableViewController {
             activityViewController.excludedActivityTypes = [.airDrop, .addToReadingList, .copyToPasteboard]
             self.present(activityViewController, animated: true, completion: nil)
         }
+        
+        tableView.cellForRow(at: indexPath)?.isSelected = false
     }
 }
