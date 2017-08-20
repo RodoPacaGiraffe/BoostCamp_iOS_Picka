@@ -12,12 +12,12 @@ import MapKit
 
 extension PHAsset {
     @discardableResult func fetchImage(size: CGSize, contentMode: PHImageContentMode,
-                    options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
+                                       options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
         var imageRequestID: PHImageRequestID = .init()
         
         imageRequestID = cachingImageManager.requestImage(for: self, targetSize: size,
-            contentMode: contentMode, options: options) { image, _ in
-            resultHandler(image)
+                                                          contentMode: contentMode, options: options) { image, _ in
+                                                            resultHandler(image)
         }
         
         return imageRequestID
@@ -47,7 +47,7 @@ extension Date {
             return .none
         }
     }
-
+    
     func toDateString() -> String {
         let dateFormatter: DateFormatter = DateFormatter()
         
@@ -61,7 +61,7 @@ extension CLLocation {
     func reverseGeocode(completion: @escaping (_ locationString: String) -> Void) {
         let geoCoder = CLGeocoder()
         var locationString: String = .init()
-    
+        
         geoCoder.reverseGeocodeLocation(self, completionHandler: { placemarks, error in
             guard let addressDictionary = placemarks?[0].addressDictionary else { return }
             guard let country = addressDictionary[LocationKey.country.rawValue] as? String else { return }
@@ -110,7 +110,7 @@ extension UIBarButtonItem {
         label.textColor = .white
         label.backgroundColor = .red
         label.text = "\(temporaryPhotoAssetsCount)"
-     
+        
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         button.setImage(#imageLiteral(resourceName: "trash"), for: .normal)
         button.addSubview(label)
@@ -136,11 +136,11 @@ extension UIBarButtonItem {
         if let text = label.text, let previousCount = Int(text),
             previousCount < temporaryPhotoAssetsCount {
             UIView.animate(withDuration: 0.2,
-               animations: {
-                button.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                           animations: {
+                            button.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             },
-               completion: { _ in
-                button.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                           completion: { _ in
+                            button.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             })
         }
         
@@ -161,6 +161,12 @@ extension UIView {
         layer.cornerRadius = self.frame.height / degree
         layer.masksToBounds = true
     }
+    func fadeWithAlpha(of view: UIView, duration: Double, alpha: CGFloat) {
+        UIView.animate(withDuration: duration, animations: {
+            view.alpha = alpha
+        })
+    }
+    
 }
 
 extension String {

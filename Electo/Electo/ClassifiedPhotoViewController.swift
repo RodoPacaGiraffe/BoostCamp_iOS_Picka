@@ -51,17 +51,16 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func setScrollBar() {
+        tableView.showsVerticalScrollIndicator = false
         gesture.addTarget(self, action: #selector(touchToScroll))
         gesture.maximumNumberOfTouches = 1
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "Slider.png")
-        imageView.contentMode = .scaleAspectFit
-        tableView.showsVerticalScrollIndicator = false
-        customScrollView.frame = CGRect(x: self.view.frame.width - 15, y: tableView.contentOffset.y, width: 10, height: 50)
-        imageView.frame = CGRect(x: 0, y: 0, width: 10, height: 50)
+        customScrollView.frame = CGRect(x: self.view.frame.width - 20, y: tableView.contentOffset.y, width: 15, height: 15)
+        customScrollView.layer.cornerRadius = 7.5
+        customScrollView.backgroundColor = UIColor.lightGray
+        customScrollView.isHidden = true
+        customScrollView.alpha = 0
         
         self.view.addSubview(customScrollView)
-        customScrollView.addSubview(imageView)
         customScrollView.addGestureRecognizer(gesture)
     }
     
@@ -317,13 +316,24 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
 extension ClassifiedPhotoViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
-        
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
         fetchLocationToVisibleCells()
     }
     
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+          customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 1)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+          customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 1)
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+         customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
         fetchLocationToVisibleCells()
     }
+    
 }
 
 extension ClassifiedPhotoViewController: SettingDelegate {
@@ -340,26 +350,35 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
 
 extension ClassifiedPhotoViewController {
     func touchToScroll() {
-        
-        guard gesture.location(in: self.view).y + 64 < self.view.frame.height else {
+        guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
+
+        guard gesture.location(in: self.view).y + naviBarHeight < self.view.frame.height else {
+            customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
             tableView.contentOffset.y = tableView.contentSize.height - self.view.frame.height
             return
         }
-        
+
         guard gesture.location(in: self.view).y > 0 else {
+            customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
             tableView.contentOffset.y = 0
             return
         }
-        
+     
+        tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height), animated: false)
         customScrollView.frame.origin.y = gesture.location(in: self.view).y
-        tableView.contentOffset.y = (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height
-        
+        if gesture.state == .ended {
+            customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+        }
         
     }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        customScrollView.frame.origin.x = self.view.frame.width - 15
+        customScrollView.isHidden = false
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 1.0)
+
+        customScrollView.frame.origin.x = self.view.frame.width - 20
         customScrollView.frame.origin.y = (scrollView.contentOffset.y / scrollView.contentSize.height) * (self.view.frame.height - customScrollView.frame.size.height)
         
+
     }
 }
