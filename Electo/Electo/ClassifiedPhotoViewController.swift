@@ -47,7 +47,7 @@ class ClassifiedPhotoViewController: UIViewController {
         
         reloadData()
     }
-    
+
     private func setTableView() {
         tableView.dataSource = photoDataSource
         tableView.addSubview(refreshControl)

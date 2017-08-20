@@ -133,6 +133,17 @@ extension UIBarButtonItem {
         
         guard let labelIndex = index, let label = button.subviews[labelIndex] as? UILabel else { return }
         
+        if let text = label.text, let previousCount = Int(text),
+            previousCount < temporaryPhotoAssetsCount {
+            UIView.animate(withDuration: 0.2,
+               animations: {
+                button.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            },
+               completion: { _ in
+                button.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            })
+        }
+        
         label.text = "\(temporaryPhotoAssetsCount)"
         
         guard temporaryPhotoAssetsCount != 0 else {
