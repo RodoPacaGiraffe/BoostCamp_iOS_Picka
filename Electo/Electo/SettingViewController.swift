@@ -94,7 +94,7 @@ class SettingViewController: UITableViewController {
             let message = "Download The Best Photo Clean&Refine App."
             let url = URL(string: "https://naver.com")
             let activityViewController = UIActivityViewController(activityItems: [message, url], applicationActivities: nil)
-            activityViewController.excludedActivityTypes = [.airDrop, .addToReadingList]
+            activityViewController.excludedActivityTypes = [.airDrop, .addToReadingList, .copyToPasteboard]
             self.present(activityViewController, animated: true, completion: nil)
         }
     }
