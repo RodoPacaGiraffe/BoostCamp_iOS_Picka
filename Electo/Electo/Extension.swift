@@ -151,3 +151,13 @@ extension UIView {
         layer.masksToBounds = true
     }
 }
+
+extension String {
+    func getAttributedString() -> NSMutableAttributedString {
+        var titleAtributedString = NSMutableAttributedString()
+        
+        titleAtributedString = NSMutableAttributedString(string: self, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightThin)])
+        
+        return titleAtributedString
+    }
+}

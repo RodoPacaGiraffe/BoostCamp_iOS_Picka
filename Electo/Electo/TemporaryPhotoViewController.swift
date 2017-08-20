@@ -237,7 +237,6 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
             
-            //TODO: 이미지 전체 넘겨주기
             detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
             detailViewController.identifier = "fromTemporaryViewController"
             
@@ -247,6 +246,7 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             
             detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[
                 indexPath.item].creationDate?.toDateString()
+            
             show(detailViewController, sender: self)
         }
     }

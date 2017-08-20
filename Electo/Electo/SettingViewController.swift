@@ -8,12 +8,7 @@
 
 import UIKit
 
-protocol SettingDelegate: class {
-    func groupingChnaged()
-}
-
 class SettingViewController: UITableViewController {
-    
     @IBOutlet var slider: UISlider!
     @IBOutlet var dataAllowedSwitch: UISwitch!
     
@@ -24,7 +19,6 @@ class SettingViewController: UITableViewController {
         
         setSwitch()
         setSlider()
-        
     }
     
     @IBAction func sliderValueChanged(_ sender: UISlider) {
@@ -42,39 +36,46 @@ class SettingViewController: UITableViewController {
         }
         
         Constants.timeIntervalBoundary = Double(sender.value)
-        print(Constants.timeIntervalBoundary)
-        
+
         UserDefaults.standard.set(Constants.timeIntervalBoundary, forKey: "timeIntervalBoundary")
         UserDefaults.standard.synchronize()
         
-        self.settingDelegate?.groupingChnaged()
+        self.settingDelegate?.groupingChanged()
     }
     
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
-        if sender.isOn {
-            let alertController = UIAlertController(title: "", message: "It will use network data", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                Constants.dataAllowed = true
-                
-                UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
-                UserDefaults.standard.synchronize()
-            })
-            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: { (action) in
-                Constants.dataAllowed = false
-                
-                UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
-                UserDefaults.standard.synchronize()
-            })
-            alertController.addAction(okAction)
-            alertController.addAction(cancelAction)
-            print("on")
-            present(alertController, animated: true, completion: nil)
-        } else {
-            print("off")
+        guard sender.isOn else {
             Constants.dataAllowed = false
             UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
             UserDefaults.standard.synchronize()
+            return
         }
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        
+        let titleString  = "It will use network data"
+        
+        alertController.setValue(titleString.getAttributedString(),
+                                 forKey: "attributedTitle")
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            Constants.dataAllowed = true
+            
+            UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+            UserDefaults.standard.synchronize()
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) in
+            Constants.dataAllowed = false
+            
+            UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+            UserDefaults.standard.synchronize()
+        })
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     func setSwitch() {
