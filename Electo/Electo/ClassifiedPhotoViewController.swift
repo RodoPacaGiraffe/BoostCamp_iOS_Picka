@@ -15,6 +15,8 @@ class ClassifiedPhotoViewController: UIViewController {
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
     var moveToTempVCButtonItem: UIBarButtonItem?
+    let customScrollView = UIView()
+    let gesture = UIPanGestureRecognizer()
     private let loadingView = LoadingView.instanceFromNib()
     
     private let refreshControl: UIRefreshControl = {
@@ -25,7 +27,7 @@ class ClassifiedPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setScrollBar()
         setTableView()
         appearLoadingView()
         setNavigationButtonItem()
@@ -47,7 +49,22 @@ class ClassifiedPhotoViewController: UIViewController {
         
         reloadData()
     }
-
+    
+    private func setScrollBar() {
+        gesture.addTarget(self, action: #selector(touchToScroll))
+        gesture.maximumNumberOfTouches = 1
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Slider.png")
+        imageView.contentMode = .scaleAspectFit
+        tableView.showsVerticalScrollIndicator = false
+        customScrollView.frame = CGRect(x: self.view.frame.width - 15, y: tableView.contentOffset.y, width: 10, height: 50)
+        imageView.frame = CGRect(x: 0, y: 0, width: 10, height: 50)
+        
+        self.view.addSubview(customScrollView)
+        customScrollView.addSubview(imageView)
+        customScrollView.addGestureRecognizer(gesture)
+    }
+    
     private func setTableView() {
         tableView.dataSource = photoDataSource
         tableView.addSubview(refreshControl)
@@ -99,7 +116,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     
-
+    
     private func deniedAlert() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
@@ -126,6 +143,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func requestAuthorization() {
+        
         PHPhotoLibrary.requestAuthorization {
             [weak self] (authorizationStatus) -> Void in
             guard authorizationStatus == .authorized else {
@@ -136,9 +154,9 @@ class ClassifiedPhotoViewController: UIViewController {
             
             guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
             
-            cachingImageManager.startCachingImages(for: photoAssets,
-                                                   targetSize: Constants.fetchImageSize,
-                                                   contentMode: .aspectFill, options: nil)
+            //            cachingImageManager.startCachingImages(for: photoAssets,
+            //                                                   targetSize: Constants.fetchImageSize,
+            //                                                   contentMode: .aspectFill, options: nil)
             
             guard let path = Constants.archiveURL?.path else { return }
             
@@ -155,7 +173,7 @@ class ClassifiedPhotoViewController: UIViewController {
                     self?.disappearLoadingView()
                     return
             }
-
+            
             self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
             self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
             
@@ -240,9 +258,9 @@ class ClassifiedPhotoViewController: UIViewController {
         let selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         guard selectedCell.imageViews[selectedPhotoIndex].image != nil else {
-             dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, 0)
+            dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, 0)
             show(detailViewController, sender: self)
-                return
+            return
         }
         
         dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, selectedPhotoIndex)
@@ -277,7 +295,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
             print("cell is not a photoCell")
             return
         }
-
+        
         photoCell.locationLabel.text = ""
         photoCell.clearStackView()
     }
@@ -290,9 +308,10 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         showSelectedPhoto(at: indexPath)
     }
+    
 }
 
 extension ClassifiedPhotoViewController {
@@ -319,3 +338,28 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
     }
 }
 
+extension ClassifiedPhotoViewController {
+    func touchToScroll() {
+        
+        guard gesture.location(in: self.view).y + 64 < self.view.frame.height else {
+            tableView.contentOffset.y = tableView.contentSize.height - self.view.frame.height
+            return
+        }
+        
+        guard gesture.location(in: self.view).y > 0 else {
+            tableView.contentOffset.y = 0
+            return
+        }
+        
+        customScrollView.frame.origin.y = gesture.location(in: self.view).y
+        tableView.contentOffset.y = (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height
+        
+        
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        customScrollView.frame.origin.x = self.view.frame.width - 15
+        customScrollView.frame.origin.y = (scrollView.contentOffset.y / scrollView.contentSize.height) * (self.view.frame.height - customScrollView.frame.size.height)
+        
+    }
+}
