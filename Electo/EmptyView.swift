@@ -9,12 +9,12 @@
 import UIKit
 
 class EmptyView: UIView {
-    class func instanceFromNib() -> EmptyView {
+    class func instanceFromNib(frame: CGRect) -> EmptyView {
         guard let emptyView = UINib(nibName: "EmptyView", bundle: nil)
             .instantiate(withOwner: nil, options: nil).first as? EmptyView else {
             return EmptyView()
         }
-        
+        emptyView.frame = frame
         return emptyView
     }
 }

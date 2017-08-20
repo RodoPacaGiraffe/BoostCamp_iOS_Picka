@@ -15,7 +15,7 @@ class ClassifiedPhotoViewController: UIViewController {
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
     var moveToTempVCButtonItem: UIBarButtonItem?
-    private let loadingView = LoadingView.instanceFromNib()
+    private var loadingView: LoadingView = .init()
     
     private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -27,7 +27,6 @@ class ClassifiedPhotoViewController: UIViewController {
         super.viewDidLoad()
         
         setTableView()
-        appearLoadingView()
         setNavigationButtonItem()
         requestAuthorization()
         
@@ -54,7 +53,13 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func appearLoadingView() {
-        self.view.addSubview(loadingView)
+        DispatchQueue.main.async { [weak self] in
+            guard let windowFrame: CGRect = self?.view.window?.frame else { return }
+            self?.loadingView = LoadingView.instanceFromNib(frame: windowFrame)
+            
+            guard let loadingView = self?.loadingView else { return }
+            self?.view.addSubview(loadingView)
+        }
     }
     
     private func disappearLoadingView() {
@@ -111,7 +116,8 @@ class ClassifiedPhotoViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) {
             [weak self] (action) in
-            self?.view.addSubview(EmptyView.instanceFromNib())
+            guard let windowFrame = self?.view.window?.frame else { return }
+            self?.view.addSubview(EmptyView.instanceFromNib(frame: windowFrame))
         }
         
         let titleString  = "No Authorization"
@@ -132,6 +138,7 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.deniedAlert()
                 return
             }
+            self?.appearLoadingView() 
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
             guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
