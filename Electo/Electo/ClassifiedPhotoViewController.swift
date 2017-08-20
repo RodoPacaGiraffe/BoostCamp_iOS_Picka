@@ -117,7 +117,7 @@ class ClassifiedPhotoViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) {
             [weak self] (action) in
             guard let windowFrame = self?.view.window?.frame else { return }
-            self?.view.addSubview(EmptyView.instanceFromNib(frame: windowFrame))
+            self?.view.addSubview(EmptyView.instanceFromNib(situation: .noAuthorization, frame: windowFrame))
         }
         
         let titleString  = "No Authorization"
@@ -142,6 +142,14 @@ class ClassifiedPhotoViewController: UIViewController {
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
             guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
+            
+            guard let classifiedAssets = self?.photoDataSource.photoStore.classifiedPhotoAssets else { return }
+            if classifiedAssets.isEmpty {
+                guard let windowFrame = self?.view.window?.frame else { return }
+                DispatchQueue.main.async {
+                    self?.view.addSubview(EmptyView.instanceFromNib(situation: .noPhoto, frame: windowFrame))
+                }
+            }
             
             cachingImageManager.startCachingImages(for: photoAssets,
                                                    targetSize: Constants.fetchImageSize,
