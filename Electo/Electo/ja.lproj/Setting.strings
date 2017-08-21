@@ -1,12 +1,12 @@
 
+/* Class = "UINavigationitem"; title = "Settings"; ObjectID = "DgQ-3K-5oa"; */
+"DgQ-3K-5oa.title" = "設定";
+
 /* Class = "UILabel"; text = "How to Use"; ObjectID = "0yU-Xi-rJw"; */
 "0yU-Xi-rJw.text" = "使い方";
 
 /* Class = "UILabel"; text = "Grouping"; ObjectID = "1Qx-0d-DlA"; */
 "1Qx-0d-DlA.text" = "グループ化";
-
-/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "2iU-o0-EDj"; */
-"2iU-o0-EDj.title" = "セッティング";
 
 /* Class = "UILabel"; text = "Share"; ObjectID = "4oO-id-BoZ"; */
 "4oO-id-BoZ.text" = "シェア";
@@ -26,8 +26,8 @@
 /* Class = "UILabel"; text = "Allow iCloud Photo Download"; ObjectID = "Wd2-Hz-8Of"; */
 "Wd2-Hz-8Of.text" = "iCloud写真のダウンロードを許可";
 
-/* Class = "UILabel"; text = "Adjust the degree of grouping. "; ObjectID = "j7s-24-KIQ"; */
-"j7s-24-KIQ.text" = "グループ化の程度を調整します。";
+/* Class = "UILabel"; text = "Adjust the criteria for collecting photos."; ObjectID = "j7s-24-KIQ"; */
+"j7s-24-KIQ.text" = "写真を収集する基準を調整します。";
 
 /* Class = "UILabel"; text = "5"; ObjectID = "rO0-Ef-uly"; */
 "rO0-Ef-uly.text" = "5";

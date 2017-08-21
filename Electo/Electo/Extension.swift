@@ -50,8 +50,18 @@ extension Date {
     
     func toDateString() -> String {
         let dateFormatter: DateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+
+        guard let languageCode = Locale.current.languageCode else { return "" }
+        switch languageCode {
+        case "ko":
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
+        case "zh", "ja":
+            dateFormatter.dateFormat = "yyyy年 MM月 dd日 EEEE"
+        case "ar":
+            dateFormatter.dateFormat = "yyyy MM dd EEEE"
+        default:
+            dateFormatter.dateFormat = "E, d MMM yyyy"
+        }
         
         return dateFormatter.string(from: self)
     }

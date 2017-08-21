@@ -18,7 +18,7 @@ class ClassifiedPhotoViewController: UIViewController {
     let customScrollView = UIView()
     let scrollGesture = UIPanGestureRecognizer()
     let scrollingLabel = UILabel()
-    private let loadingView = LoadingView.instanceFromNib()
+    private var loadingView: LoadingView = .init()
     
     private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -31,7 +31,6 @@ class ClassifiedPhotoViewController: UIViewController {
         setScrollBar()
         setScrollDateLabel()
         setTableView()
-        appearLoadingView()
         setNavigationButtonItem()
         requestAuthorization()
         
@@ -92,7 +91,13 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func appearLoadingView() {
-        self.view.addSubview(loadingView)
+        DispatchQueue.main.async { [weak self] in
+            guard let windowFrame: CGRect = self?.view.window?.frame else { return }
+            self?.loadingView = LoadingView.instanceFromNib(frame: windowFrame)
+            
+            guard let loadingView = self?.loadingView else { return }
+            self?.view.addSubview(loadingView)
+        }
     }
     
     private func disappearLoadingView() {
@@ -149,7 +154,8 @@ class ClassifiedPhotoViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) {
             [weak self] (action) in
-            self?.view.addSubview(EmptyView.instanceFromNib())
+            guard let windowFrame = self?.view.window?.frame else { return }
+            self?.view.addSubview(EmptyView.instanceFromNib(situation: .noAuthorization, frame: windowFrame))
         }
         
         let titleString  = "No Authorization"
@@ -171,13 +177,21 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.deniedAlert()
                 return
             }
+            self?.appearLoadingView() 
             self?.photoDataSource.photoStore.fetchPhotoAsset()
-            
             guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
+  
+            guard let classifiedAssets = self?.photoDataSource.photoStore.classifiedPhotoAssets else { return }
+            if classifiedAssets.isEmpty {
+                guard let windowFrame = self?.view.window?.frame else { return }
+                DispatchQueue.main.async {
+                    self?.view.addSubview(EmptyView.instanceFromNib(situation: .noPhoto, frame: windowFrame))
+                }
+            }
             
-            //            cachingImageManager.startCachingImages(for: photoAssets,
-            //                                                   targetSize: Constants.fetchImageSize,
-            //                                                   contentMode: .aspectFill, options: nil)
+            cachingImageManager.startCachingImages(for: photoAssets,
+                                                   targetSize: Constants.fetchImageSize,
+                                                   contentMode: .aspectFill, options: nil)
             
             guard let path = Constants.archiveURL?.path else { return }
             
