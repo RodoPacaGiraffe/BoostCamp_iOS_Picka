@@ -9,6 +9,7 @@
 "UseiCloud" = "Use cellular data to download photos using icloud.";
 "%d Photos" = "%d Photos";
 "No Authorization" = "Electo requires access to a photo library.";
+"No Photo" = "No photos to organize";
 "Go Settings" = "Go Settings";
 "Cancel" = "Cancel";
 "OK" = "OK";
