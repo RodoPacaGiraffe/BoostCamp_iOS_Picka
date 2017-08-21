@@ -195,6 +195,10 @@ class DetailPhotoViewController: UIViewController {
         }
     }
 
+    @IBAction func deleteSelectPhotoButton(_ sender: UIButton) {
+         moveToTrashAnimation()
+    }
+    
     @IBAction private func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
         updatePhotoIndex(direction: sender.direction)
 
@@ -326,9 +330,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
             selectedPhotos = pressedIndexPath.row
             previousSelectedCell = cell
         } else if indexPath == pressedIndexPath {
-                cell.select()
-                selectedPhotos = pressedIndexPath.row
-                previousSelectedCell = cell
+            cell.select()
+            selectedPhotos = pressedIndexPath.row
+            previousSelectedCell = cell
             
         } else {
             cell.deSelect()
