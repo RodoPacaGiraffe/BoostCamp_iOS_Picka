@@ -8,7 +8,7 @@
 
 "UseiCloud" = "使用蜂窩數據使用的iCloud下載的照片。";
 "%d Photos" = "%d張照片";
-"No Authorization" = "無授權";
+"No Authorization" = "Electo需要存取相片庫。";
 "Go Settings" = "設置";
 "Cancel" = "取消";
 "OK" = "確認";

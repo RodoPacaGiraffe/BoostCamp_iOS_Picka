@@ -8,7 +8,7 @@
 
 "UseiCloud" = "携帯電話のデータを使用してicloudを利用した写真をダウンロードします。";
 "%d Photos" = "%d枚の写真";
-"No Authorization" = "承認なし";
+"No Authorization" = "Electoはフォトライブラリのアクセス権を必要とします。";
 "Go Settings" = "設定";
 "Cancel" = "キャンセル";
 "OK" = "確認";

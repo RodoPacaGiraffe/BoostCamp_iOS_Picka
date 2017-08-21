@@ -8,7 +8,7 @@
 
 "UseiCloud" = "استخدام البيانات الخلوية لتحميل الصور باستخدام على iCloud.";
 "%d Photos" = "صور %d";
-"No Authorization" = "لا تفويض";
+"No Authorization" = "Electo يتطلب الوصول مكتبة الصور.";
 "Go Settings" = "انتقل الإعدادات";
 "Cancel" = "إلغاء";
 "OK" = "التأكيد";

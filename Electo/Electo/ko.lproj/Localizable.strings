@@ -8,7 +8,7 @@
 
 "UseiCloud" = "셀룰러 데이터를 사용하여 iCloud를 이용한 사진 다운로드 합니다.";
 "%d Photos" = "%d Photos";
-"No Authorization" = "권한 없음";
+"No Authorization" = "Electo는 사진 라이브러리 접근 권한을 필요로 합니다.";
 "Go Settings" = "설정";
 "OK" = "확인";
 "Cancel" = "취소";
