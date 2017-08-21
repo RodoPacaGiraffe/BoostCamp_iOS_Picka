@@ -1,8 +1,11 @@
 
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "DgQ-3K-5oa"; */
+"DgQ-3K-5oa.title" = "إعدادات";
+
 /* Class = "UILabel"; text = "How to Use"; ObjectID = "0yU-Xi-rJw"; */
 "0yU-Xi-rJw.text" = "كيف تستعمل";
 
-/* Class = "UILabel"; text = "Grouping"; ObjectID = "1Qx-0d-DlA"; */
+/* Class = "UILabel"; text = "Grouping Interval"; ObjectID = "1Qx-0d-DlA"; */
 "1Qx-0d-DlA.text" = "تجمع";
 
 /* Class = "UILabel"; text = "1"; ObjectID = "29T-y5-LRi"; */
@@ -37,6 +40,9 @@
 
 /* Class = "UILabel"; text = "Adjust the degree of grouping. "; ObjectID = "j7s-24-KIQ"; */
 "j7s-24-KIQ.text" = "ضبط درجة التجميع";
+
+/* Class = "UILabel"; text = "Adjust the criteria for collecting photos."; ObjectID = "j7s-24-KIQ"; */
+"j7s-24-KIQ.text" = "ضبط معايير لجمع الصور.";
 
 /* Class = "UILabel"; text = "5"; ObjectID = "l2j-Lk-55D"; */
 "l2j-Lk-55D.text" = "5";

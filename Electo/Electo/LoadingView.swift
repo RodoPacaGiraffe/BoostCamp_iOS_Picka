@@ -13,15 +13,15 @@ class LoadingView: UIView {
     @IBOutlet var indicatorView: UIActivityIndicatorView!
     @IBOutlet var loadingImageView: UIImageView!
     
-    class func instanceFromNib() -> LoadingView {
+    class func instanceFromNib(frame: CGRect) -> LoadingView {
         guard let loadingView = UINib(nibName: "LoadingView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? LoadingView else {
             return LoadingView()
         }
-        
+        loadingView.frame = frame
         return loadingView
     }
     
     func stopIndicatorAnimating() {
-        indicatorView.stopAnimating()
+        indicatorView?.stopAnimating()
     }
 }

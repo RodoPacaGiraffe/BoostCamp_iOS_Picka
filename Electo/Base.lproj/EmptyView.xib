@@ -36,7 +36,11 @@
                 <constraint firstItem="7wk-fr-nYT" firstAttribute="top" secondItem="c32-65-oXs" secondAttribute="bottom" constant="50" id="q5z-ln-9Wc"/>
                 <constraint firstItem="7wk-fr-nYT" firstAttribute="centerX" secondItem="c32-65-oXs" secondAttribute="centerX" id="vDw-6o-JOh"/>
             </constraints>
-            <point key="canvasLocation" x="59.5" y="13.5"/>
+            <connections>
+                <outlet property="imageView" destination="7wk-fr-nYT" id="3dA-xO-dzT"/>
+                <outlet property="statementLabel" destination="c32-65-oXs" id="yvX-ne-7nc"/>
+            </connections>
+            <point key="canvasLocation" x="-8" y="-33"/>
         </view>
     </objects>
     <resources>

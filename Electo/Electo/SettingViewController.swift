@@ -19,6 +19,8 @@ class SettingViewController: UITableViewController {
         
         setSwitch()
         setSlider()
+        
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     @IBAction func sliderValueChanged(_ sender: UISlider) {
@@ -44,44 +46,52 @@ class SettingViewController: UITableViewController {
     }
     
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
-        guard sender.isOn else {
+        switch sender.isOn {
+        case false:
             Constants.dataAllowed = false
             UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
             UserDefaults.standard.synchronize()
-            return
-        }
-        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        
-        let titleString = NSLocalizedString("UseiCloud", comment: "")
-        
-        alertController.setValue(titleString.getAttributedString(),
-                                 forKey: "attributedTitle")
-        
-        let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+        case true:
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            
+            let titleString = NSLocalizedString("UseiCloud", comment: "")
+
+            alertController.setValue(titleString.getAttributedString(),
+                                     forKey: "attributedTitle")
+            
+            let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""),
                                      style: .default, handler: { (action) in
-            Constants.dataAllowed = true
+                Constants.dataAllowed = true
+                
+                UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+                UserDefaults.standard.synchronize()
+            })
             
-            UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
-            UserDefaults.standard.synchronize()
-        })
-        
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
                                          style: .destructive, handler: { (action) in
-            Constants.dataAllowed = false
+                sender.setOn(false, animated: true)
+                Constants.dataAllowed = false
+                
+                UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+                UserDefaults.standard.synchronize()
+            })
             
-            UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
-            UserDefaults.standard.synchronize()
-        })
-        
-        alertController.addAction(cancelAction)
-        alertController.addAction(okAction)
-        
-        present(alertController, animated: true, completion: nil)
+            alertController.addAction(cancelAction)
+            alertController.addAction(okAction)
+            
+            present(alertController, animated: true, completion: nil)
+
+        }
     }
     
+    @IBAction func modalDismiss(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     func setSwitch() {
-        let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? false
+        let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
+        
         dataAllowedSwitch.setOn(dataAllowed, animated: false)
     }
     
@@ -91,15 +101,20 @@ class SettingViewController: UITableViewController {
         slider.setValue(Float(timeIntervalBoundary), animated: false)
         
     }
-    
+}
+
+extension SettingViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath)
         if indexPath == IndexPath.init(row: 1, section: 1) {
             let message = "Download The Best Photo Clean&Refine App."
-            let url = URL(string: "https://naver.com")
-            let activityViewController = UIActivityViewController(activityItems: [message, url as Any], applicationActivities: nil)
+            guard let url: URL = URL(string: "https://naver.com") else { return }
+            
+            let activityViewController = UIActivityViewController(activityItems: [message, url], applicationActivities: nil)
             activityViewController.excludedActivityTypes = [.airDrop, .addToReadingList, .copyToPasteboard]
             self.present(activityViewController, animated: true, completion: nil)
         }
+        
+        tableView.cellForRow(at: indexPath)?.isSelected = false
     }
 }

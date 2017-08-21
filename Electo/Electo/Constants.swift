@@ -48,6 +48,11 @@ struct Clustering {
     static let interval5: Range<Float> = 135..<150
 }
 
+enum Situation {
+    case noPhoto
+    case noAuthorization
+}
+
 let cachingImageManager: PHCachingImageManager = PHCachingImageManager()
 
 struct Constants {
@@ -77,4 +82,5 @@ struct Constants {
     static var dataAllowed: Bool = true
     static let fetchImageSize = CGSize(width: 150, height: 150)
     static let deleteConfirmationView: String = "UITableViewCellDeleteConfirmationView"
+  
 }
