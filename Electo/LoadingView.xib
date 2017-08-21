@@ -22,11 +22,11 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="nQs-Ya-UL6">
-                            <rect key="frame" x="177.5" y="324" width="20" height="20"/>
+                            <rect key="frame" x="177.5" y="273.5" width="20" height="20"/>
                         </activityIndicatorView>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="nQs-Ya-UL6" firstAttribute="centerY" secondItem="FJd-pT-oN5" secondAttribute="centerY" id="Z3r-Cb-IGp"/>
+                        <constraint firstItem="nQs-Ya-UL6" firstAttribute="centerY" secondItem="FJd-pT-oN5" secondAttribute="centerY" constant="-50" id="Z3r-Cb-IGp"/>
                         <constraint firstItem="nQs-Ya-UL6" firstAttribute="centerX" secondItem="FJd-pT-oN5" secondAttribute="centerX" id="mpA-TY-Weh"/>
                     </constraints>
                 </view>
