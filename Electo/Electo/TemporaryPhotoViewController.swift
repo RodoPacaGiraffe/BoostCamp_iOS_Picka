@@ -15,6 +15,8 @@ class TemporaryPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
+    @IBOutlet var deleteSelectedButton: UIButton!
+    @IBOutlet var recoverSelectedButton: UIButton!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chooseButton: UIBarButtonItem!
@@ -63,7 +65,7 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    private func selectedPhotoAssets() -> [PHAsset] {
+    fileprivate func selectedPhotoAssets() -> [PHAsset] {
         guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return [] }
         guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return [] }
         
@@ -94,6 +96,10 @@ class TemporaryPhotoViewController: UIViewController {
     @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
         if selectMode == .off {
             selectMode = .on
+            if self.selectedPhotoAssets().isEmpty {
+                recoverSelectedButton.isEnabled = false
+                deleteSelectedButton.isEnabled = false
+            }
         } else {
             selectMode = .off
             
@@ -127,6 +133,7 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
+        
         recoverAlertController(title: "Recover Selected Photos") { (action) in
             guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
             temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
@@ -234,6 +241,8 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
         
         switch selectMode {
         case .on:
+            deleteSelectedButton.isEnabled = true
+            recoverSelectedButton.isEnabled = true
             photoCell.select()
         case .off:
             collectionView.deselectItem(at: indexPath, animated: true)
@@ -258,6 +267,10 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
         let photoCell = collectionView.cellForItem(at: indexPath)
             as? TemporaryPhotoCell ?? TemporaryPhotoCell()
         photoCell.deSelect()
+        if self.selectedPhotoAssets().isEmpty {
+            deleteSelectedButton.isEnabled = false
+            recoverSelectedButton.isEnabled = false
+        }
     }
 }
 

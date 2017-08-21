@@ -155,10 +155,12 @@ class DetailPhotoViewController: UIViewController {
 
                 guard self?.pressedIndexPath == indexPath else { return }
                 self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
-                self?.loadingIndicatorView.startAnimating()
+                if Constants.dataAllowed {
+                    self?.loadingIndicatorView.startAnimating()
+                }
             }
         }
-        
+      
         guard Constants.dataAllowed else {
             guard let thumbnailViewCell = self.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
             self.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
