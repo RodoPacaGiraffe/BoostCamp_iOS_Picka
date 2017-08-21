@@ -54,19 +54,21 @@ class SettingViewController: UITableViewController {
         case true:
             let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             
-            let titleString  = "It will use network data"
-            
+            let titleString = NSLocalizedString("UseiCloud", comment: "")
+
             alertController.setValue(titleString.getAttributedString(),
                                      forKey: "attributedTitle")
             
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+                                     style: .default, handler: { (action) in
                 Constants.dataAllowed = true
                 
                 UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
                 UserDefaults.standard.synchronize()
             })
             
-            let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) in
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                                         style: .destructive, handler: { (action) in
                 sender.setOn(false, animated: true)
                 Constants.dataAllowed = false
                 

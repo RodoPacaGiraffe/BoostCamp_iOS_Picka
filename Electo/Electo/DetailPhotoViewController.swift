@@ -216,7 +216,7 @@ class DetailPhotoViewController: UIViewController {
         case .began:
             currentImageViewPosition = self.detailImageView.frame.origin
         case .changed:
-            if location.y < -20 || location.y > 20{
+            if location.y < -30 || location.y > 30{
                 setTranslucentToNavigationBar()
                 detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
                                                      y: location.y )
@@ -240,13 +240,33 @@ class DetailPhotoViewController: UIViewController {
         guard let naviBarHeight = self.navigationController?.navigationBar.bounds.height else { return }
         
         let targetY = -(naviBarHeight / 2)
-        let targetX = thumbnailCollectionView.bounds.width
+        var targetX: CGFloat {
+            get {
+                guard Bundle.main.preferredLocalizations.first != "ar" else {
+                    return 20
+                }
+                
+                return thumbnailCollectionView.bounds.width
+            }
+        }
+        
+        var rotateDegree: CGFloat {
+            get {
+                guard Bundle.main.preferredLocalizations.first != "ar" else {
+                    return -45
+                }
+                
+                return 45
+            }
+        }
         
         UIView.animate(withDuration: 0.2,
         animations: { [weak self] in
             guard let detailVC = self else { return }
+            
             detailVC.detailImageView.center = CGPoint(x: targetX, y: targetY)
-            detailVC.detailImageView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+            detailVC.detailImageView.transform = CGAffineTransform(
+                scaleX: 0.001, y: 0.001).rotated(by: rotateDegree)
         }, completion: { [weak self] _ in
             guard let detailVC = self else { return }
             detailVC.navigationController?.navigationBar.isTranslucent = false
@@ -337,6 +357,9 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
 
         selectedPhotos = indexPath.item
         fetchFullSizeImage(from: indexPath)
+        
+        thumbnailCollectionView.selectItem(at: indexPath, animated: true,
+                                           scrollPosition: .centeredHorizontally)
         
         self.navigationItem.title = selectedSectionAssets[indexPath.item].creationDate?.toDateString()
     }

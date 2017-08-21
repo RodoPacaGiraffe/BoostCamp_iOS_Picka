@@ -29,7 +29,7 @@ class TemporaryPhotoViewController: UIViewController {
     fileprivate var selectMode: SelectMode = .off {
         didSet {
             toggleHiddenState(forViews: [buttonForEditStackView, buttonForNormalStackView])
-            chooseButton.title = selectMode.rawValue
+            chooseButton.title = NSLocalizedString(selectMode.rawValue, comment: "")
         }
     }
     
@@ -102,7 +102,7 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverAll(_ sender: UIButton) {
-        recoverAlertController(title: "Recover All Photos", message: "Recover All Photos") {
+        recoverAlertController(title: "Recover All Photos") {
             [weak self] (action) in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
@@ -127,7 +127,7 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
-        recoverAlertController(title: "Recover Selected Photos", message: "Recover Selected Photos") { (action) in
+        recoverAlertController(title: "Recover Selected Photos") { (action) in
             guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
             temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
             
@@ -160,11 +160,14 @@ class TemporaryPhotoViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    private func recoverAlertController(title: String, message: String,
+    private func recoverAlertController(title: String,
                                         completion: @escaping (UIAlertAction) -> Void) {
-        let alertController = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
-        let recoverAction = UIAlertAction(title: title, style: .default, handler: completion)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let recoverAction = UIAlertAction(title: NSLocalizedString(title, comment: ""),
+                                          style: .default, handler: completion)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                                         style: .destructive, handler: nil)
         
         alertController.addAction(recoverAction)
         alertController.addAction(cancelAction)

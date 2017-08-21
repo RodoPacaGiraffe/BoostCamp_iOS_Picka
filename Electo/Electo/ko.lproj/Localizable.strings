@@ -1,0 +1,17 @@
+/* 
+  LocalizableStrings (Korean).strings
+  Electo
+
+  Created by 임성훈 on 2017. 8. 20..
+  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
+*/
+
+"UseiCloud" = "셀룰러 데이터를 사용하여 iCloud를 이용한 사진 다운로드 합니다.";
+"%d Photos" = "%d Photos";
+"No Authorization" = "Electo는 사진 라이브러리 접근 권한을 필요로 합니다.";
+"Go Settings" = "설정";
+"OK" = "확인";
+"Cancel" = "취소";
+"Recover All Photos" = "모든 사진 복구";
+"Recover Selected Photos" = "선택된 사진 복구";
+"Choose" = "선택";

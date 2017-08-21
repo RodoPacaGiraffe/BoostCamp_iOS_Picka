@@ -49,9 +49,9 @@ extension Date {
     }
     
     func toDateString() -> String {
-        let dateFormatter: DateFormatter = DateFormatter()
+        let dateFormatter: DateFormatter = DateFormatter()        
 
-        guard let languageCode = Locale.current.languageCode else { return "" }
+        let languageCode = Locale.current.languageCode ?? "en"
         switch languageCode {
         case "ko":
             dateFormatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
