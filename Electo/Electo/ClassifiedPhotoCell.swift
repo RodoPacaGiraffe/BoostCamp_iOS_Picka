@@ -27,7 +27,7 @@ class ClassifiedPhotoCell: UITableViewCell {
             let typeString = String(describing: type(of: subview))
             guard typeString == Constants.deleteConfirmationView else { return }
             
-            guard let target = imageStackView else { return }
+            guard let target = imageContainerView else { return }
         
             subview.frame.size.height = target.frame.size.height
             subview.frame.origin.y = target.frame.origin.y

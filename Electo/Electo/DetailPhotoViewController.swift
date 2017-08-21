@@ -114,6 +114,10 @@ class DetailPhotoViewController: UIViewController {
         
         detailImageView.image = thumbnailImages.first
         
+        if Bundle.main.preferredLocalizations.first == "ar" {
+            thumbnailCollectionView.semanticContentAttribute = .forceRightToLeft
+        }
+        
         fetchFullSizeImage(from: pressedIndexPath)
         thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
@@ -145,7 +149,7 @@ class DetailPhotoViewController: UIViewController {
     func fetchFullSizeImage(from indexPath: IndexPath) {
         let options = PHImageRequestOptions()
         
-        options.setImageRequestOptions(networkAccessAllowed: true, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
+        options.setImageRequestOptions(networkAccessAllowed: Constants.dataAllowed, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
             DispatchQueue.main.async {
                 guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
 
@@ -186,12 +190,10 @@ class DetailPhotoViewController: UIViewController {
 
     @IBAction func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
         updatePhotoIndex(direction: sender.direction)
-        print(selectedPhotos)
-        
+
         let index = IndexPath(row: selectedPhotos, section: 0)
         
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
-        thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     func moveToNextPhoto() {
@@ -206,7 +208,6 @@ class DetailPhotoViewController: UIViewController {
         let index = IndexPath(row: selectedPhotos, section: 0)
         
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
-        thumbnailCollectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
@@ -309,11 +310,14 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
+        if Bundle.main.preferredLocalizations.first == "ar" {
+            cell.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        }
+        
         if  previousSelectedCell == nil && indexPath == pressedIndexPath  {
             cell.select()
             selectedPhotos = pressedIndexPath.row
             previousSelectedCell = cell
-            
         } else if indexPath == pressedIndexPath {
                 cell.select()
                 selectedPhotos = pressedIndexPath.row
