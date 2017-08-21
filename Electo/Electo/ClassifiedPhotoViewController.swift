@@ -33,11 +33,11 @@ class ClassifiedPhotoViewController: UIViewController {
         setTableView()
         setNavigationButtonItem()
         requestAuthorization()
-        
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
                                                name: Constants.requiredUpdatingBadge, object: nil)
+       
     }
     
     deinit {
@@ -49,6 +49,12 @@ class ClassifiedPhotoViewController: UIViewController {
         super.viewWillAppear(animated)
         
         reloadData()
+    }
+    
+    private func loadUserDefaultSetting() {
+        Constants.dataAllowed = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
+        Constants.timeIntervalBoundary = UserDefaults.standard.object(forKey:
+            "timeIntervalBoundary") as? Double ?? 180
     }
     
     private func setScrollBar() {
@@ -178,7 +184,8 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.deniedAlert()
                 return
             }
-            self?.appearLoadingView() 
+            self?.appearLoadingView()
+            self?.loadUserDefaultSetting()
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
   
