@@ -50,7 +50,7 @@ extension Date {
 
     func toDateString() -> String {
         let dateFormatter: DateFormatter = DateFormatter()
-        print(Locale.current.languageCode)
+
         guard let languageCode = Locale.current.languageCode else { return "" }
         switch languageCode {
         case "ko":

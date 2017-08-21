@@ -14,8 +14,7 @@ class ClassifiedPhotoViewController: UIViewController {
     @IBOutlet var touchLocation: UIPanGestureRecognizer!
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
-    var moveToTempVCButtonItem: UIBarButtonItem = .init()
-    var searchBarItem: UIBarButtonItem = .init()
+    var moveToTempVCButtonItem: UIBarButtonItem?
     private let loadingView = LoadingView.instanceFromNib()
     
     private let refreshControl: UIRefreshControl = {
@@ -68,13 +67,11 @@ class ClassifiedPhotoViewController: UIViewController {
     private func setNavigationButtonItem() {
         moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: 0)
         
-        moveToTempVCButtonItem.addButtonTarget(target: self,
+        moveToTempVCButtonItem?.addButtonTarget(target: self,
                                                 action: #selector (moveToTemporaryViewController),
                                                 for: .touchUpInside)
         
-        searchBarItem = UIBarButtonItem.init(barButtonSystemItem: .search, target: nil, action: nil)
-        
-        self.navigationItem.setRightBarButtonItems([moveToTempVCButtonItem, searchBarItem], animated: true)
+        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
     }
     
     @objc func pullToRefresh() {
@@ -96,7 +93,7 @@ class ClassifiedPhotoViewController: UIViewController {
             
             guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
             
-            self?.moveToTempVCButtonItem.updateBadge(With: count)
+            self?.moveToTempVCButtonItem?.updateBadge(With: count)
             self?.fetchLocationToVisibleCells()
         }
     }
@@ -216,7 +213,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     @objc private func updateBadge() {
-        moveToTempVCButtonItem.updateBadge(With: photoDataSource.temporaryPhotoStore.photoAssets.count)
+        moveToTempVCButtonItem?.updateBadge(With: photoDataSource.temporaryPhotoStore.photoAssets.count)
     }
     
     func getIndexOfSelectedPhoto(from sender: UIPanGestureRecognizer) -> Int {
