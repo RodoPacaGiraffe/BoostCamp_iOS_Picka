@@ -1,0 +1,17 @@
+/* 
+  LocalizableStrings (Korean).strings
+  Electo
+
+  Created by 임성훈 on 2017. 8. 20..
+  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
+*/
+
+"UseiCloud" = "Use cellular data to download photos using icloud.";
+"%d Photos" = "%d Photos";
+"No Authorization" = "No Authorization";
+"Go Settings" = "Go Settings";
+"Cancel" = "Cancel";
+"OK" = "OK";
+"Recover All Photos" = "Recover All Photos";
+"Recover Selected Photos" = "Recover Selected Photos";
+"Choose" = "Choose";

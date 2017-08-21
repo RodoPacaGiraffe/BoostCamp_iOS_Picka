@@ -53,19 +53,21 @@ class SettingViewController: UITableViewController {
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
-        let titleString  = "It will use network data"
+        let titleString = NSLocalizedString("UseiCloud", comment: "")
         
         alertController.setValue(titleString.getAttributedString(),
                                  forKey: "attributedTitle")
         
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+                                     style: .default, handler: { (action) in
             Constants.dataAllowed = true
             
             UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
             UserDefaults.standard.synchronize()
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                                         style: .destructive, handler: { (action) in
             Constants.dataAllowed = false
             
             UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
@@ -89,12 +91,13 @@ class SettingViewController: UITableViewController {
         slider.setValue(Float(timeIntervalBoundary), animated: false)
         
     }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath)
         if indexPath == IndexPath.init(row: 1, section: 1) {
             let message = "Download The Best Photo Clean&Refine App."
             let url = URL(string: "https://naver.com")
-            let activityViewController = UIActivityViewController(activityItems: [message, url], applicationActivities: nil)
+            let activityViewController = UIActivityViewController(activityItems: [message, url as Any], applicationActivities: nil)
             activityViewController.excludedActivityTypes = [.airDrop, .addToReadingList, .copyToPasteboard]
             self.present(activityViewController, animated: true, completion: nil)
         }

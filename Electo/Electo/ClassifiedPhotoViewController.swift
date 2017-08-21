@@ -103,18 +103,19 @@ class ClassifiedPhotoViewController: UIViewController {
     private func deniedAlert() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
-        let goSettingAction = UIAlertAction(title: "Go Settings", style: .default) {
-            (action) in
+        let goSettingAction = UIAlertAction(title: NSLocalizedString("Go Settings", comment: ""),
+                style: .default) { _ in
             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
             UIApplication.shared.open(url)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) {
-            [weak self] (action) in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                style: .destructive) {
+            [weak self] _ in
             self?.view.addSubview(EmptyView.instanceFromNib())
         }
         
-        let titleString  = "No Authorization"
+        let titleString  = NSLocalizedString("No Authorization", comment: "")
         
         alertController.setValue(titleString.getAttributedString(),
                                  forKey: "attributedTitle")

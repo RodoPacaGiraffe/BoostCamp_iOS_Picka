@@ -58,8 +58,11 @@ extension PhotoDataSource: UITableViewDataSource {
                             }
             }
         }
-        cell.numberOfPhotosLabel.text = "\(classifiedPhotoAsset.photoAssets.count) Photos"
         
+        let localizedString = NSLocalizedString("%d Photos", comment: "")
+        cell.numberOfPhotosLabel.text = String(format: localizedString,
+                                               classifiedPhotoAsset.photoAssets.count)
+
         return cell
     }
     
