@@ -149,7 +149,7 @@ class DetailPhotoViewController: UIViewController {
     func fetchFullSizeImage(from indexPath: IndexPath) {
         let options = PHImageRequestOptions()
         
-        options.setImageRequestOptions(networkAccessAllowed: true, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
+        options.setImageRequestOptions(networkAccessAllowed: Constants.dataAllowed, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
             DispatchQueue.main.async {
                 guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
 
