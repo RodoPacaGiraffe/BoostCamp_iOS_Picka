@@ -63,10 +63,10 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="30" minValue="30" maxValue="150" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQQ-K4-gD0">
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="90" minValue="30" maxValue="150" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQQ-K4-gD0">
                                                     <rect key="frame" x="23" y="64" width="329" height="31"/>
-                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="thumbTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="tintColor" red="0.31743339159559969" green="0.31743339159559969" blue="0.31743339159559969" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <color key="thumbTintColor" red="0.36087408661842346" green="0.36086675524711609" blue="0.36087173223495483" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <connections>
                                                         <action selector="sliderValueChanged:" destination="lZz-3f-zf2" eventType="valueChanged" id="bMc-IM-sib"/>
                                                     </connections>

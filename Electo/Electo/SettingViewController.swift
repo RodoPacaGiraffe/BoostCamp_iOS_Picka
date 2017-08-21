@@ -46,38 +46,40 @@ class SettingViewController: UITableViewController {
     }
     
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
-        guard sender.isOn else {
+        switch sender.isOn {
+        case false:
             Constants.dataAllowed = false
             UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
             UserDefaults.standard.synchronize()
-            return
+        case true:
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            
+            let titleString  = "It will use network data"
+            
+            alertController.setValue(titleString.getAttributedString(),
+                                     forKey: "attributedTitle")
+            
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                Constants.dataAllowed = true
+                
+                UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+                UserDefaults.standard.synchronize()
+            })
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) in
+                sender.setOn(false, animated: true)
+                Constants.dataAllowed = false
+                
+                UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+                UserDefaults.standard.synchronize()
+            })
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(okAction)
+            
+            present(alertController, animated: true, completion: nil)
+
         }
-        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        
-        let titleString  = "It will use network data"
-        
-        alertController.setValue(titleString.getAttributedString(),
-                                 forKey: "attributedTitle")
-        
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            Constants.dataAllowed = true
-            
-            UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
-            UserDefaults.standard.synchronize()
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) in
-            Constants.dataAllowed = false
-            
-            UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
-            UserDefaults.standard.synchronize()
-        })
-        
-        alertController.addAction(cancelAction)
-        alertController.addAction(okAction)
-        
-        present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func modalDismiss(_ sender: UIBarButtonItem) {
@@ -86,7 +88,8 @@ class SettingViewController: UITableViewController {
     
     
     func setSwitch() {
-        let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? false
+        let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
+        
         dataAllowedSwitch.setOn(dataAllowed, animated: false)
     }
     
