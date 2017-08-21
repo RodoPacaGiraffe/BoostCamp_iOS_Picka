@@ -15,6 +15,9 @@ class ClassifiedPhotoViewController: UIViewController {
     
     var photoDataSource: PhotoDataSource = PhotoDataSource()
     var moveToTempVCButtonItem: UIBarButtonItem?
+    let customScrollView = UIView()
+    let scrollGesture = UIPanGestureRecognizer()
+    let scrollingLabel = UILabel()
     private var loadingView: LoadingView = .init()
     
     private let refreshControl: UIRefreshControl = {
@@ -25,7 +28,8 @@ class ClassifiedPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setScrollBar()
+        setScrollDateLabel()
         setTableView()
         setNavigationButtonItem()
         requestAuthorization()
@@ -46,7 +50,41 @@ class ClassifiedPhotoViewController: UIViewController {
         
         reloadData()
     }
-
+    
+    private func setScrollBar() {
+        tableView.showsVerticalScrollIndicator = false
+        scrollGesture.addTarget(self, action: #selector(touchToScroll))
+        scrollGesture.maximumNumberOfTouches = 1
+        if Bundle.main.preferredLocalizations.first == "ar" {
+            customScrollView.frame = CGRect(x: 3, y: tableView.contentOffset.y, width: 20, height: 40)
+        } else {
+            customScrollView.frame = CGRect(x: self.view.frame.width - 17, y: tableView.contentOffset.y, width: 20, height: 40)
+        }
+        customScrollView.layer.cornerRadius = 10
+        customScrollView.isHidden = true
+        customScrollView.alpha = 0.5
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Slider.png")
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 0, y: 0, width: 15, height: 30)
+        
+        
+        self.view.addSubview(customScrollView)
+        customScrollView.addSubview(imageView)
+        customScrollView.addGestureRecognizer(scrollGesture)
+    }
+    
+    private func setScrollDateLabel() {
+        scrollingLabel.frame = CGRect(x: self.view.frame.width / 4, y: self.view.center.y - 100, width: self.view.frame.width / 2, height: 50)
+        scrollingLabel.text = "Day"
+        scrollingLabel.isHidden = true
+        scrollingLabel.backgroundColor = UIColor.lightGray
+        scrollingLabel.textAlignment = .center
+        scrollingLabel.makeRoundBorder(degree: 5)
+        self.view.addSubview(scrollingLabel)
+    }
+    
     private func setTableView() {
         tableView.dataSource = photoDataSource
         tableView.addSubview(refreshControl)
@@ -104,7 +142,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     
-
+    
     private func deniedAlert() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
@@ -132,6 +170,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func requestAuthorization() {
+        
         PHPhotoLibrary.requestAuthorization {
             [weak self] (authorizationStatus) -> Void in
             guard authorizationStatus == .authorized else {
@@ -140,9 +179,8 @@ class ClassifiedPhotoViewController: UIViewController {
             }
             self?.appearLoadingView() 
             self?.photoDataSource.photoStore.fetchPhotoAsset()
-            
             guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
-            
+  
             guard let classifiedAssets = self?.photoDataSource.photoStore.classifiedPhotoAssets else { return }
             if classifiedAssets.isEmpty {
                 guard let windowFrame = self?.view.window?.frame else { return }
@@ -170,7 +208,7 @@ class ClassifiedPhotoViewController: UIViewController {
                     self?.disappearLoadingView()
                     return
             }
-
+            
             self?.photoDataSource.temporaryPhotoStore = archivedtemporaryPhotoStore
             self?.photoDataSource.temporaryPhotoStore.fetchPhotoAsset()
             
@@ -255,9 +293,9 @@ class ClassifiedPhotoViewController: UIViewController {
         let selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
         guard selectedCell.imageViews[selectedPhotoIndex].image != nil else {
-             dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, 0)
+            dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, 0)
             show(detailViewController, sender: self)
-                return
+            return
         }
         
         dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, selectedPhotoIndex)
@@ -292,7 +330,7 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
             print("cell is not a photoCell")
             return
         }
-
+        
         photoCell.locationLabel.text = ""
         photoCell.clearStackView()
     }
@@ -305,21 +343,38 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         showSelectedPhoto(at: indexPath)
     }
+    
 }
 
 extension ClassifiedPhotoViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
-        
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
         fetchLocationToVisibleCells()
     }
+    
+    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
+        
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
+    }
+    
+    
 }
 
 extension ClassifiedPhotoViewController: SettingDelegate {
@@ -334,3 +389,49 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
     }
 }
 
+extension ClassifiedPhotoViewController {
+    func touchToScroll() {
+        
+        guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
+        if let indexPath = tableView.indexPathForRow(at: tableView.contentOffset)  {
+            scrollingLabel.isHidden = false
+            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.5, alpha: 1)
+            scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
+        }
+        
+        if scrollGesture.location(in: self.view).y + naviBarHeight > self.view.frame.height {
+            scrollingLabel.text = tableView.headerView(forSection: tableView.numberOfSections - 1)?.textLabel?.text
+            animatingLabelAndIndicator()
+            tableView.contentOffset.y = tableView.contentSize.height - self.view.frame.height
+            
+        } else if scrollGesture.location(in: self.view).y < 0 {
+            scrollingLabel.text = tableView.headerView(forSection: 0)?.textLabel?.text
+            animatingLabelAndIndicator()
+            tableView.contentOffset.y = 0
+            
+        } else {
+            tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height), animated: false)
+            customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
+            if scrollGesture.state == .ended {
+                animatingLabelAndIndicator()
+            }
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        customScrollView.isHidden = false
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
+        
+        guard customScrollView.frame.origin.y < self.view.frame.height else { return }
+        // 전체 tableview 컨텐츠 사이즈에서 contentOffset 비율계산 
+        // -> (scrollView.contentOffset.y / scrollView.contentSize.hieght
+        // 위 식을 self.view 의 높이만큼을 곱하여 화면 높이에 맞게 정규화.
+        customScrollView.frame.origin.y = (scrollView.contentOffset.y / (scrollView.contentSize.height - self.view.frame.height)) * (self.view.frame.height - customScrollView.frame.size.height)
+        
+    }
+    
+    func animatingLabelAndIndicator() {
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
+        scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.5, alpha: 0)
+    }
+}
