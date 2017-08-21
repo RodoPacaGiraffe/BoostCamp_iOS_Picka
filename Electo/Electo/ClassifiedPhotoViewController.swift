@@ -77,7 +77,6 @@ class ClassifiedPhotoViewController: UIViewController {
     
     private func setScrollDateLabel() {
         scrollingLabel.frame = CGRect(x: self.view.frame.width / 4, y: self.view.center.y - 100, width: self.view.frame.width / 2, height: 50)
-        scrollingLabel.text = "Day"
         scrollingLabel.isHidden = true
         scrollingLabel.backgroundColor = UIColor.lightGray
         scrollingLabel.textAlignment = .center
