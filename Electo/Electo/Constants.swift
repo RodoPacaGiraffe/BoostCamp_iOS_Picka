@@ -15,6 +15,7 @@ enum PhotoIndex: Int {
     case third = 2
     case fourth = 3
 }
+
 enum Order: String {
     case creationDate
 }
@@ -33,19 +34,19 @@ enum Difference {
 }
 
 enum GroupingInterval: Float {
-    case level1 = 30
-    case level2 = 60
-    case level3 = 90
-    case level4 = 120
-    case level5 = 150
+    case level1 = 60
+    case level2 = 120
+    case level3 = 180
+    case level4 = 240
+    case level5 = 300
 }
 
 struct Clustering {
-    static let interval1: Range<Float> = 30..<45
-    static let interval2: Range<Float> = 45..<75
-    static let interval3: Range<Float> = 75..<105
-    static let interval4: Range<Float> = 105..<135
-    static let interval5: Range<Float> = 135..<150
+    static let interval1: Range<Float> = 60..<90
+    static let interval2: Range<Float> = 90..<150
+    static let interval3: Range<Float> = 150..<210
+    static let interval4: Range<Float> = 210..<270
+    static let interval5: Range<Float> = 270..<300
 }
 
 enum Situation {
