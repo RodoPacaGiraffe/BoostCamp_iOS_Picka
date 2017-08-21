@@ -56,7 +56,7 @@ class ClassifiedPhotoViewController: UIViewController {
         gesture.maximumNumberOfTouches = 1
         customScrollView.frame = CGRect(x: self.view.frame.width - 20, y: tableView.contentOffset.y, width: 15, height: 15)
         customScrollView.layer.cornerRadius = 7.5
-        customScrollView.backgroundColor = UIColor.lightGray
+        customScrollView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
         customScrollView.isHidden = true
         customScrollView.alpha = 0
         
@@ -320,19 +320,23 @@ extension ClassifiedPhotoViewController {
         fetchLocationToVisibleCells()
     }
     
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+        fetchLocationToVisibleCells()
+    }
+
+    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+    }
+    
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-          customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 1)
+          customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 0.8)
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-          customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 1)
+          customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 0.8)
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
-         customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
-        fetchLocationToVisibleCells()
-    }
     
 }
 
@@ -374,7 +378,7 @@ extension ClassifiedPhotoViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         customScrollView.isHidden = false
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 1.0)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 0.8)
 
         customScrollView.frame.origin.x = self.view.frame.width - 20
         customScrollView.frame.origin.y = (scrollView.contentOffset.y / scrollView.contentSize.height) * (self.view.frame.height - customScrollView.frame.size.height)
