@@ -160,7 +160,13 @@ class DetailPhotoViewController: UIViewController {
                 }
             }
         }
-       
+      
+        guard Constants.dataAllowed else {
+            guard let thumbnailViewCell = self.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
+            self.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
+            return
+        }
+        
         let photoAsset: PHAsset = selectedSectionAssets[indexPath.item]
         
         DispatchQueue.global().async { [weak self] _ -> Void in

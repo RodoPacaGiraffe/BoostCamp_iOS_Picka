@@ -33,11 +33,11 @@ class ClassifiedPhotoViewController: UIViewController {
         setTableView()
         setNavigationButtonItem()
         requestAuthorization()
-        
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
                                                name: Constants.requiredUpdatingBadge, object: nil)
+       
     }
     
     deinit {
@@ -49,6 +49,12 @@ class ClassifiedPhotoViewController: UIViewController {
         super.viewWillAppear(animated)
         
         reloadData()
+    }
+    
+    private func loadUserDefaultSetting() {
+        Constants.dataAllowed = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
+        Constants.timeIntervalBoundary = UserDefaults.standard.object(forKey:
+            "timeIntervalBoundary") as? Double ?? 180
     }
     
     private func setScrollBar() {
@@ -178,7 +184,8 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.deniedAlert()
                 return
             }
-            self?.appearLoadingView() 
+            self?.appearLoadingView()
+            self?.loadUserDefaultSetting()
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
   
@@ -296,13 +303,29 @@ class ClassifiedPhotoViewController: UIViewController {
     func showSelectedPhoto(at indexPath: IndexPath) {
         
         guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
-        let selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
+        var selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
         let selectedCell = tableView.cellForRow(at: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell.init()
+        
+        if Locale.current.languageCode == "ar" {
+            selectedPhotoIndex = Constants.maximumImageView - selectedPhotoIndex - 1
+            
+            guard selectedCell.imageViews[selectedPhotoIndex].image != nil else {
+                dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, 0)
+                show(detailViewController, sender: self)
+                return
+            }
+            dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath,
+                              selectedPhotoIndex)
+            show(detailViewController, sender: self)
+            return
+        }
+        
         guard selectedCell.imageViews[selectedPhotoIndex].image != nil else {
             dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, 0)
             show(detailViewController, sender: self)
             return
         }
+        
         
         dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, selectedPhotoIndex)
         show(detailViewController, sender: self)
