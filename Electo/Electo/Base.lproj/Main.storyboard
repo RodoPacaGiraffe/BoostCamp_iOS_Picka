@@ -135,7 +135,7 @@
                     <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
                         <barButtonItem key="leftBarButtonItem" image="Settings" id="97q-k1-UQh">
                             <connections>
-                                <segue destination="fDP-Yq-zDr" kind="show" identifier="PressedSetting" id="NRV-d7-QnV"/>
+                                <segue destination="fDP-Yq-zDr" kind="presentation" identifier="PressedSetting" id="NRV-d7-QnV"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

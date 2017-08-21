@@ -80,6 +80,11 @@ class SettingViewController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    @IBAction func modalDismiss(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     func setSwitch() {
         let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? false
         dataAllowedSwitch.setOn(dataAllowed, animated: false)
