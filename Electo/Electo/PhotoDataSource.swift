@@ -45,11 +45,9 @@ extension PhotoDataSource: UITableViewDataSource {
         
         var fetchedImages: [UIImage] = .init()
         
-        let options: PHImageRequestOptions = .init()
-        options.isSynchronous = true
         classifiedPhotoAsset.photoAssets.forEach {
             $0.fetchImage(size: Constants.fetchImageSize,
-                          contentMode: .aspectFill, options: options) { photoImage in
+                          contentMode: .aspectFill, options: nil) { photoImage in
                             guard let photoImage = photoImage else { return }
                             fetchedImages.append(photoImage)
                             

@@ -143,6 +143,15 @@ extension UIBarButtonItem {
         
         guard let labelIndex = index, let label = button.subviews[labelIndex] as? UILabel else { return }
         
+        guard temporaryPhotoAssetsCount != 0 else {
+            label.isHidden = true
+            self.isEnabled = false
+            return
+        }
+        
+        self.isEnabled = true
+        label.isHidden = false
+        
         if let text = label.text, let previousCount = Int(text),
             previousCount < temporaryPhotoAssetsCount {
             UIView.animate(withDuration: 0.2,
@@ -155,13 +164,6 @@ extension UIBarButtonItem {
         }
         
         label.text = "\(temporaryPhotoAssetsCount)"
-        
-        guard temporaryPhotoAssetsCount != 0 else {
-            self.isEnabled = false
-            return
-        }
-        
-        self.isEnabled = true
     }
 }
 

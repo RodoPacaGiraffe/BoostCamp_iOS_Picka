@@ -136,9 +136,8 @@ class DetailPhotoViewController: UIViewController {
         moveToTempVCButtonItem?.addButtonTarget(target: self,
                                                 action: #selector (moveToTemporaryViewController),
                                                 for: .touchUpInside)
-        
+    
         self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
-        
         self.navigationItem.title = selectedSectionAssets.first?.creationDate?.toDateString()
     }
     
@@ -146,7 +145,7 @@ class DetailPhotoViewController: UIViewController {
         performSegue(withIdentifier: "ModalRemovedPhotoVC", sender: self)
     }
     
-    func fetchFullSizeImage(from indexPath: IndexPath) {
+    fileprivate func fetchFullSizeImage(from indexPath: IndexPath) {
         let options = PHImageRequestOptions()
         
         options.setImageRequestOptions(networkAccessAllowed: Constants.dataAllowed, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
@@ -188,7 +187,7 @@ class DetailPhotoViewController: UIViewController {
         }
     }
 
-    @IBAction func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
+    @IBAction private func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
         updatePhotoIndex(direction: sender.direction)
 
         let index = IndexPath(row: selectedPhotos, section: 0)
@@ -196,7 +195,7 @@ class DetailPhotoViewController: UIViewController {
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
     }
     
-    func moveToNextPhoto() {
+    private func moveToNextPhoto() {
         guard !selectedSectionAssets.isEmpty else {
             self.navigationController?.popViewController(animated: true)
             return
@@ -210,7 +209,7 @@ class DetailPhotoViewController: UIViewController {
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
     }
     
-    @IBAction func panGestureAction(_ sender: UIPanGestureRecognizer) {
+    @IBAction private func panGestureAction(_ sender: UIPanGestureRecognizer) {
         let location = sender.translation(in: self.view)
 
         switch sender.state {

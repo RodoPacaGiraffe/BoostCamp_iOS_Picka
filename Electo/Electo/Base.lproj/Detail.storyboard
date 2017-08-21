@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -124,14 +124,7 @@
                             <constraint firstAttribute="trailing" secondItem="0wh-SJ-JHc" secondAttribute="trailing" constant="15" id="yR7-MW-aPA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="pHw-bZ-KCK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="wBI-hn-2Pe">
-                            <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <segue destination="Daf-So-tGF" kind="presentation" identifier="ModalRemovedPhotoVC" id="d9n-Aw-Px8"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="pHw-bZ-KCK"/>
                     <connections>
                         <outlet property="detailImageView" destination="y6d-An-LKm" id="Kpc-Xe-bxx"/>
                         <outlet property="flowLayout" destination="tdY-X4-OQb" id="CZ2-6L-IsE"/>
@@ -139,6 +132,7 @@
                         <outlet property="panGestureRecognizer" destination="Brx-js-aPc" id="82h-8F-jq6"/>
                         <outlet property="thumbnailCollectionView" destination="0wh-SJ-JHc" id="ye4-kY-E3y"/>
                         <outlet property="zoomingScrollView" destination="w7C-Zz-CO8" id="gFQ-B4-RjO"/>
+                        <segue destination="Daf-So-tGF" kind="presentation" identifier="ModalRemovedPhotoVC" id="dw9-VX-ycv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vM-D0-mbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -169,7 +163,7 @@
                 <viewControllerPlaceholder storyboardName="Temporary" id="Daf-So-tGF" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7c-Np-be1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3933" y="-228"/>
+            <point key="canvasLocation" x="3952" y="-228"/>
         </scene>
     </scenes>
 </document>
