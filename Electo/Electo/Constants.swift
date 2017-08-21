@@ -15,6 +15,7 @@ enum PhotoIndex: Int {
     case third = 2
     case fourth = 3
 }
+
 enum Order: String {
     case creationDate
 }
