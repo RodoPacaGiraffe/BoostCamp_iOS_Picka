@@ -19,6 +19,8 @@ class SettingViewController: UITableViewController {
         
         setSwitch()
         setSlider()
+        
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     @IBAction func sliderValueChanged(_ sender: UISlider) {
