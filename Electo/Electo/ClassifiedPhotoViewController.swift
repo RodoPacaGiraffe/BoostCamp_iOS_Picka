@@ -16,7 +16,8 @@ class ClassifiedPhotoViewController: UIViewController {
     var photoDataSource: PhotoDataSource = PhotoDataSource()
     var moveToTempVCButtonItem: UIBarButtonItem?
     let customScrollView = UIView()
-    let gesture = UIPanGestureRecognizer()
+    let scrollGesture = UIPanGestureRecognizer()
+    let scrollingLabel = UILabel()
     private let loadingView = LoadingView.instanceFromNib()
     
     private let refreshControl: UIRefreshControl = {
@@ -52,16 +53,22 @@ class ClassifiedPhotoViewController: UIViewController {
     
     private func setScrollBar() {
         tableView.showsVerticalScrollIndicator = false
-        gesture.addTarget(self, action: #selector(touchToScroll))
-        gesture.maximumNumberOfTouches = 1
-        customScrollView.frame = CGRect(x: self.view.frame.width - 20, y: tableView.contentOffset.y, width: 15, height: 15)
-        customScrollView.layer.cornerRadius = 7.5
+        scrollGesture.addTarget(self, action: #selector(touchToScroll))
+        scrollGesture.maximumNumberOfTouches = 1
+        customScrollView.frame = CGRect(x: self.view.frame.width - 22, y: tableView.contentOffset.y, width: 20, height: 20)
+        customScrollView.layer.cornerRadius = 10
         customScrollView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
         customScrollView.isHidden = true
         customScrollView.alpha = 0
-        
+        scrollingLabel.frame = CGRect(x: self.view.frame.width / 4, y: self.view.center.y - 100, width: self.view.frame.width / 2, height: 50)
+        scrollingLabel.text = "Day"
+        scrollingLabel.isHidden = true
+        scrollingLabel.backgroundColor = UIColor.lightGray
+        scrollingLabel.textAlignment = .center
+        scrollingLabel.makeRoundBorder(degree: 5)
+        self.view.addSubview(scrollingLabel)
         self.view.addSubview(customScrollView)
-        customScrollView.addGestureRecognizer(gesture)
+        customScrollView.addGestureRecognizer(scrollGesture)
     }
     
     private func setTableView() {
@@ -355,23 +362,33 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
 extension ClassifiedPhotoViewController {
     func touchToScroll() {
         guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
-
-        guard gesture.location(in: self.view).y + naviBarHeight < self.view.frame.height else {
+        guard let indexPath = tableView.indexPathForRow(at: tableView.contentOffset) else { return }
+        guard scrollGesture.location(in: self.view).y + naviBarHeight < self.view.frame.height else {
+            
+            scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
             customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 1, alpha: 0)
             tableView.contentOffset.y = tableView.contentSize.height - self.view.frame.height
             return
         }
 
-        guard gesture.location(in: self.view).y > 0 else {
+        guard scrollGesture.location(in: self.view).y > 0 else {
+            scrollingLabel.text = tableView.headerView(forSection: 0)?.textLabel?.text
             customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+             scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 1, alpha: 0)
             tableView.contentOffset.y = 0
             return
         }
-     
+        
+        scrollingLabel.isHidden = false
+        scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 1, alpha: 0.8)
+        scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
+        
         tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height), animated: false)
-        customScrollView.frame.origin.y = gesture.location(in: self.view).y
-        if gesture.state == .ended {
+        customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
+        if scrollGesture.state == .ended {
             customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 1, alpha: 0)
         }
         
     }
@@ -380,7 +397,7 @@ extension ClassifiedPhotoViewController {
         customScrollView.isHidden = false
         customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 0.8)
 
-        customScrollView.frame.origin.x = self.view.frame.width - 20
+        customScrollView.frame.origin.x = self.view.frame.width - 22
         customScrollView.frame.origin.y = (scrollView.contentOffset.y / scrollView.contentSize.height) * (self.view.frame.height - customScrollView.frame.size.height)
         
 
