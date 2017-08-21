@@ -240,13 +240,33 @@ class DetailPhotoViewController: UIViewController {
         guard let naviBarHeight = self.navigationController?.navigationBar.bounds.height else { return }
         
         let targetY = -(naviBarHeight / 2)
-        let targetX = thumbnailCollectionView.bounds.width
+        var targetX: CGFloat {
+            get {
+                guard Bundle.main.preferredLocalizations.first != "ar" else {
+                    return 20
+                }
+                
+                return thumbnailCollectionView.bounds.width
+            }
+        }
+        
+        var rotateDegree: CGFloat {
+            get {
+                guard Bundle.main.preferredLocalizations.first != "ar" else {
+                    return -45
+                }
+                
+                return 45
+            }
+        }
         
         UIView.animate(withDuration: 0.2,
         animations: { [weak self] in
             guard let detailVC = self else { return }
+            
             detailVC.detailImageView.center = CGPoint(x: targetX, y: targetY)
-            detailVC.detailImageView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001).rotated(by: 45)
+            detailVC.detailImageView.transform = CGAffineTransform(
+                scaleX: 0.001, y: 0.001).rotated(by: rotateDegree)
         }, completion: { [weak self] _ in
             guard let detailVC = self else { return }
             detailVC.navigationController?.navigationBar.isTranslucent = false
