@@ -385,26 +385,23 @@ extension ClassifiedPhotoViewController {
             scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
         }
         
-        guard scrollGesture.location(in: self.view).y + naviBarHeight < self.view.frame.height else {
+        if scrollGesture.location(in: self.view).y + naviBarHeight > self.view.frame.height {
             scrollingLabel.text = tableView.headerView(forSection: tableView.numberOfSections - 1)?.textLabel?.text
             animatingLabelAndIndicator()
             tableView.contentOffset.y = tableView.contentSize.height - self.view.frame.height
-            return
-        }
-        
-        guard scrollGesture.location(in: self.view).y > 0 else {
+            
+        } else if scrollGesture.location(in: self.view).y < 0 {
             scrollingLabel.text = tableView.headerView(forSection: 0)?.textLabel?.text
             animatingLabelAndIndicator()
             tableView.contentOffset.y = 0
-            return
+            
+        } else {
+            tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height), animated: false)
+            customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
+            if scrollGesture.state == .ended {
+                animatingLabelAndIndicator()
+            }
         }
-        
-        tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height), animated: false)
-        customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
-        if scrollGesture.state == .ended {
-            animatingLabelAndIndicator()
-        }
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -412,6 +409,9 @@ extension ClassifiedPhotoViewController {
         customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorAppearDuration, alpha: 0.8)
         
         guard customScrollView.frame.origin.y < self.view.frame.height else { return }
+        // 전체 tableview 컨텐츠 사이즈에서 contentOffset 비율계산 
+        // -> (scrollView.contentOffset.y / scrollView.contentSize.hieght
+        // 위 식을 self.view 의 높이만큼을 곱하여 화면 높이에 맞게 정규화.
         customScrollView.frame.origin.y = (scrollView.contentOffset.y / (scrollView.contentSize.height - self.view.frame.height)) * (self.view.frame.height - customScrollView.frame.size.height)
         
     }
