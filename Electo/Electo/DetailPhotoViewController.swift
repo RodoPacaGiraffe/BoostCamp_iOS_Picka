@@ -155,10 +155,12 @@ class DetailPhotoViewController: UIViewController {
 
                 guard self?.pressedIndexPath == indexPath else { return }
                 self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
-                self?.loadingIndicatorView.startAnimating()
+                if Constants.dataAllowed {
+                    self?.loadingIndicatorView.startAnimating()
+                }
             }
         }
-        
+       
         let photoAsset: PHAsset = selectedSectionAssets[indexPath.item]
         
         DispatchQueue.global().async { [weak self] _ -> Void in

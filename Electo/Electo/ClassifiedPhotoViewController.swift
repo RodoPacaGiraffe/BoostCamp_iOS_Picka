@@ -271,10 +271,15 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     func getIndexOfSelectedPhoto(from sender: UIPanGestureRecognizer) -> Int {
-        let location = sender.location(in: self.view)
+        var location: CGFloat = 0
         let bound = self.view.frame.width
         
-        switch location.x {
+        if Bundle.main.preferredLocalizations.first == "ar" {
+            location = self.view.frame.width - sender.location(in: self.view).x
+        } else {
+            location = sender.location(in: self.view).x
+        }
+        switch location {
         case 0..<bound / 4:
             return PhotoIndex.first.rawValue
         case (bound / 4)..<(bound / 2):
