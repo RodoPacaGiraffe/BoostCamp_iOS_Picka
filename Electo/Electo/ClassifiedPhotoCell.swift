@@ -11,6 +11,7 @@ import UIKit
 class ClassifiedPhotoCell: UITableViewCell {
     @IBOutlet var numberOfPhotosLabel: UILabel!
     @IBOutlet var locationLabel: UILabel!
+    @IBOutlet var imageContainerView: UIView!
     @IBOutlet var imageStackView: UIStackView!
     @IBOutlet var imageViews: [UIImageView]!
     @IBOutlet var moreImagesLabel: UILabel!
@@ -47,8 +48,8 @@ class ClassifiedPhotoCell: UITableViewCell {
             }
             imageViews[index].image = photoImages[index]
         }
-        imageStackView.subviews.first?.makeRoundBorder(degree: 16.0)
-        imageStackView.subviews.first?.backgroundColor = UIColor(red: 243/255,
+        self.imageContainerView.makeRoundBorder(degree: 16.0)
+        self.imageContainerView.backgroundColor = UIColor(red: 243/255,
                                                                  green: 243/255,
                                                                  blue: 243/255,
                                                                  alpha: 1)
