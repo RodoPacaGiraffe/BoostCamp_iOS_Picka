@@ -29,6 +29,7 @@ class ClassifiedPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setScrollBar()
+        setScrollDateLabel()
         setTableView()
         appearLoadingView()
         setNavigationButtonItem()
@@ -55,11 +56,24 @@ class ClassifiedPhotoViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
         scrollGesture.addTarget(self, action: #selector(touchToScroll))
         scrollGesture.maximumNumberOfTouches = 1
-        customScrollView.frame = CGRect(x: self.view.frame.width - 22, y: tableView.contentOffset.y, width: 20, height: 20)
+        customScrollView.frame = CGRect(x: self.view.frame.width - 17, y: tableView.contentOffset.y, width: 20, height: 40)
         customScrollView.layer.cornerRadius = 10
-        customScrollView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
+        
         customScrollView.isHidden = true
-        customScrollView.alpha = 0
+        customScrollView.alpha = 0.5
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Slider.png")
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 0, y: 0, width: 15, height: 30)
+        
+        
+        self.view.addSubview(customScrollView)
+        customScrollView.addSubview(imageView)
+        customScrollView.addGestureRecognizer(scrollGesture)
+    }
+    
+    private func setScrollDateLabel() {
         scrollingLabel.frame = CGRect(x: self.view.frame.width / 4, y: self.view.center.y - 100, width: self.view.frame.width / 2, height: 50)
         scrollingLabel.text = "Day"
         scrollingLabel.isHidden = true
@@ -67,8 +81,6 @@ class ClassifiedPhotoViewController: UIViewController {
         scrollingLabel.textAlignment = .center
         scrollingLabel.makeRoundBorder(degree: 5)
         self.view.addSubview(scrollingLabel)
-        self.view.addSubview(customScrollView)
-        customScrollView.addGestureRecognizer(scrollGesture)
     }
     
     private func setTableView() {
@@ -323,25 +335,26 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
 extension ClassifiedPhotoViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorRemoveDuration, alpha: Constants.hiddenAlpha)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorRemoveDuration, alpha: Constants.hiddenAlpha)
         fetchLocationToVisibleCells()
     }
-
+    
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorRemoveDuration, alpha: Constants.hiddenAlpha)
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-          customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 0.8)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorAppearDuration, alpha: Constants.appearAlpha)
+        
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-          customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 0.8)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorAppearDuration, alpha: Constants.appearAlpha)
     }
     
     
@@ -361,45 +374,53 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
 
 extension ClassifiedPhotoViewController {
     func touchToScroll() {
+        print("touch")
+
         guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
-        guard let indexPath = tableView.indexPathForRow(at: tableView.contentOffset) else { return }
+        if let indexPath = tableView.indexPathForRow(at: tableView.contentOffset)  {
+            scrollingLabel.isHidden = false
+            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: Constants.scrollLabelAppearDuration, alpha: Constants.scrollLabelAppearAlpha)
+            scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
+        }
+        
         guard scrollGesture.location(in: self.view).y + naviBarHeight < self.view.frame.height else {
             
-            scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
-            customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
-            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 1, alpha: 0)
+            scrollingLabel.text = tableView.headerView(forSection: tableView.numberOfSections - 1)?.textLabel?.text
+            animatingLabelAndIndicator()
             tableView.contentOffset.y = tableView.contentSize.height - self.view.frame.height
             return
         }
-
+        
         guard scrollGesture.location(in: self.view).y > 0 else {
             scrollingLabel.text = tableView.headerView(forSection: 0)?.textLabel?.text
-            customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
-             scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 1, alpha: 0)
+            animatingLabelAndIndicator()
             tableView.contentOffset.y = 0
             return
         }
         
-        scrollingLabel.isHidden = false
-        scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 1, alpha: 0.8)
-        scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
         
         tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height), animated: false)
         customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
         if scrollGesture.state == .ended {
-            customScrollView.fadeWithAlpha(of: customScrollView, duration: 1, alpha: 0)
-            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 1, alpha: 0)
+           animatingLabelAndIndicator()
         }
         
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         customScrollView.isHidden = false
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.3, alpha: 0.8)
-
-        customScrollView.frame.origin.x = self.view.frame.width - 22
-        customScrollView.frame.origin.y = (scrollView.contentOffset.y / scrollView.contentSize.height) * (self.view.frame.height - customScrollView.frame.size.height)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorAppearDuration, alpha: 0.8)
         
-
+        guard customScrollView.frame.origin.y < self.view.frame.height else { return }
+        customScrollView.frame.origin.x = self.view.frame.width - 17
+        customScrollView.frame.origin.y = (scrollView.contentOffset.y / (scrollView.contentSize.height - self.view.frame.height)) * (self.view.frame.height - customScrollView.frame.size.height)
+        
+        
+        
+    }
+    
+    func animatingLabelAndIndicator() {
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorRemoveDuration, alpha: Constants.hiddenAlpha)
+        scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: Constants.scrollLabelHiddenDuration, alpha: Constants.scrollLabelHiddenAlpha)
     }
 }
