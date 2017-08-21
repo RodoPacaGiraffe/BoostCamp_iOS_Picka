@@ -33,7 +33,6 @@ class ClassifiedPhotoViewController: UIViewController {
         setTableView()
         setNavigationButtonItem()
         requestAuthorization()
-        loadUserDefaultSetting()
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
@@ -185,7 +184,8 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.deniedAlert()
                 return
             }
-            self?.appearLoadingView() 
+            self?.appearLoadingView()
+            self?.loadUserDefaultSetting()
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
   
