@@ -56,9 +56,12 @@ class ClassifiedPhotoViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
         scrollGesture.addTarget(self, action: #selector(touchToScroll))
         scrollGesture.maximumNumberOfTouches = 1
-        customScrollView.frame = CGRect(x: self.view.frame.width - 17, y: tableView.contentOffset.y, width: 20, height: 40)
+        if Bundle.main.preferredLocalizations.first == "ar" {
+            customScrollView.frame = CGRect(x: 3, y: tableView.contentOffset.y, width: 20, height: 40)
+        } else {
+            customScrollView.frame = CGRect(x: self.view.frame.width - 17, y: tableView.contentOffset.y, width: 20, height: 40)
+        }
         customScrollView.layer.cornerRadius = 10
-        
         customScrollView.isHidden = true
         customScrollView.alpha = 0.5
         
@@ -374,8 +377,7 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
 
 extension ClassifiedPhotoViewController {
     func touchToScroll() {
-        print("touch")
-
+        
         guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
         if let indexPath = tableView.indexPathForRow(at: tableView.contentOffset)  {
             scrollingLabel.isHidden = false
@@ -384,7 +386,6 @@ extension ClassifiedPhotoViewController {
         }
         
         guard scrollGesture.location(in: self.view).y + naviBarHeight < self.view.frame.height else {
-            
             scrollingLabel.text = tableView.headerView(forSection: tableView.numberOfSections - 1)?.textLabel?.text
             animatingLabelAndIndicator()
             tableView.contentOffset.y = tableView.contentSize.height - self.view.frame.height
@@ -398,11 +399,10 @@ extension ClassifiedPhotoViewController {
             return
         }
         
-        
         tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / (self.view.frame.height - customScrollView.frame.size.height)) * tableView.contentSize.height), animated: false)
         customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
         if scrollGesture.state == .ended {
-           animatingLabelAndIndicator()
+            animatingLabelAndIndicator()
         }
         
     }
@@ -412,10 +412,7 @@ extension ClassifiedPhotoViewController {
         customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorAppearDuration, alpha: 0.8)
         
         guard customScrollView.frame.origin.y < self.view.frame.height else { return }
-        customScrollView.frame.origin.x = self.view.frame.width - 17
         customScrollView.frame.origin.y = (scrollView.contentOffset.y / (scrollView.contentSize.height - self.view.frame.height)) * (self.view.frame.height - customScrollView.frame.size.height)
-        
-        
         
     }
     
