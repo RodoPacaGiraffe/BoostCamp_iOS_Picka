@@ -77,12 +77,5 @@ struct Constants {
     static var dataAllowed: Bool = true
     static let fetchImageSize = CGSize(width: 150, height: 150)
     static let deleteConfirmationView: String = "UITableViewCellDeleteConfirmationView"
-    static let scrollIndicatorRemoveDuration: Double = 0.5
-    static let scrollIndicatorAppearDuration: Double = 0.3
-    static let scrollLabelAppearDuration: Double = 0.5
-    static let scrollLabelHiddenDuration: Double = 0.5
-    static let appearAlpha: CGFloat = 1.0
-    static let hiddenAlpha: CGFloat = 0.5
-    static let scrollLabelAppearAlpha: CGFloat = 1.0
-    static let scrollLabelHiddenAlpha: CGFloat = 0.0
+  
 }

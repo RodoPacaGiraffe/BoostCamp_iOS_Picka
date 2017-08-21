@@ -338,26 +338,26 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
 extension ClassifiedPhotoViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorRemoveDuration, alpha: Constants.hiddenAlpha)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorRemoveDuration, alpha: Constants.hiddenAlpha)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorRemoveDuration, alpha: Constants.hiddenAlpha)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorAppearDuration, alpha: Constants.appearAlpha)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
         
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorAppearDuration, alpha: Constants.appearAlpha)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
     }
     
     
@@ -381,7 +381,7 @@ extension ClassifiedPhotoViewController {
         guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
         if let indexPath = tableView.indexPathForRow(at: tableView.contentOffset)  {
             scrollingLabel.isHidden = false
-            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: Constants.scrollLabelAppearDuration, alpha: Constants.scrollLabelAppearAlpha)
+            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.5, alpha: 1)
             scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
         }
         
@@ -406,7 +406,7 @@ extension ClassifiedPhotoViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         customScrollView.isHidden = false
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorAppearDuration, alpha: 0.8)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
         
         guard customScrollView.frame.origin.y < self.view.frame.height else { return }
         // 전체 tableview 컨텐츠 사이즈에서 contentOffset 비율계산 
@@ -417,7 +417,7 @@ extension ClassifiedPhotoViewController {
     }
     
     func animatingLabelAndIndicator() {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: Constants.scrollIndicatorRemoveDuration, alpha: Constants.hiddenAlpha)
-        scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: Constants.scrollLabelHiddenDuration, alpha: Constants.scrollLabelHiddenAlpha)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
+        scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.5, alpha: 0)
     }
 }
