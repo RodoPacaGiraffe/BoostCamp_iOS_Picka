@@ -18,6 +18,7 @@ class EmptyView: UIView {
             .instantiate(withOwner: nil, options: nil).first as? EmptyView else {
             return EmptyView()
         }
+        
         emptyView.frame = frame
         emptyView.setEmptyView(accordingTo: situation)
         return emptyView
@@ -26,10 +27,10 @@ class EmptyView: UIView {
     func setEmptyView(accordingTo situation: Situation) {
         switch situation {
         case .noAuthorization:
-            statementLabel.text = "Please allow to access photo library."
+            statementLabel.text = NSLocalizedString("No Authorization", comment: "")
             imageView.image = #imageLiteral(resourceName: "Photo")
         case .noPhoto:
-            statementLabel.text = "There are no photos to be classified."
+            statementLabel.text = NSLocalizedString("No Authorization", comment: "")
             imageView.image = #imageLiteral(resourceName: "Photo")
         }
     }
