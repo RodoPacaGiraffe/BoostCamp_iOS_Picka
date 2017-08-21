@@ -260,7 +260,9 @@ class ClassifiedPhotoViewController: UIViewController {
                     as? TemporaryPhotoViewController else { return }
             temporaryPhotoViewController.photoDataSource = photoDataSource
         case "PressedSetting":
-            guard let settingViewController = segue.destination as? SettingViewController else { return }
+            guard let navigationController = segue.destination as? UINavigationController,
+                let settingViewController = navigationController.topViewController
+                    as? SettingViewController else { return }
             settingViewController.settingDelegate = self
         default:
             break
