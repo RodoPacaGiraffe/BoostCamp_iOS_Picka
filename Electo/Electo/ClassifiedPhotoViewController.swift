@@ -67,7 +67,6 @@ class ClassifiedPhotoViewController: UIViewController {
             customScrollView.frame = CGRect(x: self.view.frame.width - 17, y: tableView.contentOffset.y, width: 20, height: 40)
         }
         customScrollView.layer.cornerRadius = 10
-        customScrollView.isHidden = true
         customScrollView.alpha = 0.5
         
         let imageView = UIImageView()
@@ -450,7 +449,6 @@ extension ClassifiedPhotoViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        customScrollView.isHidden = false
         customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
         
         guard customScrollView.frame.origin.y < self.view.frame.height else { return }
