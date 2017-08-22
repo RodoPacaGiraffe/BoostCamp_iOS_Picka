@@ -15,6 +15,7 @@ class TemporaryPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
+    @IBOutlet var dragSelectGesture: UIPanGestureRecognizer!
     @IBOutlet var deleteSelectedButton: UIButton!
     @IBOutlet var recoverSelectedButton: UIButton!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -23,6 +24,7 @@ class TemporaryPhotoViewController: UIViewController {
     @IBOutlet weak var buttonForEditStackView: UIStackView!
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
+    var isSelectMode: Bool = true
     var originalNavigationPosition: CGPoint?
     var originalPosition: CGPoint?
     var currentTouchPosition: CGPoint?
@@ -96,10 +98,7 @@ class TemporaryPhotoViewController: UIViewController {
     @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
         if selectMode == .off {
             selectMode = .on
-            if self.selectedPhotoAssets().isEmpty {
-                recoverSelectedButton.isEnabled = false
-                deleteSelectedButton.isEnabled = false
-            }
+            refreshSelectedButtonState()
         } else {
             selectMode = .off
             
@@ -133,13 +132,13 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
-        
+        print(selectedPhotoAssets().count)
         recoverAlertController(title: "Recover Selected Photos") { (action) in
             guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
             temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
             
             self.collectionView.reloadSections(IndexSet(integer: 0))
-            
+            self.refreshSelectedButtonState()
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
         }
     }
@@ -160,6 +159,7 @@ class TemporaryPhotoViewController: UIViewController {
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
             self?.collectionView.reloadSections(IndexSet(integer: 0))
+            self?.refreshSelectedButtonState()
         }
     }
     
@@ -184,6 +184,10 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func slideToDismiss(_ sender: UIPanGestureRecognizer) {
+        guard selectMode == .off else {
+            dragToSelectPhoto(of: sender)
+            return
+        }
         let translation = sender.translation(in: self.view)
         let originalViewFrame = self.view.frame.origin
        
@@ -207,6 +211,30 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
+    func refreshSelectedButtonState() {
+        if self.selectedPhotoAssets().isEmpty {
+            recoverSelectedButton.isEnabled = false
+            deleteSelectedButton.isEnabled = false
+        }
+    }
+    
+    func dragToSelectPhoto(of sender:UIPanGestureRecognizer) {
+        guard let indexPath = collectionView.indexPathForItem(at: sender.location(in: self.view)) else { return }
+        
+        if isSelectMode {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
+            collectionView(collectionView, didSelectItemAt: indexPath)
+            if sender.state == .ended {
+                isSelectMode = false
+            }
+        } else {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredVertically)
+            collectionView(collectionView, didDeselectItemAt: indexPath)
+            if sender.state == .ended {
+                isSelectMode = true
+            }
+        }
+    }
     func dismissWhenTouchesEnded(_ sender: UIPanGestureRecognizer) {
         var originalViewFrame = self.view.frame.origin
         var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
