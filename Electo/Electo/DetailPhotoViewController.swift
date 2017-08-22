@@ -181,9 +181,9 @@ class DetailPhotoViewController: UIViewController {
                         detailVC.isInitialFetchImage = false
                         return
                     }
-                    
+                
                     UIView.transition(with: detailVC.detailImageView,
-                        duration: 0.25, options: .transitionCrossDissolve,
+                        duration: 0.2, options: .transitionCrossDissolve,
                         animations: {
                             self?.detailImageView.image = UIImage(data: fetchedData)
                     },  completion: nil)
@@ -192,7 +192,7 @@ class DetailPhotoViewController: UIViewController {
         }
     }
 
-    @IBAction func deleteSelectPhotoButton(_ sender: UIButton) {
+    @IBAction private func deleteSelectPhotoButton(_ sender: UIButton) {
          moveToTrashAnimation()
     }
     

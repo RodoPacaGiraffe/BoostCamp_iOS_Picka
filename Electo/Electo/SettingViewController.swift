@@ -30,13 +30,13 @@ class SettingViewController: UITableViewController {
     }
     
     private func setSlider() {
-        let timeIntervalBoundary: Double = UserDefaults.standard
-            .object(forKey: "timeIntervalBoundary") as? Double ?? Double(GroupingInterval.level3.rawValue)
+        let timeIntervalBoundary: Double = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
+            as? Double ?? Double(GroupingInterval.level3.rawValue)
         
         slider.setValue(Float(timeIntervalBoundary), animated: false)
     }
     
-    @IBAction func sliderValueChanged(_ sender: UISlider) {
+    @IBAction private func sliderValueChanged(_ sender: UISlider) {
         switch sender.value {
         case Clustering.interval1:
             sender.setValue(GroupingInterval.level1.rawValue, animated: true)

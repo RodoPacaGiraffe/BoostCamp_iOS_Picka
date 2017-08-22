@@ -11,7 +11,7 @@ import Photos
 
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
-    var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
+    fileprivate(set) var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
   
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
@@ -39,7 +39,7 @@ class PhotoStore: PhotoClassifiable {
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
-    @discardableResult func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]?{
+    @discardableResult func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]? {
         guard let unarchivedPhotoAssets = assets else { return nil }
         
         var removedAssetsFromPhotoLibrary: [PHAsset]? = nil
@@ -49,7 +49,6 @@ class PhotoStore: PhotoClassifiable {
                 removedAssetsFromPhotoLibrary?.append($0)
                 return
             }
-            
             photoAssets.remove(at: unarchivedPhotoAssetsIndex)
         }
         
@@ -58,20 +57,17 @@ class PhotoStore: PhotoClassifiable {
         return removedAssetsFromPhotoLibrary
     }
     
-    @objc func applyRemovedAssets(_ notification: Notification) {
+    @objc private func applyRemovedAssets(_ notification: Notification) {
         guard let removedPhotoAssets = notification.userInfo?[Constants.removedPhotoAssets]
             as? [PHAsset] else { return }
         
         removedPhotoAssets.forEach {
-            guard let index = photoAssets.index(of: $0) else {
-                print("This photoAsset is not founded from PhotoStore")
-                return
-            }
-
+            guard let index = photoAssets.index(of: $0) else { return }
             photoAssets.remove(at: index)
         }
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        
         NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
     }
 }
@@ -79,11 +75,7 @@ class PhotoStore: PhotoClassifiable {
 extension PhotoStore: PhotoStoreDelegate {
     func temporaryPhotoDidInserted(insertedPhotoAssets: [PHAsset]) {
         insertedPhotoAssets.forEach {
-            guard let index = photoAssets.index(of: $0) else {
-                print("This photoAsset is not founded")
-                return
-            }
-            
+            guard let index = photoAssets.index(of: $0) else { return }
             photoAssets.remove(at: index)
         }
         

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Photos
 
 class ClassifiedPhotoAssets {
     var date: Date = Date()
