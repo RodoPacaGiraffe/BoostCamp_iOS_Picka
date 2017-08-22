@@ -1,0 +1,8 @@
+/* Class = "UILabel"; text = "Label"; ObjectID = "dxa-0p-Mrx"; */
+"dxa-0p-Mrx.text" = "ラベル";
+
+/* Class = "UINavigationItem"; title = "Photos"; ObjectID = "haJ-Md-wRu"; */
+"haJ-Md-wRu.title" = "写真";
+
+/* Class = "UITabBarItem"; title = "Photos"; ObjectID = "vvd-LH-pJU"; */
+"vvd-LH-pJU.title" = "写真";

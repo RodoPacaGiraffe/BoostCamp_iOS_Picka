@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Photos
 
 class ClassifiedPhotoCell: UITableViewCell {
-    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var numberOfPhotosLabel: UILabel!
     @IBOutlet var locationLabel: UILabel!
+    @IBOutlet var imageContainerView: UIView!
     @IBOutlet var imageStackView: UIStackView!
     @IBOutlet var imageViews: [UIImageView]!
     @IBOutlet var moreImagesLabel: UILabel!
@@ -21,8 +23,22 @@ class ClassifiedPhotoCell: UITableViewCell {
         }
     }
     
+    var requestIDs: [PHImageRequestID] = []
+    
+    override func layoutSubviews() {
+        self.subviews.forEach { subview in
+            let typeString = String(describing: type(of: subview))
+            guard typeString == Constants.deleteConfirmationView else { return }
+            
+            guard let target = imageContainerView else { return }
+        
+            subview.frame.size.height = target.frame.size.height
+            subview.frame.origin.y = target.frame.origin.y
+        }
+    }
+    
     func update(date: String, location: String?) {
-        dateLabel.text = date
+        numberOfPhotosLabel.text = date
         locationLabel.text = location
     }
     
@@ -35,6 +51,11 @@ class ClassifiedPhotoCell: UITableViewCell {
             }
             imageViews[index].image = photoImages[index]
         }
+        self.imageContainerView.makeRoundBorder(degree: 16.0)
+        self.imageContainerView.backgroundColor = UIColor(red: 243/255,
+                                                                 green: 243/255,
+                                                                 blue: 243/255,
+                                                                 alpha: 1)
     }
     
     func setLabel() {
@@ -50,7 +71,9 @@ class ClassifiedPhotoCell: UITableViewCell {
         imageViews.forEach {
             $0.image = nil
         }
+
         moreImagesLabel.isHidden = true
+        locationLabel.text = nil
     }
 }
 

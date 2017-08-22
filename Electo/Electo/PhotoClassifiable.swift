@@ -9,38 +9,53 @@
 import Foundation
 import Photos
 
-
 protocol PhotoClassifiable: class {
-    func classifyByTimeInterval(photoAssets: [PHAsset]) -> [[PHAsset]]
+    func classifyByTimeInterval(photoAssets: [PHAsset]) -> [ClassifiedPhotoAssets]
 }
 
 extension PhotoClassifiable {
-    func classifyByTimeInterval(photoAssets: [PHAsset]) -> [[PHAsset]] {
-        guard var firstPhotoAssetDate = photoAssets.first?.creationDate else { return [] }
+    func classifyByTimeInterval(photoAssets: [PHAsset]) -> [ClassifiedPhotoAssets] {
+        guard var referencePhotoAssetDate = photoAssets.first?.creationDate else { return [] }
+        var classifiedPhotoAssetsArray: [ClassifiedPhotoAssets] = []
         
-        var classifiedPhotoAssets: [[PHAsset]] = []
-        var tempPhotoAssets: [PHAsset] = []
+        var tempPhotoAssets: ClassifiedGroup = .init()
+        var tempPhotoAssetsArray: [ClassifiedGroup] = []
         
-        // TODO: Refactoring 필요, 한번에 추가하는 것 고려
         for photoAsset in photoAssets {
             guard let creationDate = photoAsset.creationDate else { return [] }
-            
-            if !firstPhotoAssetDate.containedWithinBoundary(for: creationDate) { // guard
-                guard tempPhotoAssets.count != 1 else {
-                    firstPhotoAssetDate = creationDate
-                    tempPhotoAssets = []
-                    tempPhotoAssets.append(photoAsset)
-                    continue
+        
+            let difference = referencePhotoAssetDate.getDifference(from: creationDate)
+        
+            switch difference {
+            case .none:
+                tempPhotoAssets.photoAssets.append(photoAsset)
+                continue
+            case .intervalBoundary:
+                if tempPhotoAssets.photoAssets.count >= Constants.minimumPhotoCount {
+                    tempPhotoAssetsArray.append(tempPhotoAssets)
+                    tempPhotoAssets = .init()
+                }
+            case .day:
+                if tempPhotoAssets.photoAssets.count >= Constants.minimumPhotoCount {
+                    tempPhotoAssetsArray.append(tempPhotoAssets)
+                    tempPhotoAssets = .init()
                 }
                 
-                classifiedPhotoAssets.append(tempPhotoAssets)
-                firstPhotoAssetDate = creationDate
-                tempPhotoAssets = []
+                guard !tempPhotoAssetsArray.isEmpty else { break }
+
+                let classifiedPhotoAssets = ClassifiedPhotoAssets(
+                    date: referencePhotoAssetDate, photoAssetsArray: tempPhotoAssetsArray)
+                
+                classifiedPhotoAssetsArray.append(classifiedPhotoAssets)
+                tempPhotoAssetsArray.removeAll()
             }
             
-            tempPhotoAssets.append(photoAsset)
+            referencePhotoAssetDate = creationDate
+            tempPhotoAssets.photoAssets.removeAll()
+            
+            tempPhotoAssets.photoAssets.append(photoAsset)
         }
         
-        return classifiedPhotoAssets
+        return classifiedPhotoAssetsArray
     }
 }

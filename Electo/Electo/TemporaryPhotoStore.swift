@@ -35,6 +35,10 @@ class TemporaryPhotoStore: NSObject, NSCoding {
         photoAssetsIdentifier = loadedPhotoAssetsIdentifier
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+    }
+    
     func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
         

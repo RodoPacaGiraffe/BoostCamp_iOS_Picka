@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,12 +20,12 @@
                         <viewControllerLayoutGuide type="bottom" id="DaT-bt-SWC"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Pgi-Kc-4sb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="81L-GL-LUT">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="E6F-z3-ydE">
                                     <size key="itemSize" width="90" height="90"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -39,7 +40,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gni-q4-5G7">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gni-q4-5G7">
                                                     <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                                 </imageView>
                                                 <imageView hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checked" translatesAutoresizingMaskIntoConstraints="NO" id="e4J-uM-gxv">
@@ -66,13 +67,13 @@
                                     <outlet property="delegate" destination="41h-lp-7Sx" id="M1G-Sm-1sc"/>
                                 </connections>
                             </collectionView>
-                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
-                                <rect key="frame" x="16" y="617" width="343" height="30"/>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Vlj-ai-Q2p">
+                                <rect key="frame" x="16" y="541" width="343" height="42"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dk9-Mw-hsd">
-                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="30"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Recover Selected">
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Recover Selected" backgroundImage="Cleanable-23">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -80,9 +81,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sns-Ue-VMg">
-                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="30"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Delete Selected">
+                                        <rect key="frame" x="184" y="0.0" width="159" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Delete Selected" backgroundImage="Cleanable-24">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -91,23 +92,23 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Y3m-5o-0Su">
-                                <rect key="frame" x="16" y="617" width="343" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Y3m-5o-0Su">
+                                <rect key="frame" x="16" y="541" width="343" height="42"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltc-HR-n3Q">
-                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="30"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Recover All">
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltc-HR-n3Q">
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Recover All" backgroundImage="Cleanable-23">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="recoverAll:" destination="41h-lp-7Sx" eventType="touchUpInside" id="cYb-fH-8Ba"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y55-Ef-PtW">
-                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="30"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Delete All">
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y55-Ef-PtW">
+                                        <rect key="frame" x="184" y="0.0" width="159" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Delete All" backgroundImage="Cleanable-24">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -117,46 +118,49 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="81L-GL-LUT" secondAttribute="bottom" id="1CY-ym-J0a"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leading" id="3Bf-75-FUQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Y3m-5o-0Su" secondAttribute="trailing" id="5zt-EX-GYP"/>
+                            <constraint firstItem="Vlj-ai-Q2p" firstAttribute="height" secondItem="Y3m-5o-0Su" secondAttribute="height" id="7rD-3G-wFp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Vlj-ai-Q2p" secondAttribute="trailing" id="9Bu-hO-096"/>
                             <constraint firstItem="Y3m-5o-0Su" firstAttribute="centerX" secondItem="Vlj-ai-Q2p" secondAttribute="centerX" id="AAJ-Xq-xYU"/>
                             <constraint firstItem="DaT-bt-SWC" firstAttribute="top" secondItem="Vlj-ai-Q2p" secondAttribute="bottom" constant="20" id="DkY-Id-A2h"/>
                             <constraint firstItem="Y3m-5o-0Su" firstAttribute="centerY" secondItem="Vlj-ai-Q2p" secondAttribute="centerY" id="Fn9-U1-mOa"/>
+                            <constraint firstItem="Y3m-5o-0Su" firstAttribute="height" secondItem="81L-GL-LUT" secondAttribute="height" multiplier="0.07" id="Ied-ov-bZ9"/>
                             <constraint firstItem="Y3m-5o-0Su" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leadingMargin" id="TQV-1n-udT"/>
                             <constraint firstAttribute="trailing" secondItem="81L-GL-LUT" secondAttribute="trailing" id="Y1C-OI-jcM"/>
                             <constraint firstItem="Vlj-ai-Q2p" firstAttribute="leading" secondItem="Pgi-Kc-4sb" secondAttribute="leadingMargin" id="e64-90-QkN"/>
                             <constraint firstItem="81L-GL-LUT" firstAttribute="top" secondItem="Pgi-Kc-4sb" secondAttribute="topMargin" id="fOs-Yg-zAk"/>
                         </constraints>
                         <connections>
-                            <outletCollection property="gestureRecognizers" destination="lg2-Tl-jBv" appends="YES" id="pHf-LL-6ba"/>
-                            <outletCollection property="gestureRecognizers" destination="3uX-T7-4hz" appends="YES" id="gZw-55-MBV"/>
+                            <outletCollection property="gestureRecognizers" destination="wqT-sT-8b4" appends="YES" id="NUM-eS-lGk"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="To be deleted" id="sbp-bB-XVA">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="oJp-TK-wXK">
+                        <barButtonItem key="leftBarButtonItem" image="Cleanable-26" id="oJp-TK-wXK">
+                            <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancel:" destination="41h-lp-7Sx" id="EUY-4p-lkZ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Choose" id="dl6-xh-00s">
+                            <color key="tintColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="toggleSelectMode:" destination="41h-lp-7Sx" id="jMf-TC-e0O"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="buttonForEditStackView" destination="Vlj-ai-Q2p" id="Lkk-Zt-NXW"/>
                         <outlet property="buttonForNormalStackView" destination="Y3m-5o-0Su" id="qbC-gQ-ZYv"/>
                         <outlet property="chooseButton" destination="dl6-xh-00s" id="LhD-gr-SvM"/>
                         <outlet property="collectionView" destination="81L-GL-LUT" id="ghT-39-Lhg"/>
+                        <outlet property="deleteSelectedButton" destination="sns-Ue-VMg" id="lQ0-5o-7ot"/>
                         <outlet property="flowLayout" destination="E6F-z3-ydE" id="vUZ-Ca-ncT"/>
+                        <outlet property="recoverSelectedButton" destination="Dk9-Mw-hsd" id="0Ce-cc-ghG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6S-nI-5dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -170,10 +174,14 @@
                     <connections>
                         <action selector="panGestureSelectAction:" destination="41h-lp-7Sx" id="mDY-zV-juC"/>
                         <outlet property="delegate" destination="41h-lp-7Sx" id="H9F-aB-Sia"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="wqT-sT-8b4">
+                    <connections>
+                        <action selector="slideToDismiss:" destination="41h-lp-7Sx" id="fUK-7l-WGv"/>
+                        <outlet property="delegate" destination="41h-lp-7Sx" id="3or-hK-mrV"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1368.8" y="-187.55622188905548"/>
+            <point key="canvasLocation" x="1374" y="-188"/>
         </scene>
         <!--Detail-->
         <scene sceneID="mFV-sd-knK">
@@ -186,11 +194,19 @@
         <!--Navigation Controller-->
         <scene sceneID="lIA-zQ-r0R">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rai-15-VpX" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="overFullScreen" id="Rai-15-VpX" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sTf-Sp-eD7">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
+                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" translucent="NO" id="sTf-Sp-eD7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.3725968599319458" green="0.36856323480606079" blue="0.3726152777671814" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -204,5 +220,8 @@
     </scenes>
     <resources>
         <image name="Checked" width="30" height="30"/>
+        <image name="Cleanable-23" width="288" height="98"/>
+        <image name="Cleanable-24" width="288" height="98"/>
+        <image name="Cleanable-26" width="25" height="25"/>
     </resources>
 </document>

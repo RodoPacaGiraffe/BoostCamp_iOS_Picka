@@ -15,33 +15,42 @@ class TemporaryPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
+    @IBOutlet var deleteSelectedButton: UIButton!
+    @IBOutlet var recoverSelectedButton: UIButton!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chooseButton: UIBarButtonItem!
     @IBOutlet weak var buttonForEditStackView: UIStackView!
     @IBOutlet weak var buttonForNormalStackView: UIStackView!
     
+    var originalNavigationPosition: CGPoint?
+    var originalPosition: CGPoint?
+    var currentTouchPosition: CGPoint?
     var photoDataSource: PhotoDataSource?
     var tempThumbnailImages: [UIImage] = .init()
     var isSelected: Bool = true
-    
+
     fileprivate var selectMode: SelectMode = .off {
         didSet {
             toggleHiddenState(forViews: [buttonForEditStackView, buttonForNormalStackView])
-            chooseButton.title = selectMode.rawValue
+            chooseButton.title = NSLocalizedString(selectMode.rawValue, comment: "")
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionView.dataSource = photoDataSource
-        collectionView.allowsMultipleSelection = true
-        
+        setCollectionView()
         setCellSize()
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
+    }
+    
+    private func setCollectionView() {
+        collectionView.dataSource = photoDataSource
+        collectionView.allowsMultipleSelection = true
+        collectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: collectionView.frame.maxY - buttonForNormalStackView.frame.origin.y, right: 0.0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: collectionView.frame.maxY - buttonForNormalStackView.frame.origin.y, right: 0.0)
     }
     
     private func setCellSize() {
@@ -57,17 +66,7 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    private func resetSelectedItem(indexPaths: [IndexPath]) {
-        indexPaths.forEach {
-            guard let photoCell = collectionView.cellForItem(at: $0)
-                as? TemporaryPhotoCell else { return }
-            
-            collectionView.deselectItem(at: $0, animated: true)
-            photoCell.deSelect()
-        }
-    }
-    
-    private func selectedPhotoAssets() -> [PHAsset] {
+    fileprivate func selectedPhotoAssets() -> [PHAsset] {
         guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return [] }
         guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return [] }
         
@@ -81,41 +80,69 @@ class TemporaryPhotoViewController: UIViewController {
         return selectedPhotoAssets
     }
     
-    func reloadData() {
+    @objc private func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
     }
     
+    private func initSelection() {
+        guard let selectedItems = collectionView.indexPathsForSelectedItems else {
+            return
+        }
+        
+        collectionView.reloadItems(at: selectedItems)
+    }
+    
     @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
-        switch selectMode {
-        case .on:
-            if let selectedItems = collectionView.indexPathsForSelectedItems {
-                resetSelectedItem(indexPaths: selectedItems)
-            }
-            selectMode = .off
-        case .off:
+        if selectMode == .off {
             selectMode = .on
+            if self.selectedPhotoAssets().isEmpty {
+                recoverSelectedButton.isEnabled = false
+                deleteSelectedButton.isEnabled = false
+            }
+        } else {
+            selectMode = .off
+            
+            initSelection()
         }
     }
     
     @IBAction func recoverAll(_ sender: UIButton) {
-        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        
-        let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
-        temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
-        
-        collectionView.reloadData()
+        recoverAlertController(title: "Recover All Photos") {
+            [weak self] (action) in
+            guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
+            let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
+            temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
+            
+
+            self?.collectionView.reloadSections(IndexSet(integer: 0))
+
+            guard let navigationController = self?.presentingViewController
+                as? UINavigationController else { return }
+            
+            NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+            
+            if navigationController.topViewController is ClassifiedPhotoViewController {
+                self?.dismiss(animated: true, completion: nil)
+            } else {
+                self?.dismiss(animated: false) {
+                    navigationController.popToRootViewController(animated: true)
+                }
+            }
+        }
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
-        guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
         
-        temporaryPhotoStore.remove(photoAssets: selectedPhotoAssets())
-        resetSelectedItem(indexPaths: selectedItems)
-        
-        collectionView.reloadData()
+        recoverAlertController(title: "Recover Selected Photos") { (action) in
+            guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
+            temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
+            
+            self.collectionView.reloadSections(IndexSet(integer: 0))
+            
+            NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+        }
     }
     
     @IBAction func deleteAll(_ sender: UIButton) {
@@ -123,19 +150,18 @@ class TemporaryPhotoViewController: UIViewController {
         
         temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) {
             [weak self] in
-            self?.collectionView.reloadData()
+            self?.collectionView.reloadSections(IndexSet(integer: 0))
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     
     @IBAction func deleteSelected(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
         
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
-            self?.collectionView.reloadData()
+            self?.collectionView.reloadSections(IndexSet(integer: 0))
         }
-        resetSelectedItem(indexPaths: selectedItems)
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
@@ -172,6 +198,71 @@ class TemporaryPhotoViewController: UIViewController {
                 isSelected = true
             }
         }
+
+    private func recoverAlertController(title: String,
+                                        completion: @escaping (UIAlertAction) -> Void) {
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let recoverAction = UIAlertAction(title: NSLocalizedString(title, comment: ""),
+                                          style: .default, handler: completion)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                                         style: .destructive, handler: nil)
+        
+        alertController.addAction(recoverAction)
+        alertController.addAction(cancelAction)
+        alertController.view.tintColor = UIColor.darkGray
+       
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func slideToDismiss(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self.view)
+        let originalViewFrame = self.view.frame.origin
+       
+        switch sender.state {
+        case .began:
+            originalPosition = view.center
+            originalNavigationPosition = navigationController?.navigationBar.center
+            currentTouchPosition = sender.location(in: self.view)
+        case .changed:
+            if translation.y > 200 {
+                UIView.animate(withDuration: 0.2, animations: { 
+                    self.view.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                     y: translation.y + 64)
+                    self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x, y: translation.y + 20)
+                })
+            }
+        case .ended:
+            dismissWhenTouchesEnded(sender)
+        default:
+            break
+        }
+    }
+    
+    func dismissWhenTouchesEnded(_ sender: UIPanGestureRecognizer) {
+        var originalViewFrame = self.view.frame.origin
+        var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
+        let translation = sender.translation(in: self.view)
+        
+        guard translation.y > 300  else {
+            UIView.animate(withDuration: 0.2, animations: { [weak self] _ in
+                guard let originalPosition = self?.originalPosition else { return }
+                guard let originalNavigationPosition = self?.originalNavigationPosition else { return }
+                self?.view.center = originalPosition
+                self?.navigationController?.navigationBar.center = originalNavigationPosition
+            })
+            return
+        }
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            originalViewFrame = CGPoint(x: originalViewFrame.x,
+                                        y: self.view.frame.size.height)
+            originalNavigationBarFrame = CGPoint(x: originalViewFrame.x,
+                                                 y: self.view.frame.size.height)},
+                       completion: { [weak self] completed in
+                        guard completed == true else { return }
+                        self?.dismiss(animated: true, completion: nil)
+        })
     }
 }
 
@@ -179,23 +270,29 @@ class TemporaryPhotoViewController: UIViewController {
 extension TemporaryPhotoViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let photoCell = collectionView.cellForItem(at: indexPath)
-            as? TemporaryPhotoCell ?? TemporaryPhotoCell()
+        guard let photoCell = collectionView.cellForItem(at: indexPath)
+            as? TemporaryPhotoCell else { return }
         
         switch selectMode {
         case .on:
+            deleteSelectedButton.isEnabled = true
+            recoverSelectedButton.isEnabled = true
             photoCell.select()
         case .off:
+            collectionView.deselectItem(at: indexPath, animated: true)
             guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
             
-            //TODO: 이미지 전체 넘겨주기
             detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
             detailViewController.identifier = "fromTemporaryViewController"
             
             guard let selectedThumbnailImage = photoCell.thumbnailImageView.image else { return }
             detailViewController.thumbnailImages.append(selectedThumbnailImage)
             detailViewController.pressedIndexPath = indexPath
+            
+            detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[
+                indexPath.item].creationDate?.toDateString()
+            
             show(detailViewController, sender: self)
         }
     }
@@ -203,7 +300,17 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let photoCell = collectionView.cellForItem(at: indexPath)
             as? TemporaryPhotoCell ?? TemporaryPhotoCell()
-        
         photoCell.deSelect()
+        if self.selectedPhotoAssets().isEmpty {
+            deleteSelectedButton.isEnabled = false
+            recoverSelectedButton.isEnabled = false
+        }
     }
 }
+
+extension TemporaryPhotoViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+

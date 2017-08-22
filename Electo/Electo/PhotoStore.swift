@@ -11,35 +11,39 @@ import Photos
 
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
-    fileprivate(set) var classifiedPhotoAssets: [[PHAsset]] = []
+
+    var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
   
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
                                                name: Constants.removedAssetsFromPhotoLibrary, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+    }
+    
     func fetchPhotoAsset() {
+        photoAssets.removeAll()
+        
         let fetchOptions = PHFetchOptions()
+        
         
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
                                                          ascending: false)]
-        
-        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+
         
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
         }
-        
+
         PhotoLibraryObserver.shared.setObserving(fetchResult: fetchResult)
-        
-        cachingImageManager.startCachingImages(for: photoAssets,
-                                               targetSize: CGSize(width: 50.0, height: 50.0),
-                                               contentMode: .aspectFill, options: nil)
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
-    func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]?{
+    @discardableResult func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]?{
         guard let unarchivedPhotoAssets = assets else { return nil }
         var removedAssetsFromPhotoLibrary: [PHAsset]? = nil
     
@@ -71,7 +75,7 @@ class PhotoStore: PhotoClassifiable {
         }
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
-        
+
         NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
     }
 }

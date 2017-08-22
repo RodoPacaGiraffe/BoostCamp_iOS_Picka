@@ -1,0 +1,42 @@
+
+/* Class = "UILabel"; text = "How to Use"; ObjectID = "0yU-Xi-rJw"; */
+"0yU-Xi-rJw.text" = "How to Use";
+
+/* Class = "UILabel"; text = "Collecting"; ObjectID = "1Qx-0d-DlA"; */
+"1Qx-0d-DlA.text" = "Collecting";
+
+/* Class = "UILabel"; text = "Share"; ObjectID = "4oO-id-BoZ"; */
+"4oO-id-BoZ.text" = "Share";
+
+/* Class = "UITableViewSection"; headerTitle = "More"; ObjectID = "APT-Yh-sza"; */
+"APT-Yh-sza.headerTitle" = "More";
+
+/* Class = "UILabel"; text = "2"; ObjectID = "Bui-vH-LN5"; */
+"Bui-vH-LN5.text" = "2";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "DgQ-3K-5oa"; */
+"DgQ-3K-5oa.title" = "Settings";
+
+/* Class = "UITableViewSection"; headerTitle = "Setting"; ObjectID = "QBY-nO-vNx"; */
+"QBY-nO-vNx.headerTitle" = "Setting";
+
+/* Class = "UILabel"; text = "Credit"; ObjectID = "T1Y-Ff-UmD"; */
+"T1Y-Ff-UmD.text" = "Credit";
+
+/* Class = "UILabel"; text = "1"; ObjectID = "TE7-Vo-Aml"; */
+"TE7-Vo-Aml.text" = "1";
+
+/* Class = "UILabel"; text = "Allow iCloud Photo Download"; ObjectID = "Wd2-Hz-8Of"; */
+"Wd2-Hz-8Of.text" = "Allow iCloud Photo Download";
+
+/* Class = "UILabel"; text = "4"; ObjectID = "Y7B-eR-rPy"; */
+"Y7B-eR-rPy.text" = "4";
+
+/* Class = "UILabel"; text = "Adjust the criteria for collecting photos."; ObjectID = "j7s-24-KIQ"; */
+"j7s-24-KIQ.text" = "Adjust the criteria for collecting photos.";
+
+/* Class = "UILabel"; text = "3"; ObjectID = "oVf-qk-VB0"; */
+"oVf-qk-VB0.text" = "3";
+
+/* Class = "UILabel"; text = "5"; ObjectID = "rO0-Ef-uly"; */
+"rO0-Ef-uly.text" = "5";

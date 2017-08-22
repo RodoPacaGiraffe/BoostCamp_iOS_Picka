@@ -11,6 +11,20 @@ import Photos
 
 class DetailPhotoCell: UICollectionViewCell {
     @IBOutlet var thumbnailImageView: UIImageView!
-    
+    @IBOutlet var detailDeleteButton: UIButton!
     var requestID: PHImageRequestID?
+    
+    override func prepareForReuse() {
+        deSelect()
+    }
+    
+    func select() {
+        thumbnailImageView.alpha = 0.5
+        self.isSelected = true
+    }
+    
+    func deSelect() {
+        thumbnailImageView.alpha = 1.0
+        self.isSelected = false
+    }
 }
