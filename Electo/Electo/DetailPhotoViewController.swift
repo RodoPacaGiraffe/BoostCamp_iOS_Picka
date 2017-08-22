@@ -327,6 +327,9 @@ class DetailPhotoViewController: UIViewController {
         temporaryPhotoViewController.photoDataSource = photoDataSource
     }
     
+    @IBAction func dismissAction(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 extension DetailPhotoViewController: UICollectionViewDataSource {
