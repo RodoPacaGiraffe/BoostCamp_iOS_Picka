@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class ClassifiedPhotoCell: UITableViewCell {
     @IBOutlet var numberOfPhotosLabel: UILabel!
@@ -21,6 +22,8 @@ class ClassifiedPhotoCell: UITableViewCell {
             addPhotoImagesToStackView(photoImages: cellImages)
         }
     }
+    
+    var requestID: PHImageRequestID?
     
     override func layoutSubviews() {
         self.subviews.forEach { subview in

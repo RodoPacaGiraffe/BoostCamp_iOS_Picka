@@ -45,14 +45,19 @@ extension PhotoDataSource: UITableViewDataSource {
         
         var fetchedImages: [UIImage] = .init()
         
+        if let requestID = cell.requestID {
+            cachingImageManager.cancelImageRequest(requestID)
+        }
+        
         classifiedPhotoAsset.photoAssets.forEach {
-            $0.fetchImage(size: Constants.fetchImageSize,
+            cell.requestID = $0.fetchImage(size: Constants.fetchImageSize,
                           contentMode: .aspectFill, options: nil) { photoImage in
                             guard let photoImage = photoImage else { return }
                             fetchedImages.append(photoImage)
                             
                             if classifiedPhotoAsset.photoAssets.count == fetchedImages.count {
                             cell.cellImages = fetchedImages
+                            cell.requestID = nil
                             }
             }
         }
