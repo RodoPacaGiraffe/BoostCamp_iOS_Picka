@@ -94,7 +94,7 @@ class ClassifiedPhotoViewController: UIViewController {
         tableView.addSubview(refreshControl)
     }
     
-    private func appearLoadingView() {
+    func appearLoadingView() {
         DispatchQueue.main.async { [weak self] in
             guard let windowFrame: CGRect = self?.view.window?.frame else { return }
             self?.loadingView = LoadingView.instanceFromNib(frame: windowFrame)
@@ -104,7 +104,7 @@ class ClassifiedPhotoViewController: UIViewController {
         }
     }
     
-    private func disappearLoadingView() {
+    fileprivate func disappearLoadingView() {
         DispatchQueue.main.async {
             self.loadingView.stopIndicatorAnimating()
             self.loadingView.removeFromSuperview()
@@ -409,7 +409,16 @@ extension ClassifiedPhotoViewController {
 
 extension ClassifiedPhotoViewController: SettingDelegate {
     func groupingChanged() {
-        self.pullToRefresh()
+        DispatchQueue.global().async { [weak self] in
+            self?.photoDataSource.photoStore.fetchPhotoAsset()
+            self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
+            
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+                self?.disappearLoadingView()
+                self?.fetchLocationToVisibleCells()
+            }
+        }
     }
 }
 
