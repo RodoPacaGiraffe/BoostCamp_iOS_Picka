@@ -41,8 +41,6 @@ class SettingViewController: UITableViewController {
 
         UserDefaults.standard.set(Constants.timeIntervalBoundary, forKey: "timeIntervalBoundary")
         UserDefaults.standard.synchronize()
-        
-        self.settingDelegate?.groupingChanged()
     }
     
     @IBAction func networkAllowSwitch(_ sender: UISwitch) {
@@ -85,6 +83,12 @@ class SettingViewController: UITableViewController {
     }
     
     @IBAction func modalDismiss(_ sender: UIBarButtonItem) {
+        let classifiedPhotoViewController = self.presentingViewController as? ClassifiedPhotoViewController
+            ?? ClassifiedPhotoViewController()
+        classifiedPhotoViewController.appearLoadingView()
+        
+        self.settingDelegate?.groupingChanged()
+        
         dismiss(animated: true, completion: nil)
     }
     
