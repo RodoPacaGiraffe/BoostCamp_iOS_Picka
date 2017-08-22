@@ -29,7 +29,6 @@ class DetailPhotoViewController: UIViewController {
     var startPanGesturePoint: CGPoint = CGPoint()
     var currentImageViewPosition: CGPoint = CGPoint()
     var isInitialFetchImage: Bool = true
-    
     var identifier: String = "" {
         didSet {
             if identifier == "fromTemporaryViewController" {
@@ -228,12 +227,24 @@ class DetailPhotoViewController: UIViewController {
         
         switch sender.state {
         case .began:
-            currentImageViewPosition = self.detailImageView.frame.origin
+            detailImageView.clipsToBounds = true
+            
         case .changed:
-            if location.y < -30 || location.y > 30{
+            if location.y < -30 {
                 setTranslucentToNavigationBar()
                 detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
-                                                       y: location.y )
+                                                     y: location.y)
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.detailImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                })
+            }
+            if location.y > 30 {
+                setTranslucentToNavigationBar()
+                detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
+                                                       y: location.y - 30)
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                })
             }
         case .ended:
             guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
@@ -241,6 +252,9 @@ class DetailPhotoViewController: UIViewController {
                 self.navigationController?.navigationBar.isTranslucent = false
                 detailImageView.center = CGPoint(x: zoomingScrollView.center.x,
                                                  y: zoomingScrollView.center.y)
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.detailImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                })
                 break
             }
             
