@@ -90,6 +90,7 @@ extension TemporaryPhotoStore {
         
         temporaryPhotoDidInserted(insertedPhotoAssets: photoAssets)
         savePhotoAsset()
+        
     }
     
     func remove(photoAssets: [PHAsset], isPerformDelegate: Bool = true) {

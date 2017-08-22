@@ -10,14 +10,16 @@ import UIKit
 import Photos
 
 class LoadingView: UIView {
-    @IBOutlet var indicatorView: UIActivityIndicatorView!
-    @IBOutlet var loadingImageView: UIImageView!
+    @IBOutlet private var indicatorView: UIActivityIndicatorView!
+    @IBOutlet private var loadingImageView: UIImageView!
     
     class func instanceFromNib(frame: CGRect) -> LoadingView {
-        guard let loadingView = UINib(nibName: "LoadingView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? LoadingView else {
+        guard let loadingView = UINib(nibName: "LoadingView", bundle: nil)
+            .instantiate(withOwner: nil, options: nil).first as? LoadingView else {
             return LoadingView()
         }
         loadingView.frame = frame
+        
         return loadingView
     }
     

@@ -12,6 +12,7 @@ import Photos
 class DetailPhotoCell: UICollectionViewCell {
     @IBOutlet var thumbnailImageView: UIImageView!
     @IBOutlet var detailDeleteButton: UIButton!
+    
     var requestID: PHImageRequestID?
     
     override func prepareForReuse() {

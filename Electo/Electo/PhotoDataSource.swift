@@ -43,7 +43,7 @@ extension PhotoDataSource: UITableViewDataSource {
         
         let classifiedPhotoAsset = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
         
-        var fetchedImages: [UIImage] = .init()
+        var fetchedImages: [UIImage] = []
         
         if !cell.requestIDs.isEmpty {
             cell.requestIDs.forEach {

@@ -133,14 +133,24 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
-        
         recoverAlertController(title: "Recover Selected Photos") { (action) in
             guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
             temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
             
             self.collectionView.reloadSections(IndexSet(integer: 0))
             
+            guard let navigationController = self.presentingViewController
+                as? UINavigationController else { return }
+            
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+            
+            if navigationController.topViewController is ClassifiedPhotoViewController {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.dismiss(animated: false) {
+                    navigationController.popToRootViewController(animated: true)
+                }
+            }
         }
     }
     

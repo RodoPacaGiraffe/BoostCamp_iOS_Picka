@@ -9,22 +9,21 @@
 import UIKit
 
 class EmptyView: UIView {
-    
-    @IBOutlet var statementLabel: UILabel!
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet private var statementLabel: UILabel!
+    @IBOutlet private var imageView: UIImageView!
     
     class func instanceFromNib(situation: Situation, frame: CGRect) -> EmptyView {
         guard let emptyView = UINib(nibName: "EmptyView", bundle: nil)
             .instantiate(withOwner: nil, options: nil).first as? EmptyView else {
             return EmptyView()
         }
-        
         emptyView.frame = frame
         emptyView.setEmptyView(accordingTo: situation)
+        
         return emptyView
     }
     
-    func setEmptyView(accordingTo situation: Situation) {
+    private func setEmptyView(accordingTo situation: Situation) {
         switch situation {
         case .noAuthorization:
             statementLabel.text = NSLocalizedString("No Authorization", comment: "")

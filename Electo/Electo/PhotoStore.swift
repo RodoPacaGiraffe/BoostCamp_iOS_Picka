@@ -11,7 +11,6 @@ import Photos
 
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
-
     var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
   
     init() {
@@ -27,24 +26,22 @@ class PhotoStore: PhotoClassifiable {
         photoAssets.removeAll()
         
         let fetchOptions = PHFetchOptions()
-        
-        
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
                                                          ascending: false)]
+        
         let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
 
-        
         for index in 0 ..< fetchResult.count {
             photoAssets.append(fetchResult[index])
         }
 
         PhotoLibraryObserver.shared.setObserving(fetchResult: fetchResult)
-        
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
     @discardableResult func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]?{
         guard let unarchivedPhotoAssets = assets else { return nil }
+        
         var removedAssetsFromPhotoLibrary: [PHAsset]? = nil
     
         unarchivedPhotoAssets.forEach {
@@ -75,7 +72,6 @@ class PhotoStore: PhotoClassifiable {
         }
         
         classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
-
         NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
     }
 }
