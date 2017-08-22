@@ -11,6 +11,7 @@ import Photos
 
 class DetailPhotoViewController: UIViewController {
     
+    
     @IBOutlet var zoomingScrollView: UIScrollView!
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
@@ -33,6 +34,7 @@ class DetailPhotoViewController: UIViewController {
             if identifier == "fromTemporaryViewController" {
                 navigationItem.setRightBarButtonItems(nil, animated: false)
                 panGestureRecognizer.isEnabled = false
+                
             }
         }
     }
@@ -74,7 +76,7 @@ class DetailPhotoViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {   
+    override func viewWillAppear(_ animated: Bool) {
         guard let count = photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
         moveToTempVCButtonItem?.updateBadge(With: count)
     }
@@ -97,7 +99,7 @@ class DetailPhotoViewController: UIViewController {
             }
         case UISwipeGestureRecognizerDirection.left:
             let count = selectedSectionAssets.count
-
+            
             selectedPhotos += 1
             if selectedPhotos == count {
                 selectedPhotos -= 1
@@ -135,7 +137,7 @@ class DetailPhotoViewController: UIViewController {
         moveToTempVCButtonItem?.addButtonTarget(target: self,
                                                 action: #selector (moveToTemporaryViewController),
                                                 for: .touchUpInside)
-    
+        
         self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
         self.navigationItem.title = selectedSectionAssets.first?.creationDate?.toDateString()
     }
@@ -150,7 +152,7 @@ class DetailPhotoViewController: UIViewController {
         options.setImageRequestOptions(networkAccessAllowed: Constants.dataAllowed, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _)-> Void in
             DispatchQueue.main.async {
                 guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
-
+                
                 guard self?.pressedIndexPath == indexPath else { return }
                 self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
                 if Constants.dataAllowed {
@@ -158,18 +160,18 @@ class DetailPhotoViewController: UIViewController {
                 }
             }
         }
-      
-        guard Constants.dataAllowed else {
-            guard let thumbnailViewCell = self.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
-            self.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
-            return
-        }
+        
+        
         
         let photoAsset: PHAsset = selectedSectionAssets[indexPath.item]
         
         DispatchQueue.global().async { [weak self] _ -> Void in
             photoAsset.fetchFullSizeImage(options: options, resultHandler: {
                 [weak self] data in
+                if !Constants.dataAllowed {
+                    guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
+                    self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
+                }
                 guard let fetchedData = data else { return }
                 guard let detailVC = self else { return }
                 
@@ -194,9 +196,13 @@ class DetailPhotoViewController: UIViewController {
         }
     }
 
+    @IBAction func deleteSelectPhotoButton(_ sender: UIButton) {
+         moveToTrashAnimation()
+    }
+    
     @IBAction private func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
         updatePhotoIndex(direction: sender.direction)
-
+        
         let index = IndexPath(row: selectedPhotos, section: 0)
         
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
@@ -218,7 +224,7 @@ class DetailPhotoViewController: UIViewController {
     
     @IBAction private func panGestureAction(_ sender: UIPanGestureRecognizer) {
         let location = sender.translation(in: self.view)
-
+        
         switch sender.state {
         case .began:
             detailImageView.clipsToBounds = true
@@ -283,35 +289,35 @@ class DetailPhotoViewController: UIViewController {
         }
         
         UIView.animate(withDuration: 0.2,
-        animations: { [weak self] in
-            guard let detailVC = self else { return }
-            
-            detailVC.detailImageView.center = CGPoint(x: targetX, y: targetY)
-            detailVC.detailImageView.transform = CGAffineTransform(
-                scaleX: 0.001, y: 0.001).rotated(by: rotateDegree)
-        }, completion: { [weak self] _ in
-            guard let detailVC = self else { return }
-            detailVC.navigationController?.navigationBar.isTranslucent = false
-            detailVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-            
-            detailVC.photoDataSource?.temporaryPhotoStore.insert(
-                photoAssets: [detailVC.selectedSectionAssets[detailVC.selectedPhotos]])
-            
-            guard let count = detailVC.photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
-            
-            detailVC.moveToTempVCButtonItem?.updateBadge(With: count)
-
-            detailVC.selectedSectionAssets.remove(at: detailVC.selectedPhotos)
-            
-            detailVC.detailImageView.center = detailVC.zoomingScrollView.center
-            detailVC.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            
-            detailVC.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
-            
-            detailVC.moveToNextPhoto()
+                       animations: { [weak self] in
+                        guard let detailVC = self else { return }
+                        
+                        detailVC.detailImageView.center = CGPoint(x: targetX, y: targetY)
+                        detailVC.detailImageView.transform = CGAffineTransform(
+                            scaleX: 0.001, y: 0.001).rotated(by: rotateDegree)
+            }, completion: { [weak self] _ in
+                guard let detailVC = self else { return }
+                detailVC.navigationController?.navigationBar.isTranslucent = false
+                detailVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+                
+                detailVC.photoDataSource?.temporaryPhotoStore.insert(
+                    photoAssets: [detailVC.selectedSectionAssets[detailVC.selectedPhotos]])
+                
+                guard let count = detailVC.photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
+                
+                detailVC.moveToTempVCButtonItem?.updateBadge(With: count)
+                
+                detailVC.selectedSectionAssets.remove(at: detailVC.selectedPhotos)
+                
+                detailVC.detailImageView.center = detailVC.zoomingScrollView.center
+                detailVC.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                
+                detailVC.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
+                
+                detailVC.moveToNextPhoto()
         })
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "ModalRemovedPhotoVC" else { return }
         guard let navigationController = segue.destination as? UINavigationController,
@@ -331,6 +337,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
+        if identifier == "fromTemporaryViewController" {
+            cell.detailDeleteButton.isHidden = true
+        }
         if Bundle.main.preferredLocalizations.first == "ar" {
             cell.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         }
@@ -340,9 +349,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
             selectedPhotos = pressedIndexPath.row
             previousSelectedCell = cell
         } else if indexPath == pressedIndexPath {
-                cell.select()
-                selectedPhotos = pressedIndexPath.row
-                previousSelectedCell = cell
+            cell.select()
+            selectedPhotos = pressedIndexPath.row
+            previousSelectedCell = cell
             
         } else {
             cell.deSelect()
@@ -379,7 +388,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         self.pressedIndexPath = indexPath
         self.detailImageView.contentMode = .scaleAspectFill
         self.zoomingScrollView.setZoomScale(1.0, animated: true)
-
+        
         selectedPhotos = indexPath.item
         fetchFullSizeImage(from: indexPath)
         
