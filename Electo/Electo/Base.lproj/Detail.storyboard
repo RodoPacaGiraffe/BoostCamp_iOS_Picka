@@ -106,6 +106,7 @@
                                             <constraint firstItem="ARq-O0-r4O" firstAttribute="top" secondItem="M0z-3K-VEl" secondAttribute="topMargin" constant="-7" id="zgd-NA-XL0"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="detailDeleteButton" destination="e98-jZ-wCK" id="t2d-iw-wq5"/>
                                             <outlet property="thumbnailImageView" destination="oDd-kC-e5K" id="942-cL-jzW"/>
                                         </connections>
                                     </collectionViewCell>

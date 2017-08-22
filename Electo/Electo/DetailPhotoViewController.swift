@@ -11,6 +11,7 @@ import Photos
 
 class DetailPhotoViewController: UIViewController {
     
+    
     @IBOutlet var zoomingScrollView: UIScrollView!
     @IBOutlet var detailImageView: UIImageView!
     @IBOutlet var thumbnailCollectionView: UICollectionView!
@@ -34,6 +35,7 @@ class DetailPhotoViewController: UIViewController {
             if identifier == "fromTemporaryViewController" {
                 navigationItem.setRightBarButtonItems(nil, animated: false)
                 panGestureRecognizer.isEnabled = false
+                
             }
         }
     }
@@ -321,6 +323,9 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath) as? DetailPhotoCell ?? DetailPhotoCell()
         
+        if identifier == "fromTemporaryViewController" {
+            cell.detailDeleteButton.isHidden = true
+        }
         if Bundle.main.preferredLocalizations.first == "ar" {
             cell.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         }
