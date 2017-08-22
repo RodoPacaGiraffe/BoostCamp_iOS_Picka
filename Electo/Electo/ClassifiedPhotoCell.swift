@@ -23,7 +23,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         }
     }
     
-    var requestID: PHImageRequestID?
+    var requestIDs: [PHImageRequestID] = []
     
     override func layoutSubviews() {
         self.subviews.forEach { subview in

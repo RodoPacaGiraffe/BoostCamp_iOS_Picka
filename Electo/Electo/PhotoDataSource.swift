@@ -45,21 +45,23 @@ extension PhotoDataSource: UITableViewDataSource {
         
         var fetchedImages: [UIImage] = .init()
         
-        if let requestID = cell.requestID {
-            cachingImageManager.cancelImageRequest(requestID)
+        if !cell.requestIDs.isEmpty {
+            cell.requestIDs.forEach {
+                cachingImageManager.cancelImageRequest($0)
+            }
         }
         
         classifiedPhotoAsset.photoAssets.forEach {
-            cell.requestID = $0.fetchImage(size: Constants.fetchImageSize,
+            cell.requestIDs.append($0.fetchImage(size: Constants.fetchImageSize,
                           contentMode: .aspectFill, options: nil) { photoImage in
                             guard let photoImage = photoImage else { return }
                             fetchedImages.append(photoImage)
                             
                             if classifiedPhotoAsset.photoAssets.count == fetchedImages.count {
                             cell.cellImages = fetchedImages
-                            cell.requestID = nil
+                            cell.requestIDs.removeAll()
                             }
-            }
+            })
         }
         
         let localizedString = NSLocalizedString("%d Photos", comment: "")
