@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -89,6 +89,14 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e98-jZ-wCK">
+                                                    <rect key="frame" x="70" y="2" width="23" height="23"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="Remove"/>
+                                                    <connections>
+                                                        <action selector="deleteSelectPhotoButton:" destination="24c-6t-MzH" eventType="touchUpInside" id="A8R-DL-j1W"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </view>
                                         <constraints>
@@ -98,6 +106,7 @@
                                             <constraint firstItem="ARq-O0-r4O" firstAttribute="top" secondItem="M0z-3K-VEl" secondAttribute="topMargin" constant="-7" id="zgd-NA-XL0"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="detailDeleteButton" destination="e98-jZ-wCK" id="t2d-iw-wq5"/>
                                             <outlet property="thumbnailImageView" destination="oDd-kC-e5K" id="942-cL-jzW"/>
                                         </connections>
                                     </collectionViewCell>
@@ -166,4 +175,7 @@
             <point key="canvasLocation" x="3952" y="-228"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Remove" width="37" height="37"/>
+    </resources>
 </document>
