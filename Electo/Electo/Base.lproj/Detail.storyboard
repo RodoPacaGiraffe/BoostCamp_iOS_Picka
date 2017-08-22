@@ -136,7 +136,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vM-D0-mbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="Brx-js-aPc">
+                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="1" id="Brx-js-aPc">
                     <connections>
                         <action selector="panGestureAction:" destination="24c-6t-MzH" id="g9w-vr-QDc"/>
                         <outlet property="delegate" destination="24c-6t-MzH" id="Ffr-fv-1b1"/>

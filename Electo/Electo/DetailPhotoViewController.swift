@@ -224,12 +224,20 @@ class DetailPhotoViewController: UIViewController {
             detailImageView.clipsToBounds = true
             
         case .changed:
-            if location.y < -30 || location.y > 30{
+            if location.y < -30 {
                 setTranslucentToNavigationBar()
                 detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
                                                      y: location.y)
                 UIView.animate(withDuration: 0.5, animations: {
                     self.detailImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                })
+            }
+            if location.y > 0 {
+                setTranslucentToNavigationBar()
+                detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
+                                                       y: location.y)
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 })
             }
         case .ended:
