@@ -49,6 +49,7 @@ extension PhotoDataSource: UITableViewDataSource {
             cell.requestIDs.forEach {
                 cachingImageManager.cancelImageRequest($0)
             }
+            cell.requestIDs.removeAll()
         }
         
         classifiedPhotoAsset.photoAssets.forEach {
