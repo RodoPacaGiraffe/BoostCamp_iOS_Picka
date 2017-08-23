@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="24c-6t-MzH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +13,7 @@
         <!--detailViewController-->
         <scene sceneID="EBm-wy-gTI">
             <objects>
-                <viewController storyboardIdentifier="detailViewController" title="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="24c-6t-MzH" customClass="DetailPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailViewController" title="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="24c-6t-MzH" customClass="DetailPhotoViewController" customModule="Picka" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VtX-6a-pLk"/>
                         <viewControllerLayoutGuide type="bottom" id="ZVZ-bo-emb"/>
@@ -69,7 +69,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="detailPhotoCell" id="M0z-3K-VEl" customClass="DetailPhotoCell" customModule="Electo" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="detailPhotoCell" id="M0z-3K-VEl" customClass="DetailPhotoCell" customModule="Picka" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -96,9 +96,6 @@
                                                         <constraint firstAttribute="width" constant="23" id="a7J-us-deh"/>
                                                     </constraints>
                                                     <state key="normal" image="Remove"/>
-                                                    <connections>
-                                                        <action selector="deleteSelectPhotoButton:" destination="24c-6t-MzH" eventType="touchUpInside" id="A8R-DL-j1W"/>
-                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </view>
@@ -111,7 +108,7 @@
                                             <constraint firstItem="ARq-O0-r4O" firstAttribute="top" secondItem="M0z-3K-VEl" secondAttribute="topMargin" constant="-7" id="zgd-NA-XL0"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="detailDeleteButton" destination="e98-jZ-wCK" id="t2d-iw-wq5"/>
+                                            <outlet property="detailDeleteButton" destination="e98-jZ-wCK" id="qhk-Pd-w7u"/>
                                             <outlet property="thumbnailImageView" destination="oDd-kC-e5K" id="942-cL-jzW"/>
                                         </connections>
                                     </collectionViewCell>

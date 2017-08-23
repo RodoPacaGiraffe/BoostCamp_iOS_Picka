@@ -105,7 +105,7 @@ class TemporaryPhotoViewController: UIViewController {
         collectionView.reloadItems(at: selectedItems)
     }
     
-    @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
+    @IBAction private func toggleSelectMode(_ sender: UIBarButtonItem) {
         if selectMode == .off {
             selectMode = .on
             if self.selectedPhotoAssets().isEmpty {
@@ -178,7 +178,6 @@ class TemporaryPhotoViewController: UIViewController {
         guard let temporaryPhotoAssets = self.photoDataSource?.temporaryPhotoStore.photoAssets else { return }
         if temporaryPhotoAssets.isEmpty {
             if navigationController.topViewController is ClassifiedPhotoViewController {
-                
                 self.dismiss(animated: true ) { [weak self] _ in
                     self?.alertCountOfPhotos(count: count, committedMode: message)
                 }
@@ -191,7 +190,7 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    @IBAction func recoverAll(_ sender: UIButton) {
+    @IBAction private func recoverAll(_ sender: UIButton) {
         recoverAlertController(title: "Recover All Photos") { [weak self] _ in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             
@@ -234,9 +233,7 @@ class TemporaryPhotoViewController: UIViewController {
             }, completion: nil)
 
             temporaryVC.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
-            guard let navigationController = temporaryVC.presentingViewController
-                as? UINavigationController else { return }
-
+         
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
             self?.popIfCountIsEmptyAfterWork(count: recoverCount, message: CommittedMode.recorver)
         }
@@ -362,7 +359,7 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
             
             detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
-            detailViewController.identifier = "fromTemporaryViewController"
+            detailViewController.identifier = "fromTemporaryPhotoVC"
             
             guard let selectedThumbnailImage = photoCell.thumbnailImageView.image else { return }
             detailViewController.thumbnailImages.append(selectedThumbnailImage)
