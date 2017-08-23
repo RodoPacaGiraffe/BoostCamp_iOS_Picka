@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Photos-->
+        <!--Picka-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ClassifiedPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
@@ -136,7 +136,7 @@
                             <outletCollection property="gestureRecognizers" destination="NmD-ph-19I" appends="YES" id="IWO-O7-TBE"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Photos" id="haJ-Md-wRu">
+                    <navigationItem key="navigationItem" title="Picka" id="haJ-Md-wRu">
                         <barButtonItem key="leftBarButtonItem" image="Settings" id="97q-k1-UQh">
                             <connections>
                                 <segue destination="fDP-Yq-zDr" kind="presentation" identifier="PressedSetting" id="NRV-d7-QnV"/>
