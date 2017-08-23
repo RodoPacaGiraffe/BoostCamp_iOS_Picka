@@ -89,9 +89,12 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e98-jZ-wCK">
+                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e98-jZ-wCK">
                                                     <rect key="frame" x="70" y="2" width="23" height="23"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="23" id="UYh-1Z-XvI"/>
+                                                        <constraint firstAttribute="width" constant="23" id="a7J-us-deh"/>
+                                                    </constraints>
                                                     <state key="normal" image="Remove"/>
                                                     <connections>
                                                         <action selector="deleteSelectPhotoButton:" destination="24c-6t-MzH" eventType="touchUpInside" id="A8R-DL-j1W"/>
@@ -100,6 +103,8 @@
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="e98-jZ-wCK" secondAttribute="trailing" constant="7" id="CRZ-GZ-Dl2"/>
+                                            <constraint firstItem="e98-jZ-wCK" firstAttribute="top" secondItem="M0z-3K-VEl" secondAttribute="top" constant="2" id="KDg-ze-Yxc"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="ARq-O0-r4O" secondAttribute="trailing" constant="-14" id="LBw-6N-yvY"/>
                                             <constraint firstItem="ARq-O0-r4O" firstAttribute="leading" secondItem="M0z-3K-VEl" secondAttribute="leadingMargin" constant="-7" id="ORd-8m-p4b"/>
                                             <constraint firstAttribute="bottom" secondItem="ARq-O0-r4O" secondAttribute="bottom" id="PxT-Vd-Q3K"/>

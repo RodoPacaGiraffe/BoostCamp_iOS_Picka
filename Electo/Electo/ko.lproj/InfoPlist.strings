@@ -6,4 +6,4 @@
   Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 */
 
-NSPhotoLibraryUsageDescription = "Electo는 사진 라이브러리 접근 권한을 필요로 합니다.";
+NSPhotoLibraryUsageDescription = "Picka는 사진 라이브러리 접근 권한을 필요로 합니다.";

@@ -8,7 +8,7 @@
 
 "UseiCloud" = "使用蜂窝数据使用的iCloud下载的照片。";
 "%d Photos" = "%d张照片";
-"No Authorization" = "Electo需要存取相片库。";
+"No Authorization" = "Picka需要存取相片库。";
 "No Photo" = "没有照片进行清理。";
 "Go Settings" = "设置";
 "Cancel" = "取消";
@@ -16,3 +16,5 @@
 "Recover All Photos" = "恢复所有照片";
 "Recover Selected Photos" = "恢复所选照片";
 "Choose" = "选择";
+"%d photos recovered." = "%d张照片已经恢复。";
+"%d photos deleted." = "%d张照片已被删除。";

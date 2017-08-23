@@ -148,7 +148,6 @@ class DetailPhotoViewController: UIViewController {
         guard let count = photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
         
         moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: count)
-        
         moveToTempVCButtonItem?.addButtonTarget(target: self,
                                                 action: #selector (moveToTemporaryViewController),
                                                 for: .touchUpInside)
@@ -192,7 +191,6 @@ class DetailPhotoViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     guard detailVC.pressedIndexPath == indexPath else { return }
-                    
                     detailVC.loadingIndicatorView.stopAnimating()
                     
                     guard !detailVC.isInitialFetchImage else {
@@ -321,7 +319,6 @@ class DetailPhotoViewController: UIViewController {
                 detailVC.thumbnailCollectionView.performBatchUpdates({
                     detailVC.thumbnailCollectionView.deleteItems(at: [detailVC.pressedIndexPath])
                 }, completion: nil)
-           
                 detailVC.moveToNextPhoto()
         })
     }

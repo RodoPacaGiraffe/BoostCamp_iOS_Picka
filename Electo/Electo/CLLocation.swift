@@ -12,7 +12,7 @@ import CoreLocation
 extension CLLocation {
     func reverseGeocode(completion: @escaping (_ locationString: String) -> Void) {
         let geoCoder = CLGeocoder()
-        var locationString: String = .init()
+        var locationString: String = ""
         
         geoCoder.reverseGeocodeLocation(self, completionHandler: { placemarks, error in
             guard let addressDictionary = placemarks?[0].addressDictionary else { return }

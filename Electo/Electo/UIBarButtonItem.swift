@@ -42,7 +42,8 @@ extension UIBarButtonItem {
             return $0 is UILabel
         }
         
-        guard let labelIndex = index, let label = button.subviews[labelIndex] as? UILabel else { return }
+        guard let labelIndex = index, let label = button.subviews[labelIndex]
+            as? UILabel else { return }
         
         guard temporaryPhotoAssetsCount != 0 else {
             label.isHidden = true
@@ -52,7 +53,7 @@ extension UIBarButtonItem {
         
         self.isEnabled = true
         label.isHidden = false
-        
+
         if let text = label.text, let previousCount = Int(text),
             previousCount < temporaryPhotoAssetsCount {
             UIView.animate(withDuration: 0.2,
@@ -64,6 +65,10 @@ extension UIBarButtonItem {
             })
         }
         
-        label.text = "\(temporaryPhotoAssetsCount)"
+        if Locale.preferredLanguages.first == "ar" {
+            label.text = temporaryPhotoAssetsCount.toArabic()
+        } else {
+            label.text = "\(temporaryPhotoAssetsCount)"
+        }
     }
 }

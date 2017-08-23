@@ -15,6 +15,11 @@ class TemporaryPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
+    fileprivate enum CommittedMode: String {
+        case recorver
+        case delete
+    }
+    
     @IBOutlet fileprivate var deleteSelectedButton: UIButton!
     @IBOutlet fileprivate var recoverSelectedButton: UIButton!
     @IBOutlet private var flowLayout: UICollectionViewFlowLayout!
@@ -114,10 +119,24 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    private func alertCountOfPhotos(count: Int, message: String) {
-        let label = UILabel()
+    private func alertCountOfPhotos(count: Int, committedMode: CommittedMode) {
+        let label: UILabel = UILabel()
+        var localizedMessage: String = ""
         
-        label.text = "\(count) \(message)"
+        switch committedMode {
+        case .recorver:
+            localizedMessage = NSLocalizedString("%d photos recovered.", comment: "")
+            
+        case .delete:
+            localizedMessage = NSLocalizedString("%d photos deleted.", comment: "")
+        }
+        
+        if Locale.preferredLanguages.first == "ar" {
+            label.text = count.toArabic() + localizedMessage
+        } else {
+            label.text = String(format: localizedMessage, count)
+        }
+        
         label.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
         label.alpha = 0
         label.textAlignment = .center
@@ -127,30 +146,17 @@ class TemporaryPhotoViewController: UIViewController {
                              height: 50)
         label.makeRoundBorder(degree: 5)
         
-        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
-        let viewController = rootViewController?.presentedViewController ?? rootViewController
+        guard let naviController = UIApplication.shared.keyWindow?.rootViewController
+            as? UINavigationController else { return }
+        guard let topViewController = naviController.topViewController else { return }
+
+        if topViewController.presentedViewController != nil {
+            topViewController.presentedViewController?.view.addSubview(label)
+        } else {
+            topViewController.view.addSubview(label)
+        }
         
-        viewController?.view.superview?.addSubview(label)
-        
-        self.countAppearAnimation(label)
-    }
-    
-    private func selectedAlertCountOfPhotos(count: Int, message: String) {
-        let label = UILabel()
-        
-        label.text = "\(count) \(message)"
-        label.backgroundColor = UIColor.lightGray.withAlphaComponent(1)
-        label.alpha = 0
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.frame = CGRect(x: self.view.frame.width / 4,
-                             y: self.view.center.y - 64,
-                             width: self.view.frame.width / 2,
-                             height: 50)
-        label.makeRoundBorder(degree: 5)
-        
-        self.view.addSubview(label)
-        self.countAppearAnimation(label)
+        countAppearAnimation(label)
     }
     
     private func countAppearAnimation(_ label: UILabel) {
@@ -200,15 +206,15 @@ class TemporaryPhotoViewController: UIViewController {
             
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
             
-            if navigationController.topViewController is ClassifiedPhotoViewController {
-                self?.dismiss(animated: true, completion: {
-                    self?.alertCountOfPhotos(count: recoverCount, message: "photos recovered.")
-                })
-            } else {
+            if navigationController.topViewController is DetailPhotoViewController {
                 self?.dismiss(animated: false) {
                     navigationController.popToRootViewController(animated: true)
-                    self?.alertCountOfPhotos(count: recoverCount, message: "photos recovered.")
+                    self?.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
                 }
+            } else {
+                self?.dismiss(animated: true, completion: {
+                    self?.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
+                })
             }
         }
     }
@@ -226,8 +232,11 @@ class TemporaryPhotoViewController: UIViewController {
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: nil)
-            
-            temporaryVC.selectedAlertCountOfPhotos(count: recoverCount, message: "photos recovered.")
+
+            temporaryVC.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
+            guard let navigationController = temporaryVC.presentingViewController
+                as? UINavigationController else { return }
+
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
             self?.popIfCountIsEmptyAfterWork(count: recoverCount, message: "photos recovoered")
         }
@@ -239,7 +248,7 @@ class TemporaryPhotoViewController: UIViewController {
         let deleteCount = temporaryPhotoStore.photoAssets.count
             self?.collectionView.reloadSections(IndexSet(integer: 0))
             self?.dismiss(animated: true, completion: {
-                self?.alertCountOfPhotos(count: deleteCount, message: "photos deleted.")
+                self?.alertCountOfPhotos(count: deleteCount, committedMode: .delete)
             })
         }
     }
@@ -254,12 +263,10 @@ class TemporaryPhotoViewController: UIViewController {
                 self?.deleteSelectedButton.isEnabled = false
                 self?.recoverSelectedButton.isEnabled = false
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
-              
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: { _ in
-                self?.selectedAlertCountOfPhotos(count: deleteCount, message: "photos deleted.")
+             self?.alertCountOfPhotos(count: deleteCount, committedMode: .delete)
             })
-            self?.popIfCountIsEmptyAfterWork(count: deleteCount, message: "photos deleted.")
         }
     }
     

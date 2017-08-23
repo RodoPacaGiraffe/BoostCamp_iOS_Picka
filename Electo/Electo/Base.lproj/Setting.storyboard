@@ -146,6 +146,11 @@
                     <connections>
                         <outlet property="dataAllowedSwitch" destination="C37-bf-6c9" id="9Co-KQ-KQI"/>
                         <outlet property="slider" destination="wQQ-K4-gD0" id="bqm-P1-iua"/>
+                        <outletCollection property="levelLabels" destination="29T-y5-LRi" id="zQ6-ab-R7q"/>
+                        <outletCollection property="levelLabels" destination="o6p-Ce-g6P" id="p9p-sN-Zah"/>
+                        <outletCollection property="levelLabels" destination="I2u-vF-kGf" id="9kQ-lh-522"/>
+                        <outletCollection property="levelLabels" destination="a0G-vd-N2e" id="SuF-k5-zyq"/>
+                        <outletCollection property="levelLabels" destination="l2j-Lk-55D" id="5Hx-tC-2cb"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mHz-vy-aNc" userLabel="First Responder" sceneMemberID="firstResponder"/>

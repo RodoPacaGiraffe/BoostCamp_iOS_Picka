@@ -8,7 +8,7 @@
 
 "UseiCloud" = "携帯電話のデータを使用してicloudを利用した写真をダウンロードします。";
 "%d Photos" = "%d枚の写真";
-"No Authorization" = "Electoはフォトライブラリのアクセス権を必要とします。";
+"No Authorization" = "Pickaはフォトライブラリのアクセス権を必要とします。";
 "No Photo" = "まとめ割写真はありません。";
 "Go Settings" = "設定";
 "Cancel" = "キャンセル";
@@ -16,3 +16,5 @@
 "Recover All Photos" = "すべての写真を復元する";
 "Recover Selected Photos" = "選択した写真を復元する";
 "Choose" = "選択する";
+"%d photos recovered." = "%d枚の写真が回復しました。";
+"%d photos deleted." = "%d枚の写真が削除されました。";

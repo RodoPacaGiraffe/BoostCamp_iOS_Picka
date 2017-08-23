@@ -6,4 +6,4 @@
   Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 */
 
-NSPhotoLibraryUsageDescription = "Electo需要存取相片庫。";
+NSPhotoLibraryUsageDescription = "Picka需要存取相片庫。";

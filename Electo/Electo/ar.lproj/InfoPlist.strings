@@ -6,4 +6,4 @@
   Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 */
 
-NSPhotoLibraryUsageDescription = "Electo يتطلب الوصول مكتبة الصور.";
+NSPhotoLibraryUsageDescription = "Picka يتطلب الوصول مكتبة الصور";
