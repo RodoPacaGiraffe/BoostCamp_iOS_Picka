@@ -35,6 +35,10 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -107,11 +111,61 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
+    func alertCountOfPhotos(count: Int, message: String) {
+        let label = UILabel()
+        label.text = "\(count) \(message)"
+        label.backgroundColor = UIColor.lightGray.withAlphaComponent(1)
+        label.alpha = 0
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 20)
+        
+        label.frame = CGRect(x: (self.view.frame.width) / 4, y: (view.frame.height)/2, width: 200, height: 60)
+        label.makeRoundBorder(degree: 5)
+        OperationQueue.main.addOperation {
+            
+            let rootViewController = UIApplication.shared.keyWindow?.rootViewController
+            let viewController = rootViewController?.presentedViewController ?? rootViewController
+            viewController?.view.superview?.addSubview(label)
+            self.countAppearAnimation(label)
+            
+        }
+    }
+    
+    func selectedAlertCountOfPhotos(count: Int, message: String) {
+        let label = UILabel()
+        label.text = "\(count) \(message)"
+        label.backgroundColor = UIColor.lightGray.withAlphaComponent(1)
+        label.alpha = 0
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 20)
+        
+        label.frame = CGRect(x: (self.view.frame.width) / 4, y: (view.frame.height)/2, width: 200, height: 60)
+        label.makeRoundBorder(degree: 5)
+        self.view.addSubview(label)
+        OperationQueue.main.addOperation {
+            self.countAppearAnimation(label)
+        }
+    }
+    
+    func countAppearAnimation(_ label: UILabel) {
+        UIView.animate(withDuration: 0.5, animations: {
+            label.alpha = 1
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.5, delay: 0.5, options: .beginFromCurrentState, animations: {
+                label.alpha = 0
+            }, completion: { _ in
+                label.removeFromSuperview()
+            })
+            
+        })
+    }
+    
     @IBAction func recoverAll(_ sender: UIButton) {
         recoverAlertController(title: "Recover All Photos") {
             [weak self] (action) in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
+            let recoverCount = allRemovedPhotoAssets.count
             temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
             
 
@@ -123,47 +177,53 @@ class TemporaryPhotoViewController: UIViewController {
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
             
             if navigationController.topViewController is ClassifiedPhotoViewController {
-                self?.dismiss(animated: true, completion: nil)
+                self?.dismiss(animated: true, completion: {
+                    self?.alertCountOfPhotos(count: recoverCount, message: "photos recovered.")
+                })
             } else {
                 self?.dismiss(animated: false) {
-                    navigationController.popToRootViewController(animated: true)
+                        navigationController.popToRootViewController(animated: true)
+                    }
+                self?.alertCountOfPhotos(count: recoverCount, message: "photos recovered.")
                 }
             }
-        }
     }
     
     @IBAction func recoverSelected(_ sender: UIButton) {
-        
+        guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
+        let recoverCount = selectedPhotoAssets().count
         recoverAlertController(title: "Recover Selected Photos") { (action) in
-            guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
             temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
-            
             self.collectionView.reloadSections(IndexSet(integer: 0))
-            
+            self.selectedAlertCountOfPhotos(count: recoverCount, message: "photos recovered.")
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
         }
     }
     
     @IBAction func deleteAll(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        
+        let deleteCount = temporaryPhotoStore.photoAssets.count
         temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) {
             [weak self] in
             self?.collectionView.reloadSections(IndexSet(integer: 0))
-            self?.dismiss(animated: true, completion: nil)
+            self?.dismiss(animated: true, completion: {
+                self?.alertCountOfPhotos(count: deleteCount, message: "photos deleted.")
+            })
         }
     }
     
     @IBAction func deleteSelected(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        
+        let deleteCount = selectedPhotoAssets().count
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
+            self?.selectedAlertCountOfPhotos(count: deleteCount, message: "photos deleted.")
             self?.collectionView.reloadSections(IndexSet(integer: 0))
         }
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
+        
         self.dismiss(animated: true, completion: nil)
     }
     
