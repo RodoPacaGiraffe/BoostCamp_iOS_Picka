@@ -130,7 +130,7 @@ class DetailPhotoViewController: UIViewController {
         
         detailImageView.image = thumbnailImages.first
         
-        if Bundle.main.preferredLocalizations.first == "ar" {
+        if self.view.effectiveUserInterfaceLayoutDirection == .rightToLeft {
             thumbnailCollectionView.semanticContentAttribute = .forceRightToLeft
         }
         
@@ -285,7 +285,7 @@ class DetailPhotoViewController: UIViewController {
         let targetY = -(naviBarHeight / 2)
         var targetX: CGFloat {
             get {
-                guard Bundle.main.preferredLocalizations.first != "ar" else {
+                guard self.view.effectiveUserInterfaceLayoutDirection == .leftToRight else {
                     return 20
                 }
                 
@@ -295,7 +295,7 @@ class DetailPhotoViewController: UIViewController {
         
         var rotateDegree: CGFloat {
             get {
-                guard Bundle.main.preferredLocalizations.first != "ar" else {
+                guard self.view.effectiveUserInterfaceLayoutDirection == .leftToRight else {
                     return -45
                 }
                 
