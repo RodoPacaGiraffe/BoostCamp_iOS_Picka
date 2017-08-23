@@ -10,6 +10,8 @@ import UIKit
 import Photos
 
 class DetailPhotoViewController: UIViewController {
+    
+    @IBOutlet var backButtonImage: UIBarButtonItem!
     @IBOutlet fileprivate var zoomingScrollView: UIScrollView!
     @IBOutlet fileprivate var detailImageView: UIImageView!
     @IBOutlet fileprivate var thumbnailCollectionView: UICollectionView!
@@ -48,7 +50,7 @@ class DetailPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setFlowLayout()
         displayDetailViewSetting()
         setNavigationButtonItem()
@@ -106,6 +108,9 @@ class DetailPhotoViewController: UIViewController {
         self.view.addGestureRecognizer(gesture)
         flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
         flowLayout.itemSize.width = flowLayout.itemSize.height
+        if self.view.effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            backButtonImage.image = UIImage(named: "rtlBack.png")
+        }
     }
     
     private func updatePhotoIndex(direction: UISwipeGestureRecognizerDirection) {
