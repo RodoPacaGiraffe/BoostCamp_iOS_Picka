@@ -455,6 +455,11 @@ extension ClassifiedPhotoViewController {
                 animatingLabelAndIndicator()
             }
         }
+        
+        if scrollGesture.state == .cancelled {
+            scrollingLabel.isHidden = true
+            print("cancelled")
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
