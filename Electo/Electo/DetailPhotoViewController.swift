@@ -116,8 +116,14 @@ class DetailPhotoViewController: UIViewController {
     private func updatePhotoIndex(direction: UISwipeGestureRecognizerDirection) {
         switch direction {
         case UISwipeGestureRecognizerDirection.right:
+            guard thumbnailCollectionView.cellForItem(at: IndexPath(item: selectedPhotos, section: 0)) != nil else {
+                return
+                }
             selectedPhotos -= 1
         case UISwipeGestureRecognizerDirection.left:
+            guard thumbnailCollectionView.cellForItem(at: IndexPath(item: selectedPhotos, section: 0)) != nil else {
+                return
+                }
             selectedPhotos += 1
         default:
             break
@@ -383,6 +389,7 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
             as? DetailPhotoCell else {
                 collectionView.selectItem(at: pressedIndexPath, animated: true,
                                           scrollPosition: .centeredHorizontally)
+                selectedPhotos -= 1
                 return }
     
         previousSelectedCell?.deSelect()
