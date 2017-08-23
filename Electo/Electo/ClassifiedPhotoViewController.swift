@@ -406,7 +406,7 @@ extension ClassifiedPhotoViewController {
     
         guard tableView.contentSize.height > self.view.frame.height else { return }
         guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
-        if let indexPath = tableView.indexPathForRow(at: CGPoint(x: 0, y: tableView.contentOffset.y + 64))  {
+        if let indexPath = tableView.indexPathForRow(at: CGPoint(x: 0, y: tableView.contentOffset.y + self.customScrollView.frame.origin.y))  {
             scrollingLabel.isHidden = false
             scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.3, alpha: 0.8)
             scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
