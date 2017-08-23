@@ -17,15 +17,17 @@ class ClassifiedPhotoCell: UITableViewCell {
     @IBOutlet var imageViews: [UIImageView]!
     @IBOutlet var moreImagesLabel: UILabel!
     
-    var cellImages: [UIImage] = .init() {
+    var requestIDs: [PHImageRequestID] = []
+    
+    var cellImages: [UIImage] = [] {
         didSet {
             addPhotoImagesToStackView(photoImages: cellImages)
         }
     }
     
-    var requestIDs: [PHImageRequestID] = []
-    
     override func layoutSubviews() {
+        super.layoutSubviews()
+        
         self.subviews.forEach { subview in
             let typeString = String(describing: type(of: subview))
             guard typeString == Constants.deleteConfirmationView else { return }
@@ -37,25 +39,23 @@ class ClassifiedPhotoCell: UITableViewCell {
         }
     }
     
-    func update(date: String, location: String?) {
-        numberOfPhotosLabel.text = date
-        locationLabel.text = location
-    }
-    
     func addPhotoImagesToStackView(photoImages: [UIImage]) {
         moreImagesLabel.isHidden = true
+        
         for index in photoImages.indices {
             guard index < Constants.maximumImageView else {
                 setLabel()
                 break
             }
+            
             imageViews[index].image = photoImages[index]
         }
-        self.imageContainerView.makeRoundBorder(degree: 16.0)
-        self.imageContainerView.backgroundColor = UIColor(red: 243/255,
-                                                                 green: 243/255,
-                                                                 blue: 243/255,
-                                                                 alpha: 1)
+        
+        imageContainerView.makeRoundBorder(degree: 16.0)
+        imageContainerView.backgroundColor = UIColor(red: 243/255,
+                                                     green: 243/255,
+                                                     blue: 243/255,
+                                                     alpha: 1)
     }
     
     func setLabel() {
@@ -63,6 +63,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         lastIamgeView.image = lastIamgeView.image?.alpha(0.5)
         
         let numOfMoreImages = cellImages.count - Constants.maximumImageView
+        
         moreImagesLabel.text = "+\(numOfMoreImages)"
         moreImagesLabel.isHidden = false
     }

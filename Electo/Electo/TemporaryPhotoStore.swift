@@ -27,9 +27,10 @@ class TemporaryPhotoStore: NSObject, NSCoding {
         
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
                                                name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+        
         guard let loadedPhotoAssetsIdentifier = aDecoder.decodeObject(
             forKey: Constants.temporaryPhotoAssetsIdentifier) as? [String] else {
-                return nil
+            return nil
         }
         
         photoAssetsIdentifier = loadedPhotoAssetsIdentifier
@@ -41,7 +42,6 @@ class TemporaryPhotoStore: NSObject, NSCoding {
     
     func fetchPhotoAsset() {
         let fetchOptions = PHFetchOptions()
-        
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: Order.creationDate.rawValue,
                                                          ascending: false)]
         
@@ -57,10 +57,7 @@ class TemporaryPhotoStore: NSObject, NSCoding {
     }
     
     func savePhotoAsset() {
-        guard let path = Constants.archiveURL?.path else {
-            return
-        }
-        
+        guard let path = Constants.archiveURL?.path else { return }
         NSKeyedArchiver.archiveRootObject(self, toFile: path)
     }
     
@@ -69,10 +66,7 @@ class TemporaryPhotoStore: NSObject, NSCoding {
             as? [PHAsset] else { return }
         
         removedPhotoAssets.forEach {
-            guard let index = photoAssets.index(of: $0) else {
-                print("This photoAsset is not founded from temporaryPhotoStore")
-                return
-            }
+            guard let index = photoAssets.index(of: $0) else { return }
             
             photoAssets.remove(at: index)
         }
@@ -110,7 +104,7 @@ extension TemporaryPhotoStore {
     func removePhotoFromLibrary(with photoAssets: [PHAsset], completion: (() -> Void)?) {
         PHPhotoLibrary.shared().performChanges({
             PHAssetChangeRequest.deleteAssets(photoAssets as NSFastEnumeration)
-        }) { [weak self] (isSuccess, error) in
+        }) { [weak self] (isSuccess, _) in
             guard isSuccess else { return }
             
             self?.remove(photoAssets: photoAssets, isPerformDelegate: false)
@@ -127,9 +121,13 @@ extension TemporaryPhotoStore {
 extension TemporaryPhotoStore: PhotoStoreDelegate {
     func temporaryPhotoDidInserted(insertedPhotoAssets: [PHAsset]) {
         delegate?.temporaryPhotoDidInserted(insertedPhotoAssets: insertedPhotoAssets)
+        
+        NotificationCenter.default.post(name: Constants.requiredUpdatingBadge, object: nil)
     }
     
     func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset]) {
         delegate?.temporaryPhotoDidRemoved(removedPhotoAssets: removedPhotoAssets)
+        
+        NotificationCenter.default.post(name: Constants.requiredUpdatingBadge, object: nil)
     }
 }
