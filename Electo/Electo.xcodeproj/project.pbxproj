@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40A133F31F4C4FA2008BEAE9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40A133F21F4C4FA2008BEAE9 /* Launch Screen.storyboard */; };
 		40B4EA9C1F39940B00F4393A /* DetailPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */; };
 		40B4EA9E1F39A4AA00F4393A /* DetailPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */; };
 		7D69DCDE1F44E10400BC83E9 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */; };
@@ -50,6 +51,7 @@
 		40950C2F1F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Electo/ja.lproj/Detail.strings; sourceTree = "<group>"; };
 		40950C301F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		40950C311F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Electo/ja.lproj/Setting.strings; sourceTree = "<group>"; };
+		40A133F21F4C4FA2008BEAE9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoViewController.swift; sourceTree = "<group>"; };
 		40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoCell.swift; sourceTree = "<group>"; };
 		7D69DCDD1F44E10400BC83E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				C94023B41F4BF49700FA740C /* LoadingView.xib */,
 				7DB071731F481A4100F37D7F /* EmptyView.xib */,
 				C93874721F38624300CB0AC4 /* Temporary.storyboard */,
+				40A133F21F4C4FA2008BEAE9 /* Launch Screen.storyboard */,
 				C93874741F38624300CB0AC4 /* Detail.storyboard */,
 				C9E21E9F1F3439BB00B17CC4 /* Main.storyboard */,
 				7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */,
@@ -319,6 +322,7 @@
 				C93874761F38624300CB0AC4 /* Temporary.storyboard in Resources */,
 				C93874771F38624300CB0AC4 /* Detail.storyboard in Resources */,
 				7D69DCDE1F44E10400BC83E9 /* Setting.storyboard in Resources */,
+				40A133F31F4C4FA2008BEAE9 /* Launch Screen.storyboard in Resources */,
 				C940239E1F4AAD4D00FA740C /* InfoPlist.strings in Resources */,
 				C94023B51F4BF49700FA740C /* LoadingView.xib in Resources */,
 			);
@@ -557,6 +561,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9PZPL5979H;
 				INFOPLIST_FILE = Electo/Info.plist;
@@ -574,6 +579,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9PZPL5979H;
 				INFOPLIST_FILE = Electo/Info.plist;

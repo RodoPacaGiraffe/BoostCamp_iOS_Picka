@@ -48,7 +48,7 @@ class DetailPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setFlowLayout()
         displayDetailViewSetting()
         setNavigationButtonItem()
@@ -101,6 +101,9 @@ class DetailPhotoViewController: UIViewController {
     }
     
     private func setFlowLayout() {
+        guard let gesture = self.navigationController?.interactivePopGestureRecognizer else { return }
+        gesture.delegate = self
+        self.view.addGestureRecognizer(gesture)
         flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
         flowLayout.itemSize.width = flowLayout.itemSize.height
     }
@@ -322,6 +325,10 @@ class DetailPhotoViewController: UIViewController {
                 as? TemporaryPhotoViewController else { return }
         
         temporaryPhotoViewController.photoDataSource = photoDataSource
+    }
+ 
+    @IBAction func dismissAction(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

@@ -101,7 +101,7 @@ class ClassifiedPhotoViewController: UIViewController {
         tableView.addSubview(refreshControl)
     }
     
-    private func appearLoadingView() {
+    func appearLoadingView() {
         DispatchQueue.main.async { [weak self] in
             guard let windowFrame: CGRect = self?.view.window?.frame else { return }
             self?.loadingView = LoadingView.instanceFromNib(frame: windowFrame)
@@ -153,9 +153,10 @@ class ClassifiedPhotoViewController: UIViewController {
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         
         let goSettingAction = UIAlertAction(title: NSLocalizedString("Go Settings", comment: ""),
-                style: .default) { _ in
+                style: .default) { [weak self] _ in
             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
             UIApplication.shared.open(url)
+            self?.requestAuthorization()
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
@@ -375,7 +376,16 @@ extension ClassifiedPhotoViewController {
 
 extension ClassifiedPhotoViewController: SettingDelegate {
     func groupingChanged() {
-        pullToRefresh()
+        DispatchQueue.global().async { [weak self] in
+            self?.photoDataSource.photoStore.fetchPhotoAsset()
+            self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
+            
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+                self?.disappearLoadingView()
+                self?.fetchLocationToVisibleCells()
+            }
+        }
     }
 }
 
@@ -388,15 +398,17 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
 
 extension ClassifiedPhotoViewController {
     func touchToScroll() {
-        guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
-        
+       
         guard scrollGesture.state != .ended else {
             fadeOutLabelAndIndicator()
             return
         }
-        
-        if let indexPath = tableView.indexPathForRow(at: tableView.contentOffset) {
+    
+        guard tableView.contentSize.height > self.view.frame.height else { return }
+        guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
+        if let indexPath = tableView.indexPathForRow(at: CGPoint(x: 0, y: tableView.contentOffset.y + 64))  {
             scrollingLabel.isHidden = false
+            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.3, alpha: 0.8)
             scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
             scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.5, alpha: 0.8)
         }
@@ -410,25 +422,41 @@ extension ClassifiedPhotoViewController {
             tableView.contentOffset.y = 0
             fadeOutLabelAndIndicator()
         } else {
+
             let estimatedViewHeight = self.view.frame.height - customScrollView.frame.size.height
-            let tableViewContentOffsetY = ((customScrollView.frame.origin.y / estimatedViewHeight) * tableView.contentSize.height)
-            
-            tableView.setContentOffset(CGPoint(x: 0, y: tableViewContentOffsetY), animated: false)
+            tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / estimatedViewHeight) * (tableView.contentSize.height - self.view.frame.height)), animated: false)
             customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
+            
+            if scrollGesture.state == .ended {
+                animatingLabelAndIndicator()
+            }
+        }
+        
+        if scrollGesture.state == .cancelled {
+            scrollingLabel.isHidden = true
+            print("cancelled")
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
         
-        guard customScrollView.frame.origin.y < self.view.frame.height else { return }
-        // 전체 tableview 컨텐츠 사이즈에서 contentOffset 비율계산 
+//        guard customScrollView.frame.origin.y < self.view.frame.height else { return }
+        guard scrollView.contentOffset.y > 0 else {
+            customScrollView.frame.origin.y = tableView.contentOffset.y
+            return
+        }
+        
+        // 전체 tableview 컨텐츠 사이즈에서 contentOffset 비율계산
         // -> (scrollView.contentOffset.y / scrollView.contentSize.hieght
         // 위 식을 self.view 의 높이만큼을 곱하여 화면 높이에 맞게 정규화.
+
         let estimatedViewHeight = self.view.frame.height - customScrollView.frame.size.height
-        
-        customScrollView.frame.origin.y = (scrollView.contentOffset.y / (scrollView.contentSize.height - self.view.frame.height))
-            * estimatedViewHeight
+        if scrollView.contentSize.height > self.view.frame.height {
+            customScrollView.frame.origin.y = (scrollView.contentOffset.y / (scrollView.contentSize.height - self.view.frame.height)) * estimatedViewHeight
+        } else {
+            customScrollView.frame.origin.y = (scrollView.contentOffset.y / (self.view.frame.height - scrollView.contentSize.height)) * estimatedViewHeight
+        }
     }
     
     func fadeOutLabelAndIndicator() {
