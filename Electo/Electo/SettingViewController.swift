@@ -31,29 +31,29 @@ class SettingViewController: UITableViewController {
     
     private func setSlider() {
         let timeIntervalBoundary: Double = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
-            as? Double ?? Double(GroupingInterval.level3.rawValue)
+            as? Double ?? Double(GroupingInterval.level2.rawValue)
         
         slider.setValue(Float(timeIntervalBoundary), animated: false)
     }
     
     @IBAction private func sliderValueChanged(_ sender: UISlider) {
+        tableView.isScrollEnabled = false
+        
         switch sender.value {
         case Clustering.interval1:
-            sender.setValue(GroupingInterval.level1.rawValue, animated: true)
+            sender.value = GroupingInterval.level1.rawValue
         case Clustering.interval2:
-            sender.setValue(GroupingInterval.level2.rawValue, animated: true)
-        case Clustering.interval3:
-            sender.setValue(GroupingInterval.level3.rawValue, animated: true)
-        case Clustering.interval4:
-            sender.setValue(GroupingInterval.level4.rawValue, animated: true)
+            sender.value = GroupingInterval.level2.rawValue
         default:
-            sender.setValue(GroupingInterval.level5.rawValue, animated: true)
+            sender.value = GroupingInterval.level3.rawValue
         }
         
         Constants.timeIntervalBoundary = Double(sender.value)
         
         UserDefaults.standard.set(Constants.timeIntervalBoundary, forKey: "timeIntervalBoundary")
         UserDefaults.standard.synchronize()
+        
+        tableView.isScrollEnabled = true
     }
     
     @IBAction private func networkAllowSwitch(_ sender: UISwitch) {
