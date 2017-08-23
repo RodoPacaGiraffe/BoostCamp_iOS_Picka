@@ -114,7 +114,6 @@ class TemporaryPhotoViewController: UIViewController {
             let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
             temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
             
-
             self?.collectionView.reloadSections(IndexSet(integer: 0))
 
             guard let navigationController = self?.presentingViewController
@@ -138,7 +137,10 @@ class TemporaryPhotoViewController: UIViewController {
             guard let temporaryPhotoStore = self.photoDataSource?.temporaryPhotoStore else { return }
             temporaryPhotoStore.remove(photoAssets: self.selectedPhotoAssets())
             
-            self.collectionView.reloadSections(IndexSet(integer: 0))
+            self.collectionView.performBatchUpdates({
+                guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
+                self.collectionView.deleteItems(at: selectedItems)
+            }, completion: nil)
             
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
         }
@@ -159,7 +161,10 @@ class TemporaryPhotoViewController: UIViewController {
         
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
-            self?.collectionView.reloadSections(IndexSet(integer: 0))
+            self?.collectionView.performBatchUpdates({
+                guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
+                self?.collectionView.deleteItems(at: selectedItems)
+            }, completion: nil)
         }
     }
     
