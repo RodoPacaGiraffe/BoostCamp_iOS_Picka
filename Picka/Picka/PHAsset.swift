@@ -15,7 +15,7 @@ extension PHAsset {
         resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
         var imageRequestID: PHImageRequestID = PHImageRequestID()
         
-        imageRequestID = cachingImageManager.requestImage(for: self, targetSize: size,
+        imageRequestID = CachingImageManager.shared.requestImage(for: self, targetSize: size,
             contentMode: contentMode, options: options) { (image, _) in
                 resultHandler(image)
         }
@@ -24,7 +24,7 @@ extension PHAsset {
     }
     
     func fetchFullSizeImage(options: PHImageRequestOptions?, resultHandler: @escaping (Data?) -> Void) {
-        cachingImageManager.requestImageData(for: self, options: options) {
+        CachingImageManager.shared.requestImageData(for: self, options: options) {
             (data, _, _, _) in
             resultHandler(data)
         }

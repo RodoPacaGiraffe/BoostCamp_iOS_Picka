@@ -367,8 +367,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         let photoAsset = photoAssets[indexPath.item]
         
         if let previousRequestID = cell.requestID {
-            let manager = PHImageManager.default()
-            manager.cancelImageRequest(previousRequestID)
+            CachingImageManager.shared.cancelImageRequest(previousRequestID)
         }
         
         cell.requestID = photoAsset.fetchImage(size: Constants.fetchImageSize,
