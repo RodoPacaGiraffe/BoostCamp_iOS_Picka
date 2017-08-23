@@ -15,7 +15,7 @@ class TemporaryPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
-    fileprivate enum CommitedMode: String {
+    fileprivate enum CommittedMode: String {
         case recorver
         case delete
     }
@@ -119,11 +119,11 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    private func alertCountOfPhotos(count: Int, commitedMode: CommitedMode) {
+    private func alertCountOfPhotos(count: Int, committedMode: CommittedMode) {
         let label: UILabel = UILabel()
         var localizedMessage: String = ""
         
-        switch commitedMode {
+        switch committedMode {
         case .recorver:
             localizedMessage = NSLocalizedString("%d photos recovered.", comment: "")
             
@@ -189,11 +189,11 @@ class TemporaryPhotoViewController: UIViewController {
             if navigationController.topViewController is DetailPhotoViewController {
                 self?.dismiss(animated: false) {
                     navigationController.popToRootViewController(animated: true)
-                    self?.alertCountOfPhotos(count: recoverCount, commitedMode: .recorver)
+                    self?.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
                 }
             } else {
                 self?.dismiss(animated: true, completion: {
-                    self?.alertCountOfPhotos(count: recoverCount, commitedMode: .recorver)
+                    self?.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
                 })
             }
         }
@@ -212,7 +212,7 @@ class TemporaryPhotoViewController: UIViewController {
             }, completion: nil)
 
 
-            temporaryVC.alertCountOfPhotos(count: recoverCount, commitedMode: .recorver)
+            temporaryVC.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
             guard let navigationController = temporaryVC.presentingViewController
                 as? UINavigationController else { return }
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
@@ -234,7 +234,7 @@ class TemporaryPhotoViewController: UIViewController {
         let deleteCount = temporaryPhotoStore.photoAssets.count
             self?.collectionView.reloadSections(IndexSet(integer: 0))
             self?.dismiss(animated: true, completion: {
-                self?.alertCountOfPhotos(count: deleteCount, commitedMode: .delete)
+                self?.alertCountOfPhotos(count: deleteCount, committedMode: .delete)
             })
         }
     }
@@ -249,7 +249,7 @@ class TemporaryPhotoViewController: UIViewController {
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: { _ in
-             self?.alertCountOfPhotos(count: deleteCount, commitedMode: .delete)
+             self?.alertCountOfPhotos(count: deleteCount, committedMode: .delete)
             })
         }
     }
