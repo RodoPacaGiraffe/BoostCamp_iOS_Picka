@@ -10,6 +10,8 @@ import UIKit
 import Photos
 
 class DetailPhotoViewController: UIViewController {
+    
+    @IBOutlet var backButtonImage: UIBarButtonItem!
     @IBOutlet fileprivate var zoomingScrollView: UIScrollView!
     @IBOutlet fileprivate var detailImageView: UIImageView!
     @IBOutlet fileprivate var thumbnailCollectionView: UICollectionView!
@@ -48,7 +50,7 @@ class DetailPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setFlowLayout()
         displayDetailViewSetting()
         setNavigationButtonItem()
@@ -106,6 +108,9 @@ class DetailPhotoViewController: UIViewController {
         self.view.addGestureRecognizer(gesture)
         flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
         flowLayout.itemSize.width = flowLayout.itemSize.height
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+            backButtonImage.image = UIImage(named: "rtlBack.png")
+        }
     }
     
     private func updatePhotoIndex(direction: UISwipeGestureRecognizerDirection) {
@@ -125,7 +130,7 @@ class DetailPhotoViewController: UIViewController {
         
         detailImageView.image = thumbnailImages.first
         
-        if Bundle.main.preferredLocalizations.first == "ar" {
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
             thumbnailCollectionView.semanticContentAttribute = .forceRightToLeft
         }
         
@@ -278,7 +283,7 @@ class DetailPhotoViewController: UIViewController {
         let targetY = -(naviBarHeight / 2)
         var targetX: CGFloat {
             get {
-                guard Bundle.main.preferredLocalizations.first != "ar" else {
+                guard UIApplication.shared.userInterfaceLayoutDirection != .rightToLeft else {
                     return 20
                 }
                 
@@ -288,7 +293,7 @@ class DetailPhotoViewController: UIViewController {
         
         var rotateDegree: CGFloat {
             get {
-                guard Bundle.main.preferredLocalizations.first != "ar" else {
+                guard UIApplication.shared.userInterfaceLayoutDirection != .rightToLeft else {
                     return -45
                 }
                 
@@ -338,6 +343,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("in detail \(indexPath)")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath)
             as? DetailPhotoCell ?? DetailPhotoCell()
         
@@ -407,6 +413,9 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
 
 extension DetailPhotoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer.state == .changed {
+            otherGestureRecognizer.require(toFail: gestureRecognizer)
+        }
         return true
     }
 }

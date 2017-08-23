@@ -73,7 +73,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         } else {
             moreImagesLabel.text = "+\(numOfMoreImages)"
         }
-        
+       
         moreImagesLabel.isHidden = false
     }
     

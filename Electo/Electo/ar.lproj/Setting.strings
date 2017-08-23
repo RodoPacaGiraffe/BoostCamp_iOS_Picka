@@ -5,8 +5,8 @@
 /* Class = "UILabel"; text = "How to Use"; ObjectID = "0yU-Xi-rJw"; */
 "0yU-Xi-rJw.text" = "كيف تستعمل";
 
-/* Class = "UILabel"; text = "Grouping Interval"; ObjectID = "1Qx-0d-DlA"; */
-"1Qx-0d-DlA.text" = "تجمع";
+/* Class = "UILabel"; text = "Collecting Degree"; ObjectID = "1Qx-0d-DlA"; */
+"1Qx-0d-DlA.text" = "معايير التصنيف";
 
 /* Class = "UILabel"; text = "1"; ObjectID = "29T-y5-LRi"; */
 "29T-y5-LRi.text" = "1";
@@ -37,9 +37,6 @@
 
 /* Class = "UILabel"; text = "4"; ObjectID = "a0G-vd-N2e"; */
 "a0G-vd-N2e.text" = "4";
-
-/* Class = "UILabel"; text = "Adjust the degree of grouping. "; ObjectID = "j7s-24-KIQ"; */
-"j7s-24-KIQ.text" = "ضبط درجة التجميع";
 
 /* Class = "UILabel"; text = "Adjust the criteria for collecting photos."; ObjectID = "j7s-24-KIQ"; */
 "j7s-24-KIQ.text" = "ضبط معايير لجمع الصور.";

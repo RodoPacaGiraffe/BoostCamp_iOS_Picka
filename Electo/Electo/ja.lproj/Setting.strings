@@ -5,8 +5,8 @@
 /* Class = "UILabel"; text = "How to Use"; ObjectID = "0yU-Xi-rJw"; */
 "0yU-Xi-rJw.text" = "使い方";
 
-/* Class = "UILabel"; text = "Grouping"; ObjectID = "1Qx-0d-DlA"; */
-"1Qx-0d-DlA.text" = "グループ化";
+/* Class = "UILabel"; text = "Collecting Degree"; ObjectID = "1Qx-0d-DlA"; */
+"1Qx-0d-DlA.text" = "分類基準";
 
 /* Class = "UILabel"; text = "Share"; ObjectID = "4oO-id-BoZ"; */
 "4oO-id-BoZ.text" = "シェア";

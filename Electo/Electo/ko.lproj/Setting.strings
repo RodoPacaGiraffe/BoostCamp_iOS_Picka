@@ -2,8 +2,8 @@
 /* Class = "UILabel"; text = "How to Use"; ObjectID = "0yU-Xi-rJw"; */
 "0yU-Xi-rJw.text" = "사용 방법";
 
-/* Class = "UILabel"; text = "Collecting"; ObjectID = "1Qx-0d-DlA"; */
-"1Qx-0d-DlA.text" = "모음";
+/* Class = "UILabel"; text = "Collecting Degree"; ObjectID = "1Qx-0d-DlA"; */
+"1Qx-0d-DlA.text" = "모음 정도";
 
 /* Class = "UILabel"; text = "Share"; ObjectID = "4oO-id-BoZ"; */
 "4oO-id-BoZ.text" = "공유";

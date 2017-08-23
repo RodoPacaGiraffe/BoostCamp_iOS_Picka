@@ -171,7 +171,27 @@ class TemporaryPhotoViewController: UIViewController {
         })
     }
     
-    @IBAction private func recoverAll(_ sender: UIButton) {
+    func popIfCountIsEmptyAfterWork(count: Int, message: String) {
+        guard let navigationController = self.presentingViewController
+            as? UINavigationController else { return }
+        
+        guard let temporaryPhotoAssets = self.photoDataSource?.temporaryPhotoStore.photoAssets else { return }
+        if temporaryPhotoAssets.isEmpty {
+            if navigationController.topViewController is ClassifiedPhotoViewController {
+                
+                self.dismiss(animated: true ) { [weak self] _ in
+                    self?.alertCountOfPhotos(count: count, message: message)
+                }
+            } else {
+                self.dismiss(animated: false) { [weak self] _ in
+                    navigationController.popToRootViewController(animated: true)
+                    self?.alertCountOfPhotos(count: count, message: message)
+                }
+            }
+        }
+    }
+    
+    @IBAction func recoverAll(_ sender: UIButton) {
         recoverAlertController(title: "Recover All Photos") { [weak self] _ in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             
@@ -207,24 +227,18 @@ class TemporaryPhotoViewController: UIViewController {
             
             temporaryPhotoStore.remove(photoAssets: temporaryVC.selectedPhotoAssets())
             self?.collectionView.performBatchUpdates({
+                self?.deleteSelectedButton.isEnabled = false
+                self?.recoverSelectedButton.isEnabled = false
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: nil)
 
-
             temporaryVC.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
             guard let navigationController = temporaryVC.presentingViewController
                 as? UINavigationController else { return }
+
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
-        
-            //TODO: 선택 삭제 후 그대로
-//            if navigationController.topViewController is ClassifiedPhotoViewController {
-//                temporaryVC.dismiss(animated: true, completion: nil)
-//            } else {
-//                temporaryVC.dismiss(animated: false) {
-//                    navigationController.popToRootViewController(animated: true)
-//                }
-//            }
+            self?.popIfCountIsEmptyAfterWork(count: recoverCount, message: "photos recovoered")
         }
     }
     
@@ -246,6 +260,8 @@ class TemporaryPhotoViewController: UIViewController {
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
             self?.collectionView.performBatchUpdates({
+                self?.deleteSelectedButton.isEnabled = false
+                self?.recoverSelectedButton.isEnabled = false
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: { _ in
