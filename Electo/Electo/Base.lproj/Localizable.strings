@@ -8,7 +8,7 @@
 
 "UseiCloud" = "Use cellular data to download photos using icloud.";
 "%d Photos" = "%d Photos";
-"No Authorization" = "Electo requires access to a photo library.";
+"No Authorization" = "Picka requires access to a photo library.";
 "No Photo" = "No photos to organize";
 "Go Settings" = "Go Settings";
 "Cancel" = "Cancel";
@@ -16,3 +16,5 @@
 "Recover All Photos" = "Recover All Photos";
 "Recover Selected Photos" = "Recover Selected Photos";
 "Choose" = "Choose";
+"%d photos recovered." = "%d photos recovered.";
+"%d photos deleted." = "%d photos deleted.";

@@ -31,6 +31,7 @@
 		C94023C11F4BF95100FA740C /* CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023C01F4BF95100FA740C /* CLLocation.swift */; };
 		C94023C31F4BF9B500FA740C /* PHImageRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023C21F4BF9B500FA740C /* PHImageRequestOptions.swift */; };
 		C94023C71F4BFA0E00FA740C /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023C61F4BFA0E00FA740C /* UIView.swift */; };
+		C94023C91F4D769F00FA740C /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023C81F4D769F00FA740C /* Int.swift */; };
 		C94068B51F397EAF00D5B6F8 /* PhotoClassifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94068B41F397EAF00D5B6F8 /* PhotoClassifiable.swift */; };
 		C94068B81F3997B600D5B6F8 /* TemporaryPhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94068B71F3997B600D5B6F8 /* TemporaryPhotoStore.swift */; };
 		C94068BA1F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94068B91F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift */; };
@@ -95,6 +96,7 @@
 		C94023C01F4BF95100FA740C /* CLLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CLLocation.swift; path = Electo/CLLocation.swift; sourceTree = "<group>"; };
 		C94023C21F4BF9B500FA740C /* PHImageRequestOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PHImageRequestOptions.swift; path = Electo/PHImageRequestOptions.swift; sourceTree = "<group>"; };
 		C94023C61F4BFA0E00FA740C /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		C94023C81F4D769F00FA740C /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Int.swift; path = Electo/Int.swift; sourceTree = "<group>"; };
 		C94068B41F397EAF00D5B6F8 /* PhotoClassifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoClassifiable.swift; sourceTree = "<group>"; };
 		C94068B71F3997B600D5B6F8 /* TemporaryPhotoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporaryPhotoStore.swift; sourceTree = "<group>"; };
 		C94068B91F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoStoreDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				C94023C61F4BFA0E00FA740C /* UIView.swift */,
 				C94023BA1F4BF88400FA740C /* UIImage.swift */,
 				C94023BE1F4BF92600FA740C /* UIBarButtonItem.swift */,
+				C94023C81F4D769F00FA740C /* Int.swift */,
 			);
 			name = Extension;
 			path = ..;
@@ -338,6 +341,7 @@
 				C957BDBB1F48606E00D7D3D1 /* SettingDelegate.swift in Sources */,
 				40B4EA9C1F39940B00F4393A /* DetailPhotoViewController.swift in Sources */,
 				40B4EA9E1F39A4AA00F4393A /* DetailPhotoCell.swift in Sources */,
+				C94023C91F4D769F00FA740C /* Int.swift in Sources */,
 				C9804C1C1F39CD7700075E8F /* TemporaryPhotoViewController.swift in Sources */,
 				C94023B71F4BF4A300FA740C /* EmptyView.swift in Sources */,
 				C94023BF1F4BF92600FA740C /* UIBarButtonItem.swift in Sources */,

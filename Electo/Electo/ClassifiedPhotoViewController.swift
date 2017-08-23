@@ -398,7 +398,6 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
 
 extension ClassifiedPhotoViewController {
     func touchToScroll() {
-       
         guard scrollGesture.state != .ended else {
             fadeOutLabelAndIndicator()
             return

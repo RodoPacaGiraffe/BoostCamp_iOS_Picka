@@ -69,9 +69,17 @@ extension PhotoDataSource: UITableViewDataSource {
             cell.requestIDs.append(requestID)
         }
         
-        let localizedString = NSLocalizedString("%d Photos", comment: "")
+        let assetCounts: Int = classifiedPhotoAsset.photoAssets.count
+        var localizedString: String = ""
+        
+        if Locale.preferredLanguages.first == "ar" {
+            localizedString = assetCounts.toArabic() + NSLocalizedString("%d Photos", comment: "")
+        } else {
+            localizedString = NSLocalizedString("%d Photos", comment: "")
+        }
+    
         cell.numberOfPhotosLabel.text = String(format: localizedString,
-                                               classifiedPhotoAsset.photoAssets.count)
+                                               assetCounts)
 
         return cell
     }
@@ -92,7 +100,6 @@ extension PhotoDataSource: UITableViewDataSource {
     }
 }
 
-// TemporaryPhotoViewController - DataSource
 extension PhotoDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return temporaryPhotoStore.photoAssets.count
