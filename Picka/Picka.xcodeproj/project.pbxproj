@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40A133F31F4C4FA2008BEAE9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40A133F21F4C4FA2008BEAE9 /* Launch Screen.storyboard */; };
 		40B4EA9C1F39940B00F4393A /* DetailPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */; };
 		40B4EA9E1F39A4AA00F4393A /* DetailPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */; };
-		7D69DCDE1F44E10400BC83E9 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */; };
+		40CBB7411F4DB20B0039458C /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CBB73F1F4DB20B0039458C /* Detail.storyboard */; };
+		40CBB7441F4DB20F0039458C /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CBB7421F4DB20F0039458C /* Setting.storyboard */; };
+		40CBB7471F4DB2140039458C /* Temporary.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CBB7451F4DB2140039458C /* Temporary.storyboard */; };
+		40CBB7481F4DB2350039458C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CBB74A1F4DB2350039458C /* Launch Screen.storyboard */; };
+		40CBB7531F4DB2550039458C /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40CBB7551F4DB2550039458C /* LoadingView.xib */; };
 		7D69DCE01F45009000BC83E9 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D69DCDF1F45009000BC83E9 /* SettingViewController.swift */; };
 		7D77D70E1F35D035008E61FF /* ClassifiedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */; };
 		7D8B16D11F4D682600F85254 /* CreditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8B16D01F4D682600F85254 /* CreditViewController.swift */; };
@@ -19,13 +22,10 @@
 		C931F0451F42D0C6004653EE /* ClassifiedPhotoAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931F0441F42D0C6004653EE /* ClassifiedPhotoAssets.swift */; };
 		C93874671F383DCC00CB0AC4 /* PhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */; };
 		C93874691F383DD600CB0AC4 /* PhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874681F383DD600CB0AC4 /* PhotoStore.swift */; };
-		C93874761F38624300CB0AC4 /* Temporary.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C93874721F38624300CB0AC4 /* Temporary.storyboard */; };
-		C93874771F38624300CB0AC4 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C93874741F38624300CB0AC4 /* Detail.storyboard */; };
 		C938747A1F38625000CB0AC4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874781F38625000CB0AC4 /* Constants.swift */; };
 		C938747B1F38625000CB0AC4 /* PHAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93874791F38625000CB0AC4 /* PHAsset.swift */; };
 		C940239E1F4AAD4D00FA740C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C94023A01F4AAD4D00FA740C /* InfoPlist.strings */; };
 		C94023B31F4BF46500FA740C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023B21F4BF46500FA740C /* Date.swift */; };
-		C94023B51F4BF49700FA740C /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C94023B41F4BF49700FA740C /* LoadingView.xib */; };
 		C94023B71F4BF4A300FA740C /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023B61F4BF4A300FA740C /* EmptyView.swift */; };
 		C94023BB1F4BF88400FA740C /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023BA1F4BF88400FA740C /* UIImage.swift */; };
 		C94023BF1F4BF92600FA740C /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023BE1F4BF92600FA740C /* UIBarButtonItem.swift */; };
@@ -49,39 +49,54 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		40950C2E1F48540C00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Electo/ja.lproj/Temporary.strings; sourceTree = "<group>"; };
-		40950C2F1F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Electo/ja.lproj/Detail.strings; sourceTree = "<group>"; };
 		40950C301F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
-		40950C311F48540D00C1A2F8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Electo/ja.lproj/Setting.strings; sourceTree = "<group>"; };
-		40A133F21F4C4FA2008BEAE9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		40B4EA9B1F39940B00F4393A /* DetailPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoViewController.swift; sourceTree = "<group>"; };
 		40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoCell.swift; sourceTree = "<group>"; };
-		7D69DCDD1F44E10400BC83E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
+		40CBB7401F4DB20B0039458C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Picka/Base.lproj/Detail.storyboard; sourceTree = "<group>"; };
+		40CBB7431F4DB20F0039458C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Picka/Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
+		40CBB7461F4DB2140039458C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Picka/Base.lproj/Temporary.storyboard; sourceTree = "<group>"; };
+		40CBB7491F4DB2350039458C /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ko; path = "ko.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		40CBB74C1F4DB2380039458C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
+		40CBB74D1F4DB23F0039458C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = "Base.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
+		40CBB74E1F4DB2480039458C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Picka/ko.lproj/Detail.strings; sourceTree = "<group>"; };
+		40CBB74F1F4DB24A0039458C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Picka/zh-Hans.lproj/Detail.strings"; sourceTree = "<group>"; };
+		40CBB7501F4DB24B0039458C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Picka/zh-Hant.lproj/Detail.strings"; sourceTree = "<group>"; };
+		40CBB7511F4DB24D0039458C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Picka/ja.lproj/Detail.strings; sourceTree = "<group>"; };
+		40CBB7521F4DB24F0039458C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Picka/ar.lproj/Detail.strings; sourceTree = "<group>"; };
+		40CBB7541F4DB2550039458C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LoadingView.xib; sourceTree = "<group>"; };
+		40CBB7571F4DB2560039458C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LoadingView.strings; sourceTree = "<group>"; };
+		40CBB7591F4DB2580039458C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LoadingView.strings"; sourceTree = "<group>"; };
+		40CBB75B1F4DB2590039458C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LoadingView.strings"; sourceTree = "<group>"; };
+		40CBB75D1F4DB25A0039458C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LoadingView.strings; sourceTree = "<group>"; };
+		40CBB75F1F4DB25A0039458C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LoadingView.strings; sourceTree = "<group>"; };
+		40CBB7611F4DB25D0039458C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/EmptyView.strings; sourceTree = "<group>"; };
+		40CBB7631F4DB25E0039458C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/EmptyView.strings"; sourceTree = "<group>"; };
+		40CBB7651F4DB2600039458C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/EmptyView.strings"; sourceTree = "<group>"; };
+		40CBB7671F4DB2600039458C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/EmptyView.strings; sourceTree = "<group>"; };
+		40CBB7691F4DB2610039458C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/EmptyView.strings; sourceTree = "<group>"; };
+		40CBB76A1F4DB2690039458C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Picka/ko.lproj/Setting.strings; sourceTree = "<group>"; };
+		40CBB76B1F4DB26C0039458C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Picka/zh-Hans.lproj/Setting.strings"; sourceTree = "<group>"; };
+		40CBB76C1F4DB26E0039458C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Picka/zh-Hant.lproj/Setting.strings"; sourceTree = "<group>"; };
+		40CBB76D1F4DB26F0039458C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Picka/ja.lproj/Setting.strings; sourceTree = "<group>"; };
+		40CBB76E1F4DB2710039458C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Picka/ar.lproj/Setting.strings; sourceTree = "<group>"; };
+		40CBB76F1F4DB2750039458C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Picka/ko.lproj/Temporary.strings; sourceTree = "<group>"; };
+		40CBB7701F4DB2770039458C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Picka/zh-Hans.lproj/Temporary.strings"; sourceTree = "<group>"; };
+		40CBB7711F4DB2790039458C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Picka/zh-Hant.lproj/Temporary.strings"; sourceTree = "<group>"; };
+		40CBB7721F4DB27A0039458C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Picka/ja.lproj/Temporary.strings; sourceTree = "<group>"; };
+		40CBB7731F4DB27C0039458C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Picka/ar.lproj/Temporary.strings; sourceTree = "<group>"; };
 		7D69DCDF1F45009000BC83E9 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoCell.swift; sourceTree = "<group>"; };
 		7D8B16D01F4D682600F85254 /* CreditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditViewController.swift; sourceTree = "<group>"; };
-		7DB0715D1F464B4B00F37D7F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Electo/ko.lproj/Temporary.strings; sourceTree = "<group>"; };
-		7DB0715E1F464B4B00F37D7F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Electo/ko.lproj/Detail.strings; sourceTree = "<group>"; };
 		7DB0715F1F464B4B00F37D7F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
-		7DB071641F464C2800F37D7F /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Electo/ar.lproj/Setting.strings; sourceTree = "<group>"; };
-		7DB071651F464EBC00F37D7F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Electo/zh-Hans.lproj/Temporary.strings"; sourceTree = "<group>"; };
-		7DB071661F464EBC00F37D7F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Electo/zh-Hans.lproj/Detail.strings"; sourceTree = "<group>"; };
 		7DB071671F464EBC00F37D7F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
-		7DB071681F464EBC00F37D7F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Electo/zh-Hans.lproj/Setting.strings"; sourceTree = "<group>"; };
-		7DB071691F464F3400F37D7F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Electo/zh-Hant.lproj/Temporary.strings"; sourceTree = "<group>"; };
-		7DB0716A1F464F3400F37D7F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Electo/zh-Hant.lproj/Detail.strings"; sourceTree = "<group>"; };
 		7DB0716B1F464F3400F37D7F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
-		7DB0716C1F464F3400F37D7F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Electo/zh-Hant.lproj/Setting.strings"; sourceTree = "<group>"; };
 		7DB071721F481A4100F37D7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EmptyView.xib; sourceTree = "<group>"; };
-		7DB902991F4ABA91008A5629 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Electo/ko.lproj/Setting.strings; sourceTree = "<group>"; };
 		C931F0421F3F6F02004653EE /* PhotoLibraryObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryObserver.swift; sourceTree = "<group>"; };
 		C931F0441F42D0C6004653EE /* ClassifiedPhotoAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoAssets.swift; sourceTree = "<group>"; };
 		C93874661F383DCC00CB0AC4 /* PhotoDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDataSource.swift; sourceTree = "<group>"; };
 		C93874681F383DD600CB0AC4 /* PhotoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoStore.swift; sourceTree = "<group>"; };
-		C93874731F38624300CB0AC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Temporary.storyboard; sourceTree = "<group>"; };
-		C93874751F38624300CB0AC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Electo/Base.lproj/Detail.storyboard; sourceTree = "<group>"; };
 		C93874781F38625000CB0AC4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		C93874791F38625000CB0AC4 /* PHAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PHAsset.swift; path = Electo/PHAsset.swift; sourceTree = "<group>"; };
+		C93874791F38625000CB0AC4 /* PHAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHAsset.swift; sourceTree = "<group>"; };
 		C940239F1F4AAD4D00FA740C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C94023A11F4AAD4F00FA740C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C94023A21F4AAD5000FA740C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -90,15 +105,14 @@
 		C94023A51F4AAD5400FA740C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C94023A61F4AAD5500FA740C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C94023AC1F4AB15D00FA740C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C94023B21F4BF46500FA740C /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Date.swift; path = Electo/Date.swift; sourceTree = "<group>"; };
-		C94023B41F4BF49700FA740C /* LoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadingView.xib; path = Electo/LoadingView.xib; sourceTree = "<group>"; };
+		C94023B21F4BF46500FA740C /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		C94023B61F4BF4A300FA740C /* EmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
-		C94023BA1F4BF88400FA740C /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = Electo/UIImage.swift; sourceTree = "<group>"; };
-		C94023BE1F4BF92600FA740C /* UIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIBarButtonItem.swift; path = Electo/UIBarButtonItem.swift; sourceTree = "<group>"; };
-		C94023C01F4BF95100FA740C /* CLLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CLLocation.swift; path = Electo/CLLocation.swift; sourceTree = "<group>"; };
-		C94023C21F4BF9B500FA740C /* PHImageRequestOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PHImageRequestOptions.swift; path = Electo/PHImageRequestOptions.swift; sourceTree = "<group>"; };
-		C94023C61F4BFA0E00FA740C /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		C94023C81F4D769F00FA740C /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Int.swift; path = Electo/Int.swift; sourceTree = "<group>"; };
+		C94023BA1F4BF88400FA740C /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		C94023BE1F4BF92600FA740C /* UIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
+		C94023C01F4BF95100FA740C /* CLLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocation.swift; sourceTree = "<group>"; };
+		C94023C21F4BF9B500FA740C /* PHImageRequestOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHImageRequestOptions.swift; sourceTree = "<group>"; };
+		C94023C61F4BFA0E00FA740C /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIView.swift; path = ../UIView.swift; sourceTree = "<group>"; };
+		C94023C81F4D769F00FA740C /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		C94068B41F397EAF00D5B6F8 /* PhotoClassifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoClassifiable.swift; sourceTree = "<group>"; };
 		C94068B71F3997B600D5B6F8 /* TemporaryPhotoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporaryPhotoStore.swift; sourceTree = "<group>"; };
 		C94068B91F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoStoreDelegate.swift; sourceTree = "<group>"; };
@@ -107,8 +121,6 @@
 		C94FA8BA1F49652E0046C4B8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C94FA8BB1F49652F0046C4B8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C94FA8BC1F4965310046C4B8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C94FA8C01F496E070046C4B8 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Electo/ar.lproj/Temporary.strings; sourceTree = "<group>"; };
-		C94FA8C11F496E070046C4B8 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = Electo/ar.lproj/Detail.strings; sourceTree = "<group>"; };
 		C94FA8C21F496E070046C4B8 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		C94FA8C41F496E880046C4B8 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C94FA8CC1F4987B90046C4B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -117,11 +129,11 @@
 		C9804C191F39CD1700075E8F /* TemporaryPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporaryPhotoCell.swift; sourceTree = "<group>"; };
 		C9804C1B1F39CD7700075E8F /* TemporaryPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporaryPhotoViewController.swift; sourceTree = "<group>"; };
 		C98429C01F3EF9E500D2E1B8 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		C9E21E981F3439BB00B17CC4 /* Electo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Electo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9E21E981F3439BB00B17CC4 /* Picka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Picka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E21E9B1F3439BB00B17CC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9E21E9D1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifiedPhotoViewController.swift; sourceTree = "<group>"; };
 		C9E21EA01F3439BB00B17CC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C9E21EA21F3439BB00B17CC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Electo/Assets.xcassets; sourceTree = "<group>"; };
+		C9E21EA21F3439BB00B17CC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Picka/Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,19 +200,18 @@
 				C94023C81F4D769F00FA740C /* Int.swift */,
 			);
 			name = Extension;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		C93874651F383D5400CB0AC4 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				C94023B41F4BF49700FA740C /* LoadingView.xib */,
+				40CBB7551F4DB2550039458C /* LoadingView.xib */,
 				7DB071731F481A4100F37D7F /* EmptyView.xib */,
-				C93874721F38624300CB0AC4 /* Temporary.storyboard */,
-				40A133F21F4C4FA2008BEAE9 /* Launch Screen.storyboard */,
-				C93874741F38624300CB0AC4 /* Detail.storyboard */,
+				40CBB74A1F4DB2350039458C /* Launch Screen.storyboard */,
+				40CBB73F1F4DB20B0039458C /* Detail.storyboard */,
+				40CBB7421F4DB20F0039458C /* Setting.storyboard */,
+				40CBB7451F4DB2140039458C /* Temporary.storyboard */,
 				C9E21E9F1F3439BB00B17CC4 /* Main.storyboard */,
-				7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */,
 				C9E21EA21F3439BB00B17CC4 /* Assets.xcassets */,
 			);
 			name = Interface;
@@ -229,7 +240,7 @@
 		C9E21E8F1F3439BB00B17CC4 = {
 			isa = PBXGroup;
 			children = (
-				C9E21E9A1F3439BB00B17CC4 /* Electo */,
+				C9E21E9A1F3439BB00B17CC4 /* Picka */,
 				C9E21E991F3439BB00B17CC4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -237,12 +248,12 @@
 		C9E21E991F3439BB00B17CC4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C9E21E981F3439BB00B17CC4 /* Electo.app */,
+				C9E21E981F3439BB00B17CC4 /* Picka.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C9E21E9A1F3439BB00B17CC4 /* Electo */ = {
+		C9E21E9A1F3439BB00B17CC4 /* Picka */ = {
 			isa = PBXGroup;
 			children = (
 				C94023AC1F4AB15D00FA740C /* Info.plist */,
@@ -253,15 +264,15 @@
 				7D77D7131F35D514008E61FF /* Model */,
 				C93874651F383D5400CB0AC4 /* Interface */,
 			);
-			path = Electo;
+			path = Picka;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C9E21E971F3439BB00B17CC4 /* Electo */ = {
+		C9E21E971F3439BB00B17CC4 /* Picka */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9E21EAA1F3439BB00B17CC4 /* Build configuration list for PBXNativeTarget "Electo" */;
+			buildConfigurationList = C9E21EAA1F3439BB00B17CC4 /* Build configuration list for PBXNativeTarget "Picka" */;
 			buildPhases = (
 				C9E21E941F3439BB00B17CC4 /* Sources */,
 				C9E21E951F3439BB00B17CC4 /* Frameworks */,
@@ -271,9 +282,9 @@
 			);
 			dependencies = (
 			);
-			name = Electo;
+			name = Picka;
 			productName = Electo;
-			productReference = C9E21E981F3439BB00B17CC4 /* Electo.app */;
+			productReference = C9E21E981F3439BB00B17CC4 /* Picka.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -293,7 +304,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C9E21E931F3439BB00B17CC4 /* Build configuration list for PBXProject "Electo" */;
+			buildConfigurationList = C9E21E931F3439BB00B17CC4 /* Build configuration list for PBXProject "Picka" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -311,7 +322,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C9E21E971F3439BB00B17CC4 /* Electo */,
+				C9E21E971F3439BB00B17CC4 /* Picka */,
 			);
 		};
 /* End PBXProject section */
@@ -324,13 +335,13 @@
 				C94FA8B51F4964FC0046C4B8 /* Localizable.strings in Resources */,
 				C9E21EA31F3439BB00B17CC4 /* Assets.xcassets in Resources */,
 				C9E21EA11F3439BB00B17CC4 /* Main.storyboard in Resources */,
+				40CBB7411F4DB20B0039458C /* Detail.storyboard in Resources */,
 				7DB071711F481A4100F37D7F /* EmptyView.xib in Resources */,
-				C93874761F38624300CB0AC4 /* Temporary.storyboard in Resources */,
-				C93874771F38624300CB0AC4 /* Detail.storyboard in Resources */,
-				7D69DCDE1F44E10400BC83E9 /* Setting.storyboard in Resources */,
-				40A133F31F4C4FA2008BEAE9 /* Launch Screen.storyboard in Resources */,
+				40CBB7441F4DB20F0039458C /* Setting.storyboard in Resources */,
+				40CBB7471F4DB2140039458C /* Temporary.storyboard in Resources */,
+				40CBB7481F4DB2350039458C /* Launch Screen.storyboard in Resources */,
 				C940239E1F4AAD4D00FA740C /* InfoPlist.strings in Resources */,
-				C94023B51F4BF49700FA740C /* LoadingView.xib in Resources */,
+				40CBB7531F4DB2550039458C /* LoadingView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,51 +387,81 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		7D69DCDC1F44E10400BC83E9 /* Setting.storyboard */ = {
+		40CBB73F1F4DB20B0039458C /* Detail.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7D69DCDD1F44E10400BC83E9 /* Base */,
-				7DB071641F464C2800F37D7F /* ar */,
-				7DB071681F464EBC00F37D7F /* zh-Hans */,
-				7DB0716C1F464F3400F37D7F /* zh-Hant */,
-				40950C311F48540D00C1A2F8 /* ja */,
-				7DB902991F4ABA91008A5629 /* ko */,
+				40CBB7401F4DB20B0039458C /* Base */,
+				40CBB74E1F4DB2480039458C /* ko */,
+				40CBB74F1F4DB24A0039458C /* zh-Hans */,
+				40CBB7501F4DB24B0039458C /* zh-Hant */,
+				40CBB7511F4DB24D0039458C /* ja */,
+				40CBB7521F4DB24F0039458C /* ar */,
+			);
+			name = Detail.storyboard;
+			sourceTree = "<group>";
+		};
+		40CBB7421F4DB20F0039458C /* Setting.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				40CBB7431F4DB20F0039458C /* Base */,
+				40CBB76A1F4DB2690039458C /* ko */,
+				40CBB76B1F4DB26C0039458C /* zh-Hans */,
+				40CBB76C1F4DB26E0039458C /* zh-Hant */,
+				40CBB76D1F4DB26F0039458C /* ja */,
+				40CBB76E1F4DB2710039458C /* ar */,
 			);
 			name = Setting.storyboard;
+			sourceTree = "<group>";
+		};
+		40CBB7451F4DB2140039458C /* Temporary.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				40CBB7461F4DB2140039458C /* Base */,
+				40CBB76F1F4DB2750039458C /* ko */,
+				40CBB7701F4DB2770039458C /* zh-Hans */,
+				40CBB7711F4DB2790039458C /* zh-Hant */,
+				40CBB7721F4DB27A0039458C /* ja */,
+				40CBB7731F4DB27C0039458C /* ar */,
+			);
+			name = Temporary.storyboard;
+			sourceTree = "<group>";
+		};
+		40CBB74A1F4DB2350039458C /* Launch Screen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				40CBB7491F4DB2350039458C /* ko */,
+				40CBB74C1F4DB2380039458C /* en */,
+				40CBB74D1F4DB23F0039458C /* Base */,
+			);
+			name = "Launch Screen.storyboard";
+			path = Picka;
+			sourceTree = "<group>";
+		};
+		40CBB7551F4DB2550039458C /* LoadingView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				40CBB7541F4DB2550039458C /* Base */,
+				40CBB7571F4DB2560039458C /* ko */,
+				40CBB7591F4DB2580039458C /* zh-Hans */,
+				40CBB75B1F4DB2590039458C /* zh-Hant */,
+				40CBB75D1F4DB25A0039458C /* ar */,
+				40CBB75F1F4DB25A0039458C /* ja */,
+			);
+			name = LoadingView.xib;
+			path = Picka;
 			sourceTree = "<group>";
 		};
 		7DB071731F481A4100F37D7F /* EmptyView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				7DB071721F481A4100F37D7F /* Base */,
+				40CBB7611F4DB25D0039458C /* ko */,
+				40CBB7631F4DB25E0039458C /* zh-Hans */,
+				40CBB7651F4DB2600039458C /* zh-Hant */,
+				40CBB7671F4DB2600039458C /* ja */,
+				40CBB7691F4DB2610039458C /* ar */,
 			);
 			name = EmptyView.xib;
-			sourceTree = "<group>";
-		};
-		C93874721F38624300CB0AC4 /* Temporary.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C93874731F38624300CB0AC4 /* Base */,
-				7DB0715D1F464B4B00F37D7F /* ko */,
-				7DB071651F464EBC00F37D7F /* zh-Hans */,
-				7DB071691F464F3400F37D7F /* zh-Hant */,
-				40950C2E1F48540C00C1A2F8 /* ja */,
-				C94FA8C01F496E070046C4B8 /* ar */,
-			);
-			name = Temporary.storyboard;
-			sourceTree = "<group>";
-		};
-		C93874741F38624300CB0AC4 /* Detail.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C93874751F38624300CB0AC4 /* Base */,
-				7DB0715E1F464B4B00F37D7F /* ko */,
-				7DB071661F464EBC00F37D7F /* zh-Hans */,
-				7DB0716A1F464F3400F37D7F /* zh-Hant */,
-				40950C2F1F48540D00C1A2F8 /* ja */,
-				C94FA8C11F496E070046C4B8 /* ar */,
-			);
-			name = Detail.storyboard;
 			sourceTree = "<group>";
 		};
 		C94023A01F4AAD4D00FA740C /* InfoPlist.strings */ = {
@@ -462,7 +503,7 @@
 				C94FA8C21F496E070046C4B8 /* ar */,
 			);
 			name = Main.storyboard;
-			path = Electo;
+			path = Picka;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -571,10 +612,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9PZPL5979H;
-				INFOPLIST_FILE = Electo/Info.plist;
+				INFOPLIST_FILE = Picka/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = RodoPacaGiraffe.Electo;
+				PRODUCT_BUNDLE_IDENTIFIER = RodoPacaGiraffe.Picka;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -588,10 +629,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9PZPL5979H;
-				INFOPLIST_FILE = Electo/Info.plist;
+				INFOPLIST_FILE = Picka/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = RodoPacaGiraffe.Electo;
+				PRODUCT_BUNDLE_IDENTIFIER = RodoPacaGiraffe.Picka;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -602,7 +643,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C9E21E931F3439BB00B17CC4 /* Build configuration list for PBXProject "Electo" */ = {
+		C9E21E931F3439BB00B17CC4 /* Build configuration list for PBXProject "Picka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9E21EA81F3439BB00B17CC4 /* Debug */,
@@ -611,7 +652,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9E21EAA1F3439BB00B17CC4 /* Build configuration list for PBXNativeTarget "Electo" */ = {
+		C9E21EAA1F3439BB00B17CC4 /* Build configuration list for PBXNativeTarget "Picka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9E21EAB1F3439BB00B17CC4 /* Debug */,

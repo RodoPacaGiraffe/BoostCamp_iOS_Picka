@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BsT-YB-6bE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BsT-YB-6bE">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,7 +14,7 @@
         <!--Settings-->
         <scene sceneID="YHV-ED-j9e">
             <objects>
-                <tableViewController restorationIdentifier="SettingViewController" storyboardIdentifier="SettingViewController" id="lZz-3f-zf2" customClass="SettingViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="SettingViewController" storyboardIdentifier="SettingViewController" id="lZz-3f-zf2" customClass="SettingViewController" customModule="Picka" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="bLG-r1-zKu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,7 +23,7 @@
                             <tableViewSection headerTitle="Setting" id="QBY-nO-vNx">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="3m8-0z-Axu">
-                                        <rect key="frame" x="0.0" y="56" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="55" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3m8-0z-Axu" id="eeC-oh-EJc">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -51,7 +51,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="126" id="FmG-2i-gEq">
-                                        <rect key="frame" x="0.0" y="100" width="414" height="126"/>
+                                        <rect key="frame" x="0.0" y="99" width="414" height="126"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FmG-2i-gEq" id="ss0-Nk-1DJ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
@@ -104,7 +104,7 @@
                             <tableViewSection headerTitle="More" id="APT-Yh-sza">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Vae-jM-YKl">
-                                        <rect key="frame" x="0.0" y="283" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="281" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vae-jM-YKl" id="v1k-WV-7le">
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="43"/>
@@ -146,11 +146,6 @@
                     <connections>
                         <outlet property="dataAllowedSwitch" destination="C37-bf-6c9" id="9Co-KQ-KQI"/>
                         <outlet property="slider" destination="wQQ-K4-gD0" id="bqm-P1-iua"/>
-                        <outletCollection property="levelLabels" destination="29T-y5-LRi" id="zQ6-ab-R7q"/>
-                        <outletCollection property="levelLabels" destination="o6p-Ce-g6P" id="p9p-sN-Zah"/>
-                        <outletCollection property="levelLabels" destination="I2u-vF-kGf" id="9kQ-lh-522"/>
-                        <outletCollection property="levelLabels" destination="a0G-vd-N2e" id="SuF-k5-zyq"/>
-                        <outletCollection property="levelLabels" destination="l2j-Lk-55D" id="5Hx-tC-2cb"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mHz-vy-aNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -160,7 +155,7 @@
         <!--Credit View Controller-->
         <scene sceneID="Gcl-dP-u4n">
             <objects>
-                <viewController id="Ns5-70-bxL" customClass="CreditViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Ns5-70-bxL" customClass="CreditViewController" customModule="Picka" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QZm-v6-ZFo"/>
                         <viewControllerLayoutGuide type="bottom" id="kcG-Du-vYw"/>
@@ -236,7 +231,7 @@
             <objects>
                 <navigationController storyboardIdentifier="SettingNaviController" automaticallyAdjustsScrollViewInsets="NO" id="BsT-YB-6bE" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KBa-AD-VKi">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="KBa-AD-VKi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.37259685990000002" green="0.36856323479999997" blue="0.37261527779999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

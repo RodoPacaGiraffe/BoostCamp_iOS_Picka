@@ -15,7 +15,7 @@ class TemporaryPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
-    fileprivate enum CommittedMode: String {
+    enum CommittedMode: String {
         case recorver
         case delete
     }
@@ -171,7 +171,7 @@ class TemporaryPhotoViewController: UIViewController {
         })
     }
     
-    func popIfCountIsEmptyAfterWork(count: Int, message: String) {
+    func popIfCountIsEmptyAfterWork(count: Int, message: CommittedMode) {
         guard let navigationController = self.presentingViewController
             as? UINavigationController else { return }
         
@@ -180,12 +180,12 @@ class TemporaryPhotoViewController: UIViewController {
             if navigationController.topViewController is ClassifiedPhotoViewController {
                 
                 self.dismiss(animated: true ) { [weak self] _ in
-                    self?.alertCountOfPhotos(count: count, message: message)
+                    self?.alertCountOfPhotos(count: count, committedMode: message)
                 }
             } else {
                 self.dismiss(animated: false) { [weak self] _ in
                     navigationController.popToRootViewController(animated: true)
-                    self?.alertCountOfPhotos(count: count, message: message)
+                    self?.alertCountOfPhotos(count: count, committedMode: message)
                 }
             }
         }
@@ -238,7 +238,7 @@ class TemporaryPhotoViewController: UIViewController {
                 as? UINavigationController else { return }
 
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
-            self?.popIfCountIsEmptyAfterWork(count: recoverCount, message: "photos recovoered")
+            self?.popIfCountIsEmptyAfterWork(count: recoverCount, message: CommittedMode.recorver)
         }
     }
     

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Electo.xcodeproj">
+      location = "self:/Users/kwonbyungsoo/Desktop/NewGit/BoostCamp_iOS_Electo/Electo/Picka.xcodeproj">
    </FileRef>
 </Workspace>
