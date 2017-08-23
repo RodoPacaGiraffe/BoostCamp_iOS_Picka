@@ -462,6 +462,7 @@
 				40CBB7691F4DB2610039458C /* ar */,
 			);
 			name = EmptyView.xib;
+			path = Picka;
 			sourceTree = "<group>";
 		};
 		C94023A01F4AAD4D00FA740C /* InfoPlist.strings */ = {
