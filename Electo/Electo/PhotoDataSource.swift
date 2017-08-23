@@ -39,30 +39,34 @@ extension PhotoDataSource: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath)
+            as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
         
-        let classifiedPhotoAsset = photoStore.classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+        let classifiedPhotoAsset = photoStore.classifiedPhotoAssets[indexPath.section]
+            .photoAssetsArray[indexPath.row]
         
-        var fetchedImages: [UIImage] = .init()
+        var fetchedImages: [UIImage] = []
         
         if !cell.requestIDs.isEmpty {
             cell.requestIDs.forEach {
                 cachingImageManager.cancelImageRequest($0)
             }
+            
             cell.requestIDs.removeAll()
         }
         
         classifiedPhotoAsset.photoAssets.forEach {
-            cell.requestIDs.append($0.fetchImage(size: Constants.fetchImageSize,
-                          contentMode: .aspectFill, options: nil) { photoImage in
-                            guard let photoImage = photoImage else { return }
-                            fetchedImages.append(photoImage)
-                            
-                            if classifiedPhotoAsset.photoAssets.count == fetchedImages.count {
-                            cell.cellImages = fetchedImages
-                            cell.requestIDs.removeAll()
-                            }
-            })
+            let requestID = $0.fetchImage(size: Constants.fetchImageSize, contentMode: .aspectFill, options: nil) { photoImage in
+                guard let photoImage = photoImage else { return }
+                fetchedImages.append(photoImage)
+                                        
+                if classifiedPhotoAsset.photoAssets.count == fetchedImages.count {
+                    cell.cellImages = fetchedImages
+                    cell.requestIDs.removeAll()
+                }
+            }
+            
+            cell.requestIDs.append(requestID)
         }
         
         let localizedString = NSLocalizedString("%d Photos", comment: "")
@@ -85,8 +89,6 @@ extension PhotoDataSource: UITableViewDataSource {
         } else {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        
-        NotificationCenter.default.post(name: Constants.requiredUpdatingBadge, object: nil)
     }
 }
 
@@ -97,8 +99,8 @@ extension PhotoDataSource: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier,
-            for: indexPath) as? TemporaryPhotoCell ?? TemporaryPhotoCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath)
+            as? TemporaryPhotoCell ?? TemporaryPhotoCell()
         let temporaryPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
 
         if let selectedItems = collectionView.indexPathsForSelectedItems,
@@ -108,11 +110,9 @@ extension PhotoDataSource: UICollectionViewDataSource {
             cell.deSelect()
         }
         
-        temporaryPhotoAsset.fetchImage(size: Constants.fetchImageSize,
-                                     contentMode: .aspectFill, options: nil) { removedPhotoImage in
-                                        guard let removedPhotoImage = removedPhotoImage else { return }
-                                                
-                                        cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
+        temporaryPhotoAsset.fetchImage(size: Constants.fetchImageSize, contentMode: .aspectFill, options: nil) { removedPhotoImage in
+            guard let removedPhotoImage = removedPhotoImage else { return }
+            cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
         }
     
         return cell
