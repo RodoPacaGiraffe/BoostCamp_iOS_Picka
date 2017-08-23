@@ -416,6 +416,9 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
 
 extension DetailPhotoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer.state == .changed {
+            otherGestureRecognizer.require(toFail: gestureRecognizer)
+        }
         return true
     }
 }
