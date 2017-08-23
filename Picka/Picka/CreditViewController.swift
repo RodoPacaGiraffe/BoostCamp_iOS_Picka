@@ -2,7 +2,7 @@
 //  CreditViewController.swift
 //  Electo
 //
-//  Created by Alpaca on 2017. 8. 23..
+//  Created by RodoPacaGiraffe on 2017. 8. 23..
 //  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 //
 
@@ -31,7 +31,7 @@ class CreditViewController: UIViewController {
     func setMailViewController() -> MFMailComposeViewController {
         let mailComposeVC = MFMailComposeViewController()
         mailComposeVC.mailComposeDelegate = self
-        mailComposeVC.setToRecipients(["Picka@gmail.com"])
+        mailComposeVC.setToRecipients(["pickahelp@gmail.com"])
         mailComposeVC.setMessageBody("Thank you for your opinions. \n - RodoPacaGiraffe -", isHTML: false)
     
         return mailComposeVC

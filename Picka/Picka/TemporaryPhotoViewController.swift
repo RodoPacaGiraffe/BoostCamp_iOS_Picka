@@ -2,7 +2,7 @@
 //  RemovedPhotoViewController.swift
 //  Electo
 //
-//  Created by 임성훈 on 2017. 8. 8..
+//  Created by RodoPacaGiraffe on 2017. 8. 8..
 //  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 //
 
@@ -15,7 +15,7 @@ class TemporaryPhotoViewController: UIViewController {
         case off = "Choose"
     }
     
-    enum CommittedMode: String {
+    fileprivate enum CommittedMode: String {
         case recorver
         case delete
     }
@@ -171,7 +171,7 @@ class TemporaryPhotoViewController: UIViewController {
         })
     }
     
-    func popIfCountIsEmptyAfterWork(count: Int, message: CommittedMode) {
+    fileprivate func popIfCountIsEmptyAfterWork(count: Int, message: CommittedMode) {
         guard let navigationController = self.presentingViewController
             as? UINavigationController else { return }
         
