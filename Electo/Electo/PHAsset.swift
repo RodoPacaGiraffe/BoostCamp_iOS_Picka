@@ -11,8 +11,8 @@ import Photos
 
 extension PHAsset {
     @discardableResult func fetchImage(size: CGSize, contentMode: PHImageContentMode,
-                                       options: PHImageRequestOptions?,
-                                       resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
+        options: PHImageRequestOptions?,
+        resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
         var imageRequestID: PHImageRequestID = PHImageRequestID()
         
         imageRequestID = cachingImageManager.requestImage(for: self, targetSize: size,

@@ -114,45 +114,46 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    func alertCountOfPhotos(count: Int, message: String) {
+    private func alertCountOfPhotos(count: Int, message: String) {
         let label = UILabel()
+        
         label.text = "\(count) \(message)"
         label.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
         label.alpha = 0
         label.textAlignment = .center
-        
         label.frame = CGRect(x: self.view.frame.width / 4,
-                                      y: self.view.center.y - 64,
-                                      width: self.view.frame.width / 2,
-                                      height: 50)
+                             y: self.view.center.y - 64,
+                             width: self.view.frame.width / 2,
+                             height: 50)
         label.makeRoundBorder(degree: 5)
-        OperationQueue.main.addOperation {
-            
-            let rootViewController = UIApplication.shared.keyWindow?.rootViewController
-            let viewController = rootViewController?.presentedViewController ?? rootViewController
-            viewController?.view.superview?.addSubview(label)
-            self.countAppearAnimation(label)
-            
-        }
+        
+        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        let viewController = rootViewController?.presentedViewController ?? rootViewController
+        
+        viewController?.view.superview?.addSubview(label)
+        
+        self.countAppearAnimation(label)
     }
     
-    func selectedAlertCountOfPhotos(count: Int, message: String) {
+    private func selectedAlertCountOfPhotos(count: Int, message: String) {
         let label = UILabel()
+        
         label.text = "\(count) \(message)"
         label.backgroundColor = UIColor.lightGray.withAlphaComponent(1)
         label.alpha = 0
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 20)
-        
-        label.frame = CGRect(x: (self.view.frame.width) / 4, y: (view.frame.height)/2, width: 200, height: 60)
+        label.frame = CGRect(x: (self.view.frame.width) / 4,
+                             y: (view.frame.height)/2,
+                             width: 200,
+                             height: 60)
         label.makeRoundBorder(degree: 5)
+        
         self.view.addSubview(label)
-        OperationQueue.main.addOperation {
-            self.countAppearAnimation(label)
-        }
+        self.countAppearAnimation(label)
     }
     
-    func countAppearAnimation(_ label: UILabel) {
+    private func countAppearAnimation(_ label: UILabel) {
         UIView.animate(withDuration: 0.5, animations: {
             label.alpha = 1
         }, completion: { _ in
@@ -161,11 +162,10 @@ class TemporaryPhotoViewController: UIViewController {
             }, completion: { _ in
                 label.removeFromSuperview()
             })
-            
         })
     }
     
-    @IBAction func recoverAll(_ sender: UIButton) {
+    @IBAction private func recoverAll(_ sender: UIButton) {
         recoverAlertController(title: "Recover All Photos") { [weak self] _ in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             
@@ -186,14 +186,14 @@ class TemporaryPhotoViewController: UIViewController {
                 })
             } else {
                 self?.dismiss(animated: false) {
-                        navigationController.popToRootViewController(animated: true)
-                    }
-                self?.alertCountOfPhotos(count: recoverCount, message: "photos recovered.")
+                    navigationController.popToRootViewController(animated: true)
+                    self?.alertCountOfPhotos(count: recoverCount, message: "photos recovered.")
                 }
             }
+        }
     }
     
-    @IBAction func recoverSelected(_ sender: UIButton) {
+    @IBAction private func recoverSelected(_ sender: UIButton) {
         recoverAlertController(title: "Recover Selected Photos") { [weak self] _ in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             guard let recoverCount = self?.selectedPhotoAssets().count else { return }
@@ -222,10 +222,8 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    @IBAction func deleteAll(_ sender: UIButton) {
+    @IBAction private func deleteAll(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-
-        
         temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) { [weak self] in
         let deleteCount = temporaryPhotoStore.photoAssets.count
             self?.collectionView.reloadSections(IndexSet(integer: 0))
@@ -235,9 +233,10 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    @IBAction func deleteSelected(_ sender: UIButton) {
+    @IBAction private func deleteSelected(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-       let deleteCount = selectedPhotoAssets().count        
+        
+        let deleteCount = selectedPhotoAssets().count
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
             self?.collectionView.performBatchUpdates({
@@ -251,8 +250,7 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        
+    @IBAction private func cancel(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -263,16 +261,15 @@ class TemporaryPhotoViewController: UIViewController {
         let recoverAction = UIAlertAction(title: NSLocalizedString(title, comment: ""),
                                           style: .default, handler: completion)
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
-                                         style: .destructive, handler: nil)
+                                         style: .cancel, handler: nil)
         
         alertController.addAction(recoverAction)
         alertController.addAction(cancelAction)
-        alertController.view.tintColor = UIColor.darkGray
-       
+
         present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func slideToDismiss(_ sender: UIPanGestureRecognizer) {
+    @IBAction private func slideToDismiss(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self.view)
         let originalViewFrame = self.view.frame.origin
        
@@ -297,7 +294,7 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    func dismissWhenTouchesEnded(_ sender: UIPanGestureRecognizer) {
+    private func dismissWhenTouchesEnded(_ sender: UIPanGestureRecognizer) {
         var originalViewFrame = self.view.frame.origin
         var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
         let translation = sender.translation(in: self.view)
@@ -350,7 +347,6 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             guard let selectedThumbnailImage = photoCell.thumbnailImageView.image else { return }
             detailViewController.thumbnailImages.append(selectedThumbnailImage)
             detailViewController.pressedIndexPath = indexPath
-            
             detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[indexPath.item]
                 .creationDate?.toDateString()
             
@@ -363,7 +359,7 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             as? TemporaryPhotoCell ?? TemporaryPhotoCell()
         photoCell.deSelect()
         
-        if self.selectedPhotoAssets().isEmpty {
+        if selectedPhotoAssets().isEmpty {
             deleteSelectedButton.isEnabled = false
             recoverSelectedButton.isEnabled = false
         }
