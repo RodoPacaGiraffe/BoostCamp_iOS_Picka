@@ -117,12 +117,14 @@ class TemporaryPhotoViewController: UIViewController {
     func alertCountOfPhotos(count: Int, message: String) {
         let label = UILabel()
         label.text = "\(count) \(message)"
-        label.backgroundColor = UIColor.lightGray.withAlphaComponent(1)
+        label.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
         label.alpha = 0
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20)
         
-        label.frame = CGRect(x: (self.view.frame.width) / 4, y: (view.frame.height)/2, width: 200, height: 60)
+        label.frame = CGRect(x: self.view.frame.width / 4,
+                                      y: self.view.center.y - 64,
+                                      width: self.view.frame.width / 2,
+                                      height: 50)
         label.makeRoundBorder(degree: 5)
         OperationQueue.main.addOperation {
             
@@ -194,28 +196,29 @@ class TemporaryPhotoViewController: UIViewController {
     @IBAction func recoverSelected(_ sender: UIButton) {
         recoverAlertController(title: "Recover Selected Photos") { [weak self] _ in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
-            let recoverCount = selectedPhotoAssets().count
+            guard let recoverCount = self?.selectedPhotoAssets().count else { return }
             guard let temporaryVC = self else { return }
             
-            self.collectionView.performBatchUpdates({
-                guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
-                self.collectionView.deleteItems(at: selectedItems)
+            temporaryPhotoStore.remove(photoAssets: temporaryVC.selectedPhotoAssets())
+            self?.collectionView.performBatchUpdates({
+                guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
+                self?.collectionView.deleteItems(at: selectedItems)
             }, completion: nil)
 
-            temporaryPhotoStore.remove(photoAssets: temporaryVC.selectedPhotoAssets())            
-            temporaryVC.collectionView.reloadSections(IndexSet(integer: 0))
+
             temporaryVC.selectedAlertCountOfPhotos(count: recoverCount, message: "photos recovered.")
             guard let navigationController = temporaryVC.presentingViewController
                 as? UINavigationController else { return }
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
-            
-            if navigationController.topViewController is ClassifiedPhotoViewController {
-                temporaryVC.dismiss(animated: true, completion: nil)
-            } else {
-                temporaryVC.dismiss(animated: false) {
-                    navigationController.popToRootViewController(animated: true)
-                }
-            }
+        
+            //TODO: 선택 삭제 후 그대로
+//            if navigationController.topViewController is ClassifiedPhotoViewController {
+//                temporaryVC.dismiss(animated: true, completion: nil)
+//            } else {
+//                temporaryVC.dismiss(animated: false) {
+//                    navigationController.popToRootViewController(animated: true)
+//                }
+//            }
         }
     }
     
@@ -241,7 +244,7 @@ class TemporaryPhotoViewController: UIViewController {
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
               
                 self?.collectionView.deleteItems(at: selectedItems)
-            }, completion: { 
+            }, completion: { _ in
              self?.selectedAlertCountOfPhotos(count: deleteCount, message: "photos deleted.")
             })
 

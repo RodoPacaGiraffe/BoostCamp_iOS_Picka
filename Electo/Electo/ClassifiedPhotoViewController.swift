@@ -111,7 +111,7 @@ class ClassifiedPhotoViewController: UIViewController {
         }
     }
     
-    private func disappearLoadingView() {
+    fileprivate func disappearLoadingView() {
         DispatchQueue.main.async { [weak self] in
             self?.loadingView.stopIndicatorAnimating()
             self?.loadingView.removeFromSuperview()
@@ -427,9 +427,6 @@ extension ClassifiedPhotoViewController {
             tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / estimatedViewHeight) * (tableView.contentSize.height - self.view.frame.height)), animated: false)
             customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
             
-            if scrollGesture.state == .ended {
-                animatingLabelAndIndicator()
-            }
         }
         
         if scrollGesture.state == .cancelled {
