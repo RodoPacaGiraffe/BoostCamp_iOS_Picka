@@ -60,7 +60,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func setScrollBar() {
-        if Bundle.main.preferredLocalizations.first == "ar" {
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
             customScrollView.frame = CGRect(x: 3, y: tableView.contentOffset.y, width: 20, height: 40)
         } else {
             customScrollView.frame = CGRect(x: self.view.frame.width - 17,
@@ -275,7 +275,7 @@ class ClassifiedPhotoViewController: UIViewController {
         var location: CGFloat = 0
         let bound = self.view.frame.width
         
-        if Bundle.main.preferredLocalizations.first == "ar" {
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
             location = self.view.frame.width - sender.location(in: self.view).x
         } else {
             location = sender.location(in: self.view).x
