@@ -377,7 +377,10 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let thumbnailViewCell = collectionView.cellForItem(at: indexPath)
-            as? DetailPhotoCell else { return }
+            as? DetailPhotoCell else {
+                collectionView.selectItem(at: pressedIndexPath, animated: true,
+                                          scrollPosition: .centeredHorizontally)
+                return }
     
         previousSelectedCell?.deSelect()
         thumbnailViewCell.select()
