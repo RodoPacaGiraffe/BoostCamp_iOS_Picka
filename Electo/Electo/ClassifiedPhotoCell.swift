@@ -64,7 +64,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         
         let numOfMoreImages = cellImages.count - Constants.maximumImageView
         
-        guard Locale.current.languageCode != "ar" else {
+        guard UIApplication.shared.userInterfaceLayoutDirection != .rightToLeft else {
             moreImagesLabel.text = "\(numOfMoreImages)+"
             moreImagesLabel.isHidden = false
             
