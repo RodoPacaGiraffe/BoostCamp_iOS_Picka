@@ -29,7 +29,7 @@ class EmptyView: UIView {
             statementLabel.text = NSLocalizedString("No Authorization", comment: "")
             imageView.image = #imageLiteral(resourceName: "Photo")
         case .noPhoto:
-            statementLabel.text = NSLocalizedString("No Authorization", comment: "")
+            statementLabel.text = NSLocalizedString("No Photo", comment: "")
             imageView.image = #imageLiteral(resourceName: "Photo")
         }
     }

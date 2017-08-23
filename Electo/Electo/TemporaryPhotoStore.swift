@@ -121,9 +121,13 @@ extension TemporaryPhotoStore {
 extension TemporaryPhotoStore: PhotoStoreDelegate {
     func temporaryPhotoDidInserted(insertedPhotoAssets: [PHAsset]) {
         delegate?.temporaryPhotoDidInserted(insertedPhotoAssets: insertedPhotoAssets)
+        
+        NotificationCenter.default.post(name: Constants.requiredUpdatingBadge, object: nil)
     }
     
     func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset]) {
         delegate?.temporaryPhotoDidRemoved(removedPhotoAssets: removedPhotoAssets)
+        
+        NotificationCenter.default.post(name: Constants.requiredUpdatingBadge, object: nil)
     }
 }

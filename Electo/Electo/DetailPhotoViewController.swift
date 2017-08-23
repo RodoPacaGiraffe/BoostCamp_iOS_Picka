@@ -56,12 +56,23 @@ class DetailPhotoViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
                                                name: Constants.removedAssetsFromPhotoLibrary,
                                                object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
+                                               name: Constants.requiredUpdatingBadge,
+                                               object: nil)
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self,
                                                   name: Constants.removedAssetsFromPhotoLibrary,
                                                   object: nil)
+        NotificationCenter.default.removeObserver(self, name: Constants.requiredUpdatingBadge,
+                                                  object: nil)
+    }
+    
+    @objc private func updateBadge() {
+        guard let count = photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
+        
+        moveToTempVCButtonItem?.updateBadge(With: count)
     }
     
     @objc func applyRemovedAssets(_ notification: Notification) {
@@ -296,10 +307,6 @@ class DetailPhotoViewController: UIViewController {
                 detailVC.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
                 detailVC.photoDataSource?.temporaryPhotoStore.insert(
                     photoAssets: [detailVC.selectedSectionAssets[detailVC.selectedPhotos]])
-                
-                guard let count = detailVC.photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
-                
-                detailVC.moveToTempVCButtonItem?.updateBadge(With: count)
                 detailVC.selectedSectionAssets.remove(at: detailVC.selectedPhotos)
                 detailVC.detailImageView.center = detailVC.zoomingScrollView.center
                 detailVC.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
