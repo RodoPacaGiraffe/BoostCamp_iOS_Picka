@@ -313,7 +313,10 @@ class DetailPhotoViewController: UIViewController {
                 detailVC.selectedSectionAssets.remove(at: detailVC.selectedPhotos)
                 detailVC.detailImageView.center = detailVC.zoomingScrollView.center
                 detailVC.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                detailVC.thumbnailCollectionView.reloadSections(IndexSet(integer: 0))
+                detailVC.thumbnailCollectionView.performBatchUpdates({
+                    detailVC.thumbnailCollectionView.deleteItems(at: [detailVC.pressedIndexPath])
+                }, completion: nil)
+           
                 detailVC.moveToNextPhoto()
         })
     }

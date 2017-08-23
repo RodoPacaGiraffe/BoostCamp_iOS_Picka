@@ -197,8 +197,12 @@ class TemporaryPhotoViewController: UIViewController {
             let recoverCount = selectedPhotoAssets().count
             guard let temporaryVC = self else { return }
             
-            temporaryPhotoStore.remove(photoAssets: temporaryVC.selectedPhotoAssets())
-            
+            self.collectionView.performBatchUpdates({
+                guard let selectedItems = self.collectionView.indexPathsForSelectedItems else { return }
+                self.collectionView.deleteItems(at: selectedItems)
+            }, completion: nil)
+
+            temporaryPhotoStore.remove(photoAssets: temporaryVC.selectedPhotoAssets())            
             temporaryVC.collectionView.reloadSections(IndexSet(integer: 0))
             temporaryVC.selectedAlertCountOfPhotos(count: recoverCount, message: "photos recovered.")
             guard let navigationController = temporaryVC.presentingViewController
@@ -230,11 +234,17 @@ class TemporaryPhotoViewController: UIViewController {
     
     @IBAction func deleteSelected(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
+       let deleteCount = selectedPhotoAssets().count        
+        temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
+            [weak self] in
+            self?.collectionView.performBatchUpdates({
+                guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
+              
+                self?.collectionView.deleteItems(at: selectedItems)
+            }, completion: { 
+             self?.selectedAlertCountOfPhotos(count: deleteCount, message: "photos deleted.")
+            })
 
-        temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) { [weak self] in
-        let deleteCount = selectedPhotoAssets().count
-            self?.selectedAlertCountOfPhotos(count: deleteCount, message: "photos deleted.")
-            self?.collectionView.reloadSections(IndexSet(integer: 0))
         }
     }
     
