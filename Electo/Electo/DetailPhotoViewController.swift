@@ -108,7 +108,7 @@ class DetailPhotoViewController: UIViewController {
         self.view.addGestureRecognizer(gesture)
         flowLayout.itemSize.height = thumbnailCollectionView.bounds.height
         flowLayout.itemSize.width = flowLayout.itemSize.height
-        if self.view.effectiveUserInterfaceLayoutDirection == .rightToLeft {
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
             backButtonImage.image = UIImage(named: "rtlBack.png")
         }
     }
@@ -130,7 +130,7 @@ class DetailPhotoViewController: UIViewController {
         
         detailImageView.image = thumbnailImages.first
         
-        if self.view.effectiveUserInterfaceLayoutDirection == .rightToLeft {
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
             thumbnailCollectionView.semanticContentAttribute = .forceRightToLeft
         }
         
@@ -285,7 +285,7 @@ class DetailPhotoViewController: UIViewController {
         let targetY = -(naviBarHeight / 2)
         var targetX: CGFloat {
             get {
-                guard self.view.effectiveUserInterfaceLayoutDirection == .leftToRight else {
+                guard UIApplication.shared.userInterfaceLayoutDirection != .rightToLeft else {
                     return 20
                 }
                 
@@ -295,7 +295,7 @@ class DetailPhotoViewController: UIViewController {
         
         var rotateDegree: CGFloat {
             get {
-                guard self.view.effectiveUserInterfaceLayoutDirection == .leftToRight else {
+                guard UIApplication.shared.userInterfaceLayoutDirection != .rightToLeft else {
                     return -45
                 }
                 
@@ -346,6 +346,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("in detail \(indexPath)")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath)
             as? DetailPhotoCell ?? DetailPhotoCell()
         
