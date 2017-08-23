@@ -151,9 +151,10 @@ class ClassifiedPhotoViewController: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
         let goSettingAction = UIAlertAction(title: NSLocalizedString("Go Settings", comment: ""),
-                style: .default) { _ in
+                style: .default) { [weak self] _ in
             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
             UIApplication.shared.open(url)
+            self?.requestAuthorization()
         }
         
 
