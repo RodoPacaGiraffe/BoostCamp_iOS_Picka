@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -153,6 +152,9 @@
                                                 <constraint firstItem="T1Y-Ff-UmD" firstAttribute="centerY" secondItem="v1k-WV-7le" secondAttribute="centerY" id="vKp-1U-BBw"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Ns5-70-bxL" kind="show" id="nXV-HI-7AW"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -180,10 +182,10 @@
             </objects>
             <point key="canvasLocation" x="1932" y="158.77061469265368"/>
         </scene>
-        <!--View Controller-->
+        <!--Credit View Controller-->
         <scene sceneID="Gcl-dP-u4n">
             <objects>
-                <viewController id="Ns5-70-bxL" sceneMemberID="viewController">
+                <viewController id="Ns5-70-bxL" customClass="CreditViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QZm-v6-ZFo"/>
                         <viewControllerLayoutGuide type="bottom" id="kcG-Du-vYw"/>
@@ -193,53 +195,60 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Us" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLt-ov-uLa">
-                                <rect key="frame" x="149" y="20" width="117" height="36"/>
+                                <rect key="frame" x="130" y="84" width="154" height="48"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rodo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xc2-7y-LLO">
+                                <rect key="frame" x="173" y="182" width="67" height="36"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="R0D-4d-3Dw">
-                                <rect key="frame" x="20" y="86" width="375" height="169"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="59o-mR-oxS">
-                                        <rect key="frame" x="0.0" y="0.0" width="169" height="169"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="59o-mR-oxS" secondAttribute="height" multiplier="1:1" id="72O-hC-a0c"/>
-                                        </constraints>
-                                    </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Kfh-55-RCv">
-                                        <rect key="frame" x="199" y="0.0" width="176" height="169"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rodo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MoT-rm-gY0">
-                                                <rect key="frame" x="0.0" y="0.0" width="176" height="99"/>
-                                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="25"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="bluelocate@gmail.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nml-vb-TI9">
-                                                <rect key="frame" x="0.0" y="99" width="172" height="70"/>
-                                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="MoT-rm-gY0" firstAttribute="width" secondItem="Kfh-55-RCv" secondAttribute="width" id="0PC-Xh-oAX"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="Kfh-55-RCv" firstAttribute="height" secondItem="59o-mR-oxS" secondAttribute="height" id="vZh-ar-Kk1"/>
-                                </constraints>
-                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alpaca" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g40-lJ-LHH">
+                                <rect key="frame" x="163" y="258" width="87" height="36"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Giraffe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1UT-Nm-INQ">
+                                <rect key="frame" x="166" y="334" width="82" height="36"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Us" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FEy-Z4-JSA">
+                                <rect key="frame" x="114" y="527" width="186" height="48"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duq-0D-WiG">
+                                <rect key="frame" x="96" y="615" width="223" height="48"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                <state key="normal" title="Picka@gmail.com">
+                                    <color key="titleColor" red="0.016969395410000001" green="0.010170409470000001" blue="0.020063330559999999" alpha="0.90032812500000003" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendMailWithSender:" destination="Ns5-70-bxL" eventType="touchUpInside" id="cV0-aM-6wm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qLt-ov-uLa" firstAttribute="top" secondItem="QZm-v6-ZFo" secondAttribute="bottom" id="6Nq-hD-1ae"/>
-                            <constraint firstItem="R0D-4d-3Dw" firstAttribute="top" secondItem="qLt-ov-uLa" secondAttribute="bottom" constant="30" id="DC8-6f-bxO"/>
-                            <constraint firstItem="R0D-4d-3Dw" firstAttribute="centerX" secondItem="qLt-ov-uLa" secondAttribute="centerX" id="Pnc-Tg-2tH"/>
+                            <constraint firstItem="qLt-ov-uLa" firstAttribute="top" secondItem="QZm-v6-ZFo" secondAttribute="bottom" constant="20" id="6Nq-hD-1ae"/>
+                            <constraint firstItem="1UT-Nm-INQ" firstAttribute="top" secondItem="g40-lJ-LHH" secondAttribute="bottom" constant="40" id="E7e-6c-Ux4"/>
+                            <constraint firstItem="xc2-7y-LLO" firstAttribute="centerX" secondItem="qLt-ov-uLa" secondAttribute="centerX" id="Jlw-VM-FiA"/>
+                            <constraint firstItem="FEy-Z4-JSA" firstAttribute="centerX" secondItem="1UT-Nm-INQ" secondAttribute="centerX" id="Kn5-6k-FLS"/>
+                            <constraint firstItem="g40-lJ-LHH" firstAttribute="centerX" secondItem="xc2-7y-LLO" secondAttribute="centerX" id="LD6-pJ-xgR"/>
+                            <constraint firstItem="1UT-Nm-INQ" firstAttribute="centerX" secondItem="g40-lJ-LHH" secondAttribute="centerX" id="NdC-HE-LQV"/>
+                            <constraint firstItem="g40-lJ-LHH" firstAttribute="top" secondItem="xc2-7y-LLO" secondAttribute="bottom" constant="40" id="SHx-yd-j5d"/>
+                            <constraint firstItem="duq-0D-WiG" firstAttribute="top" secondItem="FEy-Z4-JSA" secondAttribute="bottom" constant="40" id="UUM-bo-39E"/>
+                            <constraint firstItem="xc2-7y-LLO" firstAttribute="top" secondItem="qLt-ov-uLa" secondAttribute="bottom" constant="50" id="ffp-MA-YVy"/>
                             <constraint firstItem="qLt-ov-uLa" firstAttribute="centerX" secondItem="CsH-ah-Wfl" secondAttribute="centerX" id="gwe-wJ-D8q"/>
-                            <constraint firstItem="R0D-4d-3Dw" firstAttribute="leading" secondItem="CsH-ah-Wfl" secondAttribute="leadingMargin" id="hyt-OJ-HrV"/>
+                            <constraint firstItem="kcG-Du-vYw" firstAttribute="top" secondItem="duq-0D-WiG" secondAttribute="bottom" constant="73" id="rEO-eA-o7N"/>
+                            <constraint firstItem="duq-0D-WiG" firstAttribute="centerX" secondItem="FEy-Z4-JSA" secondAttribute="centerX" id="zoA-L7-Z9H"/>
                         </constraints>
                     </view>
                 </viewController>
