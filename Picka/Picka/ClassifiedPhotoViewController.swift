@@ -30,7 +30,6 @@ class ClassifiedPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNotificationObserver()
-        setScrollBar()
         setScrollDateLabel()
         setEmptyView()
         setLoadingView()
@@ -76,6 +75,8 @@ class ClassifiedPhotoViewController: UIViewController {
             guard let classifiedPhotoVC = self else { return }
             guard classifiedPhotoVC.view.subviews.last != self?.loadingView else { return }
             classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
+            self?.setScrollBar()
+            self?.setScrollDateLabel()
         }
     }
     
@@ -91,10 +92,13 @@ class ClassifiedPhotoViewController: UIViewController {
             guard let classifiedPhotoVC = self else { return }
             guard classifiedPhotoVC.view.subviews.last != self?.emptyView else { return }
             classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
+            self?.setScrollBar()
+            self?.setScrollDateLabel()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         
         reloadData()
