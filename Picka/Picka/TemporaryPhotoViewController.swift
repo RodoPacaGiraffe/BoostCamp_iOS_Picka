@@ -54,6 +54,10 @@ class TemporaryPhotoViewController: UIViewController {
                                                name: Constants.requiredReload, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     private func setCollectionView() {
         collectionView.dataSource = photoDataSource
         collectionView.allowsMultipleSelection = true
@@ -105,7 +109,7 @@ class TemporaryPhotoViewController: UIViewController {
         collectionView.reloadItems(at: selectedItems)
     }
     
-    @IBAction func toggleSelectMode(_ sender: UIBarButtonItem) {
+    @IBAction private func toggleSelectMode(_ sender: UIBarButtonItem) {
         if selectMode == .off {
             selectMode = .on
             if self.selectedPhotoAssets().isEmpty {
@@ -196,7 +200,7 @@ class TemporaryPhotoViewController: UIViewController {
         
     }
     
-    @IBAction func recoverAll(_ sender: UIButton) {
+    @IBAction private func recoverAll(_ sender: UIButton) {
         recoverAlertController(title: "Recover All Photos") { [weak self] _ in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             
@@ -353,7 +357,7 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
             
             detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
-            detailViewController.identifier = "fromTemporaryViewController"
+            detailViewController.identifier = "fromTemporaryPhotoVC"
             
             guard let selectedThumbnailImage = photoCell.thumbnailImageView.image else { return }
             detailViewController.thumbnailImages.append(selectedThumbnailImage)

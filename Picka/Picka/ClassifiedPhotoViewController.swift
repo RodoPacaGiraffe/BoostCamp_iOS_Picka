@@ -18,8 +18,8 @@ class ClassifiedPhotoViewController: UIViewController {
     fileprivate let scrollingLabel = UILabel()
     fileprivate var photoDataSource: PhotoDataSource = PhotoDataSource()
     private var moveToTempVCButtonItem: UIBarButtonItem?
-    private var loadingView: LoadingView = .init()
-    
+    private var loadingView: LoadingView = LoadingView()
+    private var emptyView: EmptyView = EmptyView()
     
     private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -29,22 +29,69 @@ class ClassifiedPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNotificationObserver()
         setScrollBar()
         setScrollDateLabel()
+        setEmptyView()
+        setLoadingView()
         setTableView()
         setNavigationButtonItem()
         requestAuthorization()
-        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setNotificationObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
                                                name: Constants.requiredReload, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
                                                name: Constants.requiredUpdatingBadge, object: nil)
-       
+        NotificationCenter.default.addObserver(self, selector: #selector (appearEmptyView),
+                                               name: Constants.appearEmptyView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (disappearEmptyView),
+                                               name: Constants.disappearEmptyView, object: nil)
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: Constants.requiredReload, object: nil)
-        NotificationCenter.default.removeObserver(self, name: Constants.requiredUpdatingBadge, object: nil)
+    private func setLoadingView() {
+        loadingView = LoadingView.instanceFromNib(frame: self.view.frame)
+        self.view.addSubview(loadingView)
+    }
+    
+    private func setEmptyView() {
+        emptyView = EmptyView.instanceFromNib(situation: .noPhoto, frame: self.view.frame)
+        self.view.addSubview(emptyView)
+    }
+    
+    @objc private func appearEmptyView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let classifiedPhotoVC = self else { return }
+            classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.emptyView)
+        }
+    }
+    
+    @objc private func disappearEmptyView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let classifiedPhotoVC = self else { return }
+            guard classifiedPhotoVC.view.subviews.last != self?.loadingView else { return }
+            classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
+        }
+    }
+    
+    private func appearLoadingView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let classifiedPhotoVC = self else { return }
+            classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.loadingView)
+        }
+    }
+    
+    fileprivate func disappearLoadingView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let classifiedPhotoVC = self else { return }
+            
+            classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,23 +146,6 @@ class ClassifiedPhotoViewController: UIViewController {
     private func setTableView() {
         tableView.dataSource = photoDataSource
         tableView.addSubview(refreshControl)
-    }
-    
-    func appearLoadingView() {
-        DispatchQueue.main.async { [weak self] in
-            guard let windowFrame: CGRect = self?.view.window?.frame else { return }
-            self?.loadingView = LoadingView.instanceFromNib(frame: windowFrame)
-            
-            guard let loadingView = self?.loadingView else { return }
-            self?.view.addSubview(loadingView)
-        }
-    }
-    
-    fileprivate func disappearLoadingView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.loadingView.stopIndicatorAnimating()
-            self?.loadingView.removeFromSuperview()
-        }
     }
     
     private func setNavigationButtonItem() {
@@ -182,15 +212,11 @@ class ClassifiedPhotoViewController: UIViewController {
             self?.loadUserDefaultSetting()
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
-            guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
-            guard let classifiedAssets = self?.photoDataSource.photoStore.classifiedPhotoAssets else { return }
-            
-            if classifiedAssets.isEmpty {
-                guard let windowFrame = self?.view.window?.frame else { return }
-                
-                DispatchQueue.main.async {
-                    self?.view.addSubview(EmptyView.instanceFromNib(situation: .noPhoto, frame: windowFrame))
-                }
+            DispatchQueue.global().async { [weak self] in
+                guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
+                cachingImageManager.startCachingImages(for: photoAssets,
+                                                       targetSize: Constants.fetchImageSize,
+                                                       contentMode: .aspectFill, options: nil)
             }
             
             CachingImageManager.shared.startCachingImages(for: photoAssets,
@@ -206,8 +232,8 @@ class ClassifiedPhotoViewController: UIViewController {
         DispatchQueue.global().async { [weak self] in
             guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
                 as? TemporaryPhotoStore else {
-                    self?.reloadData()
                     self?.disappearLoadingView()
+                    self?.reloadData()
                     return
             }
             
@@ -221,8 +247,8 @@ class ClassifiedPhotoViewController: UIViewController {
                 self?.photoDataSource.temporaryPhotoStore.remove(photoAssets: photoAssets, isPerformDelegate: false)
             }
             
-            self?.reloadData()
             self?.disappearLoadingView()
+            self?.reloadData()
         }
     }
     
@@ -315,10 +341,9 @@ class ClassifiedPhotoViewController: UIViewController {
         detailViewController.photoDataSource = photoDataSource
         detailViewController.selectedSectionAssets = photoDataSource.photoStore
             .classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets
-        detailViewController.identifier = "fromClassifiedView"
+        detailViewController.identifier = "fromClassifiedPhotoVC"
         detailViewController.thumbnailImages = selectedCell.cellImages
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
-        detailViewController.selectedPhotos = selectedPhotoIndex
     }
 }
 

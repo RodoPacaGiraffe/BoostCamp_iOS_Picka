@@ -17,18 +17,18 @@ class CreditViewController: UIViewController {
         self.navigationItem.title = "Credit"
     }
     
-    @IBAction func sendMail(sender: AnyObject) {
+    @IBAction private func sendMail(sender: AnyObject) {
         let mailViewController = setMailViewController()
         
         guard MFMailComposeViewController.canSendMail() else {
             self.sendMailErrorAlert()
             return
-            }
+        }
         
         self.present(mailViewController, animated: true, completion: nil)
     }
     
-    func setMailViewController() -> MFMailComposeViewController {
+    private func setMailViewController() -> MFMailComposeViewController {
         let mailComposeVC = MFMailComposeViewController()
         mailComposeVC.mailComposeDelegate = self
         mailComposeVC.setToRecipients(["pickahelp@gmail.com"])
@@ -37,7 +37,7 @@ class CreditViewController: UIViewController {
         return mailComposeVC
     }
     
-    func sendMailErrorAlert() {
+    private func sendMailErrorAlert() {
         let title = "Mail Send Fail"
         let message = "Check Mail Setting."
         
@@ -50,7 +50,7 @@ class CreditViewController: UIViewController {
     }
 }
 
-extension CreditViewController:  MFMailComposeViewControllerDelegate {
+extension CreditViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }

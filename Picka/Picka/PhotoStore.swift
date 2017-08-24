@@ -11,7 +11,15 @@ import Photos
 
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
-    fileprivate(set) var classifiedPhotoAssets: [ClassifiedPhotoAssets] = []
+    fileprivate(set) var classifiedPhotoAssets: [ClassifiedPhotoAssets] = [] {
+        didSet {
+            if classifiedPhotoAssets.isEmpty {
+                NotificationCenter.default.post(name: Constants.appearEmptyView, object: nil)
+            } else if oldValue.isEmpty {
+                NotificationCenter.default.post(name: Constants.disappearEmptyView, object: nil)
+            }
+        }
+    }
   
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
@@ -19,7 +27,7 @@ class PhotoStore: PhotoClassifiable {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func fetchPhotoAsset() {
