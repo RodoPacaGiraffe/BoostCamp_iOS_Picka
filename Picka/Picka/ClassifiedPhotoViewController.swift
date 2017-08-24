@@ -32,8 +32,8 @@ class ClassifiedPhotoViewController: UIViewController {
         setNotificationObserver()
         setScrollBar()
         setScrollDateLabel()
-        setLoadingView()
         setEmptyView()
+        setLoadingView()
         setTableView()
         setNavigationButtonItem()
         requestAuthorization()
@@ -74,6 +74,7 @@ class ClassifiedPhotoViewController: UIViewController {
     @objc private func disappearEmptyView() {
         DispatchQueue.main.async { [weak self] in
             guard let classifiedPhotoVC = self else { return }
+            guard classifiedPhotoVC.view.subviews.last != self?.loadingView else { return }
             classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
         }
     }
