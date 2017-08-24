@@ -89,7 +89,7 @@ class ClassifiedPhotoViewController: UIViewController {
     fileprivate func disappearLoadingView() {
         DispatchQueue.main.async { [weak self] in
             guard let classifiedPhotoVC = self else { return }
-            
+            guard classifiedPhotoVC.view.subviews.last != self?.emptyView else { return }
             classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
         }
     }
