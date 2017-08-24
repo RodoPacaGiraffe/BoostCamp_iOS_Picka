@@ -140,6 +140,7 @@ class TemporaryPhotoViewController: UIViewController {
         label.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
         label.alpha = 0
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
         label.frame = CGRect(x: self.view.frame.width / 4,
                              y: self.view.frame.height / 3,
                              width: self.view.frame.width / 2,
