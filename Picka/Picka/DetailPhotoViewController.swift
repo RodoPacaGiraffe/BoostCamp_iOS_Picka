@@ -21,9 +21,7 @@ class DetailPhotoViewController: UIViewController {
     fileprivate var previousSelectedCell: DetailPhotoCell?
     private var moveToTempVCButtonItem: UIBarButtonItem?
     private var startPanGesturePoint: CGPoint = CGPoint()
-    private var currentImageViewPosition: CGPoint = CGPoint()
     private var isInitialFetchImage: Bool = true
-    var thumbnailImages: [UIImage] = []
     var selectedSectionAssets: [PHAsset] = []
     var photoDataSource: PhotoDataSource?
     
@@ -133,22 +131,30 @@ class DetailPhotoViewController: UIViewController {
     private func displayDetailViewSetting() {
         self.zoomingScrollView.minimumZoomScale = 1.0
         self.zoomingScrollView.maximumZoomScale = 6.0
-        
-        detailImageView.image = thumbnailImages.first
+    
+        selectedSectionAssets[pressedIndexPath.item].fetchImage(
+            size: Constants.fetchImageSize,
+            contentMode: .aspectFill,
+            options: nil,
+            resultHandler: { [weak self] requestedImage in
+                self?.detailImageView.image = requestedImage
+        })
         
         fetchFullSizeImage(from: pressedIndexPath)
         thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     fileprivate func fetchFullSizeImage(from indexPath: IndexPath) {
-        let options = PHImageRequestOptions()
+        selectedSectionAssets[indexPath.item].fetchImage(size: Constants.fetchImageSize, contentMode: .aspectFill, options: nil,
+            resultHandler: { [weak self] requestedImage in
+                self?.detailImageView.image = requestedImage
+        })
         
+        let options = PHImageRequestOptions()
         options.setImageRequestOptions(networkAccessAllowed: Constants.dataAllowed, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _) in
             DispatchQueue.main.async {
-                guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath) as? DetailPhotoCell else { return }
-                guard self?.pressedIndexPath == indexPath else { return }
-                
-                self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
+                guard let detailVC = self else { return }
+                guard detailVC.pressedIndexPath == indexPath else { return }
                 
                 if Constants.dataAllowed {
                     self?.loadingIndicatorView.startAnimating()
@@ -157,36 +163,28 @@ class DetailPhotoViewController: UIViewController {
         }
         
         let photoAsset: PHAsset = selectedSectionAssets[indexPath.item]
-        
-        DispatchQueue.global().async { [weak self] _ -> Void in
-            photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] data in
-                if !Constants.dataAllowed {
-                    guard let thumbnailViewCell = self?.thumbnailCollectionView.cellForItem(at: indexPath)
-                        as? DetailPhotoCell else { return }
-                    self?.detailImageView.image = thumbnailViewCell.thumbnailImageView.image
-                }
-                
-                guard let fetchedData = data else { return }
-                guard let detailVC = self else { return }
-                
-                DispatchQueue.main.async {
-                    guard detailVC.pressedIndexPath == indexPath else { return }
-                    detailVC.loadingIndicatorView.stopAnimating()
-                    
-                    guard !detailVC.isInitialFetchImage else {
-                        detailVC.detailImageView.image = UIImage(data: fetchedData)
-                        detailVC.isInitialFetchImage = false
-                        return
-                    }
-                    
-                    UIView.transition(with: detailVC.detailImageView,
-                                      duration: 0.15, options: .transitionCrossDissolve,
-                                      animations: {
-                                        self?.detailImageView.image = UIImage(data: fetchedData)
-                    },  completion: nil)
-                }
-            })
-        }
+        photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] data in
+            guard let fetchedData = data else { return }
+            guard let detailVC = self else { return }
+            guard detailVC.pressedIndexPath == indexPath else { return }
+            detailVC.loadingIndicatorView.stopAnimating()
+            
+            guard !detailVC.isInitialFetchImage else {
+                detailVC.detailImageView.image = UIImage(data: fetchedData)
+                detailVC.isInitialFetchImage = false
+                return
+            }
+            
+            detailVC.transitionImageView(with: UIImage(data: fetchedData))
+        })
+    }
+    
+    private func transitionImageView(with transitionImage: UIImage?) {
+        UIView.transition(with: detailImageView,
+            duration: 0.15, options: .transitionCrossDissolve,
+            animations: { [weak self] in
+                self?.detailImageView.image = transitionImage
+        },  completion: nil)
     }
     
     private func updatePhotoIndex(direction: UISwipeGestureRecognizerDirection) {
@@ -215,16 +213,7 @@ class DetailPhotoViewController: UIViewController {
         }
         
         let index = IndexPath(row: pressedIndexPath.item, section: 0)
-        thumbnailCollectionView.selectItem(at: index, animated: true,
-                                           scrollPosition: .centeredHorizontally)
-        
-        if thumbnailCollectionView.cellForItem(at: pressedIndexPath) == nil {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
-                self.collectionView(self.thumbnailCollectionView, didSelectItemAt: index)
-            }
-        } else {
-            self.collectionView(self.thumbnailCollectionView, didSelectItemAt: index)
-        }
+        collectionView(thumbnailCollectionView, didSelectItemAt: index)
     }
     
     private func moveToTrashAnimation() {
@@ -403,14 +392,15 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let detailPhotoCell = collectionView.cellForItem(at: indexPath)
             as? DetailPhotoCell else {
+            fetchFullSizeImage(from: indexPath)
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             return
         }
         
+        pressedIndexPath = indexPath
         previousSelectedCell?.deSelect()
         detailPhotoCell.select()
         previousSelectedCell = detailPhotoCell
-        pressedIndexPath = indexPath
         
         fetchFullSizeImage(from: indexPath)
         collectionView.selectItem(at: indexPath, animated: true,

@@ -12,7 +12,7 @@ import Photos
 extension PHImageRequestOptions {
     func setImageRequestOptions(networkAccessAllowed: Bool, synchronous: Bool,
                                 deliveryMode: PHImageRequestOptionsDeliveryMode,
-                                progressHandler:  PHAssetImageProgressHandler?) {
+                                progressHandler: PHAssetImageProgressHandler?) {
         self.isNetworkAccessAllowed = networkAccessAllowed
         self.isSynchronous = synchronous
         self.deliveryMode = deliveryMode

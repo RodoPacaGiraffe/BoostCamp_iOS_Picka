@@ -343,7 +343,7 @@ class ClassifiedPhotoViewController: UIViewController {
         detailViewController.selectedSectionAssets = photoDataSource.photoStore
             .classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets
         detailViewController.identifier = "fromClassifiedPhotoVC"
-        detailViewController.thumbnailImages = selectedCell.cellImages
+
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
     }
 }
