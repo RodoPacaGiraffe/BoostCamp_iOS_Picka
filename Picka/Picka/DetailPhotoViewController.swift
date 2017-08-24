@@ -252,7 +252,6 @@ class DetailPhotoViewController: UIViewController {
         
         if pressedIndexPath.item > selectedSectionAssets.count - 1 {
             pressedIndexPath.item -= 1
-            pressedIndexPath = IndexPath(row: pressedIndexPath.item, section: 0)
         }
         
         let index = IndexPath(row: pressedIndexPath.item, section: 0)
@@ -386,7 +385,6 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         
         if indexPath == pressedIndexPath {
             cell.select()
-            pressedIndexPath.item = pressedIndexPath.row
             previousSelectedCell = cell
         } else {
             cell.deSelect()
