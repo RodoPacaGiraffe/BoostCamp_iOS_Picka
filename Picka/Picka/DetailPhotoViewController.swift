@@ -26,23 +26,22 @@ class DetailPhotoViewController: UIViewController {
     var thumbnailImages: [UIImage] = []
     var selectedSectionAssets: [PHAsset] = []
     var photoDataSource: PhotoDataSource?
-    var pressedIndexPath: IndexPath = IndexPath(row: 0, section: 0)
+    
+    var pressedIndexPath: IndexPath = IndexPath(row: 0, section: 0) {
+        didSet {
+            if pressedIndexPath.item < 0 {
+                pressedIndexPath.item += 1
+            } else if pressedIndexPath.item == selectedSectionAssets.count {
+                pressedIndexPath.item -= 1
+            }
+        }
+    }
     
     var identifier: String = "" {
         didSet {
             if identifier == "fromTemporaryPhotoVC" {
                 navigationItem.setRightBarButtonItems(nil, animated: false)
                 panGestureRecognizer.isEnabled = false
-            }
-        }
-    }
-    
-    var selectedPhotoIndex: Int = 0 {
-        didSet {
-            if selectedPhotoIndex < 0 {
-                selectedPhotoIndex += 1
-            } else if selectedPhotoIndex == selectedSectionAssets.count {
-                selectedPhotoIndex -= 1
             }
         }
     }
@@ -119,9 +118,9 @@ class DetailPhotoViewController: UIViewController {
         
         switch direction {
         case UISwipeGestureRecognizerDirection.right:
-            selectedPhotoIndex -= 1
+            pressedIndexPath.item -= 1
         case UISwipeGestureRecognizerDirection.left:
-            selectedPhotoIndex += 1
+            pressedIndexPath.item += 1
         default:
             break
         }
@@ -225,10 +224,10 @@ class DetailPhotoViewController: UIViewController {
         }, completion: { [weak self] _ in
             guard let detailVC = self else { return }
             
-            if detailVC.selectedPhotoIndex == indexPath.row {
+            if detailVC.pressedIndexPath.item == indexPath.row {
                 detailVC.moveToNextPhoto()
-            } else if detailVC.selectedPhotoIndex > indexPath.row {
-                detailVC.pressedIndexPath = IndexPath(row: detailVC.selectedPhotoIndex - 1,
+            } else if detailVC.pressedIndexPath.item > indexPath.row {
+                detailVC.pressedIndexPath = IndexPath(row: detailVC.pressedIndexPath.item - 1,
                                                       section: 0)
             }
             
@@ -239,7 +238,7 @@ class DetailPhotoViewController: UIViewController {
     @IBAction private func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
         updatePhotoIndex(direction: sender.direction)
         
-        let index = IndexPath(row: selectedPhotoIndex, section: 0)
+        let index = IndexPath(row: pressedIndexPath.item, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
     }
     
@@ -251,12 +250,12 @@ class DetailPhotoViewController: UIViewController {
         
         detailImageView.image = nil
         
-        if selectedPhotoIndex > selectedSectionAssets.count - 1 {
-            selectedPhotoIndex -= 1
-            pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
+        if pressedIndexPath.item > selectedSectionAssets.count - 1 {
+            pressedIndexPath.item -= 1
+            pressedIndexPath = IndexPath(row: pressedIndexPath.item, section: 0)
         }
         
-        let index = IndexPath(row: selectedPhotoIndex, section: 0)
+        let index = IndexPath(row: pressedIndexPath.item, section: 0)
         thumbnailCollectionView.selectItem(at: index, animated: true,
                                   scrollPosition: .centeredHorizontally)
         
@@ -343,8 +342,8 @@ class DetailPhotoViewController: UIViewController {
                 guard let detailVC = self else { return }
                 detailVC.setOpaqueToNavigationBar()
                 detailVC.photoDataSource?.temporaryPhotoStore.insert(
-                    photoAssets: [detailVC.selectedSectionAssets[detailVC.selectedPhotoIndex]])
-                detailVC.selectedSectionAssets.remove(at: detailVC.selectedPhotoIndex)
+                    photoAssets: [detailVC.selectedSectionAssets[detailVC.pressedIndexPath.item]])
+                detailVC.selectedSectionAssets.remove(at: detailVC.pressedIndexPath.item)
                 detailVC.detailImageView.center = detailVC.zoomingScrollView.center
                 detailVC.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 detailVC.thumbnailCollectionView.performBatchUpdates({
@@ -387,7 +386,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         
         if indexPath == pressedIndexPath {
             cell.select()
-            selectedPhotoIndex = pressedIndexPath.row
+            pressedIndexPath.item = pressedIndexPath.row
             previousSelectedCell = cell
         } else {
             cell.deSelect()
@@ -423,7 +422,6 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
         thumbnailViewCell.select()
         previousSelectedCell = thumbnailViewCell
         pressedIndexPath = indexPath
-        selectedPhotoIndex = indexPath.item
         
         fetchFullSizeImage(from: indexPath)
         collectionView.selectItem(at: indexPath, animated: true,

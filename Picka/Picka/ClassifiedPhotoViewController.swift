@@ -318,7 +318,6 @@ class ClassifiedPhotoViewController: UIViewController {
         detailViewController.identifier = "fromClassifiedPhotoVC"
         detailViewController.thumbnailImages = selectedCell.cellImages
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
-        detailViewController.selectedPhotoIndex = selectedPhotoIndex
     }
 }
 
