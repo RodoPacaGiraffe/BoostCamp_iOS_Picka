@@ -115,6 +115,8 @@ class DetailPhotoViewController: UIViewController {
     }
     
     private func updatePhotoIndex(direction: UISwipeGestureRecognizerDirection) {
+        guard thumbnailCollectionView.cellForItem(at: pressedIndexPath) != nil else { return }
+        
         switch direction {
         case UISwipeGestureRecognizerDirection.right:
             selectedPhotoIndex -= 1
@@ -211,7 +213,7 @@ class DetailPhotoViewController: UIViewController {
         }
     }
 
-    @objc fileprivate func deletePhotoButtonTapped(_ sender: UIButton) {
+    @IBAction private func deletePhotoButtonTapped(_ sender: UIButton) {
         let indexPath = IndexPath(row: sender.tag, section: 0)
         
         photoDataSource?.temporaryPhotoStore.insert(
@@ -250,11 +252,21 @@ class DetailPhotoViewController: UIViewController {
         detailImageView.image = nil
         
         if selectedPhotoIndex > selectedSectionAssets.count - 1 {
-            updatePhotoIndex(direction: .right)
+            selectedPhotoIndex -= 1
+            pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
         }
         
         let index = IndexPath(row: selectedPhotoIndex, section: 0)
-        collectionView(thumbnailCollectionView, didSelectItemAt: index)
+        thumbnailCollectionView.selectItem(at: index, animated: true,
+                                  scrollPosition: .centeredHorizontally)
+        
+        if thumbnailCollectionView.cellForItem(at: pressedIndexPath) == nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
+                self.collectionView(self.thumbnailCollectionView, didSelectItemAt: index)
+            }
+        } else {
+            self.collectionView(self.thumbnailCollectionView, didSelectItemAt: index)
+        }
     }
     
     @IBAction private func panGestureAction(_ sender: UIPanGestureRecognizer) {
@@ -337,7 +349,9 @@ class DetailPhotoViewController: UIViewController {
                 detailVC.detailImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 detailVC.thumbnailCollectionView.performBatchUpdates({
                     detailVC.thumbnailCollectionView.deleteItems(at: [detailVC.pressedIndexPath])
-                }, completion: nil)
+                }, completion: { _ in
+                    detailVC.thumbnailCollectionView.reloadData()
+                })
                 detailVC.moveToNextPhoto()
         })
     }
@@ -369,7 +383,6 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
             cell.detailDeleteButton.isHidden = true
         } else {
             cell.detailDeleteButton.tag = indexPath.row
-            cell.detailDeleteButton.addTarget(self, action: #selector(deletePhotoButtonTapped(_:)), for: .touchUpInside)
         }
         
         if indexPath == pressedIndexPath {
@@ -402,17 +415,14 @@ extension DetailPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let thumbnailViewCell = collectionView.cellForItem(at: indexPath)
             as? DetailPhotoCell else {
-            collectionView.selectItem(at: pressedIndexPath, animated: true,
-                                      scrollPosition: .centeredHorizontally)
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             return
         }
-    
+        
         previousSelectedCell?.deSelect()
         thumbnailViewCell.select()
         previousSelectedCell = thumbnailViewCell
         pressedIndexPath = indexPath
-        detailImageView.contentMode = .scaleAspectFill
-        zoomingScrollView.setZoomScale(1.0, animated: true)
         selectedPhotoIndex = indexPath.item
         
         fetchFullSizeImage(from: indexPath)

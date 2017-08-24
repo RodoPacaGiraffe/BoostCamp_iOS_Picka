@@ -96,6 +96,9 @@
                                                         <constraint firstAttribute="width" constant="23" id="a7J-us-deh"/>
                                                     </constraints>
                                                     <state key="normal" image="Remove"/>
+                                                    <connections>
+                                                        <action selector="deletePhotoButtonTapped:" destination="24c-6t-MzH" eventType="touchUpInside" id="56Y-NT-g14"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </view>
