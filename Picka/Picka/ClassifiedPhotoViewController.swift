@@ -141,6 +141,7 @@ class ClassifiedPhotoViewController: UIViewController {
                                       height: 50)
         scrollingLabel.isHidden = true
         scrollingLabel.textAlignment = .center
+        scrollingLabel.adjustsFontSizeToFitWidth = true
         scrollingLabel.backgroundColor = UIColor.lightGray
         scrollingLabel.makeRoundBorder(degree: 5)
         
