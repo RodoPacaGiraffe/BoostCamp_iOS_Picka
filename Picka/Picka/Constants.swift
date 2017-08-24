@@ -65,6 +65,8 @@ struct Constants {
     static let removedAssetsFromPhotoLibrary = Notification.Name("removedAssetsFromPhotoLibrary")
     static let requiredReload = Notification.Name("requiredReload")
     static let requiredUpdatingBadge = Notification.Name("requiredUpdatingBadge")
+    static let appearEmptyView = Notification.Name("appearEmptyView")
+    static let disappearEmptyView = Notification.Name("disappearEmptyView")
     static let loadingTime: TimeInterval = 1.5
 
     static let archiveURL: URL? = {

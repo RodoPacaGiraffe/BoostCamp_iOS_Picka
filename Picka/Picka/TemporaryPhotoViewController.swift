@@ -54,6 +54,10 @@ class TemporaryPhotoViewController: UIViewController {
                                                name: Constants.requiredReload, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     private func setCollectionView() {
         collectionView.dataSource = photoDataSource
         collectionView.allowsMultipleSelection = true

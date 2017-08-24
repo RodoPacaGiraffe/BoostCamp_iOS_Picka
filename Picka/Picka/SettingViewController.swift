@@ -110,10 +110,6 @@ class SettingViewController: UITableViewController {
     
 
     @IBAction private func modalDismiss(_ sender: UIBarButtonItem) {
-        let classifiedPhotoViewController = self.presentingViewController as? ClassifiedPhotoViewController
-            ?? ClassifiedPhotoViewController()
-        classifiedPhotoViewController.appearLoadingView()
-        
         self.settingDelegate?.groupingChanged()
 
         dismiss(animated: true, completion: nil)

@@ -37,7 +37,7 @@ class TemporaryPhotoStore: NSObject, NSCoding {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func fetchPhotoAsset() {

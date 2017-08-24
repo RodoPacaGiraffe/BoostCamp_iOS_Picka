@@ -62,11 +62,7 @@ class DetailPhotoViewController: UIViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: Constants.removedAssetsFromPhotoLibrary,
-                                                  object: nil)
-        NotificationCenter.default.removeObserver(self, name: Constants.requiredUpdatingBadge,
-                                                  object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc private func updateBadge() {
