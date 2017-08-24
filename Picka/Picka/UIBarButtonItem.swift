@@ -58,7 +58,7 @@ extension UIBarButtonItem {
             previousCount < temporaryPhotoAssetsCount {
             UIView.animate(withDuration: 0.2,
                 animations: {
-                    button.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                    button.transform = CGAffineTransform(scaleX: 1.0, y: 1.2)
             },
                 completion: { _ in
                     button.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
