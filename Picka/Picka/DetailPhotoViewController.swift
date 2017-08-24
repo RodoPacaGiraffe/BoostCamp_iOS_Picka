@@ -199,7 +199,7 @@ class DetailPhotoViewController: UIViewController {
                     }
                 
                     UIView.transition(with: detailVC.detailImageView,
-                        duration: 0.2, options: .transitionCrossDissolve,
+                        duration: 0.15, options: .transitionCrossDissolve,
                         animations: {
                             self?.detailImageView.image = UIImage(data: fetchedData)
                     },  completion: nil)
