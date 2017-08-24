@@ -144,8 +144,9 @@ class TemporaryPhotoViewController: UIViewController {
         label.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
         label.alpha = 0
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
         label.frame = CGRect(x: self.view.frame.width / 4,
-                             y: self.view.center.y - 64,
+                             y: self.view.frame.height / 3,
                              width: self.view.frame.width / 2,
                              height: 50)
         label.makeRoundBorder(degree: 5)
@@ -175,23 +176,28 @@ class TemporaryPhotoViewController: UIViewController {
         })
     }
     
-    fileprivate func popIfCountIsEmptyAfterWork(count: Int, message: CommittedMode) {
+    fileprivate func popIfCountIsEmptyAfterCommitted(count: Int, message: CommittedMode) {
+        
         guard let navigationController = self.presentingViewController
             as? UINavigationController else { return }
         
         guard let temporaryPhotoAssets = self.photoDataSource?.temporaryPhotoStore.photoAssets else { return }
-        if temporaryPhotoAssets.isEmpty {
-            if navigationController.topViewController is ClassifiedPhotoViewController {
-                self.dismiss(animated: true ) { [weak self] _ in
-                    self?.alertCountOfPhotos(count: count, committedMode: message)
-                }
-            } else {
-                self.dismiss(animated: false) { [weak self] _ in
-                    navigationController.popToRootViewController(animated: true)
-                    self?.alertCountOfPhotos(count: count, committedMode: message)
-                }
+        guard temporaryPhotoAssets.isEmpty else {
+            self.alertCountOfPhotos(count: count, committedMode: message)
+            return
+        }
+        
+        if navigationController.topViewController is ClassifiedPhotoViewController {
+            self.dismiss(animated: true ) { [weak self] _ in
+                self?.alertCountOfPhotos(count: count, committedMode: message)
+            }
+        } else {
+            self.dismiss(animated: false) { [weak self] _ in
+                navigationController.popToRootViewController(animated: true)
+                self?.alertCountOfPhotos(count: count, committedMode: message)
             }
         }
+        
     }
     
     @IBAction private func recoverAll(_ sender: UIButton) {
@@ -203,22 +209,10 @@ class TemporaryPhotoViewController: UIViewController {
             temporaryPhotoStore.remove(photoAssets: allRemovedPhotoAssets)
 
             self?.collectionView.reloadSections(IndexSet(integer: 0))
-
-            guard let navigationController = self?.presentingViewController
-                as? UINavigationController else { return }
             
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
             
-            if navigationController.topViewController is DetailPhotoViewController {
-                self?.dismiss(animated: false) {
-                    navigationController.popToRootViewController(animated: true)
-                    self?.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
-                }
-            } else {
-                self?.dismiss(animated: true, completion: {
-                    self?.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
-                })
-            }
+           self?.popIfCountIsEmptyAfterCommitted(count: recoverCount, message: CommittedMode.recorver)
         }
     }
     
@@ -237,16 +231,16 @@ class TemporaryPhotoViewController: UIViewController {
             }, completion: nil)
 
             temporaryVC.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
-         
             NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
-            self?.popIfCountIsEmptyAfterWork(count: recoverCount, message: CommittedMode.recorver)
+            
+            self?.popIfCountIsEmptyAfterCommitted(count: recoverCount, message: CommittedMode.recorver)
         }
     }
     
     @IBAction private func deleteAll(_ sender: UIButton) {
         guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-        temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) { [weak self] in
         let deleteCount = temporaryPhotoStore.photoAssets.count
+        temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) { [weak self] in
             self?.collectionView.reloadSections(IndexSet(integer: 0))
             self?.dismiss(animated: true, completion: {
                 self?.alertCountOfPhotos(count: deleteCount, committedMode: .delete)
@@ -266,7 +260,7 @@ class TemporaryPhotoViewController: UIViewController {
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: { _ in
-             self?.alertCountOfPhotos(count: deleteCount, committedMode: .delete)
+                self?.popIfCountIsEmptyAfterCommitted(count: deleteCount, message: .delete)
             })
         }
     }

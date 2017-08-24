@@ -33,6 +33,7 @@
 		C94023C31F4BF9B500FA740C /* PHImageRequestOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023C21F4BF9B500FA740C /* PHImageRequestOptions.swift */; };
 		C94023C71F4BFA0E00FA740C /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023C61F4BFA0E00FA740C /* UIView.swift */; };
 		C94023C91F4D769F00FA740C /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023C81F4D769F00FA740C /* Int.swift */; };
+		C94023CC1F4E00DA00FA740C /* CachingImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94023CB1F4E00DA00FA740C /* CachingImageManager.swift */; };
 		C94068B51F397EAF00D5B6F8 /* PhotoClassifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94068B41F397EAF00D5B6F8 /* PhotoClassifiable.swift */; };
 		C94068B81F3997B600D5B6F8 /* TemporaryPhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94068B71F3997B600D5B6F8 /* TemporaryPhotoStore.swift */; };
 		C94068BA1F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94068B91F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift */; };
@@ -116,6 +117,7 @@
 		C94023C21F4BF9B500FA740C /* PHImageRequestOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHImageRequestOptions.swift; sourceTree = "<group>"; };
 		C94023C61F4BFA0E00FA740C /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIView.swift; path = ../UIView.swift; sourceTree = "<group>"; };
 		C94023C81F4D769F00FA740C /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		C94023CB1F4E00DA00FA740C /* CachingImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingImageManager.swift; sourceTree = "<group>"; };
 		C94068B41F397EAF00D5B6F8 /* PhotoClassifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoClassifiable.swift; sourceTree = "<group>"; };
 		C94068B71F3997B600D5B6F8 /* TemporaryPhotoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporaryPhotoStore.swift; sourceTree = "<group>"; };
 		C94068B91F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoStoreDelegate.swift; sourceTree = "<group>"; };
@@ -166,7 +168,6 @@
 		7D77D7101F35D046008E61FF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C93874781F38625000CB0AC4 /* Constants.swift */,
 				7D77D70D1F35D035008E61FF /* ClassifiedPhotoCell.swift */,
 				40B4EA9D1F39A4AA00F4393A /* DetailPhotoCell.swift */,
 				C9804C191F39CD1700075E8F /* TemporaryPhotoCell.swift */,
@@ -185,6 +186,7 @@
 				C93874681F383DD600CB0AC4 /* PhotoStore.swift */,
 				C94068B71F3997B600D5B6F8 /* TemporaryPhotoStore.swift */,
 				C931F0421F3F6F02004653EE /* PhotoLibraryObserver.swift */,
+				C94023CB1F4E00DA00FA740C /* CachingImageManager.swift */,
 				C94068B61F398DCD00D5B6F8 /* Protocol */,
 			);
 			name = Model;
@@ -219,6 +221,14 @@
 			);
 			name = Interface;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		C94023CA1F4E003D00FA740C /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				C93874781F38625000CB0AC4 /* Constants.swift */,
+			);
+			name = Utility;
 			sourceTree = "<group>";
 		};
 		C94068B61F398DCD00D5B6F8 /* Protocol */ = {
@@ -260,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				C94023AC1F4AB15D00FA740C /* Info.plist */,
+				C94023CA1F4E003D00FA740C /* Utility */,
 				C94FA8B21F4964300046C4B8 /* Localizable */,
 				C93874641F383D4800CB0AC4 /* Extension */,
 				7D77D7101F35D046008E61FF /* View */,
@@ -372,6 +383,7 @@
 				C93874691F383DD600CB0AC4 /* PhotoStore.swift in Sources */,
 				C957BDB91F485F8300D7D3D1 /* ClassifiedGroup.swift in Sources */,
 				C931F0451F42D0C6004653EE /* ClassifiedPhotoAssets.swift in Sources */,
+				C94023CC1F4E00DA00FA740C /* CachingImageManager.swift in Sources */,
 				C9E21E9E1F3439BB00B17CC4 /* ClassifiedPhotoViewController.swift in Sources */,
 				C94068BA1F39ABFC00D5B6F8 /* PhotoStoreDelegate.swift in Sources */,
 				C93874671F383DCC00CB0AC4 /* PhotoDataSource.swift in Sources */,

@@ -218,7 +218,11 @@ class ClassifiedPhotoViewController: UIViewController {
                                                        targetSize: Constants.fetchImageSize,
                                                        contentMode: .aspectFill, options: nil)
             }
-        
+            
+            CachingImageManager.shared.startCachingImages(for: photoAssets,
+                                                   targetSize: Constants.fetchImageSize,
+                                                   contentMode: .aspectFill, options: nil)
+            
             guard let path = Constants.archiveURL?.path else { return }
             self?.fetchArchivedTemporaryPhotoStore(from: path)
         }
@@ -372,17 +376,17 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
 extension ClassifiedPhotoViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.5)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.5)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.5)
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
@@ -456,9 +460,8 @@ extension ClassifiedPhotoViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.8)
         
-//        guard customScrollView.frame.origin.y < self.view.frame.height else { return }
         guard scrollView.contentOffset.y > 0 else {
             customScrollView.frame.origin.y = tableView.contentOffset.y
             return
@@ -477,7 +480,7 @@ extension ClassifiedPhotoViewController {
     }
     
     func fadeOutLabelAndIndicator() {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.5)
+        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.5)
         scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.5, alpha: 0)
     }
 }

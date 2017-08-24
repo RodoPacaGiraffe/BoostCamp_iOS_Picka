@@ -49,7 +49,7 @@ extension PhotoDataSource: UITableViewDataSource {
         
         if !cell.requestIDs.isEmpty {
             cell.requestIDs.forEach {
-                cachingImageManager.cancelImageRequest($0)
+                CachingImageManager.shared.cancelImageRequest($0)
             }
             
             cell.requestIDs.removeAll()

@@ -50,8 +50,6 @@ enum Situation {
     case noAuthorization
 }
 
-let cachingImageManager: PHCachingImageManager = PHCachingImageManager()
-
 struct Constants {
     static let cellIdentifier: String = "ClassifiedPhotoCell"
     static var timeIntervalBoundary: TimeInterval = 90.0
