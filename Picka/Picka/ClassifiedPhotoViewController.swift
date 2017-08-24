@@ -214,14 +214,10 @@ class ClassifiedPhotoViewController: UIViewController {
             
             DispatchQueue.global().async { [weak self] in
                 guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
-                cachingImageManager.startCachingImages(for: photoAssets,
-                                                       targetSize: Constants.fetchImageSize,
-                                                       contentMode: .aspectFill, options: nil)
+                CachingImageManager.shared.startCachingImages(for: photoAssets,
+                                                              targetSize: Constants.fetchImageSize,
+                                                              contentMode: .aspectFill, options: nil)
             }
-            
-            CachingImageManager.shared.startCachingImages(for: photoAssets,
-                                                   targetSize: Constants.fetchImageSize,
-                                                   contentMode: .aspectFill, options: nil)
             
             guard let path = Constants.archiveURL?.path else { return }
             self?.fetchArchivedTemporaryPhotoStore(from: path)
