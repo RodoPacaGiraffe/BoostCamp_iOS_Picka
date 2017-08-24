@@ -193,7 +193,7 @@ class ClassifiedPhotoViewController: UIViewController {
                 }
             }
             
-            cachingImageManager.startCachingImages(for: photoAssets,
+            CachingImageManager.shared.startCachingImages(for: photoAssets,
                                                    targetSize: Constants.fetchImageSize,
                                                    contentMode: .aspectFill, options: nil)
             
