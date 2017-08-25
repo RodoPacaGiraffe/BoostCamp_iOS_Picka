@@ -11,7 +11,6 @@ import UIKit
 class SettingViewController: UITableViewController {
     @IBOutlet private var slider: UISlider!
     @IBOutlet private var dataAllowedSwitch: UISwitch!
-    @IBOutlet private var levelLabels: [UILabel]!
     
     var settingDelegate: SettingDelegate?
     
@@ -31,21 +30,10 @@ class SettingViewController: UITableViewController {
     }
     
     private func setSlider() {
-        if Locale.preferredLanguages.first == "ar" {
-            levelLablesToArabic()
-        }
-        
         let timeIntervalBoundary: Double = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
             as? Double ?? Double(GroupingInterval.level2.rawValue)
         
         slider.setValue(Float(timeIntervalBoundary), animated: false)
-    }
-    
-    private func levelLablesToArabic() {
-        levelLabels.forEach {
-            guard let text = $0.text, let level = Int(text) else { return }
-            $0.text = level.toArabic()
-        }
     }
     
     @IBAction private func sliderValueChanged(_ sender: UISlider) {
