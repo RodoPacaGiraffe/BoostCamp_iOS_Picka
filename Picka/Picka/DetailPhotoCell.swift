@@ -9,23 +9,28 @@
 import UIKit
 import Photos
 
+fileprivate struct Constants {
+    static let selectedImageViewAlpha: CGFloat = 0.5
+    static let deselectedImageViewAlpha: CGFloat = 1.0
+}
+
 class DetailPhotoCell: UICollectionViewCell {
-    @IBOutlet var thumbnailImageView: UIImageView!
-    @IBOutlet var detailDeleteButton: UIButton!
+    @IBOutlet private var thumbnailImageView: UIImageView!
+    @IBOutlet private var detailDeleteButton: UIButton!
     
-    var requestID: PHImageRequestID?
+    private(set) var requestID: PHImageRequestID?
     
     override func prepareForReuse() {
         deSelect()
     }
     
     func select() {
-        thumbnailImageView.alpha = 0.5
+        thumbnailImageView.alpha = Constants.selectedImageViewAlpha
         self.isSelected = true
     }
     
     func deSelect() {
-        thumbnailImageView.alpha = 1.0
+        thumbnailImageView.alpha = Constants.deselectedImageViewAlpha
         self.isSelected = false
     }
 }

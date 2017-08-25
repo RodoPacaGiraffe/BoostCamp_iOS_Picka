@@ -45,15 +45,23 @@ struct Clustering {
     static let interval3: Range<Float> = 240..<300
 }
 
-enum Situation {
-    case noPhoto
+enum Status {
+    case emptyPhotoToOrganize
     case noAuthorization
 }
 
-struct Constants {
+struct Language {
+    static let korean: String = "ko"
+    static let chinese: String = "zh"
+    static let japanese: String = "ja"
+    static let english: String = "en"
+    static let arabic: String = "ar"
+}
+
+struct GlobalConstants {
     static let cellIdentifier: String = "ClassifiedPhotoCell"
     static var timeIntervalBoundary: TimeInterval = 90.0
-    static let maximumImageView: Int = 4
+    
     static let stackViewSpacing: Int = 3
     static let temporaryPhotoAssetsIdentifier: String = "temporaryPhotoAssetsIdentifier"
     static let archiveFileName: String = "temporaryPhotoStore.archive"

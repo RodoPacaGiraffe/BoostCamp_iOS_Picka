@@ -9,17 +9,28 @@
 import UIKit
 import Photos
 
+fileprivate struct Constants {
+    static let deleteConfirmationView = "deleteConfirmationView"
+    static let maximumImageViewCount: Int = 4
+    static let lastImageAlpha: CGFloat = 0.5
+    static let imageContainerViewRoundBorderDegree: CGFloat = 16.0
+    static let imageContainerViewBackgroundColor: UIColor = UIColor(red: 243/255,
+                                                                    green: 243/255,
+                                                                    blue: 243/255,
+                                                                    alpha: 1)
+}
+
 class ClassifiedPhotoCell: UITableViewCell {
-    @IBOutlet var numberOfPhotosLabel: UILabel!
-    @IBOutlet var locationLabel: UILabel!
-    @IBOutlet var imageContainerView: UIView!
-    @IBOutlet var imageStackView: UIStackView!
-    @IBOutlet var imageViews: [UIImageView]!
-    @IBOutlet var moreImagesLabel: UILabel!
+    @IBOutlet private(set) var imageViews: [UIImageView]!
+    @IBOutlet private var numberOfPhotosLabel: UILabel!
+    @IBOutlet private var locationLabel: UILabel!
+    @IBOutlet private var imageContainerView: UIView!
+    @IBOutlet private var imageStackView: UIStackView!
+    @IBOutlet private var moreImagesLabel: UILabel!
     
-    var requestIDs: [PHImageRequestID] = []
+    private(set) var requestIDs: [PHImageRequestID] = []
     
-    var cellImages: [UIImage] = [] {
+    private var cellImages: [UIImage] = [] {
         didSet {
             addPhotoImagesToStackView(photoImages: cellImages)
         }
@@ -43,7 +54,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         moreImagesLabel.isHidden = true
         
         for index in photoImages.indices {
-            guard index < Constants.maximumImageView else {
+            guard index < Constants.maximumImageViewCount else {
                 setLabel()
                 break
             }
@@ -51,30 +62,31 @@ class ClassifiedPhotoCell: UITableViewCell {
             imageViews[index].image = photoImages[index]
         }
         
-        imageContainerView.makeRoundBorder(degree: 16.0)
-        imageContainerView.backgroundColor = UIColor(red: 243/255,
-                                                     green: 243/255,
-                                                     blue: 243/255,
-                                                     alpha: 1)
+        imageContainerView.makeRoundBorder(degree: Constants.imageContainerViewRoundBorderDegree)
+        imageContainerView.backgroundColor = Constants.imageContainerViewBackgroundColor
     }
     
     func setLabel() {
         guard let lastIamgeView = imageViews.last else { return }
-        lastIamgeView.image = lastIamgeView.image?.alpha(0.5)
+        lastIamgeView.image = lastIamgeView.image?.alpha(Constants.lastImageAlpha)
         
-        let numOfMoreImages = cellImages.count - Constants.maximumImageView
+        let numberOfMoreImages = cellImages.count - Constants.maximumImageViewCount
         
         if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
             if Locale.preferredLanguages.first == "ar" {
-                moreImagesLabel.text = "\(numOfMoreImages.toArabic())+"
+                moreImagesLabel.text = "\(numberOfMoreImages.toArabic())+"
             } else {
-                moreImagesLabel.text = "\(numOfMoreImages)+"
+                moreImagesLabel.text = "\(numberOfMoreImages)+"
             }
         } else {
-            moreImagesLabel.text = "+\(numOfMoreImages)"
+            moreImagesLabel.text = "+\(numberOfMoreImages)"
         }
        
         moreImagesLabel.isHidden = false
+    }
+    
+    func setLocationLabelText(with locationText: String) {
+        locationLabel.text = locationText
     }
     
     func clearStackView() {

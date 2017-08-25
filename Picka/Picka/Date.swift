@@ -25,14 +25,14 @@ extension Date {
     
     func toDateString() -> String {
         let dateFormatter: DateFormatter = DateFormatter()
-        let languageCode = Locale.current.languageCode ?? "en"
+        let languageCode = Locale.current.languageCode ?? Language.english
         
         switch languageCode {
-        case "ko":
+        case Language.korean:
             dateFormatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
-        case "zh", "ja":
+        case Language.chinese, Language.japanese:
             dateFormatter.dateFormat = "yyyy年 MM月 dd日 EEEE"
-        case "ar":
+        case Language.arabic:
             dateFormatter.dateFormat = "yyyy MM dd EEEE"
         default:
             dateFormatter.dateFormat = "E, d MMM yyyy"

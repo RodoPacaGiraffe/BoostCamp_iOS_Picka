@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Rai-15-VpX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Rai-15-VpX">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,7 +14,7 @@
         <!--To be deleted-->
         <scene sceneID="4OH-wq-D0d">
             <objects>
-                <viewController id="41h-lp-7Sx" customClass="TemporaryPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="41h-lp-7Sx" customClass="TemporaryPhotoViewController" customModule="Picka" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3i6-NU-iL3"/>
                         <viewControllerLayoutGuide type="bottom" id="DaT-bt-SWC"/>
@@ -33,7 +33,7 @@
                                     <inset key="sectionInset" minX="1" minY="1" maxX="1" maxY="1"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClassifiedPhotoCell" id="nJ5-hn-lfj" customClass="TemporaryPhotoCell" customModule="Electo" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClassifiedPhotoCell" id="nJ5-hn-lfj" customClass="TemporaryPhotoCell" customModule="Picka" customModuleProvider="target">
                                         <rect key="frame" x="1" y="1" width="90" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -57,7 +57,7 @@
                                             <constraint firstItem="e4J-uM-gxv" firstAttribute="centerY" secondItem="nJ5-hn-lfj" secondAttribute="centerY" id="wMv-V0-Ubr"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="checkedImageView" destination="e4J-uM-gxv" id="llR-yF-QYL"/>
+                                            <outlet property="checkImageView" destination="e4J-uM-gxv" id="jNR-e8-uO1"/>
                                             <outlet property="thumbnailImageView" destination="Gni-q4-5G7" id="4MI-Td-Soa"/>
                                         </connections>
                                     </collectionViewCell>

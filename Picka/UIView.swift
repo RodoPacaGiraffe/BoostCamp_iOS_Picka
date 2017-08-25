@@ -15,9 +15,9 @@ extension UIView {
         layer.masksToBounds = true
     }
     
-    func fadeWithAlpha(of view: UIView, duration: Double, alpha: CGFloat) {
+    func fadeWithAlpha(duration: Double, alpha: CGFloat) {
         UIView.animate(withDuration: duration, animations: {
-            view.alpha = alpha
+            self.alpha = alpha
         })
     }
 }
