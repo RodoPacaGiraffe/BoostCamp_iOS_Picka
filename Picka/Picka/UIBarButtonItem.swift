@@ -9,29 +9,37 @@
 import UIKit
 
 fileprivate struct Constants {
-    static let badgeLabelFrame: CGRect = CGRect(x: 12, y: -8, width: 15, height: 15)
-    static let badgeLabelFont: UIFont = UIFont.systemFont(ofSize: 10)
-    static let badgeButtonFrame: CGRect = CGRect(x: 0, y: 0, width: 20, height: 20)
-    static let badgeAnimationDuration: TimeInterval = 0.2
-    static let badgeAnimationTargetScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.2)
-    static let badgeOriginalScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+    struct BadgeLabel {
+        static let frame: CGRect = CGRect(x: 12, y: -8, width: 15, height: 15)
+        static let font: UIFont = UIFont.systemFont(ofSize: 10)
+    }
+    
+    struct BadgeButton {
+        static let frame: CGRect = CGRect(x: 0, y: 0, width: 20, height: 20)
+    }
+    
+    struct BadgeAnimation {
+        static let badgeTargetScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.2)
+        static let badgeOriginalScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        static let duration: TimeInterval = 0.2
+    }
 }
 
 extension UIBarButtonItem {
     static func getUIBarbuttonItemincludedBadge(With temporaryPhotoAssetsCount: Int) -> UIBarButtonItem {
-        let label = UILabel(frame: Constants.badgeLabelFrame)
+        let label = UILabel(frame: Constants.BadgeLabel.frame)
         
         label.text = "\(temporaryPhotoAssetsCount)"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = Constants.badgeLabelFont
+        label.font = Constants.BadgeLabel.font
         label.adjustsFontSizeToFitWidth = true
         label.baselineAdjustment = .alignCenters
         label.backgroundColor = .red
         label.layer.cornerRadius = label.bounds.size.height / 2
         label.layer.masksToBounds = true
         
-        let button = UIButton(frame: Constants.badgeButtonFrame)
+        let button = UIButton(frame: Constants.BadgeButton.frame)
         
         button.setImage(#imageLiteral(resourceName: "trash"), for: .normal)
         button.addSubview(label)
@@ -65,12 +73,12 @@ extension UIBarButtonItem {
 
         if let text = label.text, let previousCount = Int(text),
             previousCount < temporaryPhotoAssetsCount {
-            UIView.animate(withDuration: Constants.badgeAnimationDuration,
+            UIView.animate(withDuration: Constants.BadgeAnimation.duration,
                 animations: {
-                    button.transform = Constants.badgeAnimationTargetScale
+                    button.transform = Constants.BadgeAnimation.badgeTargetScale
             },
                 completion: { _ in
-                    button.transform = Constants.badgeOriginalScale
+                    button.transform = Constants.BadgeAnimation.badgeOriginalScale
             })
         }
         

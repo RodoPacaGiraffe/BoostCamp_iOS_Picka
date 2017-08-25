@@ -10,14 +10,14 @@ import UIKit
 import Photos
 
 fileprivate struct Constants {
+    struct ImageContainerView {
+        static let roundBorderDegree: CGFloat = 16.0
+        static let backgroundColor: UIColor = UIColor(red: 243/255, green: 243/255, blue: 243/255, alpha: 1.0)
+    }
+    
     static let deleteConfirmationView = "deleteConfirmationView"
     static let maximumImageViewCount: Int = 4
     static let lastImageAlpha: CGFloat = 0.5
-    static let imageContainerViewRoundBorderDegree: CGFloat = 16.0
-    static let imageContainerViewBackgroundColor: UIColor = UIColor(red: 243/255,
-                                                                    green: 243/255,
-                                                                    blue: 243/255,
-                                                                    alpha: 1)
 }
 
 class ClassifiedPhotoCell: UITableViewCell {
@@ -32,7 +32,7 @@ class ClassifiedPhotoCell: UITableViewCell {
     
     private var cellImages: [UIImage] = [] {
         didSet {
-            addPhotoImagesToStackView(photoImages: cellImages)
+            addCellImagesToStackView(cellImages: cellImages)
         }
     }
     
@@ -50,20 +50,24 @@ class ClassifiedPhotoCell: UITableViewCell {
         }
     }
     
-    func addPhotoImagesToStackView(photoImages: [UIImage]) {
+    func setCellImages(with images: [UIImage]) {
+        cellImages = images
+    }
+    
+    func addCellImagesToStackView(cellImages: [UIImage]) {
         moreImagesLabel.isHidden = true
         
-        for index in photoImages.indices {
+        for index in cellImages.indices {
             guard index < Constants.maximumImageViewCount else {
                 setLabel()
                 break
             }
             
-            imageViews[index].image = photoImages[index]
+            imageViews[index].image = cellImages[index]
         }
         
-        imageContainerView.makeRoundBorder(degree: Constants.imageContainerViewRoundBorderDegree)
-        imageContainerView.backgroundColor = Constants.imageContainerViewBackgroundColor
+        imageContainerView.makeRoundBorder(degree: Constants.ImageContainerView.roundBorderDegree)
+        imageContainerView.backgroundColor = Constants.ImageContainerView.backgroundColor
     }
     
     func setLabel() {
@@ -73,7 +77,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         let numberOfMoreImages = cellImages.count - Constants.maximumImageViewCount
         
         if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
-            if Locale.preferredLanguages.first == "ar" {
+            if Locale.preferredLanguages.first == Language.arabic {
                 moreImagesLabel.text = "\(numberOfMoreImages.toArabic())+"
             } else {
                 moreImagesLabel.text = "\(numberOfMoreImages)+"
@@ -85,8 +89,12 @@ class ClassifiedPhotoCell: UITableViewCell {
         moreImagesLabel.isHidden = false
     }
     
-    func setLocationLabelText(with locationText: String) {
-        locationLabel.text = locationText
+    func setNumberOfPhotosLableText(with numberOfPhotosString: String) {
+        numberOfPhotosLabel.text = numberOfPhotosString
+    }
+    
+    func setLocationLabelText(with locationString: String) {
+        locationLabel.text = locationString
     }
     
     func clearStackView() {
@@ -96,6 +104,14 @@ class ClassifiedPhotoCell: UITableViewCell {
 
         moreImagesLabel.isHidden = true
         locationLabel.text = nil
+    }
+    
+    func appendRequestID(requestID: PHImageRequestID) {
+        requestIDs.append(requestID)
+    }
+    
+    func removeAllrequestIDs() {
+        requestIDs.removeAll()
     }
 }
 

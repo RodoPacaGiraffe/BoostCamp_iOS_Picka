@@ -14,7 +14,7 @@ extension Date {
         let day1 = Calendar.current.component(.day, from: self)
         let day2 = Calendar.current.component(.day, from: date)
         
-        if (abs(endTimeInterval) > Constants.timeIntervalBoundary) && (day1 == day2) {
+        if (abs(endTimeInterval) > SettingConstants.timeIntervalBoundary) && (day1 == day2) {
             return .intervalBoundary
         } else if day1 != day2 {
             return .day

@@ -33,7 +33,7 @@
                                     <inset key="sectionInset" minX="1" minY="1" maxX="1" maxY="1"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClassifiedPhotoCell" id="nJ5-hn-lfj" customClass="TemporaryPhotoCell" customModule="Picka" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TemporaryPhotoCell" id="nJ5-hn-lfj" customClass="TemporaryPhotoCell" customModule="Picka" customModuleProvider="target">
                                         <rect key="frame" x="1" y="1" width="90" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">

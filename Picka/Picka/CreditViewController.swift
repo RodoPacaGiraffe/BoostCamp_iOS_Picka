@@ -9,12 +9,25 @@
 import UIKit
 import MessageUI
 
-class CreditViewController: UIViewController {
+fileprivate struct Constants {
+    struct MailComponent {
+        static let officialEmail: String = "pickahelp@gmail.com"
+        static let message: String = "Thank you for your opinions. \n - RodoPacaGiraffe -"
+    }
     
+    struct MailErrorAlert {
+        static let title = "Mail Send Fail"
+        static let message = "Check Mail Setting."
+    }
+    
+    static let navigationTitle = "Credit"
+}
+
+class CreditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Credit"
+        self.navigationItem.title = Constants.navigationTitle
     }
     
     @IBAction private func sendMail(sender: AnyObject) {
@@ -31,17 +44,16 @@ class CreditViewController: UIViewController {
     private func setMailViewController() -> MFMailComposeViewController {
         let mailComposeVC = MFMailComposeViewController()
         mailComposeVC.mailComposeDelegate = self
-        mailComposeVC.setToRecipients(["pickahelp@gmail.com"])
-        mailComposeVC.setMessageBody("Thank you for your opinions. \n - RodoPacaGiraffe -", isHTML: false)
+        mailComposeVC.setToRecipients([Constants.MailComponent.officialEmail])
+        mailComposeVC.setMessageBody(Constants.MailComponent.message, isHTML: false)
     
         return mailComposeVC
     }
     
     private func sendMailErrorAlert() {
-        let title = "Mail Send Fail"
-        let message = "Check Mail Setting."
-        
-        let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertView = UIAlertController(title: Constants.MailErrorAlert.title,
+                                          message: Constants.MailErrorAlert.message,
+                                          preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
         alertView.addAction(okAction)

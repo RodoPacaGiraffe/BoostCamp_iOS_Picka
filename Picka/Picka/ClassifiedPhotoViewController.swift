@@ -1,5 +1,5 @@
 //
-//  PhotoViewController.swift
+//  ClassifiedPhotoViewController.swift
 //  Electo
 //
 //  Created by RodoPacaGiraffe on 2017. 8. 4..
@@ -10,15 +10,27 @@ import UIKit
 import Photos
 
 fileprivate struct Constants {
-    static let customScrollImageViewFrame: CGRect = CGRect(x: 0, y: 0, width: 15, height: 30)
-    static let customScrollViewCornerRadius: CGFloat = 10
-    static let customScrollViewAlpha: CGFloat = 0.5
-    static let scrollGestureMaximumNumberOfTouches: Int = 1
-    static let scrollingLabelRoundBorderDegree: CGFloat = 5.0
+    struct CustomScrollView {
+        static let imageViewFrame: CGRect = CGRect(x: 0, y: 0, width: 15, height: 30)
+        static let width: CGFloat = 20.0
+        static let height: CGFloat = 40.0
+        static let cornerRadius: CGFloat = 10.0
+        static let alpha: CGFloat = 0.5
+        static let scrollGestureMaximumNumberOfTouches: Int = 1
+    }
+    
+    struct FadeAnimation {
+        static let duration: TimeInterval = 0.2
+        static let alphaForAppear: CGFloat = 0.8
+        static let alphaForDisappear: CGFloat = 0.0
+    }
+    
+    struct ScrollingLabel {
+        static let borderDegree: CGFloat = 5.0
+        static let height: CGFloat = 50.0
+    }
+    
     static let tableViewHeaderFont: UIFont = UIFont.systemFont(ofSize: 14)
-    static let fadeAnimationDuration: TimeInterval = 0.2
-    static let fadeAnimationAppearAlpha: CGFloat = 0.8
-    static let fadeAnimationDisappearAlpha: CGFloat = 0.0
 }
 
 class ClassifiedPhotoViewController: UIViewController {
@@ -63,13 +75,13 @@ class ClassifiedPhotoViewController: UIViewController {
     
     private func setNotificationObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
-                                               name: GlobalConstants.requiredReload, object: nil)
+                                               name: NotificationName.requiredReload, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
-                                               name: GlobalConstants.requiredUpdatingBadge, object: nil)
+                                               name: NotificationName.requiredUpdatingBadge, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (appearStatusDisplayView),
-                                               name: GlobalConstants.appearEmptyView, object: nil)
+                                               name: NotificationName.appearStatusDisplayView, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (disappearStatusDisplayView),
-                                               name: GlobalConstants.disappearEmptyView, object: nil)
+                                               name: NotificationName.disappearStatusDisplayView, object: nil)
     }
     
     private func setLoadingView() {
@@ -84,21 +96,22 @@ class ClassifiedPhotoViewController: UIViewController {
     
     private func setScrollBar() {
         if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
-            customScrollView.frame = CGRect(x: 3, y: tableView.contentOffset.y, width: 20, height: 40)
+            customScrollView.frame = CGRect(x: 3.0, y: tableView.contentOffset.y,
+                                            width: Constants.CustomScrollView.width, height: Constants.CustomScrollView.height)
         } else {
-            customScrollView.frame = CGRect(x: self.view.frame.width - 17,
-                                            y: tableView.contentOffset.y, width: 20, height: 40)
+            customScrollView.frame = CGRect(x: self.view.frame.width - 17, y: tableView.contentOffset.y,
+                                            width: Constants.CustomScrollView.width, height: Constants.CustomScrollView.height)
         }
         
-        scrollGesture.addTarget(self, action: #selector(touchToScroll))
-        scrollGesture.maximumNumberOfTouches = Constants.scrollGestureMaximumNumberOfTouches
-        customScrollView.layer.cornerRadius = Constants.customScrollViewCornerRadius
-        customScrollView.alpha = Constants.customScrollViewAlpha
+        scrollGesture.addTarget(self, action: #selector(panGestureToScroll))
+        scrollGesture.maximumNumberOfTouches = Constants.CustomScrollView.scrollGestureMaximumNumberOfTouches
+        customScrollView.layer.cornerRadius = Constants.CustomScrollView.cornerRadius
+        customScrollView.alpha = Constants.CustomScrollView.alpha
         
         let customScrollImageView: UIImageView = UIImageView()
         customScrollImageView.image = #imageLiteral(resourceName: "Slider")
         customScrollImageView.contentMode = .scaleAspectFit
-        customScrollImageView.frame = Constants.customScrollImageViewFrame
+        customScrollImageView.frame = Constants.CustomScrollView.imageViewFrame
         
         self.view.addSubview(customScrollView)
         customScrollView.addSubview(customScrollImageView)
@@ -109,12 +122,12 @@ class ClassifiedPhotoViewController: UIViewController {
         scrollingLabel.frame = CGRect(x: self.view.frame.width / 4,
                                       y: self.view.center.y - 100,
                                       width: self.view.frame.width / 2,
-                                      height: 50)
+                                      height: Constants.ScrollingLabel.height)
         scrollingLabel.isHidden = true
         scrollingLabel.textAlignment = .center
         scrollingLabel.adjustsFontSizeToFitWidth = true
         scrollingLabel.backgroundColor = UIColor.lightGray
-        scrollingLabel.makeRoundBorder(degree: Constants.scrollingLabelRoundBorderDegree)
+        scrollingLabel.makeRoundBorder(degree: Constants.ScrollingLabel.borderDegree)
         
         self.view.addSubview(scrollingLabel)
     }
@@ -169,8 +182,8 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func loadUserDefaultSetting() {
-        GlobalConstants.dataAllowed = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
-        GlobalConstants.timeIntervalBoundary = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
+        SettingConstants.networkDataAllowed = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
+        SettingConstants.timeIntervalBoundary = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
             as? Double ?? 180
     }
     
@@ -188,11 +201,11 @@ class ClassifiedPhotoViewController: UIViewController {
             DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
                 CachingImageManager.shared.startCachingImages(for: photoAssets,
-                                                              targetSize: Constants.fetchImageSize,
+                                                              targetSize: SettingConstants.fetchImageSize,
                                                               contentMode: .aspectFill, options: nil)
             }
             
-            guard let path = Constants.archiveURL?.path else { return }
+            guard let path = ArchiveConstants.archiveURL?.path else { return }
             self?.fetchArchivedTemporaryPhotoStore(from: path)
         }
     }
@@ -229,12 +242,12 @@ class ClassifiedPhotoViewController: UIViewController {
                 as? ClassifiedPhotoCell else { continue }
             
             let classifiedGroup = photoDataSource.photoStore
-                .classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+                .classifiedGroupsByDate[indexPath.section].classifiedPHAssetGroups[indexPath.row]
             
             guard classifiedGroup.location.isEmpty else { continue }
             
             classifiedGroup.photoAssets.first?.location?.reverseGeocode { locationString in
-                classifiedGroup.location = locationString
+                classifiedGroup.setLocation(with: locationString)
                 classifiedPhotoCell.setLocationLabelText(with: locationString)
             }
         }
@@ -252,7 +265,7 @@ class ClassifiedPhotoViewController: UIViewController {
         moveToTempVCButtonItem?.updateBadge(With: photoDataSource.temporaryPhotoStore.photoAssets.count)
     }
     
-    @objc private func reloadData() {
+    @objc fileprivate func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
             
@@ -330,7 +343,7 @@ class ClassifiedPhotoViewController: UIViewController {
                                    of indexPath: IndexPath, _ selectedPhotoIndex: Int) {
         detailViewController.photoDataSource = photoDataSource
         detailViewController.selectedSectionAssets = photoDataSource.photoStore
-            .classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets
+            .classifiedGroupsByDate[indexPath.section].classifiedPHAssetGroups[indexPath.row].photoAssets
         detailViewController.identifier = "fromClassifiedPhotoVC"
         
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
@@ -362,7 +375,7 @@ class ClassifiedPhotoViewController: UIViewController {
 extension ClassifiedPhotoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let classifiedGroup = photoDataSource.photoStore
-            .classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+            .classifiedGroupsByDate[indexPath.section].classifiedPHAssetGroups[indexPath.row]
         
         guard let classifiedPhotoCell = cell as? ClassifiedPhotoCell else { return }
         classifiedPhotoCell.setLocationLabelText(with: classifiedGroup.location)
@@ -388,45 +401,40 @@ extension ClassifiedPhotoViewController: UITableViewDelegate {
 extension ClassifiedPhotoViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
-        customScrollView.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                       alpha: Constants.fadeAnimationAppearAlpha)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                       alpha: Constants.fadeAnimationAppearAlpha)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                       alpha: Constants.fadeAnimationAppearAlpha)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                       alpha: Constants.fadeAnimationAppearAlpha)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
         
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                       alpha: Constants.fadeAnimationAppearAlpha)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
     }
 }
 
 extension ClassifiedPhotoViewController: SettingDelegate {
-    func groupingChanged() {
+    func timeIntervalBoundaryChanged() {
         DispatchQueue.global(qos: .utility).async { [weak self] in
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
-            
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-                self?.disappearLoadingView()
-                self?.fetchLocationToVisibleCells()
-            }
+            self?.reloadData()
         }
     }
 }
@@ -439,18 +447,24 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
 }
 
 extension ClassifiedPhotoViewController {
-    func touchToScroll() {
+    func panGestureToScroll() {
         guard scrollGesture.state != .ended else {
             fadeOutLabelAndIndicator()
             return
         }
-    
+        
+        guard scrollGesture.state != .cancelled else {
+            scrollingLabel.isHidden = true
+            return
+        }
+        
         guard tableView.contentSize.height > self.view.frame.height else { return }
         guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
-        if let indexPath = tableView.indexPathForRow(at: CGPoint(x: 0, y: tableView.contentOffset.y + self.customScrollView.frame.origin.y)) {
+        
+        if let indexPath = tableView.indexPathForRow(at: CGPoint(x: 0, y: tableView.contentOffset.y + customScrollView.frame.origin.y)) {
             scrollingLabel.isHidden = false
-            scrollingLabel.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                         alpha: Constants.fadeAnimationAppearAlpha)
+            scrollingLabel.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                         alpha: Constants.FadeAnimation.alphaForAppear)
             scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
         }
         
@@ -466,17 +480,12 @@ extension ClassifiedPhotoViewController {
             let estimatedViewHeight = self.view.frame.height - customScrollView.frame.size.height
             tableView.setContentOffset(CGPoint(x: 0, y: (self.customScrollView.frame.origin.y / estimatedViewHeight) * (tableView.contentSize.height - self.view.frame.height)), animated: false)
             customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
-            
-        }
-        
-        if scrollGesture.state == .cancelled {
-            scrollingLabel.isHidden = true
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                       alpha: Constants.fadeAnimationAppearAlpha)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
         
         guard scrollView.contentOffset.y > 0 else {
             customScrollView.frame.origin.y = tableView.contentOffset.y
@@ -496,9 +505,9 @@ extension ClassifiedPhotoViewController {
     }
     
     func fadeOutLabelAndIndicator() {
-        customScrollView.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                       alpha: Constants.fadeAnimationAppearAlpha)
-        scrollingLabel.fadeWithAlpha(duration: Constants.fadeAnimationDuration,
-                                     alpha: Constants.fadeAnimationDisappearAlpha)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
+        scrollingLabel.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                     alpha: Constants.FadeAnimation.alphaForDisappear)
     }
 }

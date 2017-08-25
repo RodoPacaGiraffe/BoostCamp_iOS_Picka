@@ -9,6 +9,10 @@
 import Foundation
 import Photos
 
+fileprivate struct Constants {
+    static let temporaryPhotoAssetsIdentifier: String = "temporaryPhotoAssetsIdentifier"
+}
+
 class TemporaryPhotoStore: NSObject, NSCoding {
     weak var delegate: PhotoStoreDelegate?
     
@@ -19,14 +23,14 @@ class TemporaryPhotoStore: NSObject, NSCoding {
         super.init()
         
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
-                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+                                               name: NotificationName.removedAssetsFromPhotoLibrary, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init()
         
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
-                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+                                               name: NotificationName.removedAssetsFromPhotoLibrary, object: nil)
         
         guard let loadedPhotoAssetsIdentifier = aDecoder.decodeObject(
             forKey: Constants.temporaryPhotoAssetsIdentifier) as? [String] else {
@@ -57,12 +61,12 @@ class TemporaryPhotoStore: NSObject, NSCoding {
     }
     
     func savePhotoAsset() {
-        guard let path = Constants.archiveURL?.path else { return }
+        guard let path = ArchiveConstants.archiveURL?.path else { return }
         NSKeyedArchiver.archiveRootObject(self, toFile: path)
     }
     
     @objc func applyRemovedAssets(_ notification: Notification) {
-        guard let removedPhotoAssets = notification.userInfo?[Constants.removedPhotoAssets]
+        guard let removedPhotoAssets = notification.userInfo?[NotificationUserInfoKey.removedPhotoAssets]
             as? [PHAsset] else { return }
         
         removedPhotoAssets.forEach {
@@ -71,7 +75,7 @@ class TemporaryPhotoStore: NSObject, NSCoding {
             photoAssets.remove(at: index)
         }
         
-        NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+        NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
     }
 }
 
@@ -89,7 +93,6 @@ extension TemporaryPhotoStore {
     func remove(photoAssets: [PHAsset], isPerformDelegate: Bool = true) {
         photoAssets.forEach {
             guard let assetIndex = self.photoAssets.index(of: $0) else { return }
-          
             self.photoAssets.remove(at: assetIndex)
             photoAssetsIdentifier.remove(at: assetIndex)
         }
@@ -122,12 +125,12 @@ extension TemporaryPhotoStore: PhotoStoreDelegate {
     func temporaryPhotoDidInserted(insertedPhotoAssets: [PHAsset]) {
         delegate?.temporaryPhotoDidInserted(insertedPhotoAssets: insertedPhotoAssets)
         
-        NotificationCenter.default.post(name: Constants.requiredUpdatingBadge, object: nil)
+        NotificationCenter.default.post(name: NotificationName.requiredUpdatingBadge, object: nil)
     }
     
     func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset]) {
         delegate?.temporaryPhotoDidRemoved(removedPhotoAssets: removedPhotoAssets)
         
-        NotificationCenter.default.post(name: Constants.requiredUpdatingBadge, object: nil)
+        NotificationCenter.default.post(name: NotificationName.requiredUpdatingBadge, object: nil)
     }
 }

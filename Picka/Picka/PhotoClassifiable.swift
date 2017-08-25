@@ -9,17 +9,21 @@
 import Foundation
 import Photos
 
+fileprivate struct Constants {
+    static let minimumPhotoCount: Int = 2
+}
+
 protocol PhotoClassifiable: class {
-    func classifyByTimeInterval(photoAssets: [PHAsset]) -> [ClassifiedPhotoAssets]
+    func classifyByTimeInterval(photoAssets: [PHAsset]) -> [ClassifiedGroupsByDate]
 }
 
 extension PhotoClassifiable {
-    func classifyByTimeInterval(photoAssets: [PHAsset]) -> [ClassifiedPhotoAssets] {
+    func classifyByTimeInterval(photoAssets: [PHAsset]) -> [ClassifiedGroupsByDate] {
         guard var referencePhotoAssetDate = photoAssets.first?.creationDate else { return [] }
         
-        var classifiedPhotoAssetsArray: [ClassifiedPhotoAssets] = []
-        var tempPhotoAssets: ClassifiedGroup = ClassifiedGroup()
-        var tempPhotoAssetsArray: [ClassifiedGroup] = []
+        var classifiedGroupsByDateArray: [ClassifiedGroupsByDate] = []
+        var tempClassifiedPHAssetGroup: ClassifiedPHAssetGroup = ClassifiedPHAssetGroup()
+        var tempClassifiedPHAssetGroups: [ClassifiedPHAssetGroup] = []
         
         for photoAsset in photoAssets {
             guard let creationDate = photoAsset.creationDate else { return [] }
@@ -27,33 +31,33 @@ extension PhotoClassifiable {
         
             switch difference {
             case .none:
-                tempPhotoAssets.photoAssets.append(photoAsset)
+                tempClassifiedPHAssetGroup.appendPhotoAsset(photoAsset)
                 continue
             case .intervalBoundary:
-                if tempPhotoAssets.photoAssets.count >= Constants.minimumPhotoCount {
-                    tempPhotoAssetsArray.append(tempPhotoAssets)
-                    tempPhotoAssets = ClassifiedGroup()
+                if tempClassifiedPHAssetGroup.photoAssets.count >= Constants.minimumPhotoCount {
+                    tempClassifiedPHAssetGroups.append(tempClassifiedPHAssetGroup)
+                    tempClassifiedPHAssetGroup = ClassifiedPHAssetGroup()
                 }
             case .day:
-                if tempPhotoAssets.photoAssets.count >= Constants.minimumPhotoCount {
-                    tempPhotoAssetsArray.append(tempPhotoAssets)
-                    tempPhotoAssets = ClassifiedGroup()
+                if tempClassifiedPHAssetGroup.photoAssets.count >= Constants.minimumPhotoCount {
+                    tempClassifiedPHAssetGroups.append(tempClassifiedPHAssetGroup)
+                    tempClassifiedPHAssetGroup = ClassifiedPHAssetGroup()
                 }
                 
-                guard !tempPhotoAssetsArray.isEmpty else { break }
+                guard !tempClassifiedPHAssetGroups.isEmpty else { break }
 
-                let classifiedPhotoAssets = ClassifiedPhotoAssets(date: referencePhotoAssetDate,
-                                                                  photoAssetsArray: tempPhotoAssetsArray)
+                let classifiedGroupsByDate = ClassifiedGroupsByDate(date: referencePhotoAssetDate,
+                                                                  classifiedPHAssetGroups: tempClassifiedPHAssetGroups)
                 
-                classifiedPhotoAssetsArray.append(classifiedPhotoAssets)
-                tempPhotoAssetsArray.removeAll()
+                classifiedGroupsByDateArray.append(classifiedGroupsByDate)
+                tempClassifiedPHAssetGroups.removeAll()
             }
             
             referencePhotoAssetDate = creationDate
-            tempPhotoAssets.photoAssets.removeAll()
-            tempPhotoAssets.photoAssets.append(photoAsset)
+            tempClassifiedPHAssetGroup.removeAllPhotoAssets()
+            tempClassifiedPHAssetGroup.appendPhotoAsset(photoAsset)
         }
         
-        return classifiedPhotoAssetsArray
+        return classifiedGroupsByDateArray
     }
 }

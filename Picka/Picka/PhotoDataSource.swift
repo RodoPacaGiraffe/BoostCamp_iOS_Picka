@@ -9,6 +9,13 @@
 import UIKit
 import Photos
 
+fileprivate struct Constants {
+    struct CellIdentifier {
+        static let classifiedPhotoCell: String = "ClassifiedPhotoCell"
+        static let temporaryPhotoCell: String = "TemporaryPhotoCell"
+    }
+}
+
 class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
     var photoStore: PhotoStore = PhotoStore()
     
@@ -27,72 +34,72 @@ class PhotoDataSource: NSObject, NSKeyedUnarchiverDelegate {
 
 extension PhotoDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return photoStore.classifiedPhotoAssets.count
+        return photoStore.classifiedGroupsByDate.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photoStore.classifiedPhotoAssets[section].photoAssetsArray.count
+        return photoStore.classifiedGroupsByDate[section].classifiedPHAssetGroups.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return photoStore.classifiedPhotoAssets[section].date.toDateString()
+        return photoStore.classifiedGroupsByDate[section].date.toDateString()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath)
+        let classifiedPhotoCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.classifiedPhotoCell,
+                                                                for: indexPath)
             as? ClassifiedPhotoCell ?? ClassifiedPhotoCell()
         
-        let classifiedPhotoAsset = photoStore.classifiedPhotoAssets[indexPath.section]
-            .photoAssetsArray[indexPath.row]
+        let classifiedPHAssetGroup = photoStore.classifiedGroupsByDate[indexPath.section]
+            .classifiedPHAssetGroups[indexPath.row]
         
         var fetchedImages: [UIImage] = []
         
-        if !cell.requestIDs.isEmpty {
-            cell.requestIDs.forEach {
+        if !classifiedPhotoCell.requestIDs.isEmpty {
+            classifiedPhotoCell.requestIDs.forEach {
                 CachingImageManager.shared.cancelImageRequest($0)
             }
             
-            cell.requestIDs.removeAll()
+            classifiedPhotoCell.removeAllrequestIDs()
         }
         
-        classifiedPhotoAsset.photoAssets.forEach {
-            let requestID = $0.fetchImage(size: Constants.fetchImageSize, contentMode: .aspectFill, options: nil) { photoImage in
+        classifiedPHAssetGroup.photoAssets.forEach {
+            let requestID = $0.fetchImage(size: SettingConstants.fetchImageSize, contentMode: .aspectFill, options: nil) { photoImage in
                 guard let photoImage = photoImage else { return }
                 fetchedImages.append(photoImage)
                                         
-                if classifiedPhotoAsset.photoAssets.count == fetchedImages.count {
-                    cell.cellImages = fetchedImages
-                    cell.requestIDs.removeAll()
+                if classifiedPHAssetGroup.photoAssets.count == fetchedImages.count {
+                    classifiedPhotoCell.setCellImages(with: fetchedImages)
+                    classifiedPhotoCell.removeAllrequestIDs()
                 }
             }
             
-            cell.requestIDs.append(requestID)
+            classifiedPhotoCell.appendRequestID(requestID: requestID)
         }
         
-        let assetCounts: Int = classifiedPhotoAsset.photoAssets.count
+        let assetCounts: Int = classifiedPHAssetGroup.photoAssets.count
         var localizedString: String = ""
         
-        if Locale.preferredLanguages.first == "ar" {
+        if Locale.preferredLanguages.first == Language.arabic {
             localizedString = assetCounts.toArabic() + NSLocalizedString("%d Photos", comment: "")
         } else {
             localizedString = NSLocalizedString("%d Photos", comment: "")
         }
     
-        cell.numberOfPhotosLabel.text = String(format: localizedString,
-                                               assetCounts)
+        classifiedPhotoCell.setNumberOfPhotosLableText(with: String(format: localizedString, assetCounts))
 
-        return cell
+        return classifiedPhotoCell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         
-        let classifiedPhotoAssets = photoStore.classifiedPhotoAssets[indexPath.section]
-        let assets = classifiedPhotoAssets.photoAssetsArray[indexPath.row]
+        let classifiedGroupsByDate = photoStore.classifiedGroupsByDate[indexPath.section]
+        let assets = classifiedGroupsByDate.classifiedPHAssetGroups[indexPath.row]
         
         temporaryPhotoStore.insert(photoAssets: assets.photoAssets)
         
-        if classifiedPhotoAssets.photoAssetsArray.count == 1 {
+        if classifiedGroupsByDate.classifiedPHAssetGroups.count == 1 {
             tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
         } else {
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -106,23 +113,23 @@ extension PhotoDataSource: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath)
+        let temporaryPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.temporaryPhotoCell,
+                                                                    for: indexPath)
             as? TemporaryPhotoCell ?? TemporaryPhotoCell()
         let temporaryPhotoAsset = temporaryPhotoStore.photoAssets[indexPath.item]
 
         if let selectedItems = collectionView.indexPathsForSelectedItems,
             selectedItems.contains(indexPath) {
-            cell.select()
+            temporaryPhotoCell.select()
         } else {
-            cell.deSelect()
+            temporaryPhotoCell.deSelect()
         }
         
-        temporaryPhotoAsset.fetchImage(size: Constants.fetchImageSize, contentMode: .aspectFill, options: nil) { removedPhotoImage in
-            guard let removedPhotoImage = removedPhotoImage else { return }
-            cell.addRemovedImage(removedPhotoImage: removedPhotoImage)
+        temporaryPhotoAsset.fetchImage(size: SettingConstants.fetchImageSize, contentMode: .aspectFill, options: nil) { photoImage in
+            temporaryPhotoCell.setThumbnailImage(thumbnailImage: photoImage)
         }
     
-        return cell
+        return temporaryPhotoCell
     }
 }
 

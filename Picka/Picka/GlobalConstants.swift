@@ -20,13 +20,6 @@ enum Order: String {
     case creationDate
 }
 
-enum LocationKey: String {
-    case name = "Name"
-    case city = "City"
-    case country = "Country"
-    case zip = "ZIP"
-}
-
 enum Difference {
     case none
     case day
@@ -39,17 +32,10 @@ enum GroupingInterval: Float {
     case level3 = 300
 }
 
-struct Clustering {
-    static let interval1: Range<Float> = 60..<120
-    static let interval2: Range<Float> = 120..<240
-    static let interval3: Range<Float> = 240..<300
-}
-
 enum Status {
     case emptyPhotoToOrganize
     case noAuthorization
 }
-
 struct Language {
     static let korean: String = "ko"
     static let chinese: String = "zh"
@@ -58,34 +44,37 @@ struct Language {
     static let arabic: String = "ar"
 }
 
-struct GlobalConstants {
-    static let cellIdentifier: String = "ClassifiedPhotoCell"
-    static var timeIntervalBoundary: TimeInterval = 90.0
-    
-    static let stackViewSpacing: Int = 3
-    static let temporaryPhotoAssetsIdentifier: String = "temporaryPhotoAssetsIdentifier"
-    static let archiveFileName: String = "temporaryPhotoStore.archive"
-    static let maximumSection: Int = 1
-    static let minimumPhotoCount: Int = 2
-    static let removedPhotoAssets = "removedPhotoAssets"
+struct Clustering {
+    static let interval1: Range<Float> = 60..<120
+    static let interval2: Range<Float> = 120..<240
+    static let interval3: Range<Float> = 240..<300
+}
+
+struct NotificationName {
     static let removedAssetsFromPhotoLibrary = Notification.Name("removedAssetsFromPhotoLibrary")
     static let requiredReload = Notification.Name("requiredReload")
     static let requiredUpdatingBadge = Notification.Name("requiredUpdatingBadge")
-    static let appearEmptyView = Notification.Name("appearEmptyView")
-    static let disappearEmptyView = Notification.Name("disappearEmptyView")
-    static let loadingTime: TimeInterval = 1.5
+    static let appearStatusDisplayView = Notification.Name("appearStatusDisplayView")
+    static let disappearStatusDisplayView = Notification.Name("disappearStatusDisplayView")
+}
 
+struct NotificationUserInfoKey {
+    static let removedPhotoAssets = "removedPhotoAssets"
+}
+
+struct ArchiveConstants {
+    static let archiveFileName: String = "temporaryPhotoStore.archive"
     static let archiveURL: URL? = {
         let documentDirectories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        
         guard let documentDirectory = documentDirectories.first else { return nil }
         
-        return documentDirectory.appendingPathComponent(Constants.archiveFileName)
+        return documentDirectory.appendingPathComponent(ArchiveConstants.archiveFileName)
     }()
-    
-    static let numberOfTapsRequired: Int = 2
-    static var dataAllowed: Bool = true
+}
+
+struct SettingConstants {
+    static var timeIntervalBoundary: TimeInterval = 90.0
+    static var networkDataAllowed: Bool = true
     static let fetchImageSize = CGSize(width: 150, height: 150)
-    static let deleteConfirmationView: String = "UITableViewCellDeleteConfirmationView"
-  
+    static let loadingTime: TimeInterval = 1.5
 }

@@ -9,17 +9,33 @@
 import UIKit
 import Photos
 
+fileprivate enum SelectMode: String {
+    case on = "Cancel"
+    case off = "Choose"
+}
+
+fileprivate enum CommittedMode: String {
+    case recorver
+    case delete
+}
+
+fileprivate struct Constants {
+    struct AlertCommitResult {
+        static let resultLabelHeight: CGFloat = 50.0
+        static let resultLabelRoundBorderDegree: CGFloat = 5.0
+        static let duration: TimeInterval = 0.5
+        static let fadeOutDelay: TimeInterval = 0.5
+        static let alphaForAppear: CGFloat = 1.0
+        static let alphaForDisappear: CGFloat = 0.0
+    }
+    
+    struct SlideToDismiss {
+        static let activateBounds: CGFloat = 200.0
+        static let duration: TimeInterval = 0.2
+    }
+}
+
 class TemporaryPhotoViewController: UIViewController {
-    fileprivate enum SelectMode: String {
-        case on = "Cancel"
-        case off = "Choose"
-    }
-    
-    fileprivate enum CommittedMode: String {
-        case recorver
-        case delete
-    }
-    
     @IBOutlet fileprivate var deleteSelectedButton: UIButton!
     @IBOutlet fileprivate var recoverSelectedButton: UIButton!
     @IBOutlet private var flowLayout: UICollectionViewFlowLayout!
@@ -51,7 +67,7 @@ class TemporaryPhotoViewController: UIViewController {
         setCellSize()
         
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
-                                               name: Constants.requiredReload, object: nil)
+                                               name: NotificationName.requiredReload, object: nil)
     }
     
     deinit {
@@ -63,14 +79,12 @@ class TemporaryPhotoViewController: UIViewController {
         collectionView.allowsMultipleSelection = true
         
         let bottomInset: CGFloat = collectionView.frame.maxY - buttonForNormalStackView.frame.origin.y
-        
         collectionView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: bottomInset, right: 0.0)
         collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: bottomInset, right: 0.0)
     }
     
     private func setCellSize() {
         let width = (collectionView.bounds.width / 4) - flowLayout.minimumLineSpacing * 2
-
         flowLayout.itemSize.width = width
         flowLayout.itemSize.height = width
     }
@@ -123,7 +137,7 @@ class TemporaryPhotoViewController: UIViewController {
         }
     }
     
-    private func alertCountOfPhotos(count: Int, committedMode: CommittedMode) {
+    private func alertCommitResult(committedCount: Int, committedMode: CommittedMode) {
         let label: UILabel = UILabel()
         var localizedMessage: String = ""
         
@@ -135,10 +149,10 @@ class TemporaryPhotoViewController: UIViewController {
             localizedMessage = NSLocalizedString("%d photos deleted.", comment: "")
         }
         
-        if Locale.preferredLanguages.first == "ar" {
-            label.text = count.toArabic() + localizedMessage
+        if Locale.preferredLanguages.first == Language.arabic {
+            label.text = committedCount.toArabic() + localizedMessage
         } else {
-            label.text = String(format: localizedMessage, count)
+            label.text = String(format: localizedMessage, committedCount)
         }
         
         label.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
@@ -148,8 +162,8 @@ class TemporaryPhotoViewController: UIViewController {
         label.frame = CGRect(x: self.view.frame.width / 4,
                              y: self.view.frame.height / 3,
                              width: self.view.frame.width / 2,
-                             height: 50)
-        label.makeRoundBorder(degree: 5)
+                             height: Constants.AlertCommitResult.resultLabelHeight)
+        label.makeRoundBorder(degree: Constants.AlertCommitResult.resultLabelRoundBorderDegree)
         
         guard let naviController = UIApplication.shared.keyWindow?.rootViewController
             as? UINavigationController else { return }
@@ -161,15 +175,19 @@ class TemporaryPhotoViewController: UIViewController {
             topViewController.view.addSubview(label)
         }
         
-        countAppearAnimation(label)
+        commitResultAppear(label)
     }
     
-    private func countAppearAnimation(_ label: UILabel) {
-        UIView.animate(withDuration: 0.5, animations: {
-            label.alpha = 1
+    private func commitResultAppear(_ label: UILabel) {
+        UIView.animate(withDuration: Constants.AlertCommitResult.duration,
+            animations: {
+            label.alpha = Constants.AlertCommitResult.alphaForAppear
         }, completion: { _ in
-            UIView.animate(withDuration: 0.5, delay: 0.5, options: .beginFromCurrentState, animations: {
-                label.alpha = 0
+            UIView.animate(withDuration: Constants.AlertCommitResult.duration,
+                delay: Constants.AlertCommitResult.fadeOutDelay,
+                options: .beginFromCurrentState,
+                animations: {
+                label.alpha = Constants.AlertCommitResult.alphaForDisappear
             }, completion: { _ in
                 label.removeFromSuperview()
             })
@@ -177,24 +195,23 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     fileprivate func popIfCountIsEmptyAfterCommitted(count: Int, message: CommittedMode) {
-        
         guard let navigationController = self.presentingViewController
             as? UINavigationController else { return }
         
         guard let temporaryPhotoAssets = self.photoDataSource?.temporaryPhotoStore.photoAssets else { return }
         guard temporaryPhotoAssets.isEmpty else {
-            self.alertCountOfPhotos(count: count, committedMode: message)
+            self.alertCommitResult(committedCount: count, committedMode: message)
             return
         }
         
         if navigationController.topViewController is ClassifiedPhotoViewController {
             self.dismiss(animated: true ) { [weak self] _ in
-                self?.alertCountOfPhotos(count: count, committedMode: message)
+                self?.alertCommitResult(committedCount: count, committedMode: message)
             }
         } else {
             self.dismiss(animated: false) { [weak self] _ in
                 navigationController.popToRootViewController(animated: true)
-                self?.alertCountOfPhotos(count: count, committedMode: message)
+                self?.alertCommitResult(committedCount: count, committedMode: message)
             }
         }
         
@@ -210,7 +227,7 @@ class TemporaryPhotoViewController: UIViewController {
 
             self?.collectionView.reloadSections(IndexSet(integer: 0))
             
-            NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+            NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
             
            self?.popIfCountIsEmptyAfterCommitted(count: recoverCount, message: CommittedMode.recorver)
         }
@@ -230,8 +247,8 @@ class TemporaryPhotoViewController: UIViewController {
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: nil)
 
-            temporaryVC.alertCountOfPhotos(count: recoverCount, committedMode: .recorver)
-            NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+            temporaryVC.alertCommitResult(committedCount: recoverCount, committedMode: .recorver)
+            NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
             
             self?.popIfCountIsEmptyAfterCommitted(count: recoverCount, message: CommittedMode.recorver)
         }
@@ -243,7 +260,7 @@ class TemporaryPhotoViewController: UIViewController {
         temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) { [weak self] in
             self?.collectionView.reloadSections(IndexSet(integer: 0))
             self?.dismiss(animated: true, completion: {
-                self?.alertCountOfPhotos(count: deleteCount, committedMode: .delete)
+                self?.alertCommitResult(committedCount: deleteCount, committedMode: .delete)
             })
         }
     }
@@ -281,7 +298,7 @@ class TemporaryPhotoViewController: UIViewController {
         alertController.addAction(recoverAction)
         alertController.addAction(cancelAction)
 
-        present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction private func slideToDismiss(_ sender: UIPanGestureRecognizer) {
@@ -294,8 +311,8 @@ class TemporaryPhotoViewController: UIViewController {
             originalNavigationPosition = navigationController?.navigationBar.center
             currentTouchPosition = sender.location(in: self.view)
         case .changed:
-            if translation.y > 200 {
-                UIView.animate(withDuration: 0.2, animations: { 
+            if translation.y > Constants.SlideToDismiss.activateBounds {
+                UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: {
                     self.view.frame.origin = CGPoint(x: originalViewFrame.x,
                                                      y: translation.y + 64)
                     self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
@@ -315,7 +332,7 @@ class TemporaryPhotoViewController: UIViewController {
         let translation = sender.translation(in: self.view)
         
         guard translation.y > 300  else {
-            UIView.animate(withDuration: 0.2, animations: { [weak self] _ in
+            UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: { [weak self] _ in
                 guard let originalPosition = self?.originalPosition else { return }
                 guard let originalNavigationPosition = self?.originalNavigationPosition else { return }
                 
@@ -326,17 +343,14 @@ class TemporaryPhotoViewController: UIViewController {
             return
         }
         
-        UIView.animate(withDuration: 0.2,
-            animations: {
-                originalViewFrame = CGPoint(x: originalViewFrame.x,
-                                            y: self.view.frame.size.height)
-                originalNavigationBarFrame = CGPoint(x: originalViewFrame.x,
-                                                     y: self.view.frame.size.height)
-        },
-            completion: { [weak self] completed in
-                guard completed == true else { return }
-                
-                self?.dismiss(animated: true, completion: nil)
+        UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: {
+            originalViewFrame = CGPoint(x: originalViewFrame.x,
+                                        y: self.view.frame.size.height)
+            originalNavigationBarFrame = CGPoint(x: originalViewFrame.x,
+                                                 y: self.view.frame.size.height)
+        }, completion: { [weak self] completed in
+            guard completed == true else { return }
+            self?.dismiss(animated: true, completion: nil)
         })
     }
 }
@@ -354,7 +368,7 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
         case .off:
             collectionView.deselectItem(at: indexPath, animated: true)
             guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-            guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController") as? DetailPhotoViewController else { return }
+            guard let detailViewController = storyboard?.instantiateViewController(withIdentifier: "detailViewController") as? DetailPhotoViewController else { return }
             
             detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
             detailViewController.identifier = "fromTemporaryPhotoVC"
@@ -362,7 +376,7 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
             detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[indexPath.item]
                 .creationDate?.toDateString()
             
-            show(detailViewController, sender: self)
+            self.show(detailViewController, sender: self)
         }
     }
     

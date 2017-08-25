@@ -9,6 +9,13 @@
 import Foundation
 import CoreLocation
 
+fileprivate enum LocationKey: String {
+    case name = "Name"
+    case city = "City"
+    case country = "Country"
+    case zip = "ZIP"
+}
+
 extension CLLocation {
     func reverseGeocode(completion: @escaping (_ locationString: String) -> Void) {
         let geoCoder = CLGeocoder()
