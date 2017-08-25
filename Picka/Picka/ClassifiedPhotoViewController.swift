@@ -164,7 +164,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     @objc fileprivate func pullToRefresh() {
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global(qos: .utility).async { [weak self] in
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
             self?.reloadData()
@@ -217,7 +217,7 @@ class ClassifiedPhotoViewController: UIViewController {
             self?.loadUserDefaultSetting()
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             
-            DispatchQueue.global().async { [weak self] in
+            DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
                 CachingImageManager.shared.startCachingImages(for: photoAssets,
                                                               targetSize: Constants.fetchImageSize,
@@ -230,7 +230,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func fetchArchivedTemporaryPhotoStore(from path: String) {
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global(qos: .utility).async { [weak self] in
             guard let archivedtemporaryPhotoStore = NSKeyedUnarchiver.unarchiveObject(withFile: path)
                 as? TemporaryPhotoStore else {
                     self?.disappearLoadingView()
@@ -402,7 +402,7 @@ extension ClassifiedPhotoViewController {
 
 extension ClassifiedPhotoViewController: SettingDelegate {
     func groupingChanged() {
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global(qos: .utility).async { [weak self] in
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
             

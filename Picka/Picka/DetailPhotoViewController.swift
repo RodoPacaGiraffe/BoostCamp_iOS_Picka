@@ -202,11 +202,10 @@ class DetailPhotoViewController: UIViewController {
     
     private func moveToNextPhoto() {
         guard !selectedSectionAssets.isEmpty else {
+            detailImageView.image = nil
             self.navigationController?.popViewController(animated: true)
             return
         }
-        
-        detailImageView.image = nil
         
         if pressedIndexPath.item > selectedSectionAssets.count - 1 {
             pressedIndexPath.item -= 1
