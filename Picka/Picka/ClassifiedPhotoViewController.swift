@@ -182,9 +182,10 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func loadUserDefaultSetting() {
-        SettingConstants.networkDataAllowed = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
-        SettingConstants.timeIntervalBoundary = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
-            as? Double ?? 180
+        SettingConstants.networkDataAllowed = UserDefaults.standard.object(forKey: UserDefaultsKey.networkDataAllowed)
+            as? Bool ?? SettingConstants.defaultNetworkDataAllowed
+        SettingConstants.timeIntervalBoundary = UserDefaults.standard.object(forKey: UserDefaultsKey.timeIntervalBoundary)
+            as? Double ?? SettingConstants.defaultTimeIntervalBoundary
     }
     
     private func requestAuthorization() {
@@ -278,17 +279,17 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func permissionDeniedAlert() {
-        let title  = NSLocalizedString("No Authorization", comment: "")
+        let title  = NSLocalizedString(LocalizationKey.noAuthorization, comment: "")
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         
-        let goSettingAction = UIAlertAction(title: NSLocalizedString("Go Settings", comment: ""),
+        let goSettingAction = UIAlertAction(title: NSLocalizedString(LocalizationKey.goSettings, comment: ""),
                 style: .default) { [weak self] _ in
             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
             UIApplication.shared.open(url)
             self?.requestAuthorization()
         }
 
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+        let cancelAction = UIAlertAction(title: NSLocalizedString(LocalizationKey.cancel, comment: ""),
                 style: .cancel) { [weak self] _ in
             guard let windowFrame = self?.view.window?.frame else { return }
             self?.view.addSubview(StatusDisplayView.instanceFromNib(status: .noAuthorization, frame: windowFrame))
@@ -325,7 +326,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     fileprivate func showDetailForSelectedPhoto(at indexPath: IndexPath) {
-        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController")
+        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier: StoryBoardIdentifier.detailViewController)
             as? DetailPhotoViewController else { return }
         
         var selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
@@ -344,24 +345,24 @@ class ClassifiedPhotoViewController: UIViewController {
         detailViewController.photoDataSource = photoDataSource
         detailViewController.selectedSectionAssets = photoDataSource.photoStore
             .classifiedGroupsByDate[indexPath.section].classifiedPHAssetGroups[indexPath.row].photoAssets
-        detailViewController.identifier = "fromClassifiedPhotoVC"
+        detailViewController.identifier = PreviousVCIdentifier.fromClassifiedPhotoVC
         
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
     }
     
     @objc private func moveToTemporaryViewController() {
-        performSegue(withIdentifier: "ModalRemovedPhotoVC", sender: self)
+        performSegue(withIdentifier: SegueIdentifier.modalTemporaryPhotoVC, sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier else { return }
         switch identifier {
-        case "ModalRemovedPhotoVC":
+        case SegueIdentifier.modalTemporaryPhotoVC:
             guard let navigationController = segue.destination as? UINavigationController,
                 let temporaryPhotoViewController = navigationController.topViewController
                     as? TemporaryPhotoViewController else { return }
             temporaryPhotoViewController.photoDataSource = photoDataSource
-        case "PressedSetting":
+        case SegueIdentifier.modalSettingVC:
             guard let navigationController = segue.destination as? UINavigationController,
                 let settingViewController = navigationController.topViewController
                     as? SettingViewController else { return }

@@ -30,10 +30,10 @@ class StatusDisplayView: UIView {
     private func setStatusDisplayView(accordingTo status: Status) {
         switch status {
         case .noAuthorization:
-            statementLabel.text = NSLocalizedString("No Authorization", comment: "")
+            statementLabel.text = NSLocalizedString(LocalizationKey.noAuthorization, comment: "")
             imageView.image = #imageLiteral(resourceName: "Photo")
         case .emptyPhotoToOrganize:
-            statementLabel.text = NSLocalizedString("No Photo", comment: "")
+            statementLabel.text = NSLocalizedString(LocalizationKey.noPhotosToOrganize, comment: "")
             imageView.image = #imageLiteral(resourceName: "Photo")
         }
     }

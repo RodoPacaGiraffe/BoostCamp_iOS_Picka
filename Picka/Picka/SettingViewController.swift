@@ -24,12 +24,12 @@ class SettingViewController: UITableViewController {
     }
     
     private func setSwitch() {
-        let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
+        let dataAllowed: Bool = UserDefaults.standard.object(forKey: UserDefaultsKey.networkDataAllowed) as? Bool ?? true
         dataAllowedSwitch.setOn(dataAllowed, animated: false)
     }
     
     private func setSlider() {
-        let timeIntervalBoundary: Double = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
+        let timeIntervalBoundary: Double = UserDefaults.standard.object(forKey: UserDefaultsKey.timeIntervalBoundary)
             as? Double ?? Double(GroupingInterval.level2.rawValue)
         slider.setValue(Float(timeIntervalBoundary), animated: false)
     }
@@ -48,7 +48,7 @@ class SettingViewController: UITableViewController {
         
         SettingConstants.timeIntervalBoundary = Double(sender.value)
         
-        UserDefaults.standard.set(SettingConstants.timeIntervalBoundary, forKey: "timeIntervalBoundary")
+        UserDefaults.standard.set(SettingConstants.timeIntervalBoundary, forKey: UserDefaultsKey.timeIntervalBoundary)
         UserDefaults.standard.synchronize()
         
         tableView.isScrollEnabled = true
@@ -57,28 +57,28 @@ class SettingViewController: UITableViewController {
     @IBAction private func networkAllowSwitch(_ sender: UISwitch) {
         switch sender.isOn {
         case true:
-            let title = NSLocalizedString("UseiCloud", comment: "")
+            let title = NSLocalizedString(LocalizationKey.useCellularData, comment: "")
             let alertController = UIAlertController(title: title, message: nil,
                                                     preferredStyle: .alert)
             
             let okAction = UIAlertAction(
-                title: NSLocalizedString("OK", comment: ""),
+                title: NSLocalizedString(LocalizationKey.ok, comment: ""),
                 style: .default,
                 handler: { _ in
                     SettingConstants.networkDataAllowed = true
                     
-                    UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: "dataAllowed")
+                    UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: UserDefaultsKey.networkDataAllowed)
                     UserDefaults.standard.synchronize()
             })
             
             let cancelAction = UIAlertAction(
-                title: NSLocalizedString("Cancel", comment: ""),
+                title: NSLocalizedString(LocalizationKey.cancel, comment: ""),
                 style: .cancel,
                 handler: { _ in
                     sender.setOn(false, animated: true)
                     SettingConstants.networkDataAllowed = false
                     
-                    UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: "dataAllowed")
+                    UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: UserDefaultsKey.networkDataAllowed)
                     UserDefaults.standard.synchronize()
             })
             
@@ -89,7 +89,7 @@ class SettingViewController: UITableViewController {
         case false:
             SettingConstants.networkDataAllowed = false
             
-            UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: "dataAllowed")
+            UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: UserDefaultsKey.networkDataAllowed)
             UserDefaults.standard.synchronize()
         }
     }

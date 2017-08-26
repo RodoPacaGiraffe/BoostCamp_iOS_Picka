@@ -13,7 +13,7 @@
         <!--Picka-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ClassifiedPhotoViewController" customModule="Electo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ClassifiedPhotoViewController" customModule="Picka" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -27,7 +27,7 @@
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ClassifiedPhotoCell" rowHeight="150" id="iJY-bk-UoN" customClass="ClassifiedPhotoCell" customModule="Electo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ClassifiedPhotoCell" rowHeight="150" id="iJY-bk-UoN" customClass="ClassifiedPhotoCell" customModule="Picka" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="35" width="375" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iJY-bk-UoN" id="0kh-d5-kAa">
@@ -139,14 +139,14 @@
                     <navigationItem key="navigationItem" title="Picka" id="haJ-Md-wRu">
                         <barButtonItem key="leftBarButtonItem" image="Settings" id="97q-k1-UQh">
                             <connections>
-                                <segue destination="fDP-Yq-zDr" kind="presentation" identifier="PressedSetting" id="NRV-d7-QnV"/>
+                                <segue destination="fDP-Yq-zDr" kind="presentation" identifier="ModalSettingVC" id="NRV-d7-QnV"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="POu-e3-FrG" id="kGH-RN-jcJ"/>
                         <outlet property="touchLocation" destination="NmD-ph-19I" id="raj-4O-ZRp"/>
-                        <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalRemovedPhotoVC" id="5Yv-4U-t7U"/>
+                        <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalTemporaryPhotoVC" id="5Yv-4U-t7U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -188,7 +188,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jIs-QX-MrQ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Photos" image="Cleanable-18" id="vvd-LH-pJU"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="sUb-GM-l8U">
+                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" translucent="NO" id="sUb-GM-l8U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.3725968599319458" green="0.36856323480606079" blue="0.3726152777671814" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

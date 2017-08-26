@@ -55,7 +55,7 @@ class CreditViewController: UIViewController {
                                           message: Constants.MailErrorAlert.message,
                                           preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: NSLocalizedString(LocalizationKey.ok, comment: ""), style: .default, handler: nil)
         alertView.addAction(okAction)
         
         self.present(alertView, animated: true, completion: nil)

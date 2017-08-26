@@ -143,10 +143,10 @@ class TemporaryPhotoViewController: UIViewController {
         
         switch committedMode {
         case .recorver:
-            localizedMessage = NSLocalizedString("%d photos recovered.", comment: "")
+            localizedMessage = NSLocalizedString(LocalizationKey.numberOfPhotosRecovered, comment: "")
             
         case .delete:
-            localizedMessage = NSLocalizedString("%d photos deleted.", comment: "")
+            localizedMessage = NSLocalizedString(LocalizationKey.numberOfPhotosDeleted, comment: "")
         }
         
         if Locale.preferredLanguages.first == Language.arabic {
@@ -218,7 +218,7 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction private func recoverAll(_ sender: UIButton) {
-        recoverAlertController(title: "Recover All Photos") { [weak self] _ in
+        recoverAlertController(title: LocalizationKey.recoverAllPhotos) { [weak self] _ in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             
             let allRemovedPhotoAssets = temporaryPhotoStore.photoAssets
@@ -234,7 +234,7 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     @IBAction private func recoverSelected(_ sender: UIButton) {
-        recoverAlertController(title: "Recover Selected Photos") { [weak self] _ in
+        recoverAlertController(title: LocalizationKey.recoverSelectedPhotos) { [weak self] _ in
             guard let temporaryPhotoStore = self?.photoDataSource?.temporaryPhotoStore else { return }
             guard let recoverCount = self?.selectedPhotoAssets().count else { return }
             guard let temporaryVC = self else { return }
@@ -292,7 +292,7 @@ class TemporaryPhotoViewController: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let recoverAction = UIAlertAction(title: NSLocalizedString(title, comment: ""),
                                           style: .default, handler: completion)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+        let cancelAction = UIAlertAction(title: NSLocalizedString(LocalizationKey.cancel, comment: ""),
                                          style: .cancel, handler: nil)
         
         alertController.addAction(recoverAction)
@@ -331,7 +331,7 @@ class TemporaryPhotoViewController: UIViewController {
         var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
         let translation = sender.translation(in: self.view)
         
-        guard translation.y > 300  else {
+        guard translation.y > self.view.frame.height / 2  else {
             UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: { [weak self] _ in
                 guard let originalPosition = self?.originalPosition else { return }
                 guard let originalNavigationPosition = self?.originalNavigationPosition else { return }
@@ -368,10 +368,11 @@ extension TemporaryPhotoViewController: UICollectionViewDelegate {
         case .off:
             collectionView.deselectItem(at: indexPath, animated: true)
             guard let temporaryPhotoStore = photoDataSource?.temporaryPhotoStore else { return }
-            guard let detailViewController = storyboard?.instantiateViewController(withIdentifier: "detailViewController") as? DetailPhotoViewController else { return }
+            guard let detailViewController = storyboard?.instantiateViewController(withIdentifier: StoryBoardIdentifier.detailViewController)
+                as? DetailPhotoViewController else { return }
             
             detailViewController.selectedSectionAssets = temporaryPhotoStore.photoAssets
-            detailViewController.identifier = "fromTemporaryPhotoVC"
+            detailViewController.identifier = PreviousVCIdentifier.fromTemporaryPhotoVC
             detailViewController.pressedIndexPath = indexPath
             detailViewController.navigationItem.title = temporaryPhotoStore.photoAssets[indexPath.item]
                 .creationDate?.toDateString()

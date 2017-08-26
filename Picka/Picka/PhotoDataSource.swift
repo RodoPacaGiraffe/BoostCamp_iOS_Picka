@@ -81,9 +81,9 @@ extension PhotoDataSource: UITableViewDataSource {
         var localizedString: String = ""
         
         if Locale.preferredLanguages.first == Language.arabic {
-            localizedString = assetCounts.toArabic() + NSLocalizedString("%d Photos", comment: "")
+            localizedString = assetCounts.toArabic() + NSLocalizedString(LocalizationKey.numberOfPhotos, comment: "")
         } else {
-            localizedString = NSLocalizedString("%d Photos", comment: "")
+            localizedString = NSLocalizedString(LocalizationKey.numberOfPhotos, comment: "")
         }
     
         classifiedPhotoCell.setNumberOfPhotosLableText(with: String(format: localizedString, assetCounts))

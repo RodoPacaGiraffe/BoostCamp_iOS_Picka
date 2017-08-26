@@ -6,10 +6,10 @@
   Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 */
 
-"UseiCloud" = "Use cellular data to download photos using icloud.";
+"Use Cellular Data" = "Use cellular data to download photos using icloud.";
 "%d Photos" = "%d Photos";
 "No Authorization" = "Picka requires access to a photo library.";
-"No Photo" = "No photos to organize";
+"No photos to organize" = "No photos to organize";
 "Go Settings" = "Go Settings";
 "Cancel" = "Cancel";
 "OK" = "OK";

@@ -32,6 +32,10 @@ fileprivate struct Constants {
         static let originalScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         static let duration: TimeInterval = 0.2
     }
+    
+    struct CellIdentifier {
+        static let detailPhotoCell: String = "detailPhotoCell"
+    }
 }
 
 class DetailPhotoViewController: UIViewController {
@@ -62,7 +66,7 @@ class DetailPhotoViewController: UIViewController {
     
     var identifier: String = "" {
         didSet {
-            if identifier == "fromTemporaryPhotoVC" {
+            if identifier == PreviousVCIdentifier.fromTemporaryPhotoVC {
                 navigationItem.setRightBarButtonItems(nil, animated: false)
                 panGestureRecognizer.isEnabled = false
             }
@@ -359,11 +363,11 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @objc private func moveToTemporaryViewController() {
-        performSegue(withIdentifier: "ModalRemovedPhotoVC", sender: self)
+        performSegue(withIdentifier: SegueIdentifier.modalTemporaryPhotoVC, sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "ModalRemovedPhotoVC" else { return }
+        guard segue.identifier == SegueIdentifier.modalTemporaryPhotoVC else { return }
         guard let navigationController = segue.destination as? UINavigationController,
             let temporaryPhotoViewController = navigationController.topViewController
                 as? TemporaryPhotoViewController else { return }
@@ -382,10 +386,10 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let detailPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailPhotoCell", for: indexPath)
+        let detailPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.detailPhotoCell, for: indexPath)
             as? DetailPhotoCell ?? DetailPhotoCell()
         
-        if identifier == "fromTemporaryPhotoVC" {
+        if identifier == PreviousVCIdentifier.fromTemporaryPhotoVC {
             detailPhotoCell.hideDeleteButton()
         } else {
             detailPhotoCell.setTagToDeleteButton(with: indexPath.row)

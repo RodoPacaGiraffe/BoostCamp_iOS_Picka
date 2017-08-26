@@ -36,6 +36,7 @@ enum Status {
     case emptyPhotoToOrganize
     case noAuthorization
 }
+
 struct Language {
     static let korean: String = "ko"
     static let chinese: String = "zh"
@@ -73,8 +74,44 @@ struct ArchiveConstants {
 }
 
 struct SettingConstants {
-    static var timeIntervalBoundary: TimeInterval = 90.0
+    static var timeIntervalBoundary: TimeInterval = 180
+    static let defaultTimeIntervalBoundary: TimeInterval = 180
+    static let defaultNetworkDataAllowed: Bool = true
     static var networkDataAllowed: Bool = true
     static let fetchImageSize = CGSize(width: 150, height: 150)
     static let loadingTime: TimeInterval = 1.5
+}
+
+struct LocalizationKey {
+    static let useCellularData: String = "Use Cellular Data"
+    static let numberOfPhotos: String = "%d Photos"
+    static let noAuthorization: String = "No Authorization"
+    static let noPhotosToOrganize: String = "No photos to organize"
+    static let goSettings: String = "Go Settings"
+    static let cancel: String = "Cancel"
+    static let ok: String = "OK"
+    static let recoverAllPhotos: String = "Recover All Photos"
+    static let recoverSelectedPhotos: String = "Recover Selected Photos"
+    static let choose: String = "Choose";
+    static let numberOfPhotosRecovered = "%d photos recovered."
+    static let numberOfPhotosDeleted = "%d photos recovered."
+}
+
+struct UserDefaultsKey {
+    static let networkDataAllowed: String = "networkDataAllowed"
+    static let timeIntervalBoundary: String = "timeIntervalBoundary"
+}
+
+struct StoryBoardIdentifier {
+    static let detailViewController: String = "detailViewController"
+}
+
+struct SegueIdentifier {
+    static let modalTemporaryPhotoVC: String = "ModalTemporaryPhotoVC"
+    static let modalSettingVC: String = "ModalSettingVC"
+}
+
+struct PreviousVCIdentifier {
+    static let fromClassifiedPhotoVC: String = "fromClassifiedPhotoVC"
+    static let fromTemporaryPhotoVC: String = "fromTemporaryPhotoVC"
 }
