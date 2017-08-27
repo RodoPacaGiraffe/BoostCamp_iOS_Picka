@@ -323,12 +323,10 @@ class DetailPhotoViewController: UIViewController {
         })
     }
     
-    @IBAction private func panGestureAction(_ sender: UIPanGestureRecognizer) {
+    @IBAction private func panToDeleteGestureAction(_ sender: UIPanGestureRecognizer) {
         let location = sender.translation(in: self.view)
         
         switch sender.state {
-        case .began:
-            detailImageView.clipsToBounds = true
         case .changed:
             if location.y < -Constants.DetailImageViewPanGesture.activateBounds {
                 panGestureTranckingIsActivate = true
