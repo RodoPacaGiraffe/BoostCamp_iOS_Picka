@@ -9,17 +9,17 @@
 import Foundation
 
 extension Date {
-    func getDifference(from date: Date) -> Difference {
-        let endTimeInterval = self.timeIntervalSince(date)
+    func compare(with creationDate: Date) -> AssetCreationDateCompareResult {
+        let endTimeInterval = self.timeIntervalSince(creationDate)
         let day1 = Calendar.current.component(.day, from: self)
-        let day2 = Calendar.current.component(.day, from: date)
+        let day2 = Calendar.current.component(.day, from: creationDate)
         
         if (abs(endTimeInterval) > SettingConstants.timeIntervalBoundary) && (day1 == day2) {
-            return .intervalBoundary
+            return .differentIntervalBoundary
         } else if day1 != day2 {
-            return .day
+            return .differentDate
         } else {
-            return .none
+            return .containsIntervalboundaryAndDate
         }
     }
     
