@@ -48,7 +48,6 @@ class DetailPhotoViewController: UIViewController {
     
     fileprivate var previousSelectedCell: DetailPhotoCell?
     private var moveToTempVCButtonItem: UIBarButtonItem?
-    private var startPanGesturePoint: CGPoint = CGPoint()
     private var panGestureTranckingIsActivate: Bool = false
     private var isInitialFetchImage: Bool = true
     var selectedSectionAssets: [PHAsset] = []
