@@ -12,14 +12,15 @@ fileprivate struct Constants {
     struct BadgeLabel {
         static let frame: CGRect = CGRect(x: 12, y: -8, width: 15, height: 15)
         static let font: UIFont = UIFont.systemFont(ofSize: 10)
+        static let cornerRadius: CGFloat = 2.0
     }
     
     struct BadgeButton {
-        static let frame: CGRect = CGRect(x: 0, y: 0, width: 20, height: 20)
+        static let frame: CGRect = CGRect(x: 0, y: 0, width: 21, height: 21)
     }
     
     struct BadgeAnimation {
-        static let badgeTargetScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.2)
+        static let badgeTargetScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.3)
         static let badgeOriginalScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         static let duration: TimeInterval = 0.2
     }
@@ -36,7 +37,7 @@ extension UIBarButtonItem {
         label.adjustsFontSizeToFitWidth = true
         label.baselineAdjustment = .alignCenters
         label.backgroundColor = .red
-        label.makeRoundBorder(degree: 2.0)
+        label.makeRoundBorder(degree: Constants.BadgeLabel.cornerRadius)
         
         let button = UIButton(frame: Constants.BadgeButton.frame)
         

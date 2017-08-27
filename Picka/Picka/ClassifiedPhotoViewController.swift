@@ -273,7 +273,7 @@ class ClassifiedPhotoViewController: UIViewController {
             
             guard let photosCount = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
             
-            self?.moveToTempVCButtonItem?.updateBadge(With: photosCount)
+            self?.moveToTempVCButtonItem?.updateBadge(with: photosCount)
             self?.refreshControl.endRefreshing()
             self?.fetchLocationToVisibleCells()
         }

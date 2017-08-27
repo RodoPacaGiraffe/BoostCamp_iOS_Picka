@@ -167,22 +167,23 @@ class DetailPhotoViewController: UIViewController {
     }
     
     fileprivate func fetchFullSizeImage(from indexPath: IndexPath) {
+        let thumnailFetchOption = PHImageRequestOptions()
+        thumnailFetchOption.setImageRequestOptions(networkAccessAllowed: false, synchronous: true, deliveryMode: .opportunistic, progressHandler: nil)
         selectedSectionAssets[indexPath.item].fetchImage(
             size: SettingConstants.fetchImageSize,
             contentMode: .aspectFill,
-            options: nil,
+            options: thumnailFetchOption,
             resultHandler: { [weak self] requestedImage in
                 self?.detailImageView.image = requestedImage
         })
         
-        let options = PHImageRequestOptions()
-        options.setImageRequestOptions(
+        let fullSizeFetchOptions = PHImageRequestOptions()
+        fullSizeFetchOptions.setImageRequestOptions(
         networkAccessAllowed: SettingConstants.networkDataAllowed,
         synchronous: false,
         deliveryMode: .opportunistic,
         progressHandler: { [weak self] (progress, _, _, _) in
             DispatchQueue.main.async {
-                print("sd")
                 guard let detailVC = self else { return }
                 guard detailVC.pressedIndexPath == indexPath else { return }
                 
@@ -193,7 +194,7 @@ class DetailPhotoViewController: UIViewController {
         })
         
         let photoAsset: PHAsset = selectedSectionAssets[indexPath.item]
-        photoAsset.fetchFullSizeImage(options: options, resultHandler: { [weak self] data in
+        photoAsset.fetchFullSizeImage(options: fullSizeFetchOptions, resultHandler: { [weak self] data in
             guard let fetchedData = data else { return }
             guard let detailVC = self else { return }
             guard detailVC.pressedIndexPath == indexPath else { return }
