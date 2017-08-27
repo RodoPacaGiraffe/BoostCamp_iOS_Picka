@@ -182,6 +182,7 @@ class DetailPhotoViewController: UIViewController {
         deliveryMode: .opportunistic,
         progressHandler: { [weak self] (progress, _, _, _) in
             DispatchQueue.main.async {
+                print("sd")
                 guard let detailVC = self else { return }
                 guard detailVC.pressedIndexPath == indexPath else { return }
                 
