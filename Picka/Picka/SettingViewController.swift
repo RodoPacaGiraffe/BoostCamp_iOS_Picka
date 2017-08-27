@@ -21,7 +21,6 @@ class SettingViewController: UITableViewController {
     
     private var originalNavigationPosition: CGPoint?
     private var originalPosition: CGPoint?
-    private var currentTouchPosition: CGPoint?
     var settingDelegate: SettingDelegate?
     
     override func viewDidLoad() {
@@ -112,7 +111,6 @@ class SettingViewController: UITableViewController {
         case .began:
             originalPosition = view.center
             originalNavigationPosition = navigationController?.navigationBar.center
-            currentTouchPosition = sender.location(in: self.view)
         case .changed:
             if translation.y > Constants.SlideToDismiss.activateBounds {
                 UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: {

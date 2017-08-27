@@ -46,7 +46,6 @@ class TemporaryPhotoViewController: UIViewController {
     
     private var originalNavigationPosition: CGPoint?
     private var originalPosition: CGPoint?
-    private var currentTouchPosition: CGPoint?
     var photoDataSource: PhotoDataSource?
   
     fileprivate var selectMode: SelectMode = .off {
@@ -309,7 +308,6 @@ class TemporaryPhotoViewController: UIViewController {
         case .began:
             originalPosition = view.center
             originalNavigationPosition = navigationController?.navigationBar.center
-            currentTouchPosition = sender.location(in: self.view)
         case .changed:
             if translation.y > Constants.SlideToDismiss.activateBounds {
                 UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: {
