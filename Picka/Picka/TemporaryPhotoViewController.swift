@@ -46,6 +46,7 @@ class TemporaryPhotoViewController: UIViewController {
     
     private var originalNavigationPosition: CGPoint?
     private var originalPosition: CGPoint?
+    private var isSlideToDimiss: Bool = true
     var photoDataSource: PhotoDataSource?
   
     fileprivate var selectMode: SelectMode = .off {
@@ -309,7 +310,10 @@ class TemporaryPhotoViewController: UIViewController {
             originalPosition = view.center
             originalNavigationPosition = navigationController?.navigationBar.center
         case .changed:
+            guard translation.y > 0 else { return }
+            guard sender.velocity(in: self.view).y < 150 else { return }
             if translation.y > Constants.SlideToDismiss.activateBounds {
+                isSlideToDimiss = true
                 UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: {
                     self.view.frame.origin = CGPoint(x: originalViewFrame.x,
                                                      y: translation.y + 64)
@@ -317,7 +321,15 @@ class TemporaryPhotoViewController: UIViewController {
                                                                                     y: translation.y + 20)
                 })
             }
+            
+            if isSlideToDimiss {
+                self.view.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                 y: translation.y + 64)
+                self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                                                y: translation.y + 20)
+            }
         case .ended:
+            isSlideToDimiss = false
             dismissWhenTouchesEnded(sender)
         default:
             break
