@@ -162,6 +162,7 @@
                         <outlet property="backButtonImage" destination="OH6-FV-LhE" id="9YB-c1-uQu"/>
                         <outlet property="detailImageView" destination="y6d-An-LKm" id="Kpc-Xe-bxx"/>
                         <outlet property="flowLayout" destination="tdY-X4-OQb" id="CZ2-6L-IsE"/>
+                        <outlet property="instructionLabel" destination="HkZ-Lf-NIu" id="609-q0-d8y"/>
                         <outlet property="loadingIndicatorView" destination="ONe-yI-LrC" id="hvo-f9-Xg5"/>
                         <outlet property="panGestureRecognizer" destination="Brx-js-aPc" id="82h-8F-jq6"/>
                         <outlet property="thumbnailCollectionView" destination="0wh-SJ-JHc" id="ye4-kY-E3y"/>

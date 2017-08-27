@@ -38,10 +38,12 @@ fileprivate struct Constants {
 }
 
 class DetailPhotoViewController: UIViewController {
+    
     @IBOutlet private var backButtonImage: UIBarButtonItem!
     @IBOutlet fileprivate var zoomingScrollView: UIScrollView!
     @IBOutlet fileprivate var detailImageView: UIImageView!
     @IBOutlet fileprivate var thumbnailCollectionView: UICollectionView!
+    @IBOutlet fileprivate var instructionLabel: UILabel!
     @IBOutlet private var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet private var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet private var panGestureRecognizer: UIPanGestureRecognizer!
@@ -391,6 +393,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         
         if identifier == PreviousVCIdentifier.fromTemporaryPhotoVC {
             detailPhotoCell.hideDeleteButton()
+            instructionLabel.isHidden = true
         } else {
             detailPhotoCell.setTagToDeleteButton(with: indexPath.row)
         }
