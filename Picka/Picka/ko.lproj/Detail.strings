@@ -1,3 +1,7 @@
 
 /* Class = "UIViewController"; title = "detailViewController"; ObjectID = "24c-6t-MzH"; */
 "24c-6t-MzH.title" = "detailViewController";
+
+/* Class = "UILabel"; text = "⇡Slide Up to Delete Photo⇡"; ObjectID = "HkZ-Lf-NIu"; */
+"HkZ-Lf-NIu.text" = "⇡위로 슬라이드하여 사진 삭제⇡";
+

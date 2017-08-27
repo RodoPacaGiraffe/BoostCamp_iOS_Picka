@@ -94,7 +94,7 @@ struct LocalizationKey {
     static let recoverSelectedPhotos: String = "Recover Selected Photos"
     static let choose: String = "Choose";
     static let numberOfPhotosRecovered = "%d photos recovered."
-    static let numberOfPhotosDeleted = "%d photos recovered."
+    static let numberOfPhotosDeleted = "%d photos deleted."
 }
 
 struct UserDefaultsKey {
