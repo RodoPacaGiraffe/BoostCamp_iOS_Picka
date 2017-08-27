@@ -50,7 +50,7 @@ class PhotoStore: PhotoClassifiable {
     @discardableResult func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]? {
         guard let unarchivedPhotoAssets = assets else { return nil }
         
-        var removedAssetsFromPhotoLibrary: [PHAsset]? = nil
+        var removedAssetsFromPhotoLibrary: [PHAsset]?
     
         unarchivedPhotoAssets.forEach {
             guard let unarchivedPhotoAssetsIndex = photoAssets.index(of: $0) else {

@@ -42,11 +42,9 @@ class ClassifiedPhotoCell: UITableViewCell {
         self.subviews.forEach { subview in
             let typeString = String(describing: type(of: subview))
             guard typeString == Constants.deleteConfirmationView else { return }
-            
-            guard let target = imageContainerView else { return }
         
-            subview.frame.size.height = target.frame.size.height
-            subview.frame.origin.y = target.frame.origin.y
+            subview.frame.size.height = imageContainerView.frame.size.height
+            subview.frame.origin.y = imageContainerView.frame.origin.y
         }
     }
     
@@ -89,7 +87,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         moreImagesLabel.isHidden = false
     }
     
-    func setNumberOfPhotosLableText(with numberOfPhotosString: String) {
+    func setNumberOfPhotosLabelText(with numberOfPhotosString: String) {
         numberOfPhotosLabel.text = numberOfPhotosString
     }
     

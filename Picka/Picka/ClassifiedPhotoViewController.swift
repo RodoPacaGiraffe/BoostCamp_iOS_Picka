@@ -54,6 +54,7 @@ class ClassifiedPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setNotificationObserver()
         setScrollDateLabel()
         setStatusDisplayView()
@@ -138,7 +139,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     private func setNavigationButtonItem() {
-        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: 0)
+        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(with: 0)
         
         moveToTempVCButtonItem?.addButtonTarget(target: self,
                                                 action: #selector (moveToTemporaryViewController),
@@ -236,9 +237,9 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     fileprivate func fetchLocationToVisibleCells() {
-        guard let indexPaths = tableView.indexPathsForVisibleRows else { return }
+        guard let visibleIndexPaths = tableView.indexPathsForVisibleRows else { return }
         
-        for indexPath in indexPaths {
+        for indexPath in visibleIndexPaths {
             guard let classifiedPhotoCell = tableView.cellForRow(at: indexPath)
                 as? ClassifiedPhotoCell else { continue }
             
@@ -263,7 +264,7 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     @objc private func updateBadge() {
-        moveToTempVCButtonItem?.updateBadge(With: photoDataSource.temporaryPhotoStore.photoAssets.count)
+        moveToTempVCButtonItem?.updateBadge(with: photoDataSource.temporaryPhotoStore.photoAssets.count)
     }
     
     @objc fileprivate func reloadData() {
@@ -272,7 +273,7 @@ class ClassifiedPhotoViewController: UIViewController {
             
             guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
             
-            self?.moveToTempVCButtonItem?.updateBadge(With: count)
+            self?.moveToTempVCButtonItem?.updateBadge(with: count)
             self?.refreshControl.endRefreshing()
             self?.fetchLocationToVisibleCells()
         }

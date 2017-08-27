@@ -26,7 +26,7 @@ fileprivate struct Constants {
 }
 
 extension UIBarButtonItem {
-    static func getUIBarbuttonItemincludedBadge(With temporaryPhotoAssetsCount: Int) -> UIBarButtonItem {
+    static func getUIBarbuttonItemincludedBadge(with temporaryPhotoAssetsCount: Int) -> UIBarButtonItem {
         let label = UILabel(frame: Constants.BadgeLabel.frame)
         
         label.text = "\(temporaryPhotoAssetsCount)"
@@ -36,8 +36,7 @@ extension UIBarButtonItem {
         label.adjustsFontSizeToFitWidth = true
         label.baselineAdjustment = .alignCenters
         label.backgroundColor = .red
-        label.layer.cornerRadius = label.bounds.size.height / 2
-        label.layer.masksToBounds = true
+        label.makeRoundBorder(degree: 2.0)
         
         let button = UIButton(frame: Constants.BadgeButton.frame)
         
@@ -52,7 +51,7 @@ extension UIBarButtonItem {
         button.addTarget(target, action: action, for: controlEvents)
     }
     
-    func updateBadge(With temporaryPhotoAssetsCount: Int) {
+    func updateBadge(with temporaryPhotoAssetsCount: Int) {
         guard let button = self.customView as? UIButton else { return }
         
         let index = button.subviews.index {

@@ -86,7 +86,7 @@ extension PhotoDataSource: UITableViewDataSource {
             localizedString = NSLocalizedString(LocalizationKey.numberOfPhotos, comment: "")
         }
     
-        classifiedPhotoCell.setNumberOfPhotosLableText(with: String(format: localizedString, assetCounts))
+        classifiedPhotoCell.setNumberOfPhotosLabelText(with: String(format: localizedString, assetCounts))
 
         return classifiedPhotoCell
     }

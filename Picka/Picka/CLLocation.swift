@@ -13,7 +13,6 @@ fileprivate enum LocationKey: String {
     case name = "Name"
     case city = "City"
     case country = "Country"
-    case zip = "ZIP"
 }
 
 extension CLLocation {

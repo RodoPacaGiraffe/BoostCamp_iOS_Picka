@@ -17,7 +17,6 @@ fileprivate struct Constants {
     
     struct DetailImageViewTransition {
         static let duration: TimeInterval = 0.15
-
     }
     
     struct DetailImageViewPanGesture {
@@ -88,7 +87,7 @@ class DetailPhotoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         guard let count = photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
-        moveToTempVCButtonItem?.updateBadge(With: count)
+        moveToTempVCButtonItem?.updateBadge(with: count)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -97,7 +96,7 @@ class DetailPhotoViewController: UIViewController {
     
     @objc private func updateBadge() {
         guard let count = photoDataSource?.temporaryPhotoStore.photoAssets.count else { return }
-        moveToTempVCButtonItem?.updateBadge(With: count)
+        moveToTempVCButtonItem?.updateBadge(with: count)
     }
     
     @objc func applyRemovedAssets(_ notification: Notification) {
@@ -131,7 +130,7 @@ class DetailPhotoViewController: UIViewController {
             backButtonImage.image = #imageLiteral(resourceName: "rtlBack")
         }
         
-        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: count)
+        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(with: count)
         moveToTempVCButtonItem?.addButtonTarget(target: self,
                                                 action: #selector (moveToTemporaryViewController),
                                                 for: .touchUpInside)
