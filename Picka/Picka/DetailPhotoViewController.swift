@@ -48,7 +48,7 @@ class DetailPhotoViewController: UIViewController {
     
     fileprivate var previousSelectedCell: DetailPhotoCell?
     private var moveToTempVCButtonItem: UIBarButtonItem?
-    private var startPanGesturePoint: CGPoint = CGPoint()
+    private var panGestureTranckingIsActivate: Bool = false
     private var isInitialFetchImage: Bool = true
     var selectedSectionAssets: [PHAsset] = []
     var photoDataSource: PhotoDataSource?
@@ -331,15 +331,14 @@ class DetailPhotoViewController: UIViewController {
             detailImageView.clipsToBounds = true
         case .changed:
             if location.y < -Constants.DetailImageViewPanGesture.activateBounds {
+                panGestureTranckingIsActivate = true
                 setTranslucentToNavigationBar()
                 detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
                                                        y: location.y)
                 UIView.animate(withDuration: Constants.DetailImageViewPanGesture.duration, animations: {
                     self.detailImageView.transform = Constants.DetailImageViewPanGesture.targetScale
                 })
-            }
-            if location.y > Constants.DetailImageViewPanGesture.activateBounds {
-                setTranslucentToNavigationBar()
+            } else if location.y > 0 && panGestureTranckingIsActivate == true {
                 detailImageView.frame.origin = CGPoint(x: self.detailImageView.frame.origin.x,
                                                        y: location.y - Constants.DetailImageViewPanGesture.activateBounds)
                 UIView.animate(withDuration: Constants.DetailImageViewPanGesture.duration, animations: {
@@ -347,7 +346,9 @@ class DetailPhotoViewController: UIViewController {
                 })
             }
         case .ended:
-            guard (startPanGesturePoint.y - location.y) > view.bounds.height / 6 else {
+            panGestureTranckingIsActivate = false
+            
+            guard -location.y > view.bounds.height / 6 else {
                 setOpaqueToNavigationBar()
                 detailImageView.center = CGPoint(x: zoomingScrollView.center.x,
                                                  y: zoomingScrollView.center.y)
