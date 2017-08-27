@@ -8,10 +8,19 @@
 
 import UIKit
 
+fileprivate struct Constants {
+    struct SlideToDismiss {
+        static let activateBounds: CGFloat = 200.0
+        static let duration: TimeInterval = 0.2
+    }
+}
+
 class SettingViewController: UITableViewController {
     @IBOutlet private var slider: UISlider!
     @IBOutlet private var dataAllowedSwitch: UISwitch!
     
+    private var originalNavigationPosition: CGPoint?
+    private var originalPosition: CGPoint?
     var settingDelegate: SettingDelegate?
     
     override func viewDidLoad() {
@@ -94,6 +103,57 @@ class SettingViewController: UITableViewController {
         }
     }
     
+    @IBAction private func slideToDismiss(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self.view)
+        let originalViewFrame = self.view.frame.origin
+        
+        switch sender.state {
+        case .began:
+            originalPosition = view.center
+            originalNavigationPosition = navigationController?.navigationBar.center
+        case .changed:
+            if translation.y > Constants.SlideToDismiss.activateBounds {
+                UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: {
+                    self.view.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                     y: translation.y + 64)
+                    self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
+                                                                                    y: translation.y + 20)
+                })
+            }
+        case .ended:
+            dismissWhenTouchesEnded(sender)
+        default:
+            break
+        }
+    }
+    
+    private func dismissWhenTouchesEnded(_ sender: UIPanGestureRecognizer) {
+        var originalViewFrame = self.view.frame.origin
+        var originalNavigationBarFrame = self.navigationController?.navigationBar.frame.origin
+        let translation = sender.translation(in: self.view)
+        
+        guard translation.y > self.view.frame.height / 2 else {
+            UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: { [weak self] _ in
+                guard let originalPosition = self?.originalPosition else { return }
+                guard let originalNavigationPosition = self?.originalNavigationPosition else { return }
+                
+                self?.view.center = originalPosition
+                self?.navigationController?.navigationBar.center = originalNavigationPosition
+            })
+            
+            return
+        }
+        
+        UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: {
+            originalViewFrame = CGPoint(x: originalViewFrame.x,
+                                        y: self.view.frame.size.height)
+            originalNavigationBarFrame = CGPoint(x: originalViewFrame.x,
+                                                 y: self.view.frame.size.height)
+        }, completion: { [weak self] completed in
+            guard completed == true else { return }
+            self?.dismiss(animated: true, completion: nil)
+        })
+    }
 
     @IBAction private func modalDismiss(_ sender: UIBarButtonItem) {
         self.settingDelegate?.timeIntervalBoundaryChanged()
