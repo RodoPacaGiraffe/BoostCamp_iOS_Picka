@@ -20,10 +20,10 @@ enum Order: String {
     case creationDate
 }
 
-enum Difference {
-    case none
-    case day
-    case intervalBoundary
+enum AssetCreationDateCompareResult {
+    case containsIntervalboundaryAndDate
+    case differentDate
+    case differentIntervalBoundary
 }
 
 enum GroupingInterval: Float {

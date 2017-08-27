@@ -27,18 +27,18 @@ extension PhotoClassifiable {
         
         for photoAsset in photoAssets {
             guard let creationDate = photoAsset.creationDate else { return [] }
-            let difference = referencePhotoAssetDate.getDifference(from: creationDate)
+            let creationDateCompareResult = referencePhotoAssetDate.compare(with: creationDate)
         
-            switch difference {
-            case .none:
+            switch creationDateCompareResult {
+            case .containsIntervalboundaryAndDate:
                 tempClassifiedPHAssetGroup.appendPhotoAsset(photoAsset)
                 continue
-            case .intervalBoundary:
+            case .differentIntervalBoundary:
                 if tempClassifiedPHAssetGroup.photoAssets.count >= Constants.minimumPhotoCount {
                     tempClassifiedPHAssetGroups.append(tempClassifiedPHAssetGroup)
                     tempClassifiedPHAssetGroup = ClassifiedPHAssetGroup()
                 }
-            case .day:
+            case .differentDate:
                 if tempClassifiedPHAssetGroup.photoAssets.count >= Constants.minimumPhotoCount {
                     tempClassifiedPHAssetGroups.append(tempClassifiedPHAssetGroup)
                     tempClassifiedPHAssetGroup = ClassifiedPHAssetGroup()

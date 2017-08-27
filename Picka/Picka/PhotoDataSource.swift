@@ -74,7 +74,7 @@ extension PhotoDataSource: UITableViewDataSource {
                 }
             }
             
-            classifiedPhotoCell.appendRequestID(requestID: requestID)
+            classifiedPhotoCell.appendRequestID(of: requestID)
         }
         
         let assetCounts: Int = classifiedPHAssetGroup.photoAssets.count

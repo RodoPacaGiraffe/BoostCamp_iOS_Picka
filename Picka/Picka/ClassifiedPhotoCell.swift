@@ -15,7 +15,7 @@ fileprivate struct Constants {
         static let backgroundColor: UIColor = UIColor(red: 243/255, green: 243/255, blue: 243/255, alpha: 1.0)
     }
     
-    static let deleteConfirmationView = "deleteConfirmationView"
+    static let deleteConfirmationView: String = "UITableViewCellDeleteConfirmationView"
     static let maximumImageViewCount: Int = 4
     static let lastImageAlpha: CGFloat = 0.5
 }
@@ -106,7 +106,7 @@ class ClassifiedPhotoCell: UITableViewCell {
         locationLabel.text = nil
     }
     
-    func appendRequestID(requestID: PHImageRequestID) {
+    func appendRequestID(of requestID: PHImageRequestID) {
         requestIDs.append(requestID)
     }
     
