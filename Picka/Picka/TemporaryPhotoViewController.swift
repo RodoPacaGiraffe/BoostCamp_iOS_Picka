@@ -246,7 +246,6 @@ class TemporaryPhotoViewController: UIViewController {
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: nil)
 
-            temporaryVC.alertCommitResult(committedCount: recoverCount, committedMode: .recorver)
             NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
             
             self?.popIfCountIsEmptyAfterCommitted(count: recoverCount, message: CommittedMode.recorver)
@@ -259,7 +258,7 @@ class TemporaryPhotoViewController: UIViewController {
         temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) { [weak self] in
             self?.collectionView.reloadSections(IndexSet(integer: 0))
             self?.dismiss(animated: true, completion: {
-                self?.alertCommitResult(committedCount: deleteCount, committedMode: .delete)
+                self?.popIfCountIsEmptyAfterCommitted(count: deleteCount, message: CommittedMode.delete)
             })
         }
     }
@@ -276,7 +275,7 @@ class TemporaryPhotoViewController: UIViewController {
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: { _ in
-                self?.popIfCountIsEmptyAfterCommitted(count: deleteCount, message: .delete)
+                self?.popIfCountIsEmptyAfterCommitted(count: deleteCount, message: CommittedMode.delete)
             })
         }
     }
