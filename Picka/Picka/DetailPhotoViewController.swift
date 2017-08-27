@@ -131,28 +131,24 @@ class DetailPhotoViewController: UIViewController {
     private func displayDetailViewSetting() {
         self.zoomingScrollView.minimumZoomScale = 1.0
         self.zoomingScrollView.maximumZoomScale = 6.0
-    
-        selectedSectionAssets[pressedIndexPath.item].fetchImage(
-            size: Constants.fetchImageSize,
-            contentMode: .aspectFill,
-            options: nil,
-            resultHandler: { [weak self] requestedImage in
-                self?.detailImageView.image = requestedImage
-        })
         
         fetchFullSizeImage(from: pressedIndexPath)
         thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
     
     fileprivate func fetchFullSizeImage(from indexPath: IndexPath) {
-        selectedSectionAssets[indexPath.item].fetchImage(size: Constants.fetchImageSize, contentMode: .aspectFill, options: nil,
+        let fetchOptions = PHImageRequestOptions()
+        fetchOptions.setImageRequestOptions(networkAccessAllowed: false, synchronous: true, deliveryMode: .opportunistic, progressHandler: nil)
+        selectedSectionAssets[indexPath.item].fetchImage(size: Constants.fetchImageSize, contentMode: .aspectFill, options: fetchOptions,
             resultHandler: { [weak self] requestedImage in
+                
                 self?.detailImageView.image = requestedImage
         })
         
         let options = PHImageRequestOptions()
         options.setImageRequestOptions(networkAccessAllowed: Constants.dataAllowed, synchronous: false, deliveryMode: .opportunistic) { [weak self] (progress, _, _, _) in
             DispatchQueue.main.async {
+                print("sd")
                 guard let detailVC = self else { return }
                 guard detailVC.pressedIndexPath == indexPath else { return }
                 
