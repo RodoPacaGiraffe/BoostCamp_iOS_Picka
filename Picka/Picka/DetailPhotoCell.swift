@@ -9,23 +9,46 @@
 import UIKit
 import Photos
 
+fileprivate struct Constants {
+    struct ThumnailImageView {
+        static let alphaForSelected: CGFloat = 0.5
+        static let alphaForDeselected: CGFloat = 1.0
+    }
+}
+
 class DetailPhotoCell: UICollectionViewCell {
-    @IBOutlet var thumbnailImageView: UIImageView!
-    @IBOutlet var detailDeleteButton: UIButton!
+    @IBOutlet private var thumbnailImageView: UIImageView!
+    @IBOutlet private var deleteButton: UIButton!
     
-    var requestID: PHImageRequestID?
+    private(set) var requestID: PHImageRequestID?
     
     override func prepareForReuse() {
         deSelect()
     }
     
     func select() {
-        thumbnailImageView.alpha = 0.5
+        thumbnailImageView.alpha = Constants.ThumnailImageView.alphaForSelected
         self.isSelected = true
     }
     
     func deSelect() {
-        thumbnailImageView.alpha = 1.0
+        thumbnailImageView.alpha = Constants.ThumnailImageView.alphaForDeselected
         self.isSelected = false
+    }
+    
+    func hideDeleteButton() {
+        deleteButton.isHidden = true
+    }
+    
+    func setTagToDeleteButton(with tag: Int) {
+        deleteButton.tag = tag
+    }
+    
+    func setRequestID(_ requestID: PHImageRequestID) {
+        self.requestID = requestID
+    }
+    
+    func setThumbnailImage(_ thumbnailImage: UIImage?) {
+        thumbnailImageView.image = thumbnailImage
     }
 }

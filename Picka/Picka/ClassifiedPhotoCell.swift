@@ -9,19 +9,30 @@
 import UIKit
 import Photos
 
+fileprivate struct Constants {
+    struct ImageContainerView {
+        static let roundBorderDegree: CGFloat = 16.0
+        static let backgroundColor: UIColor = UIColor(red: 243/255, green: 243/255, blue: 243/255, alpha: 1.0)
+    }
+    
+    static let deleteConfirmationView: String = "UITableViewCellDeleteConfirmationView"
+    static let maximumImageViewCount: Int = 4
+    static let lastImageAlpha: CGFloat = 0.5
+}
+
 class ClassifiedPhotoCell: UITableViewCell {
-    @IBOutlet var numberOfPhotosLabel: UILabel!
-    @IBOutlet var locationLabel: UILabel!
-    @IBOutlet var imageContainerView: UIView!
-    @IBOutlet var imageStackView: UIStackView!
-    @IBOutlet var imageViews: [UIImageView]!
-    @IBOutlet var moreImagesLabel: UILabel!
+    @IBOutlet private(set) var imageViews: [UIImageView]!
+    @IBOutlet private var numberOfPhotosLabel: UILabel!
+    @IBOutlet private var locationLabel: UILabel!
+    @IBOutlet private var imageContainerView: UIView!
+    @IBOutlet private var imageStackView: UIStackView!
+    @IBOutlet private var moreImagesLabel: UILabel!
     
-    var requestIDs: [PHImageRequestID] = []
+    private(set) var requestIDs: [PHImageRequestID] = []
     
-    var cellImages: [UIImage] = [] {
+    private var cellImages: [UIImage] = [] {
         didSet {
-            addPhotoImagesToStackView(photoImages: cellImages)
+            addCellImagesToStackView(cellImages: cellImages)
         }
     }
     
@@ -31,50 +42,57 @@ class ClassifiedPhotoCell: UITableViewCell {
         self.subviews.forEach { subview in
             let typeString = String(describing: type(of: subview))
             guard typeString == Constants.deleteConfirmationView else { return }
-            
-            guard let target = imageContainerView else { return }
         
-            subview.frame.size.height = target.frame.size.height
-            subview.frame.origin.y = target.frame.origin.y
+            subview.frame.size.height = imageContainerView.frame.size.height
+            subview.frame.origin.y = imageContainerView.frame.origin.y
         }
     }
     
-    func addPhotoImagesToStackView(photoImages: [UIImage]) {
+    func setCellImages(with images: [UIImage]) {
+        cellImages = images
+    }
+    
+    func addCellImagesToStackView(cellImages: [UIImage]) {
         moreImagesLabel.isHidden = true
         
-        for index in photoImages.indices {
-            guard index < Constants.maximumImageView else {
+        for index in cellImages.indices {
+            guard index < Constants.maximumImageViewCount else {
                 setLabel()
                 break
             }
             
-            imageViews[index].image = photoImages[index]
+            imageViews[index].image = cellImages[index]
         }
         
-        imageContainerView.makeRoundBorder(degree: 16.0)
-        imageContainerView.backgroundColor = UIColor(red: 243/255,
-                                                     green: 243/255,
-                                                     blue: 243/255,
-                                                     alpha: 1)
+        imageContainerView.makeRoundBorder(degree: Constants.ImageContainerView.roundBorderDegree)
+        imageContainerView.backgroundColor = Constants.ImageContainerView.backgroundColor
     }
     
     func setLabel() {
         guard let lastIamgeView = imageViews.last else { return }
-        lastIamgeView.image = lastIamgeView.image?.alpha(0.5)
+        lastIamgeView.image = lastIamgeView.image?.alpha(Constants.lastImageAlpha)
         
-        let numOfMoreImages = cellImages.count - Constants.maximumImageView
+        let numberOfMoreImages = cellImages.count - Constants.maximumImageViewCount
         
         if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
-            if Locale.preferredLanguages.first == "ar" {
-                moreImagesLabel.text = "\(numOfMoreImages.toArabic())+"
+            if Locale.preferredLanguages.first == Language.arabic {
+                moreImagesLabel.text = "\(numberOfMoreImages.toArabic())+"
             } else {
-                moreImagesLabel.text = "\(numOfMoreImages)+"
+                moreImagesLabel.text = "\(numberOfMoreImages)+"
             }
         } else {
-            moreImagesLabel.text = "+\(numOfMoreImages)"
+            moreImagesLabel.text = "+\(numberOfMoreImages)"
         }
        
         moreImagesLabel.isHidden = false
+    }
+    
+    func setNumberOfPhotosLabelText(with numberOfPhotosString: String) {
+        numberOfPhotosLabel.text = numberOfPhotosString
+    }
+    
+    func setLocationLabelText(with locationString: String) {
+        locationLabel.text = locationString
     }
     
     func clearStackView() {
@@ -84,6 +102,14 @@ class ClassifiedPhotoCell: UITableViewCell {
 
         moreImagesLabel.isHidden = true
         locationLabel.text = nil
+    }
+    
+    func appendRequestID(of requestID: PHImageRequestID) {
+        requestIDs.append(requestID)
+    }
+    
+    func removeAllrequestIDs() {
+        requestIDs.removeAll()
     }
 }
 

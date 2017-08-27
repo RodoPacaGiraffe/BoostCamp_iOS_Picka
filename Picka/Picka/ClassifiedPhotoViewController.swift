@@ -1,5 +1,5 @@
 //
-//  PhotoViewController.swift
+//  ClassifiedPhotoViewController.swift
 //  Electo
 //
 //  Created by RodoPacaGiraffe on 2017. 8. 4..
@@ -8,6 +8,30 @@
 
 import UIKit
 import Photos
+
+fileprivate struct Constants {
+    struct CustomScrollView {
+        static let imageViewFrame: CGRect = CGRect(x: 0, y: 0, width: 15, height: 30)
+        static let width: CGFloat = 20.0
+        static let height: CGFloat = 40.0
+        static let cornerRadius: CGFloat = 10.0
+        static let alpha: CGFloat = 0.5
+        static let scrollGestureMaximumNumberOfTouches: Int = 1
+    }
+    
+    struct FadeAnimation {
+        static let duration: TimeInterval = 0.2
+        static let alphaForAppear: CGFloat = 0.8
+        static let alphaForDisappear: CGFloat = 0.0
+    }
+    
+    struct ScrollingLabel {
+        static let borderDegree: CGFloat = 5.0
+        static let height: CGFloat = 50.0
+    }
+    
+    static let tableViewHeaderFont: UIFont = UIFont.systemFont(ofSize: 14)
+}
 
 class ClassifiedPhotoViewController: UIViewController {
     @IBOutlet fileprivate var tableView: UITableView!
@@ -19,23 +43,31 @@ class ClassifiedPhotoViewController: UIViewController {
     fileprivate var photoDataSource: PhotoDataSource = PhotoDataSource()
     private var moveToTempVCButtonItem: UIBarButtonItem?
     private var loadingView: LoadingView = LoadingView()
-    private var emptyView: EmptyView = EmptyView()
+    private var statusDisplayView: StatusDisplayView = StatusDisplayView()
     
     private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector (pullToRefresh), for: .valueChanged)
+        
         return refreshControl
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setNotificationObserver()
         setScrollDateLabel()
-        setEmptyView()
+        setStatusDisplayView()
         setLoadingView()
         setTableView()
         setNavigationButtonItem()
         requestAuthorization()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reloadData()
     }
     
     deinit {
@@ -44,13 +76,13 @@ class ClassifiedPhotoViewController: UIViewController {
     
     private func setNotificationObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector (reloadData),
-                                               name: Constants.requiredReload, object: nil)
+                                               name: NotificationName.requiredReload, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector (updateBadge),
-                                               name: Constants.requiredUpdatingBadge, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector (appearEmptyView),
-                                               name: Constants.appearEmptyView, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector (disappearEmptyView),
-                                               name: Constants.disappearEmptyView, object: nil)
+                                               name: NotificationName.requiredUpdatingBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (appearStatusDisplayView),
+                                               name: NotificationName.appearStatusDisplayView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector (disappearStatusDisplayView),
+                                               name: NotificationName.disappearStatusDisplayView, object: nil)
     }
     
     private func setLoadingView() {
@@ -58,26 +90,62 @@ class ClassifiedPhotoViewController: UIViewController {
         self.view.addSubview(loadingView)
     }
     
-    private func setEmptyView() {
-        emptyView = EmptyView.instanceFromNib(situation: .noPhoto, frame: self.view.frame)
-        self.view.addSubview(emptyView)
+    private func setStatusDisplayView() {
+        statusDisplayView = StatusDisplayView.instanceFromNib(status: .emptyPhotoToOrganize, frame: self.view.frame)
+        self.view.addSubview(statusDisplayView)
     }
     
-    @objc private func appearEmptyView() {
-        DispatchQueue.main.async { [weak self] in
-            guard let classifiedPhotoVC = self else { return }
-            classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.emptyView)
+    private func setScrollBar() {
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+            customScrollView.frame = CGRect(x: 3.0, y: tableView.contentOffset.y,
+                                            width: Constants.CustomScrollView.width, height: Constants.CustomScrollView.height)
+        } else {
+            customScrollView.frame = CGRect(x: self.view.frame.width - 17, y: tableView.contentOffset.y,
+                                            width: Constants.CustomScrollView.width, height: Constants.CustomScrollView.height)
         }
+        
+        scrollGesture.addTarget(self, action: #selector(panGestureToScroll))
+        scrollGesture.maximumNumberOfTouches = Constants.CustomScrollView.scrollGestureMaximumNumberOfTouches
+        customScrollView.layer.cornerRadius = Constants.CustomScrollView.cornerRadius
+        customScrollView.alpha = Constants.CustomScrollView.alpha
+        
+        let customScrollImageView: UIImageView = UIImageView()
+        customScrollImageView.image = #imageLiteral(resourceName: "Slider")
+        customScrollImageView.contentMode = .scaleAspectFit
+        customScrollImageView.frame = Constants.CustomScrollView.imageViewFrame
+        
+        self.view.addSubview(customScrollView)
+        customScrollView.addSubview(customScrollImageView)
+        customScrollView.addGestureRecognizer(scrollGesture)
     }
     
-    @objc private func disappearEmptyView() {
-        DispatchQueue.main.async { [weak self] in
-            guard let classifiedPhotoVC = self else { return }
-            guard classifiedPhotoVC.view.subviews.last != self?.loadingView else { return }
-            classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
-            self?.setScrollBar()
-            self?.setScrollDateLabel()
-        }
+    private func setScrollDateLabel() {
+        scrollingLabel.frame = CGRect(x: self.view.frame.width / 4,
+                                      y: self.view.center.y - 100,
+                                      width: self.view.frame.width / 2,
+                                      height: Constants.ScrollingLabel.height)
+        scrollingLabel.isHidden = true
+        scrollingLabel.textAlignment = .center
+        scrollingLabel.adjustsFontSizeToFitWidth = true
+        scrollingLabel.backgroundColor = UIColor.lightGray
+        scrollingLabel.makeRoundBorder(degree: Constants.ScrollingLabel.borderDegree)
+        
+        self.view.addSubview(scrollingLabel)
+    }
+    
+    private func setTableView() {
+        tableView.dataSource = photoDataSource
+        tableView.addSubview(refreshControl)
+    }
+    
+    private func setNavigationButtonItem() {
+        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(with: 0)
+        
+        moveToTempVCButtonItem?.addButtonTarget(target: self,
+                                                action: #selector (moveToTemporaryViewController),
+                                                for: .touchUpInside)
+        
+        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
     }
     
     private func appearLoadingView() {
@@ -90,126 +158,41 @@ class ClassifiedPhotoViewController: UIViewController {
     fileprivate func disappearLoadingView() {
         DispatchQueue.main.async { [weak self] in
             guard let classifiedPhotoVC = self else { return }
-            guard classifiedPhotoVC.view.subviews.last != self?.emptyView else { return }
+            guard classifiedPhotoVC.view.subviews.last != self?.statusDisplayView else { return }
             classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
             self?.setScrollBar()
             self?.setScrollDateLabel()
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        
-        super.viewWillAppear(animated)
-        
-        reloadData()
+    @objc private func appearStatusDisplayView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let classifiedPhotoVC = self else { return }
+            classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.statusDisplayView)
+        }
+    }
+    
+    @objc private func disappearStatusDisplayView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let classifiedPhotoVC = self else { return }
+            guard classifiedPhotoVC.view.subviews.last != self?.loadingView else { return }
+            classifiedPhotoVC.view.bringSubview(toFront: classifiedPhotoVC.tableView)
+            self?.setScrollBar()
+            self?.setScrollDateLabel()
+        }
     }
     
     private func loadUserDefaultSetting() {
-        Constants.dataAllowed = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
-        Constants.timeIntervalBoundary = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
-            as? Double ?? 180
-    }
-    
-    private func setScrollBar() {
-        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
-            customScrollView.frame = CGRect(x: 3, y: tableView.contentOffset.y, width: 20, height: 40)
-        } else {
-            customScrollView.frame = CGRect(x: self.view.frame.width - 17,
-                                            y: tableView.contentOffset.y, width: 20, height: 40)
-        }
-        
-        scrollGesture.addTarget(self, action: #selector(touchToScroll))
-        scrollGesture.maximumNumberOfTouches = 1
-        customScrollView.layer.cornerRadius = 10
-        customScrollView.alpha = 0.5
-        
-        let imageView: UIImageView = UIImageView()
-        imageView.image = UIImage(named: "Slider.png")
-        imageView.contentMode = .scaleAspectFit
-        imageView.frame = CGRect(x: 0, y: 0, width: 15, height: 30)
-        
-        
-        self.view.addSubview(customScrollView)
-        customScrollView.addSubview(imageView)
-        customScrollView.addGestureRecognizer(scrollGesture)
-    }
-    
-    private func setScrollDateLabel() {
-        scrollingLabel.frame = CGRect(x: self.view.frame.width / 4,
-                                      y: self.view.center.y - 100,
-                                      width: self.view.frame.width / 2,
-                                      height: 50)
-        scrollingLabel.isHidden = true
-        scrollingLabel.textAlignment = .center
-        scrollingLabel.adjustsFontSizeToFitWidth = true
-        scrollingLabel.backgroundColor = UIColor.lightGray
-        scrollingLabel.makeRoundBorder(degree: 5)
-        
-        self.view.addSubview(scrollingLabel)
-    }
-    
-    private func setTableView() {
-        tableView.dataSource = photoDataSource
-        tableView.addSubview(refreshControl)
-    }
-    
-    private func setNavigationButtonItem() {
-        moveToTempVCButtonItem = UIBarButtonItem.getUIBarbuttonItemincludedBadge(With: 0)
-    
-        moveToTempVCButtonItem?.addButtonTarget(target: self,
-                                                action: #selector (moveToTemporaryViewController),
-                                                for: .touchUpInside)
-        
-        self.navigationItem.setRightBarButton(moveToTempVCButtonItem, animated: true)
-    }
-    
-    @objc fileprivate func pullToRefresh() {
-        DispatchQueue.global(qos: .utility).async { [weak self] in
-            self?.photoDataSource.photoStore.fetchPhotoAsset()
-            self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
-            self?.reloadData()
-        }
-    }
-    
-    @objc private func reloadData() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-            
-            guard let count = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
-            
-            self?.moveToTempVCButtonItem?.updateBadge(With: count)
-            self?.refreshControl.endRefreshing()
-            self?.fetchLocationToVisibleCells()
-        }
-    }
-    
-    private func deniedAlert() {
-        let title  = NSLocalizedString("No Authorization", comment: "")
-        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        
-        let goSettingAction = UIAlertAction(title: NSLocalizedString("Go Settings", comment: ""),
-                style: .default) { [weak self] _ in
-            guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
-            UIApplication.shared.open(url)
-            self?.requestAuthorization()
-        }
-
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
-                style: .destructive) { [weak self] _ in
-            guard let windowFrame = self?.view.window?.frame else { return }
-            self?.view.addSubview(EmptyView.instanceFromNib(situation: .noAuthorization, frame: windowFrame))
-        }
-        
-        alertController.addAction(cancelAction)
-        alertController.addAction(goSettingAction)
-        
-        present(alertController, animated: true, completion: nil)
+        SettingConstants.networkDataAllowed = UserDefaults.standard.object(forKey: UserDefaultsKey.networkDataAllowed)
+            as? Bool ?? SettingConstants.defaultNetworkDataAllowed
+        SettingConstants.timeIntervalBoundary = UserDefaults.standard.object(forKey: UserDefaultsKey.timeIntervalBoundary)
+            as? Double ?? SettingConstants.defaultTimeIntervalBoundary
     }
     
     private func requestAuthorization() {
         PHPhotoLibrary.requestAuthorization { [weak self] authorizationStatus in
             guard authorizationStatus == .authorized else {
-                self?.deniedAlert()
+                self?.permissionDeniedAlert()
                 return
             }
             
@@ -220,11 +203,11 @@ class ClassifiedPhotoViewController: UIViewController {
             DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let photoAssets = self?.photoDataSource.photoStore.photoAssets else { return }
                 CachingImageManager.shared.startCachingImages(for: photoAssets,
-                                                              targetSize: Constants.fetchImageSize,
+                                                              targetSize: SettingConstants.fetchImageSize,
                                                               contentMode: .aspectFill, options: nil)
             }
             
-            guard let path = Constants.archiveURL?.path else { return }
+            guard let path = ArchiveConstants.archiveURL?.path else { return }
             self?.fetchArchivedTemporaryPhotoStore(from: path)
         }
     }
@@ -254,48 +237,69 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     fileprivate func fetchLocationToVisibleCells() {
-        guard let indexPaths = tableView.indexPathsForVisibleRows else { return }
+        guard let visibleIndexPaths = tableView.indexPathsForVisibleRows else { return }
         
-        for indexPath in indexPaths {
-            guard let photoCell = tableView.cellForRow(at: indexPath)
+        for indexPath in visibleIndexPaths {
+            guard let classifiedPhotoCell = tableView.cellForRow(at: indexPath)
                 as? ClassifiedPhotoCell else { continue }
             
             let classifiedGroup = photoDataSource.photoStore
-                .classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+                .classifiedGroupsByDate[indexPath.section].classifiedPHAssetGroups[indexPath.row]
             
             guard classifiedGroup.location.isEmpty else { continue }
             
             classifiedGroup.photoAssets.first?.location?.reverseGeocode { locationString in
-                photoCell.locationLabel.text = locationString
-                classifiedGroup.location = locationString
+                classifiedGroup.setLocation(with: locationString)
+                classifiedPhotoCell.setLocationLabelText(with: locationString)
             }
         }
     }
     
-    @objc private func moveToTemporaryViewController() {
-        performSegue(withIdentifier: "ModalRemovedPhotoVC", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let identifier = segue.identifier else { return }
-        switch identifier {
-        case "ModalRemovedPhotoVC":
-            guard let navigationController = segue.destination as? UINavigationController,
-                let temporaryPhotoViewController = navigationController.topViewController
-                    as? TemporaryPhotoViewController else { return }
-            temporaryPhotoViewController.photoDataSource = photoDataSource
-        case "PressedSetting":
-            guard let navigationController = segue.destination as? UINavigationController,
-                let settingViewController = navigationController.topViewController
-                    as? SettingViewController else { return }
-            settingViewController.settingDelegate = self
-        default:
-            break
+    @objc fileprivate func pullToRefresh() {
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            self?.photoDataSource.photoStore.fetchPhotoAsset()
+            self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
+            self?.reloadData()
         }
     }
     
     @objc private func updateBadge() {
-        moveToTempVCButtonItem?.updateBadge(With: photoDataSource.temporaryPhotoStore.photoAssets.count)
+        moveToTempVCButtonItem?.updateBadge(with: photoDataSource.temporaryPhotoStore.photoAssets.count)
+    }
+    
+    @objc fileprivate func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+            
+            guard let photosCount = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
+            
+            self?.moveToTempVCButtonItem?.updateBadge(With: photosCount)
+            self?.refreshControl.endRefreshing()
+            self?.fetchLocationToVisibleCells()
+        }
+    }
+    
+    private func permissionDeniedAlert() {
+        let title  = NSLocalizedString(LocalizationKey.noAuthorization, comment: "")
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        
+        let goSettingAction = UIAlertAction(title: NSLocalizedString(LocalizationKey.goSettings, comment: ""),
+                style: .default) { [weak self] _ in
+            guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
+            UIApplication.shared.open(url)
+            self?.requestAuthorization()
+        }
+
+        let cancelAction = UIAlertAction(title: NSLocalizedString(LocalizationKey.cancel, comment: ""),
+                style: .cancel) { [weak self] _ in
+            guard let windowFrame = self?.view.window?.frame else { return }
+            self?.view.addSubview(StatusDisplayView.instanceFromNib(status: .noAuthorization, frame: windowFrame))
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(goSettingAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     private func getIndexOfSelectedPhoto(from sender: UIPanGestureRecognizer) -> Int {
@@ -322,8 +326,8 @@ class ClassifiedPhotoViewController: UIViewController {
         }
     }
     
-    fileprivate func showSelectedPhoto(at indexPath: IndexPath) {
-        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier:  "detailViewController")
+    fileprivate func showDetailForSelectedPhoto(at indexPath: IndexPath) {
+        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier: StoryBoardIdentifier.detailViewController)
             as? DetailPhotoViewController else { return }
         
         var selectedPhotoIndex = getIndexOfSelectedPhoto(from: touchLocation)
@@ -333,84 +337,106 @@ class ClassifiedPhotoViewController: UIViewController {
             selectedPhotoIndex = 0
         }
         
-        dataSetOfTransfer(to: detailViewController, selectedCell: selectedCell, of: indexPath, selectedPhotoIndex)
+        dataSetBeforeTransition(to: detailViewController, of: indexPath, selectedPhotoIndex)
         show(detailViewController, sender: self)
     }
     
-    private func dataSetOfTransfer(to detailViewController: DetailPhotoViewController, selectedCell: ClassifiedPhotoCell,
-                           of indexPath: IndexPath, _ selectedPhotoIndex: Int) {
+    private func dataSetBeforeTransition(to detailViewController: DetailPhotoViewController,
+                                   of indexPath: IndexPath, _ selectedPhotoIndex: Int) {
         detailViewController.photoDataSource = photoDataSource
         detailViewController.selectedSectionAssets = photoDataSource.photoStore
-            .classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row].photoAssets
-        detailViewController.identifier = "fromClassifiedPhotoVC"
-
+            .classifiedGroupsByDate[indexPath.section].classifiedPHAssetGroups[indexPath.row].photoAssets
+        detailViewController.identifier = PreviousVCIdentifier.fromClassifiedPhotoVC
+        
         detailViewController.pressedIndexPath = IndexPath(row: selectedPhotoIndex, section: 0)
+    }
+    
+    @objc private func moveToTemporaryViewController() {
+        performSegue(withIdentifier: SegueIdentifier.modalTemporaryPhotoVC, sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier else { return }
+        switch identifier {
+        case SegueIdentifier.modalTemporaryPhotoVC:
+            guard let navigationController = segue.destination as? UINavigationController,
+                let temporaryPhotoViewController = navigationController.topViewController
+                    as? TemporaryPhotoViewController else { return }
+            temporaryPhotoViewController.photoDataSource = photoDataSource
+        case SegueIdentifier.modalSettingVC:
+            guard let navigationController = segue.destination as? UINavigationController,
+                let settingViewController = navigationController.topViewController
+                    as? SettingViewController else { return }
+            settingViewController.settingDelegate = self
+        default:
+            break
+        }
     }
 }
 
 extension ClassifiedPhotoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let classifiedGroup = photoDataSource.photoStore
-            .classifiedPhotoAssets[indexPath.section].photoAssetsArray[indexPath.row]
+            .classifiedGroupsByDate[indexPath.section].classifiedPHAssetGroups[indexPath.row]
         
-        guard let photoCell = cell as? ClassifiedPhotoCell else { return }
-        photoCell.locationLabel.text = classifiedGroup.location
+        guard let classifiedPhotoCell = cell as? ClassifiedPhotoCell else { return }
+        classifiedPhotoCell.setLocationLabelText(with: classifiedGroup.location)
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let photoCell = cell as? ClassifiedPhotoCell else { return }
-        photoCell.locationLabel.text = ""
-        photoCell.clearStackView()
+        guard let classifiedPhotoCell = cell as? ClassifiedPhotoCell else { return }
+        classifiedPhotoCell.setLocationLabelText(with: "")
+        classifiedPhotoCell.clearStackView()
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
-        header.textLabel?.font = UIFont.systemFont(ofSize: 14)
+        header.textLabel?.font = Constants.tableViewHeaderFont
         header.contentView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.05)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showSelectedPhoto(at: indexPath)
+        showDetailForSelectedPhoto(at: indexPath)
     }
 }
 
 extension ClassifiedPhotoViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.5)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.5)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
         fetchLocationToVisibleCells()
     }
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.5)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
         
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.5, alpha: 0.8)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
     }
 }
 
 extension ClassifiedPhotoViewController: SettingDelegate {
-    func groupingChanged() {
+    func timeIntervalBoundaryChanged() {
         DispatchQueue.global(qos: .utility).async { [weak self] in
             self?.photoDataSource.photoStore.fetchPhotoAsset()
             self?.photoDataSource.photoStore.applyUnarchivedPhoto(assets: self?.photoDataSource.temporaryPhotoStore.photoAssets)
-            
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-                self?.disappearLoadingView()
-                self?.fetchLocationToVisibleCells()
-            }
+            self?.reloadData()
         }
     }
 }
@@ -423,19 +449,25 @@ extension ClassifiedPhotoViewController: UIGestureRecognizerDelegate {
 }
 
 extension ClassifiedPhotoViewController {
-    func touchToScroll() {
+    func panGestureToScroll() {
         guard scrollGesture.state != .ended else {
             fadeOutLabelAndIndicator()
             return
         }
-    
+        
+        guard scrollGesture.state != .cancelled else {
+            scrollingLabel.isHidden = true
+            return
+        }
+        
         guard tableView.contentSize.height > self.view.frame.height else { return }
         guard let naviBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
-        if let indexPath = tableView.indexPathForRow(at: CGPoint(x: 0, y: tableView.contentOffset.y + self.customScrollView.frame.origin.y))  {
+        
+        if let indexPath = tableView.indexPathForRow(at: CGPoint(x: 0, y: tableView.contentOffset.y + customScrollView.frame.origin.y)) {
             scrollingLabel.isHidden = false
-            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.3, alpha: 0.8)
+            scrollingLabel.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                         alpha: Constants.FadeAnimation.alphaForAppear)
             scrollingLabel.text = tableView.headerView(forSection: indexPath.section)?.textLabel?.text
-            scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.5, alpha: 0.8)
         }
         
         if scrollGesture.location(in: self.view).y + naviBarHeight > self.view.frame.height {
@@ -447,21 +479,15 @@ extension ClassifiedPhotoViewController {
             tableView.contentOffset.y = 0
             fadeOutLabelAndIndicator()
         } else {
-
             let estimatedViewHeight = self.view.frame.height - customScrollView.frame.size.height
-            tableView.setContentOffset(CGPoint.init(x: 0, y: (self.customScrollView.frame.origin.y / estimatedViewHeight) * (tableView.contentSize.height - self.view.frame.height)), animated: false)
+            tableView.setContentOffset(CGPoint(x: 0, y: (self.customScrollView.frame.origin.y / estimatedViewHeight) * (tableView.contentSize.height - self.view.frame.height)), animated: false)
             customScrollView.frame.origin.y = scrollGesture.location(in: self.view).y
-            
-        }
-        
-        if scrollGesture.state == .cancelled {
-            scrollingLabel.isHidden = true
-            print("cancelled")
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.8)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
         
         guard scrollView.contentOffset.y > 0 else {
             customScrollView.frame.origin.y = tableView.contentOffset.y
@@ -481,7 +507,9 @@ extension ClassifiedPhotoViewController {
     }
     
     func fadeOutLabelAndIndicator() {
-        customScrollView.fadeWithAlpha(of: customScrollView, duration: 0.2, alpha: 0.5)
-        scrollingLabel.fadeWithAlpha(of: scrollingLabel, duration: 0.5, alpha: 0)
+        customScrollView.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                       alpha: Constants.FadeAnimation.alphaForAppear)
+        scrollingLabel.fadeWithAlpha(duration: Constants.FadeAnimation.duration,
+                                     alpha: Constants.FadeAnimation.alphaForDisappear)
     }
 }

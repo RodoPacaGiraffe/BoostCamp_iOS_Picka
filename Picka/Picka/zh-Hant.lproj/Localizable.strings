@@ -6,10 +6,10 @@
   Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 */
 
-"UseiCloud" = "使用蜂窩數據使用的iCloud下載的照片。";
+"Use Cellular Data" = "使用蜂窩數據使用的iCloud下載的照片。";
 "%d Photos" = "%d張照片";
 "No Authorization" = "Picka需要存取相片庫。";
-"No Photo" = "沒有照片進行清理。";
+"No photos to organize" = "沒有照片進行清理。";
 "Go Settings" = "設置";
 "Cancel" = "取消";
 "OK" = "確認";

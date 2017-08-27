@@ -6,10 +6,10 @@
   Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 */
 
-"UseiCloud" = "استخدام البيانات الخلوية لتحميل الصور باستخدام على iCloud";
+"Use Cellular Data" = "استخدام البيانات الخلوية لتحميل الصور باستخدام على iCloud";
 "%d Photos" = "صور";
 "No Authorization" = "Picka يتطلب الوصول مكتبة الصور";
-"No Photo" = "لا توجد صور لتنظيف";
+"No photos to organize" = "لا توجد صور لتنظيف";
 "Go Settings" = "انتقل الإعدادات";
 "Cancel" = "إلغاء";
 "OK" = "التأكيد";

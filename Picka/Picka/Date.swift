@@ -9,30 +9,30 @@
 import Foundation
 
 extension Date {
-    func getDifference(from date: Date) -> Difference {
-        let endTimeInterval = self.timeIntervalSince(date)
+    func compare(with creationDate: Date) -> AssetCreationDateCompareResult {
+        let endTimeInterval = self.timeIntervalSince(creationDate)
         let day1 = Calendar.current.component(.day, from: self)
-        let day2 = Calendar.current.component(.day, from: date)
+        let day2 = Calendar.current.component(.day, from: creationDate)
         
-        if (abs(endTimeInterval) > Constants.timeIntervalBoundary) && (day1 == day2) {
-            return .intervalBoundary
+        if (abs(endTimeInterval) > SettingConstants.timeIntervalBoundary) && (day1 == day2) {
+            return .differentIntervalBoundary
         } else if day1 != day2 {
-            return .day
+            return .differentDate
         } else {
-            return .none
+            return .containsIntervalboundaryAndDate
         }
     }
     
     func toDateString() -> String {
         let dateFormatter: DateFormatter = DateFormatter()
-        let languageCode = Locale.current.languageCode ?? "en"
+        let languageCode = Locale.current.languageCode ?? Language.english
         
         switch languageCode {
-        case "ko":
+        case Language.korean:
             dateFormatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
-        case "zh", "ja":
+        case Language.chinese, Language.japanese:
             dateFormatter.dateFormat = "yyyy年 MM月 dd日 EEEE"
-        case "ar":
+        case Language.arabic:
             dateFormatter.dateFormat = "yyyy MM dd EEEE"
         default:
             dateFormatter.dateFormat = "E, d MMM yyyy"

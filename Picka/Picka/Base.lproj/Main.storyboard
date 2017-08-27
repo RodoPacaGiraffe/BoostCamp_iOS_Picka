@@ -139,14 +139,14 @@
                     <navigationItem key="navigationItem" title="Picka" id="haJ-Md-wRu">
                         <barButtonItem key="leftBarButtonItem" image="Settings" id="97q-k1-UQh">
                             <connections>
-                                <segue destination="fDP-Yq-zDr" kind="presentation" identifier="PressedSetting" id="NRV-d7-QnV"/>
+                                <segue destination="fDP-Yq-zDr" kind="presentation" identifier="ModalSettingVC" id="NRV-d7-QnV"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="POu-e3-FrG" id="kGH-RN-jcJ"/>
                         <outlet property="touchLocation" destination="NmD-ph-19I" id="raj-4O-ZRp"/>
-                        <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalRemovedPhotoVC" id="5Yv-4U-t7U"/>
+                        <segue destination="RpQ-Ak-e2Y" kind="presentation" identifier="ModalTemporaryPhotoVC" id="5Yv-4U-t7U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -188,7 +188,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jIs-QX-MrQ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Photos" image="Cleanable-18" id="vvd-LH-pJU"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="sUb-GM-l8U">
+                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" translucent="NO" id="sUb-GM-l8U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.3725968599319458" green="0.36856323480606079" blue="0.3726152777671814" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

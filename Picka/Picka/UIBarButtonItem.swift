@@ -8,21 +8,37 @@
 
 import UIKit
 
+fileprivate struct Constants {
+    struct BadgeLabel {
+        static let frame: CGRect = CGRect(x: 12, y: -8, width: 15, height: 15)
+        static let font: UIFont = UIFont.systemFont(ofSize: 10)
+    }
+    
+    struct BadgeButton {
+        static let frame: CGRect = CGRect(x: 0, y: 0, width: 20, height: 20)
+    }
+    
+    struct BadgeAnimation {
+        static let badgeTargetScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.2)
+        static let badgeOriginalScale: CGAffineTransform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        static let duration: TimeInterval = 0.2
+    }
+}
+
 extension UIBarButtonItem {
-    static func getUIBarbuttonItemincludedBadge(With temporaryPhotoAssetsCount: Int) -> UIBarButtonItem {
-        let label = UILabel(frame: CGRect(x: 12, y: -8, width: 15, height: 15))
+    static func getUIBarbuttonItemincludedBadge(with temporaryPhotoAssetsCount: Int) -> UIBarButtonItem {
+        let label = UILabel(frame: Constants.BadgeLabel.frame)
         
         label.text = "\(temporaryPhotoAssetsCount)"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = Constants.BadgeLabel.font
         label.adjustsFontSizeToFitWidth = true
         label.baselineAdjustment = .alignCenters
         label.backgroundColor = .red
-        label.layer.cornerRadius = label.bounds.size.height / 2
-        label.layer.masksToBounds = true
+        label.makeRoundBorder(degree: 2.0)
         
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        let button = UIButton(frame: Constants.BadgeButton.frame)
         
         button.setImage(#imageLiteral(resourceName: "trash"), for: .normal)
         button.addSubview(label)
@@ -35,7 +51,7 @@ extension UIBarButtonItem {
         button.addTarget(target, action: action, for: controlEvents)
     }
     
-    func updateBadge(With temporaryPhotoAssetsCount: Int) {
+    func updateBadge(with temporaryPhotoAssetsCount: Int) {
         guard let button = self.customView as? UIButton else { return }
         
         let index = button.subviews.index {
@@ -56,16 +72,16 @@ extension UIBarButtonItem {
 
         if let text = label.text, let previousCount = Int(text),
             previousCount < temporaryPhotoAssetsCount {
-            UIView.animate(withDuration: 0.2,
+            UIView.animate(withDuration: Constants.BadgeAnimation.duration,
                 animations: {
-                    button.transform = CGAffineTransform(scaleX: 1.0, y: 1.2)
+                    button.transform = Constants.BadgeAnimation.badgeTargetScale
             },
                 completion: { _ in
-                    button.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    button.transform = Constants.BadgeAnimation.badgeOriginalScale
             })
         }
         
-        if Locale.preferredLanguages.first == "ar" {
+        if Locale.preferredLanguages.first == Language.arabic {
             label.text = temporaryPhotoAssetsCount.toArabic()
         } else {
             label.text = "\(temporaryPhotoAssetsCount)"

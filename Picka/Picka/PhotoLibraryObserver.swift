@@ -31,9 +31,9 @@ class PhotoLibraryObserver: NSObject, PHPhotoLibraryChangeObserver {
         guard let fetchResult = fetchResult,
             let changeDetail = changeInstance.changeDetails(for: fetchResult) else { return }
         
-        let removedPhotoAssets = [Constants.removedPhotoAssets: changeDetail.removedObjects]
+        let removedPhotoAssets = [NotificationUserInfoKey.removedPhotoAssets: changeDetail.removedObjects]
         
-        NotificationCenter.default.post(name: Constants.removedAssetsFromPhotoLibrary,
+        NotificationCenter.default.post(name: NotificationName.removedAssetsFromPhotoLibrary,
                                         object: nil, userInfo: removedPhotoAssets)
     }
 }

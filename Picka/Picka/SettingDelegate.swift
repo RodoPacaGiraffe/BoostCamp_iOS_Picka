@@ -9,5 +9,5 @@
 import Foundation
 
 protocol SettingDelegate: class {
-    func groupingChanged()
+    func timeIntervalBoundaryChanged()
 }

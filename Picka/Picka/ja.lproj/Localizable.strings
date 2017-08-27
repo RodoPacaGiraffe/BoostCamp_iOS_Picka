@@ -6,10 +6,10 @@
   Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
 */
 
-"UseiCloud" = "携帯電話のデータを使用してicloudを利用した写真をダウンロードします。";
+"Use Cellular Data" = "携帯電話のデータを使用してicloudを利用した写真をダウンロードします。";
 "%d Photos" = "%d枚の写真";
 "No Authorization" = "Pickaはフォトライブラリのアクセス権を必要とします。";
-"No Photo" = "まとめ割写真はありません。";
+"No photos to organize" = "まとめ割写真はありません。";
 "Go Settings" = "設定";
 "Cancel" = "キャンセル";
 "OK" = "確認";

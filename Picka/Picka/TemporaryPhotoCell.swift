@@ -8,12 +8,19 @@
 
 import UIKit
 
+fileprivate struct Constants {
+    struct ThumnailImageView {
+        static let alphaForSelected: CGFloat = 0.5
+        static let alphaForDeselected: CGFloat = 1.0
+    }
+}
+
 class TemporaryPhotoCell: UICollectionViewCell {
-    @IBOutlet var thumbnailImageView: UIImageView!
-    @IBOutlet var checkedImageView: UIImageView!
+    @IBOutlet private var thumbnailImageView: UIImageView!
+    @IBOutlet private var checkImageView: UIImageView!
     
-    func addRemovedImage(removedPhotoImage: UIImage) {
-        thumbnailImageView.image = removedPhotoImage
+    func setThumbnailImage(thumbnailImage: UIImage?) {
+        thumbnailImageView.image = thumbnailImage
     }
     
     override func prepareForReuse() {
@@ -21,14 +28,14 @@ class TemporaryPhotoCell: UICollectionViewCell {
     }
     
     func select() {
-        thumbnailImageView.alpha = 0.5
-        checkedImageView.isHidden = false
+        thumbnailImageView.alpha = Constants.ThumnailImageView.alphaForSelected
+        checkImageView.isHidden = false
         self.isSelected = true
     }
     
     func deSelect() {
-        thumbnailImageView.alpha = 1.0
-        checkedImageView.isHidden = true
+        thumbnailImageView.alpha = Constants.ThumnailImageView.alphaForDeselected
+        checkImageView.isHidden = true
         self.isSelected = false
     }
 }

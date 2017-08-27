@@ -24,15 +24,13 @@ class SettingViewController: UITableViewController {
     }
     
     private func setSwitch() {
-        let dataAllowed: Bool = UserDefaults.standard.object(forKey: "dataAllowed") as? Bool ?? true
-        
+        let dataAllowed: Bool = UserDefaults.standard.object(forKey: UserDefaultsKey.networkDataAllowed) as? Bool ?? true
         dataAllowedSwitch.setOn(dataAllowed, animated: false)
     }
     
     private func setSlider() {
-        let timeIntervalBoundary: Double = UserDefaults.standard.object(forKey: "timeIntervalBoundary")
+        let timeIntervalBoundary: Double = UserDefaults.standard.object(forKey: UserDefaultsKey.timeIntervalBoundary)
             as? Double ?? Double(GroupingInterval.level2.rawValue)
-        
         slider.setValue(Float(timeIntervalBoundary), animated: false)
     }
     
@@ -48,9 +46,9 @@ class SettingViewController: UITableViewController {
             sender.value = GroupingInterval.level3.rawValue
         }
         
-        Constants.timeIntervalBoundary = Double(sender.value)
+        SettingConstants.timeIntervalBoundary = Double(sender.value)
         
-        UserDefaults.standard.set(Constants.timeIntervalBoundary, forKey: "timeIntervalBoundary")
+        UserDefaults.standard.set(SettingConstants.timeIntervalBoundary, forKey: UserDefaultsKey.timeIntervalBoundary)
         UserDefaults.standard.synchronize()
         
         tableView.isScrollEnabled = true
@@ -59,28 +57,28 @@ class SettingViewController: UITableViewController {
     @IBAction private func networkAllowSwitch(_ sender: UISwitch) {
         switch sender.isOn {
         case true:
-            let title = NSLocalizedString("UseiCloud", comment: "")
+            let title = NSLocalizedString(LocalizationKey.useCellularData, comment: "")
             let alertController = UIAlertController(title: title, message: nil,
                                                     preferredStyle: .alert)
             
             let okAction = UIAlertAction(
-                title: NSLocalizedString("OK", comment: ""),
+                title: NSLocalizedString(LocalizationKey.ok, comment: ""),
                 style: .default,
                 handler: { _ in
-                    Constants.dataAllowed = true
+                    SettingConstants.networkDataAllowed = true
                     
-                    UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+                    UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: UserDefaultsKey.networkDataAllowed)
                     UserDefaults.standard.synchronize()
             })
             
             let cancelAction = UIAlertAction(
-                title: NSLocalizedString("Cancel", comment: ""),
+                title: NSLocalizedString(LocalizationKey.cancel, comment: ""),
                 style: .cancel,
                 handler: { _ in
                     sender.setOn(false, animated: true)
-                    Constants.dataAllowed = false
+                    SettingConstants.networkDataAllowed = false
                     
-                    UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+                    UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: UserDefaultsKey.networkDataAllowed)
                     UserDefaults.standard.synchronize()
             })
             
@@ -89,18 +87,17 @@ class SettingViewController: UITableViewController {
             
             present(alertController, animated: true, completion: nil)
         case false:
-            Constants.dataAllowed = false
+            SettingConstants.networkDataAllowed = false
             
-            UserDefaults.standard.set(Constants.dataAllowed, forKey: "dataAllowed")
+            UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: UserDefaultsKey.networkDataAllowed)
             UserDefaults.standard.synchronize()
         }
     }
     
 
     @IBAction private func modalDismiss(_ sender: UIBarButtonItem) {
-        self.settingDelegate?.groupingChanged()
-
-        dismiss(animated: true, completion: nil)
+        self.settingDelegate?.timeIntervalBoundaryChanged()
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -11,19 +11,19 @@ import Photos
 
 class PhotoStore: PhotoClassifiable {
     fileprivate(set) var photoAssets: [PHAsset] = []
-    fileprivate(set) var classifiedPhotoAssets: [ClassifiedPhotoAssets] = [] {
+    fileprivate(set) var classifiedGroupsByDate: [ClassifiedGroupsByDate] = [] {
         didSet {
-            if classifiedPhotoAssets.isEmpty {
-                NotificationCenter.default.post(name: Constants.appearEmptyView, object: nil)
+            if classifiedGroupsByDate.isEmpty {
+                NotificationCenter.default.post(name: NotificationName.appearStatusDisplayView, object: nil)
             } else if oldValue.isEmpty {
-                NotificationCenter.default.post(name: Constants.disappearEmptyView, object: nil)
+                NotificationCenter.default.post(name: NotificationName.disappearStatusDisplayView, object: nil)
             }
         }
     }
   
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector (applyRemovedAssets(_:)),
-                                               name: Constants.removedAssetsFromPhotoLibrary, object: nil)
+                                               name: NotificationName.removedAssetsFromPhotoLibrary, object: nil)
     }
     
     deinit {
@@ -44,13 +44,13 @@ class PhotoStore: PhotoClassifiable {
         }
 
         PhotoLibraryObserver.shared.setObserving(fetchResult: fetchResult)
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedGroupsByDate = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
     @discardableResult func applyUnarchivedPhoto(assets: [PHAsset]?) -> [PHAsset]? {
         guard let unarchivedPhotoAssets = assets else { return nil }
         
-        var removedAssetsFromPhotoLibrary: [PHAsset]? = nil
+        var removedAssetsFromPhotoLibrary: [PHAsset]?
     
         unarchivedPhotoAssets.forEach {
             guard let unarchivedPhotoAssetsIndex = photoAssets.index(of: $0) else {
@@ -60,13 +60,13 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.remove(at: unarchivedPhotoAssetsIndex)
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedGroupsByDate = classifyByTimeInterval(photoAssets: photoAssets)
         
         return removedAssetsFromPhotoLibrary
     }
     
     @objc private func applyRemovedAssets(_ notification: Notification) {
-        guard let removedPhotoAssets = notification.userInfo?[Constants.removedPhotoAssets]
+        guard let removedPhotoAssets = notification.userInfo?[NotificationUserInfoKey.removedPhotoAssets]
             as? [PHAsset] else { return }
         
         removedPhotoAssets.forEach {
@@ -74,9 +74,9 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.remove(at: index)
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedGroupsByDate = classifyByTimeInterval(photoAssets: photoAssets)
         
-        NotificationCenter.default.post(name: Constants.requiredReload, object: nil)
+        NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
     }
 }
 
@@ -87,7 +87,7 @@ extension PhotoStore: PhotoStoreDelegate {
             photoAssets.remove(at: index)
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedGroupsByDate = classifyByTimeInterval(photoAssets: photoAssets)
     }
 
     func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset]) {
@@ -102,7 +102,7 @@ extension PhotoStore: PhotoStoreDelegate {
             return beforeCreationDate > afterCreationDate
         }
         
-        classifiedPhotoAssets = classifyByTimeInterval(photoAssets: photoAssets)
+        classifiedGroupsByDate = classifyByTimeInterval(photoAssets: photoAssets)
     }
 }
 
