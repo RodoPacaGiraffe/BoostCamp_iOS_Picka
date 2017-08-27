@@ -35,7 +35,7 @@
                                         </connections>
                                     </imageView>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ONe-yI-LrC">
-                                        <rect key="frame" x="169" y="235" width="37" height="37"/>
+                                        <rect key="frame" x="169.5" y="235.5" width="37" height="37"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <constraints>
@@ -54,9 +54,19 @@
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bby-OX-aNI">
                                 <rect key="frame" x="0.0" y="507" width="375" height="160"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⇡Slide Up to Delete Photos⇡" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HkZ-Lf-NIu">
+                                        <rect key="frame" x="0.0" y="3" width="375" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.31761354209999998" green="0.3176712096" blue="0.31760129329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="HkZ-Lf-NIu" firstAttribute="leading" secondItem="bby-OX-aNI" secondAttribute="leading" id="ALn-l3-JA7"/>
                                     <constraint firstAttribute="height" constant="160" id="BvB-Ae-UTG"/>
+                                    <constraint firstAttribute="trailing" secondItem="HkZ-Lf-NIu" secondAttribute="trailing" id="j7N-PW-2Qd"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0wh-SJ-JHc">
@@ -131,6 +141,8 @@
                             <constraint firstItem="w7C-Zz-CO8" firstAttribute="top" secondItem="4Vr-NV-Z1L" secondAttribute="top" id="AnR-oK-mUs"/>
                             <constraint firstItem="w7C-Zz-CO8" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" id="Yvu-2F-bLi"/>
                             <constraint firstItem="ZVZ-bo-emb" firstAttribute="top" secondItem="bby-OX-aNI" secondAttribute="bottom" id="feo-zE-9eu"/>
+                            <constraint firstItem="HkZ-Lf-NIu" firstAttribute="top" secondItem="y6d-An-LKm" secondAttribute="bottom" constant="3" id="m1f-f2-AsR"/>
+                            <constraint firstItem="HkZ-Lf-NIu" firstAttribute="centerX" secondItem="0wh-SJ-JHc" secondAttribute="centerX" id="pN1-7y-cru"/>
                             <constraint firstItem="0wh-SJ-JHc" firstAttribute="leading" secondItem="4Vr-NV-Z1L" secondAttribute="leading" constant="15" id="rHO-G4-RSP"/>
                             <constraint firstItem="ZVZ-bo-emb" firstAttribute="top" secondItem="0wh-SJ-JHc" secondAttribute="bottom" constant="30" id="v4A-b7-tlW"/>
                             <constraint firstAttribute="trailing" secondItem="w7C-Zz-CO8" secondAttribute="trailing" id="vxe-24-TIR"/>
