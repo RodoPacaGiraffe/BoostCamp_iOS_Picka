@@ -1,0 +1,20 @@
+/* 
+  LocalizableStrings (Korean).strings
+  Electo
+
+  Created by 임성훈 on 2017. 8. 20..
+  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
+*/
+
+"Use Cellular Data" = "استخدام البيانات الخلوية لتحميل الصور باستخدام على iCloud";
+"%d Photos" = "صور";
+"No Authorization" = "Picka يتطلب الوصول مكتبة الصور";
+"No photos to organize" = "لا توجد صور لتنظيف";
+"Go Settings" = "انتقل الإعدادات";
+"Cancel" = "إلغاء";
+"OK" = "التأكيد";
+"Recover All Photos" = "استعادة جميع الصور";
+"Recover Selected Photos" = "استرداد الصور المحددة";
+"Choose" = "أختر";
+"%d photos recovered." = "صور تعافى";
+"%d photos deleted." = "تم حذف الصور";

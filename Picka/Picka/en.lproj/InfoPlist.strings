@@ -1,0 +1,9 @@
+/* 
+  infoPlist.strings
+  Electo
+
+  Created by RodoPacaGiraffe on 2017. 8. 21..
+  Copyright © 2017년 RodoPacaGiraffe. All rights reserved.
+*/
+
+NSPhotoLibraryUsageDescription = "Picka requires access to a photo library.";
