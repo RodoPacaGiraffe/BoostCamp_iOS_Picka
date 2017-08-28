@@ -25,7 +25,7 @@ class SettingViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.isScrollEnabled = false
         setSwitch()
         setSlider()
         
@@ -100,30 +100,6 @@ class SettingViewController: UITableViewController {
             
             UserDefaults.standard.set(SettingConstants.networkDataAllowed, forKey: UserDefaultsKey.networkDataAllowed)
             UserDefaults.standard.synchronize()
-        }
-    }
-    
-    @IBAction private func slideToDismiss(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: self.view)
-        let originalViewFrame = self.view.frame.origin
-        
-        switch sender.state {
-        case .began:
-            originalPosition = view.center
-            originalNavigationPosition = navigationController?.navigationBar.center
-        case .changed:
-            if translation.y > Constants.SlideToDismiss.activateBounds {
-                UIView.animate(withDuration: Constants.SlideToDismiss.duration, animations: {
-                    self.view.frame.origin = CGPoint(x: originalViewFrame.x,
-                                                     y: translation.y + 64)
-                    self.navigationController?.navigationBar.frame.origin = CGPoint(x: originalViewFrame.x,
-                                                                                    y: translation.y + 20)
-                })
-            }
-        case .ended:
-            dismissWhenTouchesEnded(sender)
-        default:
-            break
         }
     }
     
