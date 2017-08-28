@@ -10,7 +10,7 @@ import Foundation
 import Photos
 
 class PhotoLibraryObserver: NSObject, PHPhotoLibraryChangeObserver {    
-    private var fetchResult: PHFetchResult<PHAsset>?
+    private var photoAssets: [PHAsset] = []
     static let shared: PhotoLibraryObserver = PhotoLibraryObserver()
     
     override init() {
@@ -23,16 +23,25 @@ class PhotoLibraryObserver: NSObject, PHPhotoLibraryChangeObserver {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
     
-    func setObserving(fetchResult: PHFetchResult<PHAsset>) {
-        self.fetchResult = fetchResult
+    func setObserving(for photoAssets: [PHAsset]) {
+        self.photoAssets = photoAssets
     }
     
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        guard let fetchResult = fetchResult,
-            let changeDetail = changeInstance.changeDetails(for: fetchResult) else { return }
+        var temporaryRemovedPhotoAssets: [PHAsset] = []
         
-        let removedPhotoAssets = [NotificationUserInfoKey.removedPhotoAssets: changeDetail.removedObjects]
+        for (index, photoAsset) in photoAssets.enumerated().reversed() {
+            guard let changeDetail = changeInstance.changeDetails(for: photoAsset) else { continue }
+            guard changeDetail.objectWasDeleted else { continue }
+
+            temporaryRemovedPhotoAssets.append(photoAsset)
+            photoAssets.remove(at: index)
+        }
         
+        guard !temporaryRemovedPhotoAssets.isEmpty else { return }
+        
+        let removedPhotoAssets = [NotificationUserInfoKey.removedPhotoAssets: temporaryRemovedPhotoAssets]
+
         NotificationCenter.default.post(name: NotificationName.removedAssetsFromPhotoLibrary,
                                         object: nil, userInfo: removedPhotoAssets)
     }
