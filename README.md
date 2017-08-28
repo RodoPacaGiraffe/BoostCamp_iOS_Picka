@@ -1,7 +1,7 @@
 # Picka - The application to ease managing your photos
 ---
 ## Application Diagram
-![login_view](docs/images/diagram.jpg)
+![login_view](docs/images/diagram.png)
 ---
 ## Team RodoPacaGiraff
 * [Rodo](https://github.com/bluelocate)
