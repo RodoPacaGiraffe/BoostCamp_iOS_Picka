@@ -221,19 +221,6 @@ class DetailPhotoViewController: UIViewController {
         },  completion: nil)
     }
     
-    private func updatePhotoIndex(direction: UISwipeGestureRecognizerDirection) {
-        guard thumbnailCollectionView.cellForItem(at: pressedIndexPath) != nil else { return }
-        
-        switch direction {
-        case UISwipeGestureRecognizerDirection.right:
-            pressedIndexPath.item -= 1
-        case UISwipeGestureRecognizerDirection.left:
-            pressedIndexPath.item += 1
-        default:
-            break
-        }
-    }
-    
     private func moveToNextPhoto() {
         guard !selectedSectionAssets.isEmpty else {
             detailImageView.image = nil
@@ -298,7 +285,18 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction private func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        updatePhotoIndex(direction: sender.direction)
+        guard thumbnailCollectionView.cellForItem(at: pressedIndexPath) != nil else { return }
+        
+        switch sender.direction {
+        case UISwipeGestureRecognizerDirection.right:
+            guard pressedIndexPath.item != 0 else { return }
+            pressedIndexPath.item -= 1
+        case UISwipeGestureRecognizerDirection.left:
+            guard pressedIndexPath.item != selectedSectionAssets.count - 1 else { return }
+            pressedIndexPath.item += 1
+        default:
+            break
+        }
         
         let index = IndexPath(row: pressedIndexPath.item, section: 0)
         collectionView(thumbnailCollectionView, didSelectItemAt: index)
