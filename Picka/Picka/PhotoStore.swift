@@ -43,7 +43,7 @@ class PhotoStore: PhotoClassifiable {
             photoAssets.append(fetchResult[index])
         }
 
-        PhotoLibraryObserver.shared.setObserving(fetchResult: fetchResult)
+        PhotoLibraryObserver.shared.setObserving(for: photoAssets)
         classifiedGroupsByDate = classifyByTimeInterval(photoAssets: photoAssets)
     }
     
@@ -73,7 +73,7 @@ class PhotoStore: PhotoClassifiable {
             guard let index = photoAssets.index(of: $0) else { return }
             photoAssets.remove(at: index)
         }
-        
+
         classifiedGroupsByDate = classifyByTimeInterval(photoAssets: photoAssets)
         
         NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
