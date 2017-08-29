@@ -25,7 +25,7 @@
                             <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7C-Zz-CO8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                 <subviews>
-                                    <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
+                                    <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="y6d-An-LKm">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                         <gestureRecognizers/>
                                         <connections>

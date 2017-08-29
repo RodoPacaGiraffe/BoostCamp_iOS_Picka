@@ -13,6 +13,7 @@ fileprivate struct Constants {
     struct ThumnailImageView {
         static let alphaForSelected: CGFloat = 0.5
         static let alphaForDeselected: CGFloat = 1.0
+        static let targetScaleForRTL: CGAffineTransform = CGAffineTransform(scaleX: -1.0, y: 1.0)
     }
 }
 
@@ -50,5 +51,13 @@ class DetailPhotoCell: UICollectionViewCell {
     
     func setThumbnailImage(_ thumbnailImage: UIImage?) {
         thumbnailImageView.image = thumbnailImage
+        
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+            convertImageViewToRTL()
+        }
+    }
+    
+    private func convertImageViewToRTL() {
+        thumbnailImageView.transform = Constants.ThumnailImageView.targetScaleForRTL
     }
 }
