@@ -35,6 +35,8 @@ fileprivate struct Constants {
     struct CellIdentifier {
         static let detailPhotoCell: String = "detailPhotoCell"
     }
+    
+    static let targetScaleForRTL: CGAffineTransform = CGAffineTransform(scaleX: -1.0, y: 1.0)
 }
 
 class DetailPhotoViewController: UIViewController {
@@ -76,7 +78,7 @@ class DetailPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         setFlowLayout()
         displayDetailViewSetting()
         setNavigationButtonItem()
@@ -143,6 +145,10 @@ class DetailPhotoViewController: UIViewController {
     private func displayDetailViewSetting() {
         zoomingScrollView.minimumZoomScale = Constants.ZoomingScrollView.minimumZoomScale
         zoomingScrollView.maximumZoomScale = Constants.ZoomingScrollView.maximumZoomScale
+        
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+            thumbnailCollectionView.transform = Constants.targetScaleForRTL
+        }
         
         fetchFullSizeImage(from: pressedIndexPath)
         thumbnailCollectionView.selectItem(at: pressedIndexPath, animated: true, scrollPosition: .centeredHorizontally)
