@@ -86,8 +86,10 @@ extension TemporaryPhotoStore {
             photoAssetsIdentifier.append($0.localIdentifier)
         }
         
-        temporaryPhotoDidInserted(insertedPhotoAssets: photoAssets)
+        delegate?.temporaryPhotoDidInserted(insertedPhotoAssets: photoAssets)
         savePhotoAsset()
+        
+        NotificationCenter.default.post(name: NotificationName.requiredUpdatingBadge, object: nil)
     }
     
     func remove(photoAssets: [PHAsset], isPerformDelegate: Bool = true) {
@@ -98,10 +100,12 @@ extension TemporaryPhotoStore {
         }
         
         if isPerformDelegate {
-            temporaryPhotoDidRemoved(removedPhotoAssets: photoAssets)
+            delegate?.temporaryPhotoDidRemoved(removedPhotoAssets: photoAssets)
         }
 
         savePhotoAsset()
+        
+        NotificationCenter.default.post(name: NotificationName.requiredUpdatingBadge, object: nil)
     }
     
     func removePhotoFromLibrary(with photoAssets: [PHAsset], completion: (() -> Void)?) {
@@ -121,16 +125,3 @@ extension TemporaryPhotoStore {
     }
 }
 
-extension TemporaryPhotoStore: PhotoStoreDelegate {
-    func temporaryPhotoDidInserted(insertedPhotoAssets: [PHAsset]) {
-        delegate?.temporaryPhotoDidInserted(insertedPhotoAssets: insertedPhotoAssets)
-        
-        NotificationCenter.default.post(name: NotificationName.requiredUpdatingBadge, object: nil)
-    }
-    
-    func temporaryPhotoDidRemoved(removedPhotoAssets: [PHAsset]) {
-        delegate?.temporaryPhotoDidRemoved(removedPhotoAssets: removedPhotoAssets)
-        
-        NotificationCenter.default.post(name: NotificationName.requiredUpdatingBadge, object: nil)
-    }
-}
