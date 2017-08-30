@@ -174,7 +174,14 @@ class DetailPhotoViewController: UIViewController {
             contentMode: .aspectFill,
             options: thumnailFetchOption,
             resultHandler: { [weak self] requestedImage in
-                self?.detailImageView.image = requestedImage
+                guard let detailVC = self else { return }
+                guard !detailVC.isInitialFetchImage else {
+                    detailVC.detailImageView.image = requestedImage
+                    detailVC.isInitialFetchImage = false
+                    return
+                }
+                
+                detailVC.transitionImageView(with: requestedImage)
         })
         
         let fullSizeFetchOptions = PHImageRequestOptions()
@@ -199,14 +206,7 @@ class DetailPhotoViewController: UIViewController {
             guard let detailVC = self else { return }
             guard detailVC.pressedIndexPath == indexPath else { return }
             detailVC.loadingIndicatorView.stopAnimating()
-            
-            guard !detailVC.isInitialFetchImage else {
-                detailVC.detailImageView.image = UIImage(data: fetchedData)
-                detailVC.isInitialFetchImage = false
-                return
-            }
-            
-            detailVC.transitionImageView(with: UIImage(data: fetchedData))
+            detailVC.detailImageView.image = UIImage(data: fetchedData)
         })
     }
     
@@ -357,7 +357,7 @@ class DetailPhotoViewController: UIViewController {
             break
         }
     }
-    
+
     @objc private func moveToTemporaryViewController() {
         performSegue(withIdentifier: SegueIdentifier.modalTemporaryPhotoVC, sender: self)
     }
@@ -451,10 +451,10 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
 
 extension DetailPhotoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        guard let gesture = self.navigationController?.interactivePopGestureRecognizer else { return false }
+        guard let popGestureRecognize = self.navigationController?.interactivePopGestureRecognizer else { return false }
         
-        if gestureRecognizer == gesture {
-            otherGestureRecognizer.require(toFail: gesture)
+        guard gestureRecognizer != popGestureRecognize else {
+            otherGestureRecognizer.require(toFail: popGestureRecognize)
             return false
         }
         
