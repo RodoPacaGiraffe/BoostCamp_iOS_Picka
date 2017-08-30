@@ -57,7 +57,8 @@ class TemporaryPhotoViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
     }
     
     override func viewDidLoad() {

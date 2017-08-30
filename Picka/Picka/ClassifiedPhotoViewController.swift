@@ -64,12 +64,6 @@ class ClassifiedPhotoViewController: UIViewController {
         requestAuthorization()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        reloadData()
-    }
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

@@ -88,6 +88,8 @@ class DetailPhotoViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         detailImageView.layer.removeAllAnimations()
+        
+        NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
     }
     
     @objc private func updateBadge() {
