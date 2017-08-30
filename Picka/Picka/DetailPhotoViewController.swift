@@ -57,15 +57,7 @@ class DetailPhotoViewController: UIViewController {
     var selectedSectionAssets: [PHAsset] = []
     var photoDataSource: PhotoDataSource?
     
-    var pressedIndexPath: IndexPath = IndexPath() {
-        didSet {
-            if pressedIndexPath.item < 0 {
-                pressedIndexPath.item += 1
-            } else if pressedIndexPath.item == selectedSectionAssets.count {
-                pressedIndexPath.item -= 1
-            }
-        }
-    }
+    var pressedIndexPath: IndexPath = IndexPath()
     
     var identifier: String = "" {
         didSet {
@@ -238,8 +230,7 @@ class DetailPhotoViewController: UIViewController {
             pressedIndexPath.item -= 1
         }
         
-        let index = IndexPath(row: pressedIndexPath.item, section: 0)
-        collectionView(thumbnailCollectionView, didSelectItemAt: index)
+        collectionView(thumbnailCollectionView, didSelectItemAt: pressedIndexPath)
     }
     
     private func moveToTrashAnimation() {
@@ -304,8 +295,7 @@ class DetailPhotoViewController: UIViewController {
             }
         }
         
-        let index = IndexPath(row: pressedIndexPath.item, section: 0)
-        collectionView(thumbnailCollectionView, didSelectItemAt: index)
+        collectionView(thumbnailCollectionView, didSelectItemAt: pressedIndexPath)
     }
     
     @IBAction private func deletePhotoButtonTapped(_ sender: UIButton) {
