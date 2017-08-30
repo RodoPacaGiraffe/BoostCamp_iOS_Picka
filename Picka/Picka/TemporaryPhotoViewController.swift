@@ -199,13 +199,14 @@ class TemporaryPhotoViewController: UIViewController {
             as? UINavigationController else { return }
         
         guard let temporaryPhotoAssets = self.photoDataSource?.temporaryPhotoStore.photoAssets else { return }
+        
         guard temporaryPhotoAssets.isEmpty else {
             self.alertCommitResult(committedCount: count, committedMode: message)
             return
         }
         
         if navigationController.topViewController is ClassifiedPhotoViewController {
-            self.dismiss(animated: true ) { [weak self] _ in
+            self.dismiss(animated: true) { [weak self] _ in
                 self?.alertCommitResult(committedCount: count, committedMode: message)
             }
         } else {
@@ -258,9 +259,7 @@ class TemporaryPhotoViewController: UIViewController {
         let deleteCount = temporaryPhotoStore.photoAssets.count
         temporaryPhotoStore.removePhotoFromLibrary(with: temporaryPhotoStore.photoAssets) { [weak self] in
             self?.collectionView.reloadSections(IndexSet(integer: 0))
-            self?.dismiss(animated: true, completion: {
-                self?.popIfCountIsEmptyAfterCommitted(count: deleteCount, message: .delete)
-            })
+            self?.popIfCountIsEmptyAfterCommitted(count: deleteCount, message: .delete)
         }
     }
     
@@ -271,11 +270,11 @@ class TemporaryPhotoViewController: UIViewController {
         temporaryPhotoStore.removePhotoFromLibrary(with: selectedPhotoAssets()) {
             [weak self] in
             self?.collectionView.performBatchUpdates({
-                self?.deleteSelectedButton.isEnabled = false
-                self?.recoverSelectedButton.isEnabled = false
                 guard let selectedItems = self?.collectionView.indexPathsForSelectedItems else { return }
                 self?.collectionView.deleteItems(at: selectedItems)
             }, completion: { _ in
+                self?.deleteSelectedButton.isEnabled = false
+                self?.recoverSelectedButton.isEnabled = false
                 self?.popIfCountIsEmptyAfterCommitted(count: deleteCount, message: .delete)
             })
         }
