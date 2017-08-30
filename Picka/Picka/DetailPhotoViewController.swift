@@ -451,6 +451,13 @@ extension DetailPhotoViewController: UIScrollViewDelegate {
 
 extension DetailPhotoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let gesture = self.navigationController?.interactivePopGestureRecognizer else { return false }
+        
+        if gestureRecognizer == gesture {
+            otherGestureRecognizer.require(toFail: gesture)
+            return false
+        }
+        
         if gestureRecognizer.state == .changed {
             otherGestureRecognizer.require(toFail: gestureRecognizer)
         }
