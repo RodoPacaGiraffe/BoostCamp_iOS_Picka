@@ -89,9 +89,14 @@ class DetailPhotoViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         detailImageView.layer.removeAllAnimations()
         
-        let classifiedPhotoVC = self.navigationController?.topViewController
-            as? ClassifiedPhotoViewController ?? ClassifiedPhotoViewController()
-        classifiedPhotoVC.tableView.reloadData()
+        switch identifier {
+        case PreviousVCIdentifier.fromClassifiedPhotoVC:
+            let classifiedPhotoVC = self.navigationController?.topViewController
+                as? ClassifiedPhotoViewController ?? ClassifiedPhotoViewController()
+            classifiedPhotoVC.tableView.reloadData()
+        default:
+            break
+        }
     }
     
     @objc private func updateBadge() {
