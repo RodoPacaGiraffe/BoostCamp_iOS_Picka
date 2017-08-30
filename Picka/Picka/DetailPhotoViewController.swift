@@ -291,17 +291,17 @@ class DetailPhotoViewController: UIViewController {
     }
     
     @IBAction private func horizontalSwipeAction(_ sender: UISwipeGestureRecognizer) {
-        guard thumbnailCollectionView.cellForItem(at: pressedIndexPath) != nil else { return }
-        
-        switch sender.direction {
-        case UISwipeGestureRecognizerDirection.right:
-            guard pressedIndexPath.item != 0 else { return }
-            pressedIndexPath.item -= 1
-        case UISwipeGestureRecognizerDirection.left:
-            guard pressedIndexPath.item != selectedSectionAssets.count - 1 else { return }
-            pressedIndexPath.item += 1
-        default:
-            break
+        if thumbnailCollectionView.cellForItem(at: pressedIndexPath) != nil {
+            switch sender.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                guard pressedIndexPath.item != 0 else { return }
+                pressedIndexPath.item -= 1
+            case UISwipeGestureRecognizerDirection.left:
+                guard pressedIndexPath.item != selectedSectionAssets.count - 1 else { return }
+                pressedIndexPath.item += 1
+            default:
+                break
+            }
         }
         
         let index = IndexPath(row: pressedIndexPath.item, section: 0)
