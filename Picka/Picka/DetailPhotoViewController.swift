@@ -89,7 +89,9 @@ class DetailPhotoViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         detailImageView.layer.removeAllAnimations()
         
-        NotificationCenter.default.post(name: NotificationName.requiredReload, object: nil)
+        let classifiedPhotoVC = self.navigationController?.topViewController
+            as? ClassifiedPhotoViewController ?? ClassifiedPhotoViewController()
+        classifiedPhotoVC.tableView.reloadData()
     }
     
     @objc private func updateBadge() {

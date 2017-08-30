@@ -34,7 +34,7 @@ fileprivate struct Constants {
 }
 
 class ClassifiedPhotoViewController: UIViewController {
-    @IBOutlet fileprivate var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
     @IBOutlet private var touchLocation: UIPanGestureRecognizer!
     
     fileprivate let customScrollView = UIView()
