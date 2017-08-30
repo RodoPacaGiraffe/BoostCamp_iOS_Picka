@@ -116,10 +116,12 @@ extension TemporaryPhotoStore {
             
             self?.remove(photoAssets: photoAssets, isPerformDelegate: false)
             
-            if let completion = completion {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let completion = completion {
                     completion()
                 }
+                
+                NotificationCenter.default.post(name: NotificationName.requiredUpdatingBadge, object: nil)
             }
         }
     }

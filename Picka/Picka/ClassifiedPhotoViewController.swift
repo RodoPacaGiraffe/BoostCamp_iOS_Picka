@@ -264,17 +264,17 @@ class ClassifiedPhotoViewController: UIViewController {
     }
     
     @objc private func updateBadge() {
-        moveToTempVCButtonItem?.updateBadge(with: photoDataSource.temporaryPhotoStore.photoAssets.count)
+        DispatchQueue.main.async { [weak self] in
+            guard let photosCount = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
+            self?.moveToTempVCButtonItem?.updateBadge(with: photosCount)
+        }
     }
     
     @objc fileprivate func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
-            
-            guard let photosCount = self?.photoDataSource.temporaryPhotoStore.photoAssets.count else { return }
-            
-            self?.moveToTempVCButtonItem?.updateBadge(with: photosCount)
             self?.refreshControl.endRefreshing()
+            self?.updateBadge()
             self?.fetchLocationToVisibleCells()
         }
     }
